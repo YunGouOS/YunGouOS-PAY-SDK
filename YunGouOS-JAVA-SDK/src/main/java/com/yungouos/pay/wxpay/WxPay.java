@@ -100,9 +100,25 @@ public class WxPay {
 	/**
 	 * 公众号支付
 	 * 
-	 * @author YunGouOS
-	 * @throws Exception 
-	 * @date 2019年4月28日 下午2:27:50
+	 * @param out_trade_no
+	 *            订单号 不可重复
+	 * @param total_fee
+	 *            支付金额 单位：元 范围：0.01-99999
+	 * @param mch_id
+	 *            微信支付商户号 登录YunGouOS.com-》微信支付-》我的支付 查看商户号
+	 * @param body
+	 *            商品描述
+	 * @param openId
+	 *            用户openId 通过授权接口获得
+	 * @param attach
+	 *            附加数据 回调时原路返回 可不传
+	 * @param notify_url
+	 *            异步回调地址，不传无回调
+	 * @param return_url
+	 *            同步回调地址，收银台模式还没开发，暂时没什么卵用
+	 * @param key
+	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
+	 * @return JSSDK支付需要的jspackage
 	 */
 	public static String jsapi(String out_trade_no, String total_fee, String mch_id, String body, String openId, String attach, String notify_url, String return_url, String key) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
