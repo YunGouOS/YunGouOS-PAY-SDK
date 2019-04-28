@@ -12,13 +12,13 @@ public class WxPayTest {
 		String result;
 		try {
 			/**
-			 * 扫码支付
+			 * 扫码支付 返回二维码连接
 			 */
 			result = WxPay.nativePay(System.currentTimeMillis() + "", "0.01", "1529637931", "测试", null, null, null, null, "6BA371F4CFAB4465AA04DAEADBAC4161");
 			System.out.println(result);
 			
 			/**
-			 * 公众号支付
+			 * 公众号支付  返回JSSDK需要的jspackage
 			 */
 			String jspackage = WxPay.jsapi(System.currentTimeMillis() + "", "0.01", "1529637931", "测试", "o-_-itxeWVTRnl-iGT_JJ-t3kpxU", null, null, null, "6BA371F4CFAB4465AA04DAEADBAC4161");
 			System.out.println(jspackage);
