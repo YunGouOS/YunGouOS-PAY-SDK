@@ -37,7 +37,7 @@ YunGouOS微信支付官方合作伙伴,YunGouOS-PAY是徐州市云宝网络科�
 
 ## 微信扫码支付
 
-###返回二维码地址或微信支付二维码连接（需自行生成二维码）
+返回二维码地址或微信支付二维码连接（需自行生成二维码）
 
     String result = WxPay.nativePay(System.currentTimeMillis() + "", "0.01", "1529637931", "测试", null, null, null, null, "6BA371F4CFAB4465AA04DAEADBAC4161");
 
@@ -45,7 +45,7 @@ YunGouOS微信支付官方合作伙伴,YunGouOS-PAY是徐州市云宝网络科�
 
 ## 微信公众号支付
 
-###返回 返回JSSDK需要的支付jspackage
+返回 返回JSSDK需要的支付jspackage
 
 	String jspackage = WxPay.jsapi(System.currentTimeMillis() + "", "0.01", "1529637931", "测试", "o-_-itxeWVTRnl-iGT_JJ-t3kpxU", null, null, null, "6BA371F4CFAB4465AA04DAEADBAC4161");
 
@@ -53,7 +53,7 @@ YunGouOS微信支付官方合作伙伴,YunGouOS-PAY是徐州市云宝网络科�
 没错就是这么简单，就可以快速的接入微信官方支付。
 
 
-# 方法说明：
+# 方法说明
 
 ## 微信扫码支付
 
