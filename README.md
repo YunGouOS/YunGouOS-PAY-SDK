@@ -52,6 +52,25 @@ YunGouOS微信支付官方合作伙伴,YunGouOS-PAY是徐州市云宝网络科�
 
 没错就是这么简单，就可以快速的接入微信官方支付。
 
+# 其他接口
+
+## 订单查询接口
+	WxPayOrder wxPayOrder =WxPay.getOrderInfoByOutTradeNo("1556267522899", "1529637931", "6BA371F4CFAB4465AA04DAEADBAC4161");
+
+返回结果说明：[http://open.pay.yungouos.com/#/api/api/pay/wxpay/getWxPayOrderInfo](http://open.pay.yungouos.com/#/api/api/pay/wxpay/getWxPayOrderInfo "http://open.pay.yungouos.com/#/api/api/pay/wxpay/getWxPayOrderInfo")
+
+
+## 发起退款接口
+
+	RefundOrder refundOrder = WxPay.orderRefund("1556267522899", "1529637931", "0.1", "6BA371F4CFAB4465AA04DAEADBAC4161");
+
+返回结果说明：[http://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder](http://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder "http://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder")
+
+## 查询微信退款结果接口
+
+	RefundSearch refundSearch = WxPay.getRefundResult("R17200911248111", mchId, key);
+
+返回结果说明：[http://open.pay.yungouos.com/#/api/api/pay/wxpay/getRefundResult](http://open.pay.yungouos.com/#/api/api/pay/wxpay/getRefundResult "http://open.pay.yungouos.com/#/api/api/pay/wxpay/getRefundResult")
 
 # 方法说明
 
@@ -62,6 +81,19 @@ YunGouOS微信支付官方合作伙伴,YunGouOS-PAY是徐州市云宝网络科�
 ## 微信公众号支付
 
 	 WxPay.jsapi(订单号,支付金额,微信支付商户号,商品描述,用户openid，附加数据，异步回调地址,同步回调地址,商户密钥)
+
+## 订单查询
+
+	WxPay.getOrderInfoByOutTradeNo(订单号, 微信支付商户号, 商户密钥);
+
+## 发起退款
+
+	WxPay.orderRefund(订单号, 微信支付商户号, 退款金额, 商户密钥);
+	
+## 查询微信支付退款结果
+	
+	WxPay.getRefundResult(退款单号（发起退款接口返回）,微信支付商户号, 商户密钥);
+	
 	
 ## 签名工具
 	 WxPaySignUtil.createSign([类型Map]签名参数,商户密钥)

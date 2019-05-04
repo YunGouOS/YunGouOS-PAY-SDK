@@ -1,4 +1,5 @@
 import com.yungouos.pay.entity.RefundOrder;
+import com.yungouos.pay.entity.RefundSearch;
 import com.yungouos.pay.entity.WxPayOrder;
 import com.yungouos.pay.wxpay.WxPay;
 
@@ -37,9 +38,14 @@ public class WxPayTest {
 			 * 订单退款
 			 */
 			RefundOrder refundOrder = WxPay.orderRefund("1556267522899", mchId, "0.1", key);
-			System.out.println(refundOrder);
+			System.out.println(refundOrder.toString());
 			
 			
+			/**
+			 * 查询退款结果
+			 */
+			RefundSearch refundSearch = WxPay.getRefundResult("R17200911248111", mchId, key);
+			System.out.println(refundSearch.toString());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
