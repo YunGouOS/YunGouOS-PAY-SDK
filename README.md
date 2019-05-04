@@ -24,10 +24,12 @@ YunGouOS微信支付官方合作伙伴,YunGouOS-PAY是徐州市云宝网络科�
 
 接口文档：[http://open.pay.yungouos.com](http://open.pay.yungouos.com "http://open.pay.yungouos.com")
 
+SDK文档：[https://apidoc.gitee.com/YunGouOS/YunGouOS-PAY-SDK/](https://apidoc.gitee.com/YunGouOS/YunGouOS-PAY-SDK/ "https://apidoc.gitee.com/YunGouOS/YunGouOS-PAY-SDK/")
+
 
 # 快速开始
 
-方式一：下载jar架包 导入
+方式一：下载jar架包 导入https://apidoc.gitee.com/YunGouOS/YunGouOS-PAY-SDK/
 
 方式二：maven引用（目前正在提交）
 
