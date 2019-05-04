@@ -5,6 +5,9 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yungouos.pay.config.WxPayApiConfig;
+import com.yungouos.pay.entity.RefundOrder;
+import com.yungouos.pay.entity.RefundSearch;
+import com.yungouos.pay.entity.WxPayOrder;
 import com.yungouos.pay.util.WxPaySignUtil;
 
 import cn.hutool.core.util.StrUtil;
@@ -63,6 +66,9 @@ public class WxPay {
 			if (StrUtil.isBlank(body)) {
 				throw new Exception("商品描述不能为空！");
 			}
+			if (StrUtil.isBlank(key)) {
+				throw new Exception("商户密钥不能为空！");
+			}
 			params.put("out_trade_no", out_trade_no);
 			params.put("total_fee", total_fee);
 			params.put("mch_id", mch_id);
@@ -78,6 +84,7 @@ public class WxPay {
 			params.put("return_url", return_url);
 			params.put("sign", sign);
 			String result = HttpRequest.post(WxPayApiConfig.nativeApiUrl).form(params).execute().body();
+			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new Exception("API接口返回为空，请联系客服");
 			}
@@ -120,7 +127,7 @@ public class WxPay {
 	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
 	 * @return JSSDK支付需要的jspackage
 	 */
-	public static String jsapi(String out_trade_no, String total_fee, String mch_id, String body, String openId, String attach, String notify_url, String return_url, String key) throws Exception {
+	public static String jsapiPay(String out_trade_no, String total_fee, String mch_id, String body, String openId, String attach, String notify_url, String return_url, String key) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String resultUrl = null;
 		try {
@@ -136,6 +143,9 @@ public class WxPay {
 			if (StrUtil.isBlank(body)) {
 				throw new Exception("商品描述不能为空！");
 			}
+			if (StrUtil.isBlank(key)) {
+				throw new Exception("商户密钥不能为空！");
+			}
 			params.put("out_trade_no", out_trade_no);
 			params.put("total_fee", total_fee);
 			params.put("mch_id", mch_id);
@@ -147,7 +157,8 @@ public class WxPay {
 			params.put("notify_url", notify_url);
 			params.put("return_url", return_url);
 			params.put("sign", sign);
-			String result = HttpRequest.post(WxPayApiConfig.jsapi).form(params).execute().body();
+			String result = HttpRequest.post(WxPayApiConfig.jsapiUrl).form(params).execute().body();
+			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new Exception("API接口返回为空，请联系客服");
 			}
@@ -166,5 +177,184 @@ public class WxPay {
 		}
 		return resultUrl;
 	}
+
+	/**
+	 * 查询订单
+	 * 
+	 * @param out_trade_no
+	 *            订单号
+	 * @param mch_id
+	 *            微信支付商户号 登录YunGouOS.com-》微信支付-》我的支付 查看商户号
+	 * @param key
+	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
+	 * 
+	 * @return WxPayOrder订单对象
+	 * @throws Exception 
+	 */
+	public static WxPayOrder getOrderInfoByOutTradeNo(String out_trade_no, String mch_id, String key) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		WxPayOrder wxPayOrder = null;
+		try {
+			if (StrUtil.isBlank(out_trade_no)) {
+				throw new Exception("订单号不能为空！");
+			}
+			if (StrUtil.isBlank(mch_id)) {
+				throw new Exception("商户号不能为空！");
+			}
+			if (StrUtil.isBlank(key)) {
+				throw new Exception("商户密钥不能为空！");
+			}
+			params.put("out_trade_no", out_trade_no);
+			params.put("mch_id", mch_id);
+			// 上述必传参数签名
+			String sign = WxPaySignUtil.createSign(params, key);
+			params.put("sign", sign);
+			String result = HttpRequest.get(WxPayApiConfig.getOrderUrl).form(params).execute().body();
+			if (StrUtil.isBlank(result)) {
+				throw new Exception("API接口返回为空，请联系客服");
+			}
+			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
+			if (jsonObject == null) {
+				throw new Exception("API结果转换错误");
+			}
+			Integer code = jsonObject.getInteger("code");
+			if (0 != code) {
+				throw new Exception(jsonObject.getString("msg"));
+			}
+			JSONObject json = jsonObject.getJSONObject("data");
+			if (json == null) {
+				throw new Exception("API结果数据转换错误");
+			}
+			wxPayOrder = JSONObject.toJavaObject(json, WxPayOrder.class);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return wxPayOrder;
+	}
+	
+	
+	/**
+	 * 订单退款
+	 * 
+	 * @param out_trade_no
+	 *            订单号
+	 * @param mch_id
+	 *            微信支付商户号 登录YunGouOS.com-》微信支付-》我的支付 查看商户号
+	 * @param money
+	 *            退款金额
+	 * @param key
+	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
+	 * 
+	 * @return WxPayOrder订单对象
+	 * @throws Exception 
+	 */
+	public static RefundOrder orderRefund(String out_trade_no,String mch_id,String money,String key) throws Exception{
+		Map<String, Object> params = new HashMap<String, Object>();
+		RefundOrder refundOrder=null;
+		try {
+			if (StrUtil.isBlank(out_trade_no)) {
+				throw new Exception("订单号不能为空！");
+			}
+			if (StrUtil.isBlank(mch_id)) {
+				throw new Exception("商户号不能为空！");
+			}
+			if (StrUtil.isBlank(money)) {
+				throw new Exception("退款金额不能为空！");
+			}
+			if (StrUtil.isBlank(key)) {
+				throw new Exception("商户密钥不能为空！");
+			}
+			params.put("out_trade_no", out_trade_no);
+			params.put("mch_id", mch_id);
+			params.put("money", money);
+			// 上述必传参数签名
+			String sign = WxPaySignUtil.createSign(params, key);
+			params.put("sign", sign);
+			String result = HttpRequest.post(WxPayApiConfig.refundOrderUrl).form(params).execute().body();
+			System.out.println(result);
+			if (StrUtil.isBlank(result)) {
+				throw new Exception("API接口返回为空，请联系客服");
+			}
+			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
+			if (jsonObject == null) {
+				throw new Exception("API结果转换错误");
+			}
+			Integer code = jsonObject.getInteger("code");
+			if (0 != code) {
+				throw new Exception(jsonObject.getString("msg"));
+			}
+			JSONObject json = jsonObject.getJSONObject("data");
+			if (json == null) {
+				throw new Exception("API结果数据转换错误");
+			}
+			refundOrder = JSONObject.toJavaObject(json, RefundOrder.class);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return refundOrder;
+	}
+	
+	
+	/**
+	 * 查询退款结果
+	 * 
+	 * @param refund_no
+	 *            退款单号，（由调用退款接口返回） 
+	 * @param mch_id
+	 *            微信支付商户号 登录YunGouOS.com-》微信支付-》我的支付 查看商户号
+	 * @param key
+	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
+	 * 
+	 * @return WxPayOrder订单对象
+	 * @throws Exception 
+	 */
+	public static RefundSearch getRefundResult(String refund_no,String mch_id,String key) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		RefundSearch refundSearch=null;
+		try {
+			if (StrUtil.isBlank(refund_no)) {
+				throw new Exception("退款单号不能为空！");
+			}
+			if (StrUtil.isBlank(mch_id)) {
+				throw new Exception("商户号不能为空！");
+			}
+			if (StrUtil.isBlank(key)) {
+				throw new Exception("商户密钥不能为空！");
+			}
+			params.put("refund_no", refund_no);
+			params.put("mch_id", mch_id);
+			// 上述必传参数签名
+			String sign = WxPaySignUtil.createSign(params, key);
+			params.put("sign", sign);
+			String result = HttpRequest.get(WxPayApiConfig.getRefundResultUrl).form(params).execute().body();
+			System.out.println(result);
+			if (StrUtil.isBlank(result)) {
+				throw new Exception("API接口返回为空，请联系客服");
+			}
+			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
+			if (jsonObject == null) {
+				throw new Exception("API结果转换错误");
+			}
+			Integer code = jsonObject.getInteger("code");
+			if (0 != code) {
+				throw new Exception(jsonObject.getString("msg"));
+			}
+			JSONObject json = jsonObject.getJSONObject("data");
+			if (json == null) {
+				throw new Exception("API结果数据转换错误");
+			}
+			refundSearch = JSONObject.toJavaObject(json, RefundSearch.class);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return refundSearch;
+	}
+	
 
 }

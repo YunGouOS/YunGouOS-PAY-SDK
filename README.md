@@ -63,5 +63,8 @@ YunGouOS微信支付官方合作伙伴,YunGouOS-PAY是徐州市云宝网络科�
 
 	 WxPay.jsapi(订单号,支付金额,微信支付商户号,商品描述,用户openid，附加数据，异步回调地址,同步回调地址,商户密钥)
 	
+## 签名工具
+	 WxPaySignUtil.createSign([类型Map]签名参数,商户密钥)
 
-
+	
+	

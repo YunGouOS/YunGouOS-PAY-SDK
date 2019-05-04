@@ -10,6 +10,17 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 
 public class WxPaySignUtil {
+	
+	/**
+	 * 支付参数签名
+	 * 
+	 * @param params
+	 *            需要参与签名的参数
+	 * @param partnerKey
+	 *            商户密钥
+	 * @return {String}
+	 * 			  参数签名	
+	 */
 	public static String createSign(Map<String, Object> params, String partnerKey) {
 		// 生成签名前先去除sign
 		params.remove("sign");

@@ -22,6 +22,7 @@
 			<scope>complie</scope>
 		</dependency>
 	</dependencies>
+	
 	<build>
 		<finalName>YunGouOS-JAVA-SDK</finalName>
 		<plugins>

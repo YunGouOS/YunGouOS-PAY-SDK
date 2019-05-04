@@ -24,6 +24,25 @@ public class WxPayApiConfig {
 	/**
 	 * 公众号支付
 	 */
-	public static String jsapi = apiUrl + "/api/pay/wxpay/jsapi";
+	public static String jsapiUrl = apiUrl + "/api/pay/wxpay/jsapi";
+	
+	
+	/**
+	 * 订单查询
+	 */
+	public static String getOrderUrl=apiUrl+"/api/pay/wxpay/getWxPayOrderInfo";
+	
+	
+	/**
+	 * 订单退款
+	 */
+	public static String refundOrderUrl=apiUrl+"/api/pay/wxpay/refundOrder";
+	
+	
+	/**
+	 * 查询退款结果
+	 */
+	public static String getRefundResultUrl=apiUrl+"/api/pay/wxpay/getRefundResult";
+	
 
 }
