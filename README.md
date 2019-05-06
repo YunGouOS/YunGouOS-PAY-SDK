@@ -41,7 +41,7 @@ YunGouOS微信支付官方合作伙伴,YunGouOS-PAY是徐州市云宝网络科�
 
 # 相关地址
 
-官网地址：[https://merchant.yungouos.com](https://merchant.yungouos.com "https://merchant.yungouos.com")
+官网地址：[http://merchant.yungouos.com](http://merchant.yungouos.com "http://merchant.yungouos.com")
 
 接口文档：[http://open.pay.yungouos.com](http://open.pay.yungouos.com "http://open.pay.yungouos.com")
 
