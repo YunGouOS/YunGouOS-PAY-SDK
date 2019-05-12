@@ -1,0 +1,14 @@
+<!--index.wxml-->
+<view style="text-align:center;margin-top:80rpx;">微信支付接口能力演示</view>
+<view class="container">
+  <view class="userinfo">
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+    <block wx:else>
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+  <view class="usermotto" style="width:50%">
+    <button type="primary" bindtap="toPay">微信支付</button>
+  </view>
+</view>
