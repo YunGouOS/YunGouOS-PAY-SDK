@@ -55,6 +55,13 @@ SDK文档：[https://apidoc.gitee.com/YunGouOS/YunGouOS-PAY-SDK/](https://apidoc
 针对小程序支付，我们在文档中使用大量的示例代码以及开源了一个小程序支付集成的Demo，希望帮助小程序开发者快速接入。详情请访问小程序支付文档地址 [http://open.pay.yungouos.com/#/api/api/pay/wxpay/minPay](http://open.pay.yungouos.com/#/api/api/pay/wxpay/minPay "http://open.pay.yungouos.com/#/api/api/pay/wxpay/minPay")
 
 
+## 在线体验
+
+![https://yungouos.oss-cn-shanghai.aliyuncs.com/YunGouOS/merchant/mindemo/minapp.jpg](https://yungouos.oss-cn-shanghai.aliyuncs.com/YunGouOS/merchant/mindemo/minapp.jpg)
+
+
+
+
 # 快速开始
 
 方式一：maven添加依赖

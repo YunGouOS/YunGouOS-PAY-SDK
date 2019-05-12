@@ -1,4 +1,5 @@
 import wxPayUtil from "../../wxpay/wxPayUtil";
+import config from "../../wxpay/config";
 
 //index.js
 //获取应用实例
@@ -70,45 +71,20 @@ Page({
     //支付金额 单位：元
     let total_fee='0.10';
     //支付商户号，登录YunGouOS.com 申请 支持资质个人申请
-    let mch_id='1529637931';
+    let mch_id=config.mch_id;
     //商品简称
     let body='小程序支付接口演示';
     //回调地址
     let notify_url='';
 
-    //需要加密的参数
-    let data = {
-      out_trade_no: out_trade_no,
-      total_fee: total_fee,
-      mch_id: mch_id,
-      body: body,
-    }
-    //加密参数，商户密钥（登录YunGouOS.com 我的账户-》账户中心 查看）
-    let sign=wxPayUtil.wxPaySign(data,'6BA371F4CFAB4465AA04DAEADBAC4161');
+    let attach="我是附加参数，我会在被原路传送到回调地址";
+
+    let title='YunGouOS'//收银台标题显示名称 xxx-收银台
+
+    wxPayUtil.toPay(out_trade_no,total_fee,body,notify_url,attach,title,(response)=>{
+      console.log(response);
+    });
     
-    //构造其他小程序跳转参数数据
-    data.notify_url=notify_url;
-    data.attach='我是附加参数,支付成功后返回到回调地址上';
-    data.title='YunGouOS'//收银台显示的顶部标题 xxxx-收银台
-    //.... 按照文档 按需添加参数
-
-    //最后我们把签名加入进去
-    data.sign=sign;
-
-    //下面开始执行小程序支付
-    //接口文档地址：http://open.pay.yungouos.com/#/api/api/pay/wxpay/minPay
-    //支付流程：小程序A 点击付款->跳转到 “支付收银” 小程序 -> 自动发起微信支付 ->支付成功后携带支付结果返回小程序A
-
-    wx.navigateToMiniProgram({
-      appId: 'wxd9634afb01b983c0',//支付收银小程序的appid 固定值 不可修改
-      path: '/pages/pay/pay',//支付页面 固定值 不可修改
-      extraData: data,//携带的参数 参考API文档
-      success(res) {
-        // 打开成功业务
-      }, fail(res) {
-        //打开失败业务
-      }
-    }); 
   }
 
 

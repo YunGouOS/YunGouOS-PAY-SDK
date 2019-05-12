@@ -1,4 +1,5 @@
 import md5 from 'md5'
+import config from './config';
 
 /**
  * 
@@ -49,11 +50,52 @@ function formatMoney(long_data, length) {
     return t.split("").reverse().join("") + "." + r;
 }
 
+
+/**
+ * 发起小程序支付
+ */
+function toPay(out_trade_no,total_fee,body,notify_url,attach,title,callback) {
+    //需要加密的参数
+    let data = {
+        out_trade_no: out_trade_no,
+        total_fee: total_fee,
+        mch_id: config.mch_id,
+        body: body,
+    }
+    //加密参数，商户密钥（登录YunGouOS.com 我的账户-》账户中心 查看）
+    let sign = wxPaySign(data, config.key);
+    //构造其他小程序跳转参数数据
+    data.notify_url = notify_url;
+    data.attach = attach;
+    data.title = title//收银台显示的顶部标题 xxxx-收银台
+    //.... 按照文档 按需添加参数
+
+    //最后我们把签名加入进去
+    data.sign = sign;
+
+    //下面开始执行小程序支付
+    //接口文档地址：http://open.pay.yungouos.com/#/api/api/pay/wxpay/minPay
+    //支付流程：小程序A 点击付款->跳转到 “支付收银” 小程序 -> 自动发起微信支付 ->支付成功后携带支付结果返回小程序A
+
+    wx.navigateToMiniProgram({
+        appId: 'wxd9634afb01b983c0',//支付收银小程序的appid 固定值 不可修改
+        path: '/pages/pay/pay',//支付页面 固定值 不可修改
+        extraData: data,//携带的参数 参考API文档
+        success(res) {
+            callback(res);
+        }, fail(res) {
+            callback(res);
+        }
+    });
+}
+
+
 /**
  * 暴露方法外部调用
  */
 export default {
     "wxPaySign": wxPaySign,
     "getOrderNo": getOrderNo,
-    "formatMoney": formatMoney
+    "formatMoney": formatMoney,
+    "toPay":toPay
 }
