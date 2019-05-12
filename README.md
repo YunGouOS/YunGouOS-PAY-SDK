@@ -17,7 +17,9 @@ YunGouOS微信支付官方合作伙伴,YunGouOS-PAY是徐州市云宝网络科�
 
 很多用户对官方个人支付持有怀疑等态度，表示理解，过去市场上出现了大量的所谓个人支付 基本采取以下几种方式：
 
-第一种 普通的微信号的收款码。这个不支持信用卡支付、受限于个人账户20万每年的限额、同时官方对这方面不提供接口回调 有些第三方通过外挂挂机等形式完成 稳定性不高。
+第一种 普通的微信号的收款码。这个不支持信用卡支付、受限于个人账户20万每年的限额、同时官方对这方面不提供接口回调。
+
+有些第三方通过外挂挂机等形式完成 稳定性不高。
 
 第二种 二次清算，某企业与微信签约。与使用者二次清算（ps：其中风险自行衡量）
 
@@ -25,7 +27,7 @@ YunGouOS微信支付官方合作伙伴,YunGouOS-PAY是徐州市云宝网络科�
 
 我们并非使用某种外挂等形式完成支付，与普通企业申请一样，提交资料-》微信审核-》审核通过后微信下发商户号-》根据官网文档完成API对接
 
-个人开户支持接口：扫码支付、JSAPI支付、付款码支付、查询、退款等微信官方接口。单日30万限额、信用卡支付单笔微信根据风控情况限额
+个人开户支持接口：扫码支付、JSAPI支付、付款码支付、小程序支付、查询、退款等微信官方接口。单日限额30万。
 
 个体户开户支持接口：扫码支付、JSAPI支付、付款码支付、查询、退款等微信官方接口。可使用微信官方营销产品。无限额。
 
@@ -46,6 +48,11 @@ YunGouOS微信支付官方合作伙伴,YunGouOS-PAY是徐州市云宝网络科�
 接口文档：[http://open.pay.yungouos.com](http://open.pay.yungouos.com "http://open.pay.yungouos.com")
 
 SDK文档：[https://apidoc.gitee.com/YunGouOS/YunGouOS-PAY-SDK/](https://apidoc.gitee.com/YunGouOS/YunGouOS-PAY-SDK/ "https://apidoc.gitee.com/YunGouOS/YunGouOS-PAY-SDK/")
+
+
+# 小程序支付
+
+针对小程序支付，我们在文档中使用大量的示例代码以及开源了一个小程序支付集成的Demo，希望帮助小程序开发者快速接入。详情请访问小程序支付文档地址 [http://open.pay.yungouos.com/#/api/api/pay/wxpay/minPay](http://open.pay.yungouos.com/#/api/api/pay/wxpay/minPay "http://open.pay.yungouos.com/#/api/api/pay/wxpay/minPay")
 
 
 # 快速开始
