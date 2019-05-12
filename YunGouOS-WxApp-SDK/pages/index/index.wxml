@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<view style="text-align:center;margin-top:80rpx;">微信支付接口能力演示</view>
+<view style="text-align:center;margin-top:150rpx;font-size:40rpx">微信支付接口能力演示</view>
 <view class="container">
   <view class="userinfo">
     <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>

@@ -41,8 +41,8 @@ App({
     console.log(extraData);
     if(extraData){
       //不管成功失败 先把支付结果赋值
-      this.globalData.payStatus=extraData.result;
-      if(extraData.result==false){
+      this.globalData.payStatus=extraData.code==0?true:false;
+      if(extraData.code!=0){
         wx.showToast({
           title: extraData.msg,//错误提示
           icon: 'none',
@@ -51,7 +51,7 @@ App({
         return;
       }
       //支付成功
-      this.globalData.orderNo=extraData.orderNo;
+      this.globalData.orderNo=extraData.data.orderNo;
     }
   },
   globalData: {
