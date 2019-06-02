@@ -193,7 +193,7 @@ public class WxPay {
 	 * @param notify_url
 	 *            异步回调地址，不传无回调
 	 * @param return_url
-	 *            同步回调地址，不 传支付后关闭页面
+	 *            同步回调地址，不传支付后关闭页面
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
 	 * @return 返回收银台地址，重定向到该地址即可
