@@ -125,6 +125,17 @@ maven添加依赖
 
 返回结果说明：[http://open.pay.yungouos.com/#/api/api/pay/wxpay/getRefundResult](http://open.pay.yungouos.com/#/api/api/pay/wxpay/getRefundResult "http://open.pay.yungouos.com/#/api/api/pay/wxpay/getRefundResult")
 
+## 获取微信授权URL
+
+	String url="http://www.yungouos.com/oauth?a=1"; 
+	JSONObject paramJson=new JSONObject();
+	paramJson.put("key", "123456");
+	String oauthUrl = WxPay.getWxOauthUrl(paramJson.toJSONString(), url);
+
+## 查询微信授权信息
+
+	WxOauthInfo wxOauthInfo = WxPay.getWxOauthInfo("45AA0CEE43AE4F048384D655A77FA770");
+
 # 方法说明
 
 ## 微信扫码支付
@@ -150,6 +161,14 @@ maven添加依赖
 ## 查询微信支付退款结果
 	
 	WxPay.getRefundResult(退款单号（发起退款接口返回）,微信支付商户号, 商户密钥);
+
+## 获取微信授权URL
+	
+	WxPay.getWxOauthUrl(额外参数json字符串,授权结束后返回地址);
+
+## 查询微信授权信息
+
+	WxPay.getWxOauthInfo(授权结束后返回的code);
 	
 	
 ## 签名工具
