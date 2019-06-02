@@ -4,7 +4,7 @@
   <groupId>com.yungouos.pay</groupId>
   <artifactId>YunGouOS-JAVA-SDK</artifactId>
   <name>YunGouOS-JAVA-SDK</name>
-  <version>1.0.4</version>
+  <version>1.0.5</version>
   <description>YunGouOS微信官方个人支付接口SDK，提供微信官方个人支付接口API</description>
   <url>https://github.com/YunGouOS/YunGouOS-PAY-SDK</url>
   <developers>

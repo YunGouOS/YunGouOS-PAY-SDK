@@ -257,10 +257,7 @@ public class WxPay {
 	 *            微信支付商户号 登录YunGouOS.com-》微信支付-》我的支付 查看商户号
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
-	 * 
-	 * @return WxPayOrder 订单对象
-	 *         参考文档：http://open.pay.yungouos.com/#/api/api/pay/wxpay/getWxPayOrderInfo
-	 * @throws Exception
+	 * @return WxPayOrder订单对象 参考文档：http://open.pay.yungouos.com/#/api/api/pay/wxpay/getWxPayOrderInfo
 	 */
 	public static WxPayOrder getOrderInfoByOutTradeNo(String out_trade_no, String mch_id, String key) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -316,10 +313,7 @@ public class WxPay {
 	 *            退款金额
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
-	 * 
-	 * @return refundOrder 退款订单对象
-	 *         参考文档：http://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder
-	 * @throws Exception
+	 * @return refundOrder 退款订单对象 参考文档：http://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder
 	 */
 	public static RefundOrder orderRefund(String out_trade_no, String mch_id, String money, String key) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -378,10 +372,7 @@ public class WxPay {
 	 *            微信支付商户号 登录YunGouOS.com-》微信支付-》我的支付 查看商户号
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
-	 * 
-	 * @return RefundSearch 退款结果对象
-	 *         参考文档：http://open.pay.yungouos.com/#/api/api/pay/wxpay/getRefundResult
-	 * @throws Exception
+	 * @return RefundSearch 退款结果对象，参考文档 http://open.pay.yungouos.com/#/api/api/pay/wxpay/getRefundResult
 	 */
 	public static RefundSearch getRefundResult(String refund_no, String mch_id, String key) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -430,14 +421,11 @@ public class WxPay {
 	/**
 	 * 获取微信授权URL 为了获取openid
 	 * 
-	 * @param params
+	 * @param param
 	 *            额外参数，原路返回 需要json字符串
 	 * @param url
-	 *            授权结束后携带code返回的地址 （需要包含 http://
-	 *            以及携带一个参数）示例值：http://www.baidu.com?a=1
-	 * 
+	 *            授权结束后携带code返回的地址
 	 * @return 微信授权url，直接重定向到该地址
-	 * @throws Exception
 	 */
 	public static String getWxOauthUrl(String param, String url) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -476,7 +464,6 @@ public class WxPay {
 	 *            授权结束后返回
 	 * @return WxOauthInfo 授权信息返回对象
 	 *         参考文档：http://open.pay.yungouos.com/#/api/api/wxlogin/getBaseOauthInfo
-	 * @throws Exception
 	 */
 	public static WxOauthInfo getWxOauthInfo(String code) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
