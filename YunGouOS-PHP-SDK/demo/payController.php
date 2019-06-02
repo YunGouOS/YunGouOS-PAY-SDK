@@ -1,0 +1,88 @@
+<?php
+/**
+ * 微信支付集成演示
+ */
+
+//引入支付API
+require_once dirname(dirname(__FILE__)) . '/wxpay/WxPay.php';
+
+//支付接口
+$apitype=trim($_POST['apitype']);
+
+//商户订单号，商户网站订单系统中唯一订单号，必填
+$out_trade_no = trim($_POST['out_trade_no']);
+
+//支付金额 单位元
+$total_fee = trim($_POST['total_fee']);
+
+//微信支付商户号
+$mch_id = trim($_POST['mch_id']);
+
+//商品描述
+$body = trim($_POST['body']);
+
+//返回类型（1、返回微信原生的支付连接需要自行生成二维码；2、直接返回付款二维码地址，页面上展示即可。不填默认1 ）
+$type = trim($_POST['type']);
+
+//附加数据
+$attach = trim($_POST['attach']);
+
+//异步回调地址
+$notify_url = trim($_POST['notify_url']);
+
+//同步回调地址
+$return_url = trim($_POST['return_url']);
+
+//授权结束后回调地址 jsapi支付才需要
+$callback_url=trim($_POST['callback_url']);
+
+//商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
+$key = trim($_POST['key']);
+
+$wxpay = new WxPay();
+
+try {
+
+    switch ($apitype) {
+        case "native":
+            //扫码支付
+            $result = $wxpay->nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url, $return_url, $key);
+            //此处type传递的是2 所以返回的是支付二维码的地址直接显示即可。如果传递1 返回的是微信原生的二维码支付连接，需要自己写生成二维码图片的逻辑
+            $html = '<img src="' . $result . '"/>';
+            echo $html;
+            break;
+        case "cashier":
+            //收银台支付
+            $result=$wxpay->cashierPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $return_url, $key);
+            //收银台返回的是收银台地址，此处直接重定向到该地址即可
+            header("Location: ".$result."");
+            exit;
+            break;
+        case "jsapi":
+            //公众号支付比较繁琐 需要先获取微信openid
+
+            //此处我们将支付参数作为额外参数传递过去，方便授权结束后获取到这些支付参数直接发起支付
+            //注意，这么做理论上是不安全的，我们建议用户自己生成缓存 传递一个key，授权结束后根据这个key在自己系统的缓存服务中获取到这些信息
+            $params=array(
+                'out_trade_no'=>$out_trade_no,
+                'total_fee'=>$total_fee,
+                'mch_id'=>$mch_id,
+                'body'=>$body,
+                'attach'=>$attach,
+                'notify_url'=>$notify_url,
+                'return_url'=>$return_url,
+                'key'=>$key
+            );
+            $result=$wxpay->getOauthUrl($params,$callback_url);
+            //此处返回的是微信授权链接，直接重定向
+            header("Location: ".$result."");
+            break;
+        default:
+            break;
+    }
+
+
+} catch (Exception $e) {
+    echo('<script type="text/javascript">alert("' . $e->getMessage() . '");window.close();</script>');
+}
+?>

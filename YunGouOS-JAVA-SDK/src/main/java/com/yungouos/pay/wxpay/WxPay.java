@@ -138,6 +138,9 @@ public class WxPay {
 			if (StrUtil.isBlank(body)) {
 				throw new Exception("商品描述不能为空！");
 			}
+			if (StrUtil.isBlank(openId)) {
+				throw new Exception("openId不能为空！");
+			}
 			if (StrUtil.isBlank(key)) {
 				throw new Exception("商户密钥不能为空！");
 			}
@@ -190,7 +193,7 @@ public class WxPay {
 	 * @param notify_url
 	 *            异步回调地址，不传无回调
 	 * @param return_url
-	 *            同步回调地址，收银台模式还没开发，暂时没什么卵用
+	 *            同步回调地址
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
 	 * @return 返回收银台地址，重定向到该地址即可
