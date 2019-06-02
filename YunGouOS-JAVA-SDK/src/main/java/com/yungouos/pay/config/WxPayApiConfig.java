@@ -44,5 +44,17 @@ public class WxPayApiConfig {
 	 */
 	public static String getRefundResultUrl=apiUrl+"/api/pay/wxpay/getRefundResult";
 	
+	
+	/**
+	 * 获取微信授权URL
+	 */
+	public static String getWxOauthUrl=apiUrl+"/api/wxlogin/getOauthUrl";
+	
+	
+	/**
+	 * 获取微信授权信息
+	 */
+	public static String getWxOauthInfo=apiUrl+"/api/wxlogin/getBaseOauthInfo";
+	
 
 }
