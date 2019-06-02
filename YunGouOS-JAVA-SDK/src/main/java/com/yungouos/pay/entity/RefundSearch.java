@@ -6,12 +6,7 @@ import java.io.Serializable;
  * 退款查询
  * 
  * 
- * @action
- *
  * @author YunGouOS技术部-029
- *
- * @time 2019年4月29日 下午3:05:25
- *
  *
  */
 public class RefundSearch implements Serializable {

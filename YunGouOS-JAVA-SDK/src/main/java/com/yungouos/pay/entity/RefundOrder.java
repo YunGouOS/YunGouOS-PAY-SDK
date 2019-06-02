@@ -7,11 +7,7 @@ import java.io.Serializable;
  * 退款对象
  * 
  * 
- * @action
- *
  * @author YunGouOS技术部-029
- *
- * @time 2019年4月29日 下午2:56:38
  *
  *
  */

@@ -15,6 +15,8 @@ public class WxPayTest {
 		String result;
 		String mchId="1529637931";
 		String key="6BA371F4CFAB4465AA04DAEADBAC4161";
+		//收银台支付结束后返回地址
+		String returnUrl="http://www.baidu.com";
 		try {
 			/**
 			 * 扫码支付 返回二维码连接
@@ -27,6 +29,13 @@ public class WxPayTest {
 			 */
 			String jspackage = WxPay.jsapiPay(System.currentTimeMillis() + "", "1", mchId, "测试", "o-_-itxeWVTRnl-iGT_JJ-t3kpxU", null, null, null, key);
 			System.out.println(jspackage);
+			
+			/**
+			 * 收银台支付  返回收银台支付地址，跳转到该地址即可
+			 */
+			String cashierPayUrl=WxPay.cashierPay(System.currentTimeMillis() + "", "1", mchId, "测试收银台支付", null, null, returnUrl, key);
+			System.out.println(cashierPayUrl);
+			
 			
 			/**
 			 * 订单查询

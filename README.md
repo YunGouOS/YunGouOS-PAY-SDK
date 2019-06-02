@@ -70,17 +70,14 @@ SDK文档：[https://apidoc.gitee.com/YunGouOS/YunGouOS-PAY-SDK/](https://apidoc
 
 # 快速开始
 
-方式一：maven添加依赖
+maven添加依赖
 
   		<dependency>
 			<groupId>com.yungouos.pay</groupId>
 			<artifactId>YunGouOS-JAVA-SDK</artifactId>
-			<version>1.0.1</version>
+			<version>最新版本</version>
 		</dependency>
 
-方式二：下载jar手动导入
-
-[https://github.com/YunGouOS/YunGouOS-PAY-SDK/tree/master/YunGouOS-JAVA-SDK/build](https://github.com/YunGouOS/YunGouOS-PAY-SDK/tree/master/YunGouOS-JAVA-SDK/build "https://github.com/YunGouOS/YunGouOS-PAY-SDK/tree/master/YunGouOS-JAVA-SDK/build")
 
 # 示例代码
 
@@ -95,9 +92,15 @@ SDK文档：[https://apidoc.gitee.com/YunGouOS/YunGouOS-PAY-SDK/](https://apidoc
 
 ## 微信公众号支付
 
-返回 返回JSSDK需要的支付jspackage
+返回JSSDK需要的支付jspackage
 
 	String jspackage = WxPay.jsapi(System.currentTimeMillis() + "", "0.01", "1529637931", "测试", "o-_-itxeWVTRnl-iGT_JJ-t3kpxU", null, null, null, "6BA371F4CFAB4465AA04DAEADBAC4161");
+
+## 收银台支付
+
+返回收银台支付地址，跳转到该地址即可。收银台可根据用户设备自动决定扫码支付还是JSAPI支付
+	
+	String cashierPayUrl=WxPay.cashierPay(System.currentTimeMillis() + "", "1", mchId, "测试收银台支付", null, null, returnUrl, key);
 
 
 没错就是这么简单，就可以快速的接入微信官方支付。
@@ -131,6 +134,10 @@ SDK文档：[https://apidoc.gitee.com/YunGouOS/YunGouOS-PAY-SDK/](https://apidoc
 ## 微信公众号支付
 
 	 WxPay.jsapi(订单号,支付金额,微信支付商户号,商品描述,用户openid，附加数据，异步回调地址,同步回调地址,商户密钥)
+
+## 收银台支付
+
+	 WxPay.cashierPay(订单号,支付金额,微信支付商户号,商品描述,附加数据，异步回调地址,同步回调地址,商户密钥)
 
 ## 订单查询
 

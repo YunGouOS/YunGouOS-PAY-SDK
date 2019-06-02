@@ -5,14 +5,7 @@ import java.io.Serializable;
 /**
  * 查询订单对象
  * 
- * 
- * 
- * @action
- *
  * @author YunGouOS技术部-029
- *
- * @time 2019年4月29日 下午2:35:30
- *
  *
  */
 public class WxPayOrder implements Serializable {
