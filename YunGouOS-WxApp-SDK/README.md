@@ -1,7 +1,9 @@
-# 小程序支付
+# YunGouOS 小程序支付
+微信官方合作伙伴，直接微信开户，非聚合支付、非二次清算。资金微信直连结算到自己银行卡
 
-![https://yungouos.oss-cn-shanghai.aliyuncs.com/YunGouOS/logo/merchant/logo.png](https://yungouos.oss-cn-shanghai.aliyuncs.com/YunGouOS/logo/merchant/logo.png)
+# 如何使用
 
+在官网提交资料，由微信审核，审核通过后下发商户号，对接使用。
 
 # 在线体验
 

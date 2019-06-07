@@ -381,7 +381,7 @@ class WxPay
     /**
      * 获取授权URL地址
      * @param $params 额外参数 数组
-     * @param $callbackUrl 授权结束的回调地址
+     * @param $callbackUrl 授权结束的回调地址。此处授权后是回到oauth.php下处理
      * @return 授权url 直接重定向到该地址 需要包含 http:// 以及携带一个参数 示例值：http://www.baidu.com?a=1
      * @throws Exception
      */
@@ -393,7 +393,6 @@ class WxPay
             if (empty($callbackUrl)) {
                 throw new Exception("callbackUrl不能为空！");
             }
-
             $paramsArray['url'] = $callbackUrl;
             $paramsArray['params'] = json_encode($params);
 
