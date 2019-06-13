@@ -247,6 +247,67 @@ public class WxPay {
 		}
 		return resultUrl;
 	}
+	
+	/**
+	 * 小程序支付
+	 * 
+	 * @param out_trade_no
+	 *            订单号 不可重复
+	 * @param total_fee
+	 *            支付金额 单位：元 范围：0.01-99999
+	 * @param mch_id
+	 *            微信支付商户号 登录YunGouOS.com-》微信支付-》我的支付 查看商户号
+	 * @param body
+	 *            商品描述
+	 * @param title
+	 *            支付收银小程序显示的标题
+	 * @param attach
+	 *            附加数据 回调时原路返回 可不传
+	 * @param notify_url
+	 *            异步回调地址，不传无回调
+	 * @param key
+	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
+	 * @return 返回小程序支付所需的参数，拿到参数后由小程序端将参数携带跳转到“支付收银”小程序
+	 */
+	public static JSONObject minAppPay(String out_trade_no, String total_fee, String mch_id, String body,String title,String attach, String notify_url,String key) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		JSONObject json = null;
+		try {
+			if (StrUtil.isBlank(out_trade_no)) {
+				throw new Exception("订单号不能为空！");
+			}
+			if (StrUtil.isBlank(total_fee)) {
+				throw new Exception("付款金额不能为空！");
+			}
+			if (StrUtil.isBlank(mch_id)) {
+				throw new Exception("商户号不能为空！");
+			}
+			if (StrUtil.isBlank(body)) {
+				throw new Exception("商品描述不能为空！");
+			}
+			if (StrUtil.isBlank(key)) {
+				throw new Exception("商户密钥不能为空！");
+			}
+			params.put("out_trade_no", out_trade_no);
+			params.put("total_fee", total_fee);
+			params.put("mch_id", mch_id);
+			params.put("body", body);
+			// 上述必传参数签名
+			String sign = WxPaySignUtil.createSign(params, key);
+			params.put("title", title);
+			params.put("attach", attach);
+			params.put("notify_url", notify_url);
+			params.put("sign", sign);
+			json=(JSONObject) JSONObject.toJSON(params);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return json;
+	}
+	
+	
+	
 
 	/**
 	 * 查询订单

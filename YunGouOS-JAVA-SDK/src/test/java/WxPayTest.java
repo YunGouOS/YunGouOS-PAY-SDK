@@ -8,7 +8,7 @@ import com.yungouos.pay.wxpay.WxPay;
 public class WxPayTest {
 
 	/**
-	 * 扫码支付测试
+	 * 支付测试
 	 * 
 	 * @author YunGouOS
 	 * @date 2019年4月28日 下午2:26:17
@@ -35,9 +35,14 @@ public class WxPayTest {
 			/**
 			 * 收银台支付  返回收银台支付地址，跳转到该地址即可
 			 */
-			String cashierPayUrl=WxPay.cashierPay(System.currentTimeMillis() + "", "1", mchId, "测试收银台支付", null, null, returnUrl, key);
+			String cashierPayUrl=WxPay.cashierPay(System.currentTimeMillis() + "", "1", mchId, "测试收银台支付", null, null, null, key);
 			System.out.println(cashierPayUrl);
 			
+			/**
+			 * 小程序支付 不是真正的下单，组装参数。拿到参数后使用小程序的前端将参数传递给支付收银小程序
+			 */
+			JSONObject minAppPay = WxPay.minAppPay(System.currentTimeMillis()+"", "0.01", mchId, "小程序支付演示", "海底捞", null, null, key);
+			System.out.println(minAppPay.toJSONString());
 			
 			/**
 			 * 订单查询
