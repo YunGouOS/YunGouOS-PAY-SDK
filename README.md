@@ -102,6 +102,12 @@ maven添加依赖
 	
 	String cashierPayUrl=WxPay.cashierPay(System.currentTimeMillis() + "", "1", mchId, "测试收银台支付", null, null, returnUrl, key);
 
+## 小程序支付
+
+返回小程序支付所需的参数，需要使用小程序段端通过携带返回的参数跳转到支付收银小程序发起支付
+	
+	JSONObject minAppPay = WxPay.minAppPay(System.currentTimeMillis()+"", "0.01", mchId, "小程序支付演示", "海底捞", null, null, key);
+
 
 没错就是这么简单，就可以快速的接入微信官方支付。
 
@@ -149,6 +155,10 @@ maven添加依赖
 ## 收银台支付
 
 	 WxPay.cashierPay(订单号,支付金额,微信支付商户号,商品描述,附加数据，异步回调地址,同步回调地址,商户密钥)
+
+## 小程序支付
+
+	 WxPay.minAppPay(订单号,支付金额,微信支付商户号,商品描述,收银台标题,附加数据，异步回调地址,商户密钥)
 
 ## 订单查询
 
