@@ -89,7 +89,7 @@ public class WxPay {
 				throw new Exception("API结果转换错误");
 			}
 			Integer code = jsonObject.getInteger("code");
-			if (0 != code) {
+			if (0 != code.intValue()) {
 				throw new Exception(jsonObject.getString("msg"));
 			}
 			resultUrl = jsonObject.getString("data");
@@ -166,7 +166,7 @@ public class WxPay {
 				throw new Exception("API结果转换错误");
 			}
 			Integer code = jsonObject.getInteger("code");
-			if (0 != code) {
+			if (0 != code.intValue()) {
 				throw new Exception(jsonObject.getString("msg"));
 			}
 			resultUrl = jsonObject.getString("data");
@@ -237,7 +237,7 @@ public class WxPay {
 				throw new Exception("API结果转换错误");
 			}
 			Integer code = jsonObject.getInteger("code");
-			if (0 != code) {
+			if (0 != code.intValue()) {
 				throw new Exception(jsonObject.getString("msg"));
 			}
 			resultUrl = jsonObject.getString("data");
@@ -347,7 +347,7 @@ public class WxPay {
 				throw new Exception("API结果转换错误");
 			}
 			Integer code = jsonObject.getInteger("code");
-			if (0 != code) {
+			if (0 != code.intValue()) {
 				throw new Exception(jsonObject.getString("msg"));
 			}
 			JSONObject json = jsonObject.getJSONObject("data");
@@ -408,7 +408,7 @@ public class WxPay {
 				throw new Exception("API结果转换错误");
 			}
 			Integer code = jsonObject.getInteger("code");
-			if (0 != code) {
+			if (0 != code.intValue()) {
 				throw new Exception(jsonObject.getString("msg"));
 			}
 			JSONObject json = jsonObject.getJSONObject("data");
@@ -463,7 +463,7 @@ public class WxPay {
 				throw new Exception("API结果转换错误");
 			}
 			Integer code = jsonObject.getInteger("code");
-			if (0 != code) {
+			if (0 != code.intValue()) {
 				throw new Exception(jsonObject.getString("msg"));
 			}
 			JSONObject json = jsonObject.getJSONObject("data");
@@ -507,7 +507,7 @@ public class WxPay {
 				throw new Exception("API结果转换错误");
 			}
 			Integer code = jsonObject.getInteger("code");
-			if (0 != code) {
+			if (0 != code.intValue()) {
 				throw new Exception(jsonObject.getString("msg"));
 			}
 			resultUrl = jsonObject.getString("data");
@@ -544,7 +544,7 @@ public class WxPay {
 				throw new Exception("API结果转换错误");
 			}
 			Integer resultCode = jsonObject.getInteger("code");
-			if (0 != resultCode) {
+			if (0 != resultCode.intValue()) {
 				throw new Exception(jsonObject.getString("msg"));
 			}
 			JSONObject json = jsonObject.getJSONObject("data");
