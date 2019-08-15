@@ -75,7 +75,7 @@ maven添加依赖
   		<dependency>
 			<groupId>com.yungouos.pay</groupId>
 			<artifactId>YunGouOS-JAVA-SDK</artifactId>
-			<version>最新版本</version>
+			<version>1.0.7</version>
 		</dependency>
 
 
