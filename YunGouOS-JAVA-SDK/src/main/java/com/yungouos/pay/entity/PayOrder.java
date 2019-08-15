@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author YunGouOS技术部-029
  *
  */
-public class WxPayOrder implements Serializable {
+public class PayOrder implements Serializable {
 
 	private static final long serialVersionUID = -4279424921060096128L;
 
@@ -18,8 +18,8 @@ public class WxPayOrder implements Serializable {
 	// 商户订单号
 	private String outTradeNo;
 
-	// 微信支付订单号
-	private String wxPayNo;
+	// 支付订单号
+	private String payNo;
 
 	// 支付金额
 	private String money;
@@ -27,8 +27,11 @@ public class WxPayOrder implements Serializable {
 	// 商品简称
 	private String body;
 
-	// 微信支付商户号
+	// 支付商户号
 	private String mchid;
+
+	// 支付渠道
+	private String payChannel;
 
 	// 支付方式
 	private String payType;
@@ -58,12 +61,12 @@ public class WxPayOrder implements Serializable {
 		return this.outTradeNo;
 	}
 
-	public void setWxPayNo(String wxPayNo) {
-		this.wxPayNo = wxPayNo;
+	public String getPayNo() {
+		return payNo;
 	}
 
-	public String getWxPayNo() {
-		return this.wxPayNo;
+	public void setPayNo(String payNo) {
+		this.payNo = payNo;
 	}
 
 	public void setMoney(String money) {
@@ -122,12 +125,18 @@ public class WxPayOrder implements Serializable {
 		return this.addTime;
 	}
 
+	public String getPayChannel() {
+		return payChannel;
+	}
+
+	public void setPayChannel(String payChannel) {
+		this.payChannel = payChannel;
+	}
+
 	@Override
 	public String toString() {
-		return "WxPayOrder [orderNo=" + orderNo + ", outTradeNo=" + outTradeNo + ", wxPayNo=" + wxPayNo + ", money=" + money + ", body=" + body + ", mchid=" + mchid + ", payType=" + payType
-				+ ", attach=" + attach + ", payStatus=" + payStatus + ", addTime=" + addTime + "]";
+		return "PayOrder [orderNo=" + orderNo + ", outTradeNo=" + outTradeNo + ", payNo=" + payNo + ", money=" + money + ", body=" + body + ", mchid=" + mchid + ", payChannel=" + payChannel
+				+ ", payType=" + payType + ", attach=" + attach + ", payStatus=" + payStatus + ", addTime=" + addTime + "]";
 	}
-	
-	
 
 }

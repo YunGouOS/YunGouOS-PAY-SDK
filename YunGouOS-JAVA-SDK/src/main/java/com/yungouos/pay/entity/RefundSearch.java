@@ -25,10 +25,10 @@ public class RefundSearch implements Serializable {
 	private String outTradeNo;
 
 	// 微信支付单号
-	private String wxPayNo;
+	private String payNo;
 
 	// 微信退款单号
-	private String wxRefundNo;
+	private String payRefundNo;
 
 	// 申请退款金额
 	private String refundMoney;
@@ -36,10 +36,10 @@ public class RefundSearch implements Serializable {
 	// 订单金额
 	private String orderMoney;
 
-	// 退款微信商户
+	// 退款商户
 	private String refundMchId;
 
-	// 退款微信商户收款名称
+	// 退款商户收款名称
 	private String refundPayName;
 
 	// 退款描述
@@ -68,22 +68,6 @@ public class RefundSearch implements Serializable {
 
 	public void setOutTradeNo(String outTradeNo) {
 		this.outTradeNo = outTradeNo;
-	}
-
-	public String getWxPayNo() {
-		return wxPayNo;
-	}
-
-	public void setWxPayNo(String wxPayNo) {
-		this.wxPayNo = wxPayNo;
-	}
-
-	public String getWxRefundNo() {
-		return wxRefundNo;
-	}
-
-	public void setWxRefundNo(String wxRefundNo) {
-		this.wxRefundNo = wxRefundNo;
 	}
 
 	public String getRefundMoney() {
@@ -159,12 +143,31 @@ public class RefundSearch implements Serializable {
 		this.orderNo = orderNo;
 	}
 
+	public String getPayNo() {
+		return payNo;
+	}
+
+	public void setPayNo(String payNo) {
+		this.payNo = payNo;
+	}
+
+	public String getPayRefundNo() {
+		return payRefundNo;
+	}
+
+	public void setPayRefundNo(String payRefundNo) {
+		this.payRefundNo = payRefundNo;
+	}
+
 	@Override
 	public String toString() {
-		return "RefundSearch [refundNo=" + refundNo + ", orderNo=" + orderNo + ", outTradeNo=" + outTradeNo + ", wxPayNo=" + wxPayNo + ", wxRefundNo=" + wxRefundNo + ", refundMoney=" + refundMoney
+		return "RefundSearch [refundNo=" + refundNo + ", orderNo=" + orderNo + ", outTradeNo=" + outTradeNo + ", payNo=" + payNo + ", payRefundNo=" + payRefundNo + ", refundMoney=" + refundMoney
 				+ ", orderMoney=" + orderMoney + ", refundMchId=" + refundMchId + ", refundPayName=" + refundPayName + ", refundDesc=" + refundDesc + ", refundStatus=" + refundStatus
 				+ ", apiRefundTime=" + apiRefundTime + ", refundTime=" + refundTime + "]";
 	}
+
+	
+	
 
 	
 	

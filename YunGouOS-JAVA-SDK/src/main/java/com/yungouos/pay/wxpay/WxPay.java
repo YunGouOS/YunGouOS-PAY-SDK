@@ -8,15 +8,14 @@ import com.yungouos.pay.config.WxPayApiConfig;
 import com.yungouos.pay.entity.RefundOrder;
 import com.yungouos.pay.entity.RefundSearch;
 import com.yungouos.pay.entity.WxOauthInfo;
-import com.yungouos.pay.entity.WxPayOrder;
-import com.yungouos.pay.util.WxPaySignUtil;
+import com.yungouos.pay.util.PaySignUtil;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpRequest;
 
 /**
  * 
- * 微信支付
+ * 微信支付API对接
  * 
  * @author YunGouOS技术部-029
  *
@@ -70,7 +69,7 @@ public class WxPay {
 			params.put("mch_id", mch_id);
 			params.put("body", body);
 			// 上述必传参数签名
-			String sign = WxPaySignUtil.createSign(params, key);
+			String sign = PaySignUtil.createSign(params, key);
 			if (StrUtil.isBlank(type)) {
 				type = "2";
 			}
@@ -151,7 +150,7 @@ public class WxPay {
 			params.put("body", body);
 			params.put("openId", openId);
 			// 上述必传参数签名
-			String sign = WxPaySignUtil.createSign(params, key);
+			String sign = PaySignUtil.createSign(params, key);
 			params.put("attach", attach);
 			params.put("notify_url", notify_url);
 			params.put("return_url", return_url);
@@ -222,7 +221,7 @@ public class WxPay {
 			params.put("mch_id", mch_id);
 			params.put("body", body);
 			// 上述必传参数签名
-			String sign = WxPaySignUtil.createSign(params, key);
+			String sign = PaySignUtil.createSign(params, key);
 			params.put("attach", attach);
 			params.put("notify_url", notify_url);
 			params.put("return_url", return_url);
@@ -247,7 +246,7 @@ public class WxPay {
 		}
 		return resultUrl;
 	}
-	
+
 	/**
 	 * 小程序支付
 	 * 
@@ -269,7 +268,7 @@ public class WxPay {
 	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
 	 * @return 返回小程序支付所需的参数，拿到参数后由小程序端将参数携带跳转到“支付收银”小程序
 	 */
-	public static JSONObject minAppPay(String out_trade_no, String total_fee, String mch_id, String body,String title,String attach, String notify_url,String key) throws Exception {
+	public static JSONObject minAppPay(String out_trade_no, String total_fee, String mch_id, String body, String title, String attach, String notify_url, String key) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
 		JSONObject json = null;
 		try {
@@ -293,74 +292,17 @@ public class WxPay {
 			params.put("mch_id", mch_id);
 			params.put("body", body);
 			// 上述必传参数签名
-			String sign = WxPaySignUtil.createSign(params, key);
+			String sign = PaySignUtil.createSign(params, key);
 			params.put("title", title);
 			params.put("attach", attach);
 			params.put("notify_url", notify_url);
 			params.put("sign", sign);
-			json=(JSONObject) JSONObject.toJSON(params);
+			json = (JSONObject) JSONObject.toJSON(params);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}
 		return json;
-	}
-	
-	
-	
-
-	/**
-	 * 查询订单
-	 * 
-	 * @param out_trade_no
-	 *            订单号
-	 * @param mch_id
-	 *            微信支付商户号 登录YunGouOS.com-》微信支付-》我的支付 查看商户号
-	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
-	 * @return WxPayOrder订单对象 参考文档：http://open.pay.yungouos.com/#/api/api/pay/wxpay/getWxPayOrderInfo
-	 */
-	public static WxPayOrder getOrderInfoByOutTradeNo(String out_trade_no, String mch_id, String key) throws Exception {
-		Map<String, Object> params = new HashMap<String, Object>();
-		WxPayOrder wxPayOrder = null;
-		try {
-			if (StrUtil.isBlank(out_trade_no)) {
-				throw new Exception("订单号不能为空！");
-			}
-			if (StrUtil.isBlank(mch_id)) {
-				throw new Exception("商户号不能为空！");
-			}
-			if (StrUtil.isBlank(key)) {
-				throw new Exception("商户密钥不能为空！");
-			}
-			params.put("out_trade_no", out_trade_no);
-			params.put("mch_id", mch_id);
-			// 上述必传参数签名
-			String sign = WxPaySignUtil.createSign(params, key);
-			params.put("sign", sign);
-			String result = HttpRequest.get(WxPayApiConfig.getOrderUrl).form(params).execute().body();
-			if (StrUtil.isBlank(result)) {
-				throw new Exception("API接口返回为空，请联系客服");
-			}
-			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
-			if (jsonObject == null) {
-				throw new Exception("API结果转换错误");
-			}
-			Integer code = jsonObject.getInteger("code");
-			if (0 != code.intValue()) {
-				throw new Exception(jsonObject.getString("msg"));
-			}
-			JSONObject json = jsonObject.getJSONObject("data");
-			if (json == null) {
-				throw new Exception("API结果数据转换错误");
-			}
-			wxPayOrder = JSONObject.toJavaObject(json, WxPayOrder.class);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new Exception(e.getMessage());
-		}
-		return wxPayOrder;
 	}
 
 	/**
@@ -374,7 +316,8 @@ public class WxPay {
 	 *            退款金额
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
-	 * @return refundOrder 退款订单对象 参考文档：http://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder
+	 * @return refundOrder 退款订单对象
+	 *         参考文档：http://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder
 	 */
 	public static RefundOrder orderRefund(String out_trade_no, String mch_id, String money, String key) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -396,7 +339,7 @@ public class WxPay {
 			params.put("mch_id", mch_id);
 			params.put("money", money);
 			// 上述必传参数签名
-			String sign = WxPaySignUtil.createSign(params, key);
+			String sign = PaySignUtil.createSign(params, key);
 			params.put("sign", sign);
 			String result = HttpRequest.post(WxPayApiConfig.refundOrderUrl).form(params).execute().body();
 			System.out.println(result);
@@ -433,7 +376,8 @@ public class WxPay {
 	 *            微信支付商户号 登录YunGouOS.com-》微信支付-》我的支付 查看商户号
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
-	 * @return RefundSearch 退款结果对象，参考文档 http://open.pay.yungouos.com/#/api/api/pay/wxpay/getRefundResult
+	 * @return RefundSearch 退款结果对象，参考文档
+	 *         http://open.pay.yungouos.com/#/api/api/pay/wxpay/getRefundResult
 	 */
 	public static RefundSearch getRefundResult(String refund_no, String mch_id, String key) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -451,7 +395,7 @@ public class WxPay {
 			params.put("refund_no", refund_no);
 			params.put("mch_id", mch_id);
 			// 上述必传参数签名
-			String sign = WxPaySignUtil.createSign(params, key);
+			String sign = PaySignUtil.createSign(params, key);
 			params.put("sign", sign);
 			String result = HttpRequest.get(WxPayApiConfig.getRefundResultUrl).form(params).execute().body();
 			System.out.println(result);
@@ -559,5 +503,6 @@ public class WxPay {
 		}
 		return wxOauthInfo;
 	}
+
 
 }

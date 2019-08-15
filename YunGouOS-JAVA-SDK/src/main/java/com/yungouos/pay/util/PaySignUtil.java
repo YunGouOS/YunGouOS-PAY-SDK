@@ -2,15 +2,25 @@ package com.yungouos.pay.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import javax.servlet.http.HttpServletRequest;
+
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 
-public class WxPaySignUtil {
-	
+/**
+ * 
+ * YunGouOS支付签名工具类
+ * 
+ * @author YunGouOS技术部-029
+ *
+ */
+public class PaySignUtil {
+
 	/**
 	 * 支付参数签名
 	 * 
@@ -18,8 +28,7 @@ public class WxPaySignUtil {
 	 *            需要参与签名的参数
 	 * @param partnerKey
 	 *            商户密钥
-	 * @return {String}
-	 * 			  参数签名	
+	 * @return {String} 参数签名
 	 */
 	public static String createSign(Map<String, Object> params, String partnerKey) {
 		// 生成签名前先去除sign
@@ -68,5 +77,46 @@ public class WxPaySignUtil {
 
 	public static String urlEncode(String src) throws UnsupportedEncodingException {
 		return URLEncoder.encode(src, "utf-8");
+	}
+
+	/**
+	 * 验证回调签名是否正确
+	 * 
+	 * @param request
+	 *            回调的request对象
+	 * @return 签名是否正确
+	 * @throws Exception
+	 */
+	public static boolean checkNotifySign(HttpServletRequest request, String partnerKey) throws Exception {
+		try {
+			if (request == null) {
+				throw new Exception("request对象不能为空");
+			}
+			String sign = request.getParameter("sign");
+			if (StrUtil.isBlank(sign)) {
+				throw new Exception("request中未获取到sign");
+			}
+			Map<String, Object> params = new HashMap<String, Object>();
+			String code = request.getParameter("code");
+			String orderNo = request.getParameter("orderNo");
+			String outTradeNo = request.getParameter("outTradeNo");
+			String payNo = request.getParameter("payNo");
+			String money = request.getParameter("money");
+			String mchId = request.getParameter("mchId");
+			params.put("code", code);
+			params.put("orderNo", orderNo);
+			params.put("outTradeNo", outTradeNo);
+			params.put("payNo", payNo);
+			params.put("money", money);
+			params.put("mchId", mchId);
+			String reSign = PaySignUtil.createSign(params, partnerKey);
+			if (sign.equals(reSign)) {
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return false;
 	}
 }

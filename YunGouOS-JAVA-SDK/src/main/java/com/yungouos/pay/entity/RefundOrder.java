@@ -24,10 +24,10 @@ public class RefundOrder implements Serializable {
 	// 用户ID
 	private int userId;
 
-	// 退款微信商户
+	// 退款商户
 	private String refundMchId;
 
-	// 退款微信商户收款名称
+	// 退款商户收款名称
 	private String refundPayName;
 
 	// 退款金额
@@ -36,7 +36,7 @@ public class RefundOrder implements Serializable {
 	// 退款描述
 	private String refundDesc;
 
-	// 退款类型 0 微信退款
+	// 退款类型 0 微信退款 1 支付宝退款
 	private int refundType;
 
 	// 退款状态 0：待处理 1：已处理

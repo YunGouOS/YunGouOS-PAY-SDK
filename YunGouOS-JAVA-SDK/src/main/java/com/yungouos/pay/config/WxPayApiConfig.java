@@ -27,11 +27,6 @@ public class WxPayApiConfig {
 	 */
 	public static String cashierUrl=apiUrl+"/api/pay/wxpay/cashierPay";
 	
-	/**
-	 * 订单查询
-	 */
-	public static String getOrderUrl=apiUrl+"/api/pay/wxpay/getWxPayOrderInfo";
-	
 	
 	/**
 	 * 订单退款

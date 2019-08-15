@@ -2,17 +2,18 @@ import com.alibaba.fastjson.JSONObject;
 import com.yungouos.pay.entity.RefundOrder;
 import com.yungouos.pay.entity.RefundSearch;
 import com.yungouos.pay.entity.WxOauthInfo;
-import com.yungouos.pay.entity.WxPayOrder;
+import com.yungouos.pay.entity.PayOrder;
 import com.yungouos.pay.wxpay.WxPay;
 
+/**
+ *
+ * 微信支付调用演示
+ * 
+ * @author YunGouOS技术部-029
+ *
+ */
 public class WxPayTest {
 
-	/**
-	 * 支付测试
-	 * 
-	 * @author YunGouOS
-	 * @date 2019年4月28日 下午2:26:17
-	 */
 	public static void main(String[] args) {
 		String result;
 		String mchId="1529637931";
@@ -43,12 +44,6 @@ public class WxPayTest {
 			 */
 			JSONObject minAppPay = WxPay.minAppPay(System.currentTimeMillis()+"", "0.01", mchId, "小程序支付演示", "海底捞", null, null, key);
 			System.out.println(minAppPay.toJSONString());
-			
-			/**
-			 * 订单查询
-			 */
-			WxPayOrder wxPayOrder = WxPay.getOrderInfoByOutTradeNo("1556267522899", mchId, key);
-			System.out.println(wxPayOrder.toString());
 			
 			/**
 			 * 订单退款
