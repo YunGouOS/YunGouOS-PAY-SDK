@@ -39,7 +39,7 @@ YunGouOS微信支付官方合作伙伴,YunGouOS-PAY是徐州市云宝网络科�
 
 # 如何使用
 
-在官网提交资料，由微信审核，审核通过后下发商户号，对接使用。
+在官网提交资料，由微信/支付宝审核，审核通过后下发商户号，对接使用。
 
 # 相关地址
 
@@ -79,7 +79,7 @@ maven添加依赖
 		</dependency>
 
 
-# 示例代码
+# 微信支付--示例代码
 
 
 ## 微信扫码支付
@@ -87,8 +87,6 @@ maven添加依赖
 返回二维码地址或微信支付二维码连接（需自行生成二维码）
 
     String result = WxPay.nativePay(System.currentTimeMillis() + "", "0.01", "1529637931", "测试", null, null, null, null, "6BA371F4CFAB4465AA04DAEADBAC4161");
-
-
 
 ## 微信公众号支付
 
@@ -108,17 +106,6 @@ maven添加依赖
 	
 	JSONObject minAppPay = WxPay.minAppPay(System.currentTimeMillis()+"", "0.01", mchId, "小程序支付演示", "海底捞", null, null, key);
 
-
-没错就是这么简单，就可以快速的接入微信官方支付。
-
-# 其他接口
-
-## 订单查询接口
-	WxPayOrder wxPayOrder =WxPay.getOrderInfoByOutTradeNo("1556267522899", "1529637931", "6BA371F4CFAB4465AA04DAEADBAC4161");
-
-返回结果说明：[http://open.pay.yungouos.com/#/api/api/pay/wxpay/getWxPayOrderInfo](http://open.pay.yungouos.com/#/api/api/pay/wxpay/getWxPayOrderInfo "http://open.pay.yungouos.com/#/api/api/pay/wxpay/getWxPayOrderInfo")
-
-
 ## 发起退款接口
 
 	RefundOrder refundOrder = WxPay.orderRefund("1556267522899", "1529637931", "0.1", "6BA371F4CFAB4465AA04DAEADBAC4161");
@@ -130,6 +117,48 @@ maven添加依赖
 	RefundSearch refundSearch = WxPay.getRefundResult("R17200911248111", mchId, key);
 
 返回结果说明：[http://open.pay.yungouos.com/#/api/api/pay/wxpay/getRefundResult](http://open.pay.yungouos.com/#/api/api/pay/wxpay/getRefundResult "http://open.pay.yungouos.com/#/api/api/pay/wxpay/getRefundResult")
+
+没错就是这么简单，就可以快速的接入微信官方支付。
+
+# 支付宝--示例代码 #
+
+
+## 支付宝扫码支付
+
+返回二维码地址或微信支付二维码连接（需自行生成二维码）
+
+    String result = AliPay.nativePay(System.currentTimeMillis() + "", "0.01", "2088802674000755", "测试", null, null, null, null, "6BA371F4CFAB4465AA04DAEADBAC4161");
+
+## 支付宝WAP支付
+
+返回支付宝跳转连接，手机端重定向自动打开支付宝APP付款
+
+	String result=AliPay.wapPay(System.currentTimeMillis() + "", "0.01", "2088802674000755", "支付测试", null, null, "6BA371F4CFAB4465AA04DAEADBAC4161");
+
+
+## 发起支付宝退款接口
+
+	RefundOrder refundOrder = AliPay.orderRefund("Y194506551713811", "2088802674000755", "0.1", "测试退款","6BA371F4CFAB4465AA04DAEADBAC4161");
+
+返回结果说明：[https://open.pay.yungouos.com/#/api/api/pay/alipay/refundOrder](https://open.pay.yungouos.com/#/api/api/pay/alipay/refundOrder "https://open.pay.yungouos.com/#/api/api/pay/alipay/refundOrder")
+
+## 查询支付宝退款结果接口
+
+	RefundSearch refundSearch = AliPay.getRefundResult("R17200911248111", "2088802674000755", key);
+
+返回结果说明：[https://open.pay.yungouos.com/#/api/api/pay/alipay/getRefundResult](https://open.pay.yungouos.com/#/api/api/pay/alipay/getRefundResult "https://open.pay.yungouos.com/#/api/api/pay/alipay/getRefundResult")
+
+没错就是这么简单，就可以快速的接入支付宝官方支付。
+
+# 其他接口
+
+## 订单查询接口
+	PayOrder payOrder = SystemOrder.getOrderInfoByOutTradeNo("1556267522899", "1529637931", "6BA371F4CFAB4465AA04DAEADBAC4161");
+	
+
+返回结果说明：[http://open.pay.yungouos.com/#/api/api/pay/wxpay/getWxPayOrderInfo](http://open.pay.yungouos.com/#/api/api/pay/wxpay/getWxPayOrderInfo "http://open.pay.yungouos.com/#/api/api/pay/wxpay/getWxPayOrderInfo")
+
+
 
 ## 获取微信授权URL
 
@@ -179,10 +208,29 @@ maven添加依赖
 ## 查询微信授权信息
 
 	WxPay.getWxOauthInfo(授权结束后返回的code);
+
+## 支付宝扫码支付
 	
+	AliPay.nativePay(订单号,支付金额,支付宝商户号,商品描述,返回类型，附加数据，异步回调地址,同步回调地址,商户密钥);
+
+## 支付宝WAP支付
+
+	AliPay.wapPay(订单号,支付金额,支付宝商户号,商品描述,附加数据，异步回调地址,商户密钥);
+
+## 发起支付宝退款
+
+	AliPay.orderRefund(订单号, 支付宝商户号, 退款金额, 退款描述,商户密钥);
+
+## 查询支付宝退款结果
+	
+	WxPay.getRefundResult(退款单号（发起退款接口返回）,支付宝商户号, 商户密钥);
 	
 ## 签名工具
-	 WxPaySignUtil.createSign([类型Map]签名参数,商户密钥)
+	 //参数签名
+	 PaySignUtil.createSign([类型Map]签名参数,商户密钥)；
+
+	 //回调签名验证
+	 PaySignUtil.checkNotifySign(回调的request对象)；
 
 	
 	

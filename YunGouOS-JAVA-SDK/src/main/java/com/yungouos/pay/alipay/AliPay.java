@@ -105,8 +105,6 @@ public class AliPay {
 	 *            支付宝商户号 登录YunGouOS.com-》支付宝-》我的支付 查看商户号
 	 * @param body
 	 *            商品描述
-	 * @param openId
-	 *            用户openId 通过授权接口获得
 	 * @param attach
 	 *            附加数据 回调时原路返回 可不传
 	 * @param notify_url
