@@ -35,14 +35,52 @@ class PaySign
     }
 
     //验证签名
-    public function checkSing($arr,$key)
+    public function checkSing($arr, $key)
     {
         //获取签名
-        $sing = $this->getSign($arr,$key);
+        $sing = $this->getSign($arr, $key);
         if ($sing == $arr['sign']) {
             return true;
         } else {
             return false;
         }
+    }
+
+    /**
+     * 验证回调签名
+     * @param $_POST 回调的post对象
+     * @param $key 支付密钥
+     * @return 签名是否正确
+     */
+    public function checkNotifySign($_POST, $key)
+    {
+        try {
+            if (empty($_POST)) {
+                throw new Exception("POST对象不能为空");
+            }
+            $sign = $_POST['sign'];
+            if (empty($sign)) {
+                throw new Exception("POST中未获取到sign");
+            }
+            $code = $_POST["code"];
+            $orderNo = $_POST["orderNo"];
+            $outTradeNo = $_POST["outTradeNo"];
+            $payNo = $_POST["payNo"];
+            $money = $_POST["money"];
+            $mchId = $_POST["mchId"];
+            $paramsArray['code'] = $code;
+            $paramsArray["orderNo"] = $orderNo;
+            $paramsArray["outTradeNo"] = $outTradeNo;
+            $paramsArray["payNo"] = $payNo;
+            $paramsArray["money"] = $money;
+            $paramsArray["mchId"] = $mchId;
+            $reSign = $this->getSign($paramsArray, $key);
+            if ($sign == $reSign) {
+                return true;
+            }
+        } catch (Exception $e) {
+            throw  new Exception($e->getMessage());
+        }
+        return false;
     }
 }

@@ -19,6 +19,8 @@ $wxPayNo = trim($_POST['wxPayNo']);
 $money = trim($_POST['money']);
 //商户号
 $mchId = trim($_POST['mchId']);
+//支付渠道（枚举值 wxpay、alipay）
+$payChannel=trim($_POST['payChannel']);
 //支付成功时间
 $time = trim($_POST['time']);
 //附加数据
@@ -28,20 +30,25 @@ $openId = trim($_POST['openId']);
 //签名（见签名算法文档）
 $sign = trim($_POST['sign']);
 
-$wxPaySign = new WxPaySign();
+$paySign = new PaySign();
 try {
-    $signParam = array(
-        "code" => $code,
-        "orderNo" => $orderNo,
-        "outTradeNo" => $outTradeNo,
-        "wxPayNo" => $wxPayNo,
-        "money" => $money,
-        "mchId" => $mchId
-    );
-    //商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
     $key = "6BA371F4CFAB4465AA04DAEADBAC4161";
+    //判断支付方式是支付宝还是微信 决定对应的加密密钥应该是什么值（密钥获取：登录 yungouos.com-》微信支付/支付宝-》我的支付-》独立密钥）
+    switch($payChannel){
+        //此处因为没启用独立密钥 支付密钥支付宝与微信支付是一样的 （密钥获取：登录 yungouos.com-》我的账户-》账户中心-》商户密钥）
+        case 'wxpay':
+            $key = "6BA371F4CFAB4465AA04DAEADBAC4161";
+            break;
+        case 'alipay':
+            $key = "6BA371F4CFAB4465AA04DAEADBAC4161";
+            break;
+        default:
+            break;
+    }
+
     //验证签名
-    $result = $wxPaySign->checkSing($signParam, $key);
+    $result=$paySign->checkNotifySign($_POST,$key);
+
     if (!$result) {
         //签名错误
         echo "FIALD";
