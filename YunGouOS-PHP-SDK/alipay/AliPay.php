@@ -1,6 +1,6 @@
 <?php
 /**
- *  YunGouOS微信个人支付API
+ *  YunGouOS支付宝个人支付API
  *  author YunGouOS
  *  site:www.yungouos.com
  * 文档地址：https://open.pay.yungouos.com
@@ -9,13 +9,13 @@
 require_once dirname(dirname(__FILE__)) . '/util/HttpUtil.php';
 require_once dirname(dirname(__FILE__)) . '/util/PaySign.php';
 
-class WxPay
+class AliPay
 {
 
     //http请求工具类
     protected $httpUtil;
 
-    //微信支付签名
+    //支付签名
     protected $paySign;
 
     //api接口配置
@@ -32,15 +32,15 @@ class WxPay
     }
 
     /**
-     *  微信扫码支付 返回支付二维码链接
+     *  支付宝扫码支付 返回支付二维码链接
      * @param $out_trade_no 订单号不可重复
      * @param $total_fee 支付金额 单位元 范围 0.01-99999
-     * @param $mch_id 微信支付商户号 登录YunGouOS.com-》微信支付-》我的支付 查看商户号
+     * @param $mch_id 微信支付商户号 登录YunGouOS.com-》支付宝-》我的支付 查看商户号
      * @param $body  商品描述
-     * @param $type 返回类型（1、返回微信原生的支付连接需要自行生成二维码；2、直接返回付款二维码地址，页面上展示即可。不填默认1 ）
+     * @param $type 返回类型（1、返回支付宝的支付连接需要自行生成二维码；2、直接返回付款二维码地址，页面上展示即可。不填默认1 ）
      * @param $attach 附加数据 回调时原路返回 可不传
      * @param $notify_url 异步回调地址，不传无回调
-     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》我的支付-》独立密钥 查看密钥
+     * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付-》独立密钥 查看密钥
      */
     public function nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url, $key)
     {
@@ -77,7 +77,7 @@ class WxPay
             $paramsArray['notify_url'] = $notify_url;
             $paramsArray['sign'] = $sign;
 
-            $resp = $this->httpUtil->httpsPost($this->apiConfig['wxpay_native_pay_url'], $paramsArray);
+            $resp = $this->httpUtil->httpsPost($this->apiConfig['alipay_native_pay_url'], $paramsArray);
             if (empty($resp)) {
                 throw new Exception("API接口返回为空");
             }
@@ -96,86 +96,17 @@ class WxPay
         return $result;
     }
 
-
     /**
-     *  微信公众号支付 返回JSSDK支付需要的jspackage
+     *  支付宝WAP支付 返回WAP支付连接，直接重定向到该地址，自动打开支付宝APP付款
      * @param $out_trade_no 订单号不可重复
      * @param $total_fee 支付金额 单位元 范围 0.01-99999
-     * @param $mch_id 微信支付商户号 登录YunGouOS.com-》微信支付-》我的支付 查看商户号
-     * @param $body  商品描述
-     * @param $openId 用户openId 通过授权接口获得
-     * @param $attach 附加数据 回调时原路返回 可不传
-     * @param $notify_url 异步回调地址，不传无回调
-     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》我的支付-》独立密钥 查看密钥
-     */
-    public function jsapiPay($out_trade_no, $total_fee, $mch_id, $body, $openId, $attach, $notify_url, $key)
-    {
-        $result = null;
-        $paramsArray = array();
-        try {
-            if (empty($out_trade_no)) {
-                throw new Exception("订单号不能为空！");
-            }
-            if (empty($total_fee)) {
-                throw new Exception("付款金额不能为空！");
-            }
-            if (empty($mch_id)) {
-                throw new Exception("商户号不能为空！");
-            }
-            if (empty($body)) {
-                throw new Exception("商品描述不能为空！");
-            }
-            if (empty($openId)) {
-                throw new Exception("openId不能为空！");
-            }
-            if (empty($key)) {
-                throw new Exception("商户密钥不能为空！");
-            }
-            $paramsArray['out_trade_no'] = $out_trade_no;
-            $paramsArray['total_fee'] = $total_fee;
-            $paramsArray['mch_id'] = $mch_id;
-            $paramsArray['body'] = $body;
-            $paramsArray['openId'] = $openId;
-            // 上述必传参数签名
-            $sign = $this->paySign->getSign($paramsArray, $key);
-
-            //下面参数不参与签名，但是接口需要这些参数
-            $paramsArray['attach'] = $attach;
-            $paramsArray['notify_url'] = $notify_url;
-            $paramsArray['sign'] = $sign;
-
-            $resp = $this->httpUtil->httpsPost($this->apiConfig['wxpay_jsapi_pay_url'], $paramsArray);
-            if (empty($resp)) {
-                throw new Exception("API接口返回为空");
-            }
-            $ret = @json_decode($resp, true);
-            if (empty($ret)) {
-                throw new Exception("API接口返回为空");
-            }
-            $code = $ret['code'];
-            if ($code != 0) {
-                throw new Exception($ret['msg']);
-            }
-            $result = $ret['data'];
-        } catch (Exception $e) {
-            throw  new Exception($e->getMessage());
-        }
-        return $result;
-    }
-
-
-    /**
-     *  收银台支付，对扫码支付、JSAPI支付的封装，提供了相关页面 返回收银台地址，重定向到该地址即可
-     * @param $out_trade_no 订单号不可重复
-     * @param $total_fee 支付金额 单位元 范围 0.01-99999
-     * @param $mch_id 微信支付商户号 登录YunGouOS.com-》微信支付-》我的支付 查看商户号
+     * @param $mch_id 支付宝商户号 登录YunGouOS.com-》支付宝-》我的支付 查看商户号
      * @param $body  商品描述
      * @param $attach 附加数据 回调时原路返回 可不传
      * @param $notify_url 异步回调地址，不传无回调
-     * @param $return_url 同步回调地址 不传支付后关闭页面
-     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》我的支付-》独立密钥 查看密钥
+     * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付-》独立密钥 查看密钥
      */
-    public function cashierPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $return_url, $key)
+    public function wapPay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -204,10 +135,9 @@ class WxPay
             //下面参数不参与签名，但是接口需要这些参数
             $paramsArray['attach'] = $attach;
             $paramsArray['notify_url'] = $notify_url;
-            $paramsArray['return_url'] = $return_url;
             $paramsArray['sign'] = $sign;
 
-            $resp = $this->httpUtil->httpsPost($this->apiConfig['wxpay_cashier_pay_url'], $paramsArray);
+            $resp = $this->httpUtil->httpsPost($this->apiConfig['alipay_wap_pay_url'], $paramsArray);
             if (empty($resp)) {
                 throw new Exception("API接口返回为空");
             }
@@ -229,14 +159,14 @@ class WxPay
     /**
      * 发起退款
      * @param $out_trade_no 商户订单号
-     * @param $mch_id 微信支付商户号 登录YunGouOS.com-》微信支付-》我的支付 查看商户号
+     * @param $mch_id 支付宝商户号 登录YunGouOS.com-》支付宝-》我的支付 查看商户号
      * @param $money 退款金额
      * @param $refund_desc 退款描述
-     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》我的支付-》独立密钥 查看密钥
-     * @return 退款信息 详情 https://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder
+     * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付 独立密钥 查看密钥
+     * @return 退款信息 详情 https://open.pay.yungouos.com/#/api/api/pay/alipay/refundOrder
      * @throws Exception
      */
-    public function orderRefund($out_trade_no, $mch_id, $money,$refund_desc, $key)
+    public function orderRefund($out_trade_no, $mch_id, $money, $refund_desc, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -261,7 +191,7 @@ class WxPay
             $paramsArray['refund_desc'] = $refund_desc;
             $paramsArray['sign'] = $sign;
 
-            $resp = $this->httpUtil->httpsPost($this->apiConfig['wxpay_refund_order_url'], $paramsArray);
+            $resp = $this->httpUtil->httpsPost($this->apiConfig['alipay_refund_order_url'], $paramsArray);
             if (empty($resp)) {
                 throw new Exception("API接口返回为空");
             }
@@ -283,9 +213,9 @@ class WxPay
     /**
      * 查询退款结果
      * @param $refund_no 退款单号，调用发起退款结果返回
-     * @param $mch_id 微信支付商户号 登录YunGouOS.com-》微信支付-》我的支付 查看商户号
-     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》我的支付-》独立密钥 查看密钥
-     * @return 退款对象 详情参考 https://open.pay.yungouos.com/#/api/api/pay/wxpay/getRefundResult
+     * @param $mch_id 微信支付商户号 登录YunGouOS.com-》支付宝-》我的支付 查看商户号
+     * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付 独立密钥 查看密钥
+     * @return 退款对象 详情参考https://open.pay.yungouos.com/#/api/api/pay/alipay/getRefundResult
      * @throws Exception
      */
     public function getRefundResult($refund_no, $mch_id, $key)
@@ -308,7 +238,7 @@ class WxPay
             $sign = $this->paySign->getSign($paramsArray, $key);
             $paramsArray['sign'] = $sign;
 
-            $resp = $this->httpUtil->httpGet($this->apiConfig['wxpay_get_refund_result_url']."?".http_build_query($paramsArray));
+            $resp = $this->httpUtil->httpGet($this->apiConfig['alipay_refund_result_url'] . "?" . http_build_query($paramsArray));
             if (empty($resp)) {
                 throw new Exception("API接口返回为空");
             }
@@ -326,81 +256,5 @@ class WxPay
         }
         return $result;
     }
-
-
-    /**
-     * 获取授权URL地址
-     * @param $params 额外参数 数组
-     * @param $callbackUrl 授权结束的回调地址。此处授权后是回到oauth.php下处理
-     * @return 授权url 直接重定向到该地址 需要包含 http:// 以及携带一个参数 示例值：http://www.baidu.com?a=1
-     * @throws Exception
-     */
-    public function getOauthUrl($params,$callbackUrl)
-    {
-        $result = null;
-        $paramsArray = array();
-        try {
-            if (empty($callbackUrl)) {
-                throw new Exception("callbackUrl不能为空！");
-            }
-            $paramsArray['url'] = $callbackUrl;
-            $paramsArray['params'] = json_encode($params);
-
-            $resp = $this->httpUtil->httpsPost($this->apiConfig['wx_get_wx_oauth_url'], $paramsArray);
-            if (empty($resp)) {
-                throw new Exception("API接口返回为空");
-            }
-            $ret = @json_decode($resp, true);
-            if (empty($ret)) {
-                throw new Exception("API接口返回为空");
-            }
-            $code = $ret['code'];
-            if ($code != 0) {
-                throw new Exception($ret['msg']);
-            }
-            $result = $ret['data'];
-        } catch (Exception $e) {
-            throw  new Exception($e->getMessage());
-        }
-        return $result;
-    }
-
-
-    /**
-     * 查询微信授权信息
-     * @param $code 授权结束后返回到回调地址上的参数
-     * @return 授权信息 参考文档：https://open.pay.yungouos.com/#/api/api/wxlogin/getBaseOauthInfo
-     * @throws Exception
-     */
-    public function getOauthInfo($code)
-    {
-        $result = null;
-        $paramsArray = array();
-        try {
-            if (empty($code)) {
-                throw new Exception("code不能为空！");
-            }
-
-            $paramsArray['code'] = $code;
-
-            $resp = $this->httpUtil->httpGet($this->apiConfig['wx_get_wx_oauth_info']."?".http_build_query($paramsArray));
-            if (empty($resp)) {
-                throw new Exception("API接口返回为空");
-            }
-            $ret = @json_decode($resp, true);
-            if (empty($ret)) {
-                throw new Exception("API接口返回为空");
-            }
-            $code = $ret['code'];
-            if ($code != 0) {
-                throw new Exception($ret['msg']);
-            }
-            $result = $ret['data'];
-        } catch (Exception $e) {
-            throw  new Exception($e->getMessage());
-        }
-        return $result;
-    }
-
 }
 

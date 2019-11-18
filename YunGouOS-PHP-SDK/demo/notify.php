@@ -5,7 +5,7 @@
  */
 
 //引入签名工具
-require_once dirname(dirname(__FILE__)) . '/util/WxPaySign.php';
+require_once dirname(dirname(__FILE__)) . '/util/PaySign.php';
 
 //支付结果（1、支付成功）
 $code = trim($_POST['code']);

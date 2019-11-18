@@ -204,12 +204,84 @@
 </header>
 <div id="main">
     <div id="tabhead" class="tab-head">
-        <h2 id="tab1" class="selected" name="tab">扫码支付</h2>
-        <h2 id="tab2" name="tab">收银台支付</h2>
-        <h2 id="tab3" name="tab">JSAPI支付</h2>
+        <h2 id="tab1" class="selected" name="tab">微信收银台支付</h2>
+        <h2 id="tab2" name="tab">微信扫码支付</h2>
+        <h2 id="tab3" name="tab">微信JSAPI支付</h2>
+        <h2 id="tab4" name="tab">支付宝扫码支付</h2>
+        <h2 id="tab5" name="tab">支付宝WAP支付</h2>
     </div>
-    <form name=alipayment action=payController.php method=post target="_blank">
+    <form action="payController.php" method="post">
         <div id="body1" class="show" name="divcontent">
+            <input type="hidden" name="apitype" value="cashier">
+            <dl class="content">
+                <dt>商户订单号
+                    ：
+                </dt>
+                <dd>
+                    <input id="out_trade_no" name="out_trade_no" value="<?php echo time()?>"/>
+                </dd>
+                <hr class="one_line">
+                <dt>付款金额
+                    ：
+                </dt>
+                <dd>
+                    <input id="total_fee" name="total_fee" value="<?php echo rand(1,100).'.'.rand(1,99)?>"/>
+                </dd>
+                <hr class="one_line">
+                <dt>微信支付商户号
+                    ：
+                </dt>
+                <dd>
+                    <input id="mch_id" name="mch_id" value="1481641762"/>
+                </dd>
+                <hr class="one_line">
+                <dt>商品描述
+                    ：
+                </dt>
+                <dd>
+                    <input id="body" name="body" value="支付演示" readonly/>
+                </dd>
+                <hr class="one_line">
+                <dt>附加数据
+                    ：
+                </dt>
+                <dd>
+                    <input id="attach" name="attach" value=""/>
+                </dd>
+                <hr class="one_line">
+                <dt>异步回调地址
+                    ：
+                </dt>
+                <dd>
+                    <input id="notify_url" name="notify_url" value="http://demo.php.yungouos.com/demo/notify.php"/>
+                </dd>
+                <hr class="one_line">
+                <dt>同步回调地址
+                    ：
+                </dt>
+                <dd>
+                    <input id="return_url" name="return_url" value="http://demo.php.yungouos.com/demo/return.php"/>
+                </dd>
+                <hr class="one_line">
+                <dt>微信支付商户密钥
+                    ：
+                </dt>
+                <dd>
+                    <input id="key" name="key" value="6BA371F4CFAB4465AA04DAEADBAC4161"/>
+                </dd>
+                <hr class="one_line">
+                <dt></dt>
+                <dd id="btn-dd">
+                        <span class="new-btn-login-sp">
+                            <button class="new-btn-login" type="submit" style="text-align:center;">发起支付</button>
+                        </span>
+                    <span class="note-help">如果您点击“发起支付”按钮，即表示您同意该次的执行操作。</span>
+                </dd>
+            </dl>
+        </div>
+    </form>
+    <form action="payController.php" method="post" target="_blank">
+        <div id="body2" class="tab-content" name="divcontent">
             <input type="hidden" name="apitype" value="native">
             <dl class="content">
                 <dt>商户订单号
@@ -237,7 +309,7 @@
                     ：
                 </dt>
                 <dd>
-                    <input id="body" name="body" value="扫码支付演示"/>
+                    <input id="body" name="body" value="扫码支付演示" readonly/>
                 </dd>
                 <hr class="one_line">
                 <dt>返回类型
@@ -258,84 +330,7 @@
                     ：
                 </dt>
                 <dd>
-                    <input id="notify_url" name="notify_url" value="http://127.0.0.1/demo/notify.php"/>
-                </dd>
-                <hr class="one_line">
-                <dt>同步回调地址
-                    ：
-                </dt>
-                <dd>
-                    <input id="return_url" name="return_url" value="http://127.0.0.1/demo/return.php"/>
-                </dd>
-                <hr class="one_line">
-                <dt>微信支付商户密钥
-                    ：
-                </dt>
-                <dd>
-                    <input id="key" name="key" value="6BA371F4CFAB4465AA04DAEADBAC4161"/>
-                </dd>
-                <hr class="one_line">
-                <dt></dt>
-                <dd id="btn-dd">
-                        <span class="new-btn-login-sp">
-                            <button class="new-btn-login" type="submit" style="text-align:center;">发起支付</button>
-                        </span>
-                    <span class="note-help">如果您点击“发起支付”按钮，即表示您同意该次的执行操作。</span>
-                </dd>
-            </dl>
-        </div>
-    </form>
-    <form action="payController.php" method="post">
-        <div id="body2" class="tab-content" name="divcontent">
-            <input type="hidden" name="apitype" value="cashier">
-            <dl class="content">
-                <dt>商户订单号
-                    ：
-                </dt>
-                <dd>
-                    <input id="out_trade_no" name="out_trade_no" value="<?php echo time()?>"/>
-                </dd>
-                <hr class="one_line">
-                <dt>付款金额
-                    ：
-                </dt>
-                <dd>
-                    <input id="total_fee" name="total_fee" value="0.01"/>
-                </dd>
-                <hr class="one_line">
-                <dt>微信支付商户号
-                    ：
-                </dt>
-                <dd>
-                    <input id="mch_id" name="mch_id" value="1529637931"/>
-                </dd>
-                <hr class="one_line">
-                <dt>商品描述
-                    ：
-                </dt>
-                <dd>
-                    <input id="body" name="body" value="收银台支付演示"/>
-                </dd>
-                <hr class="one_line">
-                <dt>附加数据
-                    ：
-                </dt>
-                <dd>
-                    <input id="attach" name="attach" value="我是附加数据"/>
-                </dd>
-                <hr class="one_line">
-                <dt>异步回调地址
-                    ：
-                </dt>
-                <dd>
-                    <input id="notify_url" name="notify_url" value="http://127.0.0.1/demo/notify.php"/>
-                </dd>
-                <hr class="one_line">
-                <dt>同步回调地址
-                    ：
-                </dt>
-                <dd>
-                    <input id="return_url" name="return_url" value="http://127.0.0.1/demo/return.php"/>
+                    <input id="notify_url" name="notify_url" value="http://demo.php.yungouos.com/demo/notify.php"/>
                 </dd>
                 <hr class="one_line">
                 <dt>微信支付商户密钥
@@ -384,7 +379,7 @@
                     ：
                 </dt>
                 <dd>
-                    <input id="body" name="body" value="JSAPI支付演示"/>
+                    <input id="body" name="body" value="JSAPI支付演示" readonly/>
                 </dd>
                 <hr class="one_line">
                 <dt>附加数据
@@ -398,21 +393,14 @@
                     ：
                 </dt>
                 <dd>
-                    <input id="notify_url" name="notify_url" value="http://127.0.0.1/demo/notify.php"/>
-                </dd>
-                <hr class="one_line">
-                <dt>同步回调地址
-                    ：
-                </dt>
-                <dd>
-                    <input id="return_url" name="return_url" value="http://127.0.0.1/demo/return.php"/>
+                    <input id="notify_url" name="notify_url" value="http://demo.php.yungouos.com/demo/notify.php"/>
                 </dd>
                 <hr class="one_line">
                 <dt>授权结束回调地址
                     ：
                 </dt>
                 <dd>
-                    <input id="callback_url" name="callback_url" value="http://127.0.0.1/demo/oauth.php?a=1"/>
+                    <input id="callback_url" name="callback_url" value="http://demo.php.yungouos.com/demo/oauth.php?a=1"/>
                 </dd>
                 <hr class="one_line">
                 <dt>微信支付商户密钥
@@ -431,6 +419,146 @@
                 </dd>
             </dl>
 
+        </div>
+    </form>
+    <form action="payController.php" method="post" target="_blank">
+        <div id="body3" class="tab-content" name="divcontent">
+            <input type="hidden" name="apitype" value="alipay_native">
+            <dl class="content">
+                <dt>商户订单号
+                    ：
+                </dt>
+                <dd>
+                    <input id="out_trade_no" name="out_trade_no" value="<?php echo time()?>"/>
+                </dd>
+                <hr class="one_line">
+                <dt>付款金额
+                    ：
+                </dt>
+                <dd>
+                    <input id="total_fee" name="total_fee" value="0.01"/>
+                </dd>
+                <hr class="one_line">
+                <dt>支付宝商户号
+                    ：
+                </dt>
+                <dd>
+                    <input id="mch_id" name="mch_id" value="2088802674000755"/>
+                </dd>
+                <hr class="one_line">
+                <dt>商品描述
+                    ：
+                </dt>
+                <dd>
+                    <input id="body" name="body" value="扫码支付演示" readonly/>
+                </dd>
+                <hr class="one_line">
+                <dt>返回类型
+                    ：
+                </dt>
+                <dd>
+                    <input id="type" name="type" value="2"/>
+                </dd>
+                <hr class="one_line">
+                <dt>附加数据
+                    ：
+                </dt>
+                <dd>
+                    <input id="attach" name="attach" value="我是附加数据"/>
+                </dd>
+                <hr class="one_line">
+                <dt>异步回调地址
+                    ：
+                </dt>
+                <dd>
+                    <input id="notify_url" name="notify_url" value="http://demo.php.yungouos.com/demo/notify.php"/>
+                </dd>
+                <hr class="one_line">
+                <dt>支付宝商户密钥
+                    ：
+                </dt>
+                <dd>
+                    <input id="key" name="key" value="6BA371F4CFAB4465AA04DAEADBAC4161"/>
+                </dd>
+                <hr class="one_line">
+                <dt></dt>
+                <dd id="btn-dd">
+                        <span class="new-btn-login-sp">
+                            <button class="new-btn-login" type="submit" style="text-align:center;">发起支付</button>
+                        </span>
+                    <span class="note-help">如果您点击“发起支付”按钮，即表示您同意该次的执行操作。</span>
+                </dd>
+            </dl>
+        </div>
+    </form>
+    <form action="payController.php" method="post" target="_blank">
+        <div id="body4" class="tab-content" name="divcontent">
+            <input type="hidden" name="apitype" value="alipay_wap">
+            <dl class="content">
+                <dt>商户订单号
+                    ：
+                </dt>
+                <dd>
+                    <input id="out_trade_no" name="out_trade_no" value="<?php echo time()?>"/>
+                </dd>
+                <hr class="one_line">
+                <dt>付款金额
+                    ：
+                </dt>
+                <dd>
+                    <input id="total_fee" name="total_fee" value="0.01"/>
+                </dd>
+                <hr class="one_line">
+                <dt>支付宝商户号
+                    ：
+                </dt>
+                <dd>
+                    <input id="mch_id" name="mch_id" value="2088802674000755"/>
+                </dd>
+                <hr class="one_line">
+                <dt>商品描述
+                    ：
+                </dt>
+                <dd>
+                    <input id="body" name="body" value="扫码支付演示" readonly/>
+                </dd>
+                <hr class="one_line">
+                <dt>返回类型
+                    ：
+                </dt>
+                <dd>
+                    <input id="type" name="type" value="2"/>
+                </dd>
+                <hr class="one_line">
+                <dt>附加数据
+                    ：
+                </dt>
+                <dd>
+                    <input id="attach" name="attach" value="我是附加数据"/>
+                </dd>
+                <hr class="one_line">
+                <dt>异步回调地址
+                    ：
+                </dt>
+                <dd>
+                    <input id="notify_url" name="notify_url" value="http://demo.php.yungouos.com/demo/notify.php"/>
+                </dd>
+                <hr class="one_line">
+                <dt>支付宝商户密钥
+                    ：
+                </dt>
+                <dd>
+                    <input id="key" name="key" value="6BA371F4CFAB4465AA04DAEADBAC4161"/>
+                </dd>
+                <hr class="one_line">
+                <dt></dt>
+                <dd id="btn-dd">
+                        <span class="new-btn-login-sp">
+                            <button class="new-btn-login" type="submit" style="text-align:center;">发起支付</button>
+                        </span>
+                    <span class="note-help">如果您点击“发起支付”按钮，即表示您同意该次的执行操作。</span>
+                </dd>
+            </dl>
         </div>
     </form>
     <div id="foot">

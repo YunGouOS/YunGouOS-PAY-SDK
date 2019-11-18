@@ -5,6 +5,7 @@
 
 //引入支付API
 require_once dirname(dirname(__FILE__)) . '/wxpay/WxPay.php';
+require_once dirname(dirname(__FILE__)) . '/alipay/AliPay.php';
 
 //支付接口
 $apitype=trim($_POST['apitype']);
@@ -15,7 +16,7 @@ $out_trade_no = trim($_POST['out_trade_no']);
 //支付金额 单位元
 $total_fee = trim($_POST['total_fee']);
 
-//微信支付商户号
+//支付商户号
 $mch_id = trim($_POST['mch_id']);
 
 //商品描述
@@ -36,24 +37,26 @@ $return_url = trim($_POST['return_url']);
 //授权结束后回调地址 jsapi支付才需要
 $callback_url=trim($_POST['callback_url']);
 
-//商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
+//商户密钥 登录YunGouOS.com-》微信支付/支付宝-》我的支付 查看密钥
 $key = trim($_POST['key']);
 
 $wxpay = new WxPay();
+
+$alipay=new AliPay();
 
 try {
 
     switch ($apitype) {
         case "native":
             //扫码支付
-            $result = $wxpay->nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url, $return_url, $key);
+            $result = $wxpay->nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url, $key);
             //此处type传递的是2 所以返回的是支付二维码的地址直接显示即可。如果传递1 返回的是微信原生的二维码支付连接，需要自己写生成二维码图片的逻辑
             $html = '<img src="' . $result . '"/>';
             echo $html;
             break;
         case "cashier":
             //收银台支付
-            $result=$wxpay->cashierPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $return_url, $key);
+            $result=$wxpay->cashierPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url,$return_url,$key);
             //收银台返回的是收银台地址，此处直接重定向到该地址即可
             header("Location: ".$result."");
             exit;
@@ -70,11 +73,22 @@ try {
                 'body'=>$body,
                 'attach'=>$attach,
                 'notify_url'=>$notify_url,
-                'return_url'=>$return_url,
                 'key'=>$key
             );
             $result=$wxpay->getOauthUrl($params,$callback_url);
             //此处返回的是微信授权链接，直接重定向
+            header("Location: ".$result."");
+            break;
+        case "alipay_native":
+            //扫码支付
+            $result = $alipay->nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url, $key);
+            //此处type传递的是2 所以返回的是支付二维码的地址直接显示即可。如果传递1 返回的是支付宝原生的二维码支付连接，需要自己写生成二维码图片的逻辑
+            $html = '<img src="' . $result . '"/>';
+            echo $html;
+            break;
+        case "alipay_wap":
+            $result = $alipay->wapPay($out_trade_no,$total_fee,$mch_id,$body,$attach,$notify_url,$key);
+            //此处返回的是支付宝的原生支付连接，重定向即可自动打开支付宝付款
             header("Location: ".$result."");
             break;
         default:
