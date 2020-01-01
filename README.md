@@ -72,11 +72,11 @@ SDK文档：[https://apidoc.gitee.com/YunGouOS/YunGouOS-PAY-SDK/](https://apidoc
 
 maven添加依赖
 
-  		<dependency>
-			<groupId>com.yungouos.pay</groupId>
-			<artifactId>YunGouOS-JAVA-SDK</artifactId>
-			<version>1.0.7</version>
-		</dependency>
+  	<dependency>
+	    <groupId>com.yungouos.pay</groupId>
+	    <artifactId>yungouos-pay-sdk</artifactId>
+	    <version>1.0.8</version>
+	</dependency>
 
 
 # 微信支付--示例代码
