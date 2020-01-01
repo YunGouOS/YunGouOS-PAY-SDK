@@ -6,9 +6,9 @@
 	<packaging>jar</packaging>
 
 	<groupId>com.yungouos.pay</groupId>
-	<artifactId>YunGouOS-JAVA-SDK</artifactId>
-	<version>1.0.7</version>
-	<name>YunGouOS-JAVA-SDK</name>
+	<artifactId>yungouos-pay-sdk</artifactId>
+	<version>1.0.8</version>
+	<name>yungouos-pay-sdk</name>
 	<description>YunGouOS官方个人支付接口SDK，提供微信/支付宝官方个人支付接口API</description>
 	<url>https://github.com/YunGouOS/YunGouOS-PAY-SDK</url>
 
@@ -29,7 +29,7 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
-			<version>1.1.26</version>
+			<version>1.1.28</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>

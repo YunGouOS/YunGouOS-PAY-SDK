@@ -15,6 +15,7 @@ import com.yungouos.pay.wxpay.WxPay;
 public class WxPayTest {
 
 	public static void main(String[] args) {
+
 		String result;
 		String mchId="1529637931";
 		String key="6BA371F4CFAB4465AA04DAEADBAC4161";
@@ -72,7 +73,7 @@ public class WxPayTest {
 			/**
 			 * 查询微信授权信息
 			 */
-			String code="45AA0CEE43AE4F048384D655A77FA770";//通过授权返回的url中
+			String code="9D71A178C2EE4BA4AA7715F87B3694F9";//通过授权返回的url中
 			WxOauthInfo wxOauthInfo = WxPay.getWxOauthInfo(code);
 			System.out.println(wxOauthInfo.toString());
 			
@@ -80,5 +81,6 @@ public class WxPayTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	
 	}
 }
