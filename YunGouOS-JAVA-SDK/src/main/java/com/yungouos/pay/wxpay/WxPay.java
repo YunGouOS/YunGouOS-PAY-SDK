@@ -3,10 +3,13 @@ package com.yungouos.pay.wxpay;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yungouos.pay.config.WxPayApiConfig;
 import com.yungouos.pay.entity.RefundOrder;
 import com.yungouos.pay.entity.RefundSearch;
+import com.yungouos.pay.entity.WxBillInfoBiz;
+import com.yungouos.pay.entity.WxDownloadBillBiz;
 import com.yungouos.pay.entity.WxOauthInfo;
 import com.yungouos.pay.util.PaySignUtil;
 
@@ -424,6 +427,169 @@ public class WxPay {
 	}
 
 	/**
+	 * 查询微信结算信息
+	 * 
+	 * @param mch_id
+	 *            微信支付商户号 登录YunGouOS.com-》微信支付-》我的支付 查看商户号
+	 * @param date
+	 *            需要查询的结算日期，如：2020-01-23
+	 * @param key
+	 *            商户密钥 登录YunGouOS.com-》微信支付-》我的支付-》独立密钥 查看密钥
+	 * @return WxBillStatusBiz 结算结果对象，参考文档
+	 *         https://open.pay.yungouos.com/#/api/api/pay/wxpay/getBillStatus
+	 */
+	public static WxBillInfoBiz getWxBillInfo(String mch_id, String date, String key) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		WxBillInfoBiz wxBillInfoBiz = null;
+		try {
+			if (StrUtil.isBlank(mch_id)) {
+				throw new Exception("商户号不能为空！");
+			}
+			if (StrUtil.isBlank(date)) {
+				throw new Exception("查询日期不能为空！");
+			}
+			if (StrUtil.isBlank(key)) {
+				throw new Exception("商户密钥不能为空！");
+			}
+			params.put("mch_id", mch_id);
+			params.put("date", date);
+			// 上述必传参数签名
+			String sign = PaySignUtil.createSign(params, key);
+			params.put("sign", sign);
+			String result = HttpRequest.get(WxPayApiConfig.getWxBillInfoUrl).form(params).execute().body();
+			System.out.println(result);
+			if (StrUtil.isBlank(result)) {
+				throw new Exception("API接口返回为空，请联系客服");
+			}
+			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
+			if (jsonObject == null) {
+				throw new Exception("API结果转换错误");
+			}
+			Integer code = jsonObject.getInteger("code");
+			if (0 != code.intValue()) {
+				throw new Exception(jsonObject.getString("msg"));
+			}
+			JSONObject json = jsonObject.getJSONObject("data");
+			if (json == null) {
+				throw new Exception("API结果数据转换错误");
+			}
+			wxBillInfoBiz = JSONObject.toJavaObject(json, WxBillInfoBiz.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return wxBillInfoBiz;
+	}
+
+	/**
+	 * 发起微信支付结算
+	 * 
+	 * @param mch_id
+	 *            微信支付商户号 登录YunGouOS.com-》微信支付-》我的支付 查看商户号
+	 * @param date
+	 *            需要结算的日期，如：2020-01-23
+	 * @param key
+	 *            商户密钥 登录YunGouOS.com-》微信支付-》我的支付-》独立密钥 查看密钥
+	 * @return 结算金额
+	 * 
+	 */
+	public static String sendWxCash(String mch_id, String date, String key) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		String money = null;
+		try {
+			if (StrUtil.isBlank(mch_id)) {
+				throw new Exception("商户号不能为空！");
+			}
+			if (StrUtil.isBlank(date)) {
+				throw new Exception("查询日期不能为空！");
+			}
+			if (StrUtil.isBlank(key)) {
+				throw new Exception("商户密钥不能为空！");
+			}
+			params.put("mch_id", mch_id);
+			params.put("date", date);
+			// 上述必传参数签名
+			String sign = PaySignUtil.createSign(params, key);
+			params.put("sign", sign);
+			String result = HttpRequest.post(WxPayApiConfig.getWxSendWxCashUrl).form(params).execute().body();
+			System.out.println(result);
+			if (StrUtil.isBlank(result)) {
+				throw new Exception("API接口返回为空，请联系客服");
+			}
+			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
+			if (jsonObject == null) {
+				throw new Exception("API结果转换错误");
+			}
+			Integer code = jsonObject.getInteger("code");
+			if (0 != code.intValue()) {
+				throw new Exception(jsonObject.getString("msg"));
+			}
+			money = jsonObject.getString("data");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return money;
+	}
+
+	/**
+	 * 下载对账单
+	 * 
+	 * @param mch_id
+	 *            微信支付商户号 登录YunGouOS.com-》微信支付-》我的支付 查看商户号
+	 * @param date
+	 *            对账单日期，如：2020-01-23
+	 * @param key
+	 *            商户密钥 登录YunGouOS.com-》微信支付-》我的支付-》独立密钥 查看密钥
+	 * @return WxDownloadBillBiz 对账单对象
+	 *         参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/downloadBill
+	 * 
+	 */
+	public static WxDownloadBillBiz downloadBill(String mch_id, String date, String key) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		WxDownloadBillBiz wxDownloadBillBiz = null;
+		try {
+			if (StrUtil.isBlank(mch_id)) {
+				throw new Exception("商户号不能为空！");
+			}
+			if (StrUtil.isBlank(date)) {
+				throw new Exception("日期不能为空！");
+			}
+			if (StrUtil.isBlank(key)) {
+				throw new Exception("商户密钥不能为空！");
+			}
+			params.put("mch_id", mch_id);
+			params.put("date", date);
+			// 上述必传参数签名
+			String sign = PaySignUtil.createSign(params, key);
+			params.put("sign", sign);
+			String result = HttpRequest.get(WxPayApiConfig.getDownloadBillUrl).form(params).execute().body();
+			// 对账单数据比较大 此处就不打印了
+			// System.out.println(result);
+			if (StrUtil.isBlank(result)) {
+				throw new Exception("API接口返回为空，请联系客服");
+			}
+			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
+			if (jsonObject == null) {
+				throw new Exception("API结果转换错误");
+			}
+			Integer code = jsonObject.getInteger("code");
+			if (0 != code.intValue()) {
+				throw new Exception(jsonObject.getString("msg"));
+			}
+			JSONObject dataJson = jsonObject.getJSONObject("data");
+			if (dataJson == null) {
+				return null;
+			}
+			wxDownloadBillBiz = JSON.toJavaObject(dataJson, WxDownloadBillBiz.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return wxDownloadBillBiz;
+	}
+
+	/**
 	 * 获取微信授权URL 为了获取openid
 	 * 
 	 * @param param
@@ -503,6 +669,5 @@ public class WxPay {
 		}
 		return wxOauthInfo;
 	}
-
 
 }

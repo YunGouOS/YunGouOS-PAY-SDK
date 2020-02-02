@@ -39,6 +39,20 @@ public class WxPayApiConfig {
 	 */
 	public static String getRefundResultUrl=apiUrl+"/api/pay/wxpay/getRefundResult";
 	
+	/**
+	 * 查询结算信息
+	 */
+	public static String getWxBillInfoUrl=apiUrl+"/api/pay/wxpay/getWxBillInfo";
+	
+	/**
+	 * 发起微信结算
+	 */
+	public static String getWxSendWxCashUrl=apiUrl+"/api/pay/wxpay/sendWxCash";
+	
+	/**
+	 * 下载对账单
+	 */
+	public static String getDownloadBillUrl=apiUrl+"/api/pay/wxpay/downloadBill";
 	
 	/**
 	 * 获取微信授权URL
