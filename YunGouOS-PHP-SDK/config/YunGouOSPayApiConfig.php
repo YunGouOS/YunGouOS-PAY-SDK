@@ -21,6 +21,12 @@ $apiConfig = array(
     "wxpay_refund_order_url" => $api_url . "/api/pay/wxpay/refundOrder",
     //查询退款结果
     "wxpay_get_refund_result_url" => $api_url . "/api/pay/wxpay/getRefundResult",
+    //查询微信结算信息
+    "wxpay_get_wx_bill_info_url"=>$api_url."/api/pay/wxpay/getWxBillInfo",
+    //发起微信结算
+    "wxpay_send_wx_cash_url"=>$api_url."/api/pay/wxpay/sendWxCash",
+    //下载微信对账单
+    "wxpay_download_bill_url"=>$api_url."/api/pay/wxpay/downloadBill",
     //获取微信授权url
     "wx_get_wx_oauth_url"=>$api_url."/api/wxlogin/getOauthUrl",
     //查询微信授权信息

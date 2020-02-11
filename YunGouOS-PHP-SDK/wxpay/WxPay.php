@@ -402,5 +402,146 @@ class WxPay
         return $result;
     }
 
+
+    /**
+     * 查询微信结算信息
+     * @param $mch_id 微信支付商户号
+     * @param $date 查询日期 示例值：2020-01-23
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》我的支付-》独立密钥 查看密钥
+     * @return 结算信息 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/getWxBillInfo
+     * @throws Exception
+     */
+    public function  getWxBillInfo($mch_id, $date, $key){
+        $result = null;
+        $paramsArray = array();
+        try {
+            if (empty($mch_id)) {
+                throw new Exception("商户号不能为空！");
+            }
+            if (empty($date)) {
+                throw new Exception("查询日期不能为空！");
+            }
+            if (empty($key)) {
+                throw new Exception("商户密钥不能为空！");
+            }
+            $paramsArray['mch_id'] = $mch_id;
+            $paramsArray['date'] = $date;
+            // 上述必传参数签名
+            $sign = $this->paySign->getSign($paramsArray, $key);
+            $paramsArray['sign'] = $sign;
+
+            $resp = $this->httpUtil->httpGet($this->apiConfig['wxpay_get_wx_bill_info_url']."?".http_build_query($paramsArray));
+            if (empty($resp)) {
+                throw new Exception("API接口返回为空");
+            }
+            $ret = @json_decode($resp, true);
+            if (empty($ret)) {
+                throw new Exception("API接口返回为空");
+            }
+            $code = $ret['code'];
+            if ($code != 0) {
+                throw new Exception($ret['msg']);
+            }
+            $result = $ret['data'];
+        } catch (Exception $e) {
+            throw  new Exception($e->getMessage());
+        }
+        return $result;
+    }
+
+    /**
+     * 发起微信支付结算
+     * 使用场景：对于结算失败的订单进行重新发起微信打款结算，如因银行卡错误导致结算失败，请先修改银行卡后再发起。
+     * @param $mch_id 微信支付商户号
+     * @param $date 结算日期（交易日期+1天）示例值：2020-01-23
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》我的支付-》独立密钥 查看密钥
+     * @return 结算金额 文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/sendWxCash
+     * @throws Exception
+     */
+    public function  sendWxPayCash($mch_id, $date, $key){
+        $result = null;
+        $paramsArray = array();
+        try {
+            if (empty($mch_id)) {
+                throw new Exception("商户号不能为空！");
+            }
+            if (empty($date)) {
+                throw new Exception("结算日期不能为空！");
+            }
+            if (empty($key)) {
+                throw new Exception("商户密钥不能为空！");
+            }
+            $paramsArray['mch_id'] = $mch_id;
+            $paramsArray['date'] = $date;
+            // 上述必传参数签名
+            $sign = $this->paySign->getSign($paramsArray, $key);
+            $paramsArray['sign'] = $sign;
+
+            $resp = $this->httpUtil->httpsPost($this->apiConfig['wxpay_send_wx_cash_url'], $paramsArray);
+            if (empty($resp)) {
+                throw new Exception("API接口返回为空");
+            }
+            $ret = @json_decode($resp, true);
+            if (empty($ret)) {
+                throw new Exception("API接口返回为空");
+            }
+            $code = $ret['code'];
+            if ($code != 0) {
+                throw new Exception($ret['msg']);
+            }
+            $result = $ret['data'];
+        } catch (Exception $e) {
+            throw  new Exception($e->getMessage());
+        }
+        return $result;
+    }
+
+    /**
+     * 下载微信对账单
+     * 使用场景：下载微信官方对账单。商户可以通过该接口下载历史交易清单。返回excel下载地址和原生数据。
+     * @param $mch_id 微信支付商户号
+     * @param $date 对账单日期 示例值：2020-01-23
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》我的支付-》独立密钥 查看密钥
+     * @return 对账单信息 包括对账单数据，excel下载地址，汇总数据 文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/downloadBill
+     * @throws Exception
+     */
+    public function  downloadBill($mch_id, $date, $key){
+        $result = null;
+        $paramsArray = array();
+        try {
+            if (empty($mch_id)) {
+                throw new Exception("商户号不能为空！");
+            }
+            if (empty($date)) {
+                throw new Exception("查询日期不能为空！");
+            }
+            if (empty($key)) {
+                throw new Exception("商户密钥不能为空！");
+            }
+            $paramsArray['mch_id'] = $mch_id;
+            $paramsArray['date'] = $date;
+            // 上述必传参数签名
+            $sign = $this->paySign->getSign($paramsArray, $key);
+            $paramsArray['sign'] = $sign;
+
+            $resp = $this->httpUtil->httpGet($this->apiConfig['wxpay_download_bill_url']."?".http_build_query($paramsArray));
+            if (empty($resp)) {
+                throw new Exception("API接口返回为空");
+            }
+            $ret = @json_decode($resp, true);
+            if (empty($ret)) {
+                throw new Exception("API接口返回为空");
+            }
+            $code = $ret['code'];
+            if ($code != 0) {
+                throw new Exception($ret['msg']);
+            }
+            $result = $ret['data'];
+        } catch (Exception $e) {
+            throw  new Exception($e->getMessage());
+        }
+        return $result;
+    }
+
 }
 
