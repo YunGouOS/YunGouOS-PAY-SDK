@@ -236,7 +236,7 @@ class WxPay
      * @return 退款信息 详情 https://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder
      * @throws Exception
      */
-    public function orderRefund($out_trade_no, $mch_id, $money,$refund_desc, $key)
+    public function orderRefund($out_trade_no, $mch_id, $money, $refund_desc, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -308,7 +308,7 @@ class WxPay
             $sign = $this->paySign->getSign($paramsArray, $key);
             $paramsArray['sign'] = $sign;
 
-            $resp = $this->httpUtil->httpGet($this->apiConfig['wxpay_get_refund_result_url']."?".http_build_query($paramsArray));
+            $resp = $this->httpUtil->httpGet($this->apiConfig['wxpay_get_refund_result_url'] . "?" . http_build_query($paramsArray));
             if (empty($resp)) {
                 throw new Exception("API接口返回为空");
             }
@@ -335,7 +335,7 @@ class WxPay
      * @return 授权url 直接重定向到该地址 需要包含 http:// 以及携带一个参数 示例值：http://www.baidu.com?a=1
      * @throws Exception
      */
-    public function getOauthUrl($params,$callbackUrl)
+    public function getOauthUrl($params, $callbackUrl)
     {
         $result = null;
         $paramsArray = array();
@@ -383,7 +383,7 @@ class WxPay
 
             $paramsArray['code'] = $code;
 
-            $resp = $this->httpUtil->httpGet($this->apiConfig['wx_get_wx_oauth_info']."?".http_build_query($paramsArray));
+            $resp = $this->httpUtil->httpGet($this->apiConfig['wx_get_wx_oauth_info'] . "?" . http_build_query($paramsArray));
             if (empty($resp)) {
                 throw new Exception("API接口返回为空");
             }
@@ -411,7 +411,8 @@ class WxPay
      * @return 结算信息 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/getWxBillInfo
      * @throws Exception
      */
-    public function  getWxBillInfo($mch_id, $date, $key){
+    public function getWxBillInfo($mch_id, $date, $key)
+    {
         $result = null;
         $paramsArray = array();
         try {
@@ -430,7 +431,7 @@ class WxPay
             $sign = $this->paySign->getSign($paramsArray, $key);
             $paramsArray['sign'] = $sign;
 
-            $resp = $this->httpUtil->httpGet($this->apiConfig['wxpay_get_wx_bill_info_url']."?".http_build_query($paramsArray));
+            $resp = $this->httpUtil->httpGet($this->apiConfig['wxpay_get_wx_bill_info_url'] . "?" . http_build_query($paramsArray));
             if (empty($resp)) {
                 throw new Exception("API接口返回为空");
             }
@@ -458,7 +459,8 @@ class WxPay
      * @return 结算金额 文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/sendWxCash
      * @throws Exception
      */
-    public function  sendWxPayCash($mch_id, $date, $key){
+    public function sendWxPayCash($mch_id, $date, $key)
+    {
         $result = null;
         $paramsArray = array();
         try {
@@ -505,7 +507,8 @@ class WxPay
      * @return 对账单信息 包括对账单数据，excel下载地址，汇总数据 文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/downloadBill
      * @throws Exception
      */
-    public function  downloadBill($mch_id, $date, $key){
+    public function downloadBill($mch_id, $date, $key)
+    {
         $result = null;
         $paramsArray = array();
         try {
@@ -524,7 +527,7 @@ class WxPay
             $sign = $this->paySign->getSign($paramsArray, $key);
             $paramsArray['sign'] = $sign;
 
-            $resp = $this->httpUtil->httpGet($this->apiConfig['wxpay_download_bill_url']."?".http_build_query($paramsArray));
+            $resp = $this->httpUtil->httpGet($this->apiConfig['wxpay_download_bill_url'] . "?" . http_build_query($paramsArray));
             if (empty($resp)) {
                 throw new Exception("API接口返回为空");
             }
