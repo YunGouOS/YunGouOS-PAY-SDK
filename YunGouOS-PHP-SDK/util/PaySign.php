@@ -52,22 +52,22 @@ class PaySign
      * @param $key 支付密钥
      * @return 签名是否正确
      */
-    public function checkNotifySign($_POST, $key)
+    public function checkNotifySign($post, $key)
     {
         try {
-            if (empty($_POST)) {
+            if (empty($post)) {
                 throw new Exception("POST对象不能为空");
             }
-            $sign = $_POST['sign'];
+            $sign = $post['sign'];
             if (empty($sign)) {
                 throw new Exception("POST中未获取到sign");
             }
-            $code = $_POST["code"];
-            $orderNo = $_POST["orderNo"];
-            $outTradeNo = $_POST["outTradeNo"];
-            $payNo = $_POST["payNo"];
-            $money = $_POST["money"];
-            $mchId = $_POST["mchId"];
+            $code = $post["code"];
+            $orderNo = $post["orderNo"];
+            $outTradeNo = $post["outTradeNo"];
+            $payNo = $post["payNo"];
+            $money = $post["money"];
+            $mchId = $post["mchId"];
             $paramsArray['code'] = $code;
             $paramsArray["orderNo"] = $orderNo;
             $paramsArray["outTradeNo"] = $outTradeNo;
