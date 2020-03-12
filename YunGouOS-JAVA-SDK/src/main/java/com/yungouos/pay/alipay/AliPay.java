@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yungouos.pay.common.PayException;
 import com.yungouos.pay.config.AlipayApiConfig;
 import com.yungouos.pay.entity.RefundOrder;
 import com.yungouos.pay.entity.RefundSearch;
@@ -42,24 +43,24 @@ public class AliPay {
 	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
 	 * @return 支付二维码连接
 	 */
-	public static String nativePay(String out_trade_no, String total_fee, String mch_id, String body, String type, String attach, String notify_url, String key) throws Exception {
+	public static String nativePay(String out_trade_no, String total_fee, String mch_id, String body, String type, String attach, String notify_url, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String resultUrl = null;
 		try {
 			if (StrUtil.isBlank(out_trade_no)) {
-				throw new Exception("订单号不能为空！");
+				throw new PayException("订单号不能为空！");
 			}
 			if (StrUtil.isBlank(total_fee)) {
-				throw new Exception("付款金额不能为空！");
+				throw new PayException("付款金额不能为空！");
 			}
 			if (StrUtil.isBlank(mch_id)) {
-				throw new Exception("商户号不能为空！");
+				throw new PayException("商户号不能为空！");
 			}
 			if (StrUtil.isBlank(body)) {
-				throw new Exception("商品描述不能为空！");
+				throw new PayException("商品描述不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new Exception("商户密钥不能为空！");
+				throw new PayException("商户密钥不能为空！");
 			}
 			params.put("out_trade_no", out_trade_no);
 			params.put("total_fee", total_fee);
@@ -76,20 +77,23 @@ public class AliPay {
 			params.put("sign", sign);
 			String result = HttpRequest.post(AlipayApiConfig.nativeApiUrl).form(params).execute().body();
 			if (StrUtil.isBlank(result)) {
-				throw new Exception("API接口返回为空，请联系客服");
+				throw new PayException("API接口返回为空，请联系客服");
 			}
 			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
 			if (jsonObject == null) {
-				throw new Exception("API结果转换错误");
+				throw new PayException("API结果转换错误");
 			}
 			Integer code = jsonObject.getInteger("code");
 			if (0 != code.intValue()) {
-				throw new Exception(jsonObject.getString("msg"));
+				throw new PayException(jsonObject.getString("msg"));
 			}
 			resultUrl = jsonObject.getString("data");
-		} catch (Exception e) {
+		} catch (PayException e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new PayException(e.getMessage());
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
 		}
 		return resultUrl;
 	}
@@ -113,24 +117,24 @@ public class AliPay {
 	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
 	 * @return wap支付连接，重定向到该地址自动打开支付APP付款
 	 */
-	public static String wapPay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String key) throws Exception {
+	public static String wapPay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String resultUrl = null;
 		try {
 			if (StrUtil.isBlank(out_trade_no)) {
-				throw new Exception("订单号不能为空！");
+				throw new PayException("订单号不能为空！");
 			}
 			if (StrUtil.isBlank(total_fee)) {
-				throw new Exception("付款金额不能为空！");
+				throw new PayException("付款金额不能为空！");
 			}
 			if (StrUtil.isBlank(mch_id)) {
-				throw new Exception("商户号不能为空！");
+				throw new PayException("商户号不能为空！");
 			}
 			if (StrUtil.isBlank(body)) {
-				throw new Exception("商品描述不能为空！");
+				throw new PayException("商品描述不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new Exception("商户密钥不能为空！");
+				throw new PayException("商户密钥不能为空！");
 			}
 			params.put("out_trade_no", out_trade_no);
 			params.put("total_fee", total_fee);
@@ -143,20 +147,23 @@ public class AliPay {
 			params.put("sign", sign);
 			String result = HttpRequest.post(AlipayApiConfig.wapPayUrl).form(params).execute().body();
 			if (StrUtil.isBlank(result)) {
-				throw new Exception("API接口返回为空，请联系客服");
+				throw new PayException("API接口返回为空，请联系客服");
 			}
 			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
 			if (jsonObject == null) {
-				throw new Exception("API结果转换错误");
+				throw new PayException("API结果转换错误");
 			}
 			Integer code = jsonObject.getInteger("code");
 			if (0 != code.intValue()) {
-				throw new Exception(jsonObject.getString("msg"));
+				throw new PayException(jsonObject.getString("msg"));
 			}
 			resultUrl = jsonObject.getString("data");
-		} catch (Exception e) {
+		} catch (PayException e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new PayException(e.getMessage());
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
 		}
 		return resultUrl;
 	}
@@ -175,21 +182,21 @@ public class AliPay {
 	 * @return refundOrder 退款订单对象
 	 *         参考文档：http://open.pay.yungouos.com/#/api/api/pay/alipay/refundOrder
 	 */
-	public static RefundOrder orderRefund(String out_trade_no, String mch_id, String money, String refund_desc, String key) throws Exception {
+	public static RefundOrder orderRefund(String out_trade_no, String mch_id, String money, String refund_desc, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		RefundOrder refundOrder = null;
 		try {
 			if (StrUtil.isBlank(out_trade_no)) {
-				throw new Exception("订单号不能为空！");
+				throw new PayException("订单号不能为空！");
 			}
 			if (StrUtil.isBlank(mch_id)) {
-				throw new Exception("商户号不能为空！");
+				throw new PayException("商户号不能为空！");
 			}
 			if (StrUtil.isBlank(money)) {
-				throw new Exception("退款金额不能为空！");
+				throw new PayException("退款金额不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new Exception("商户密钥不能为空！");
+				throw new PayException("商户密钥不能为空！");
 			}
 			params.put("out_trade_no", out_trade_no);
 			params.put("mch_id", mch_id);
@@ -200,25 +207,28 @@ public class AliPay {
 			params.put("sign", sign);
 			String result = HttpRequest.post(AlipayApiConfig.refundOrderUrl).form(params).execute().body();
 			if (StrUtil.isBlank(result)) {
-				throw new Exception("API接口返回为空，请联系客服");
+				throw new PayException("API接口返回为空，请联系客服");
 			}
 			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
 			if (jsonObject == null) {
-				throw new Exception("API结果转换错误");
+				throw new PayException("API结果转换错误");
 			}
 			Integer code = jsonObject.getInteger("code");
 			if (0 != code.intValue()) {
-				throw new Exception(jsonObject.getString("msg"));
+				throw new PayException(jsonObject.getString("msg"));
 			}
 			JSONObject json = jsonObject.getJSONObject("data");
 			if (json == null) {
-				throw new Exception("API结果数据转换错误");
+				throw new PayException("API结果数据转换错误");
 			}
 			refundOrder = JSONObject.toJavaObject(json, RefundOrder.class);
 
-		} catch (Exception e) {
+		} catch (PayException e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new PayException(e.getMessage());
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
 		}
 		return refundOrder;
 	}
@@ -235,18 +245,18 @@ public class AliPay {
 	 * @return RefundSearch 退款结果对象，参考文档
 	 *         http://open.pay.yungouos.com/#/api/api/pay/alipay/getRefundResult
 	 */
-	public static RefundSearch getRefundResult(String refund_no, String mch_id, String key) throws Exception {
+	public static RefundSearch getRefundResult(String refund_no, String mch_id, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		RefundSearch refundSearch = null;
 		try {
 			if (StrUtil.isBlank(refund_no)) {
-				throw new Exception("退款单号不能为空！");
+				throw new PayException("退款单号不能为空！");
 			}
 			if (StrUtil.isBlank(mch_id)) {
-				throw new Exception("商户号不能为空！");
+				throw new PayException("商户号不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new Exception("商户密钥不能为空！");
+				throw new PayException("商户密钥不能为空！");
 			}
 			params.put("refund_no", refund_no);
 			params.put("mch_id", mch_id);
@@ -255,25 +265,28 @@ public class AliPay {
 			params.put("sign", sign);
 			String result = HttpRequest.get(AlipayApiConfig.getRefundResultUrl).form(params).execute().body();
 			if (StrUtil.isBlank(result)) {
-				throw new Exception("API接口返回为空，请联系客服");
+				throw new PayException("API接口返回为空，请联系客服");
 			}
 			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
 			if (jsonObject == null) {
-				throw new Exception("API结果转换错误");
+				throw new PayException("API结果转换错误");
 			}
 			Integer code = jsonObject.getInteger("code");
 			if (0 != code.intValue()) {
-				throw new Exception(jsonObject.getString("msg"));
+				throw new PayException(jsonObject.getString("msg"));
 			}
 			JSONObject json = jsonObject.getJSONObject("data");
 			if (json == null) {
-				throw new Exception("API结果数据转换错误");
+				throw new PayException("API结果数据转换错误");
 			}
 			refundSearch = JSONObject.toJavaObject(json, RefundSearch.class);
 
-		} catch (Exception e) {
+		} catch (PayException e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new PayException(e.getMessage());
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
 		}
 		return refundSearch;
 	}

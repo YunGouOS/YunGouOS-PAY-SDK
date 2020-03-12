@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.yungouos.pay.common.PayException;
 import com.yungouos.pay.config.WxPayApiConfig;
 import com.yungouos.pay.entity.RefundOrder;
 import com.yungouos.pay.entity.RefundSearch;
@@ -44,28 +45,35 @@ public class WxPay {
 	 *            异步回调地址，不传无回调
 	 * @param return_url
 	 *            同步回调地址，暂时没什么卵用
+	 * @param config_no
+	 *            分账配置单号。支持多个分账，使用,号分割
+	 * @param auto
+	 *            自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
+	 * @param auto_node
+	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
 	 * @return 支付二维码连接
 	 */
-	public static String nativePay(String out_trade_no, String total_fee, String mch_id, String body, String type, String attach, String notify_url, String return_url, String key) throws Exception {
+	public static String nativePay(String out_trade_no, String total_fee, String mch_id, String body, String type, String attach, String notify_url, String return_url, String config_no, String auto,
+			String auto_node, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String resultUrl = null;
 		try {
 			if (StrUtil.isBlank(out_trade_no)) {
-				throw new Exception("订单号不能为空！");
+				throw new PayException("订单号不能为空！");
 			}
 			if (StrUtil.isBlank(total_fee)) {
-				throw new Exception("付款金额不能为空！");
+				throw new PayException("付款金额不能为空！");
 			}
 			if (StrUtil.isBlank(mch_id)) {
-				throw new Exception("商户号不能为空！");
+				throw new PayException("商户号不能为空！");
 			}
 			if (StrUtil.isBlank(body)) {
-				throw new Exception("商品描述不能为空！");
+				throw new PayException("商品描述不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new Exception("商户密钥不能为空！");
+				throw new PayException("商户密钥不能为空！");
 			}
 			params.put("out_trade_no", out_trade_no);
 			params.put("total_fee", total_fee);
@@ -80,24 +88,30 @@ public class WxPay {
 			params.put("attach", attach);
 			params.put("notify_url", notify_url);
 			params.put("return_url", return_url);
+			params.put("config_no", config_no);
+			params.put("auto", auto);
+			params.put("auto_node", auto_node);
 			params.put("sign", sign);
 			String result = HttpRequest.post(WxPayApiConfig.nativeApiUrl).form(params).execute().body();
 			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
-				throw new Exception("API接口返回为空，请联系客服");
+				throw new PayException("API接口返回为空，请联系客服");
 			}
 			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
 			if (jsonObject == null) {
-				throw new Exception("API结果转换错误");
+				throw new PayException("API结果转换错误");
 			}
 			Integer code = jsonObject.getInteger("code");
 			if (0 != code.intValue()) {
-				throw new Exception(jsonObject.getString("msg"));
+				throw new PayException(jsonObject.getString("msg"));
 			}
 			resultUrl = jsonObject.getString("data");
+		} catch (PayException e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new PayException(e.getMessage());
 		}
 		return resultUrl;
 	}
@@ -121,31 +135,38 @@ public class WxPay {
 	 *            异步回调地址，不传无回调
 	 * @param return_url
 	 *            同步回调地址，暂时没什么卵用
+	 * @param config_no
+	 *            分账配置单号。支持多个分账，使用,号分割
+	 * @param auto
+	 *            自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
+	 * @param auto_node
+	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
 	 * @return JSSDK支付需要的jspackage
 	 */
-	public static String jsapiPay(String out_trade_no, String total_fee, String mch_id, String body, String openId, String attach, String notify_url, String return_url, String key) throws Exception {
+	public static String jsapiPay(String out_trade_no, String total_fee, String mch_id, String body, String openId, String attach, String notify_url, String return_url, String config_no, String auto,
+			String auto_node, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String resultUrl = null;
 		try {
 			if (StrUtil.isBlank(out_trade_no)) {
-				throw new Exception("订单号不能为空！");
+				throw new PayException("订单号不能为空！");
 			}
 			if (StrUtil.isBlank(total_fee)) {
-				throw new Exception("付款金额不能为空！");
+				throw new PayException("付款金额不能为空！");
 			}
 			if (StrUtil.isBlank(mch_id)) {
-				throw new Exception("商户号不能为空！");
+				throw new PayException("商户号不能为空！");
 			}
 			if (StrUtil.isBlank(body)) {
-				throw new Exception("商品描述不能为空！");
+				throw new PayException("商品描述不能为空！");
 			}
 			if (StrUtil.isBlank(openId)) {
-				throw new Exception("openId不能为空！");
+				throw new PayException("openId不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new Exception("商户密钥不能为空！");
+				throw new PayException("商户密钥不能为空！");
 			}
 			params.put("out_trade_no", out_trade_no);
 			params.put("total_fee", total_fee);
@@ -157,24 +178,30 @@ public class WxPay {
 			params.put("attach", attach);
 			params.put("notify_url", notify_url);
 			params.put("return_url", return_url);
+			params.put("config_no", config_no);
+			params.put("auto", auto);
+			params.put("auto_node", auto_node);
 			params.put("sign", sign);
 			String result = HttpRequest.post(WxPayApiConfig.jsapiUrl).form(params).execute().body();
 			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
-				throw new Exception("API接口返回为空，请联系客服");
+				throw new PayException("API接口返回为空，请联系客服");
 			}
 			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
 			if (jsonObject == null) {
-				throw new Exception("API结果转换错误");
+				throw new PayException("API结果转换错误");
 			}
 			Integer code = jsonObject.getInteger("code");
 			if (0 != code.intValue()) {
-				throw new Exception(jsonObject.getString("msg"));
+				throw new PayException(jsonObject.getString("msg"));
 			}
 			resultUrl = jsonObject.getString("data");
+		} catch (PayException e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new PayException(e.getMessage());
 		}
 		return resultUrl;
 	}
@@ -196,28 +223,35 @@ public class WxPay {
 	 *            异步回调地址，不传无回调
 	 * @param return_url
 	 *            同步回调地址，不传支付后关闭页面
+	 * @param config_no
+	 *            分账配置单号。支持多个分账，使用,号分割
+	 * @param auto
+	 *            自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
+	 * @param auto_node
+	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
 	 * @return 返回收银台地址，重定向到该地址即可
 	 */
-	public static String cashierPay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String return_url, String key) throws Exception {
+	public static String cashierPay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String return_url, String config_no, String auto,
+			String auto_node, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String resultUrl = null;
 		try {
 			if (StrUtil.isBlank(out_trade_no)) {
-				throw new Exception("订单号不能为空！");
+				throw new PayException("订单号不能为空！");
 			}
 			if (StrUtil.isBlank(total_fee)) {
-				throw new Exception("付款金额不能为空！");
+				throw new PayException("付款金额不能为空！");
 			}
 			if (StrUtil.isBlank(mch_id)) {
-				throw new Exception("商户号不能为空！");
+				throw new PayException("商户号不能为空！");
 			}
 			if (StrUtil.isBlank(body)) {
-				throw new Exception("商品描述不能为空！");
+				throw new PayException("商品描述不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new Exception("商户密钥不能为空！");
+				throw new PayException("商户密钥不能为空！");
 			}
 			params.put("out_trade_no", out_trade_no);
 			params.put("total_fee", total_fee);
@@ -228,24 +262,30 @@ public class WxPay {
 			params.put("attach", attach);
 			params.put("notify_url", notify_url);
 			params.put("return_url", return_url);
+			params.put("config_no", config_no);
+			params.put("auto", auto);
+			params.put("auto_node", auto_node);
 			params.put("sign", sign);
 			String result = HttpRequest.post(WxPayApiConfig.cashierUrl).form(params).execute().body();
 			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
-				throw new Exception("API接口返回为空，请联系客服");
+				throw new PayException("API接口返回为空，请联系客服");
 			}
 			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
 			if (jsonObject == null) {
-				throw new Exception("API结果转换错误");
+				throw new PayException("API结果转换错误");
 			}
 			Integer code = jsonObject.getInteger("code");
 			if (0 != code.intValue()) {
-				throw new Exception(jsonObject.getString("msg"));
+				throw new PayException(jsonObject.getString("msg"));
 			}
 			resultUrl = jsonObject.getString("data");
+		} catch (PayException e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new PayException(e.getMessage());
 		}
 		return resultUrl;
 	}
@@ -267,28 +307,35 @@ public class WxPay {
 	 *            附加数据 回调时原路返回 可不传
 	 * @param notify_url
 	 *            异步回调地址，不传无回调
+	 * @param config_no
+	 *            分账配置单号。支持多个分账，使用,号分割
+	 * @param auto
+	 *            自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
+	 * @param auto_node
+	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
 	 * @return 返回小程序支付所需的参数，拿到参数后由小程序端将参数携带跳转到“支付收银”小程序
 	 */
-	public static JSONObject minAppPay(String out_trade_no, String total_fee, String mch_id, String body, String title, String attach, String notify_url, String key) throws Exception {
+	public static JSONObject minAppPay(String out_trade_no, String total_fee, String mch_id, String body, String title, String attach, String notify_url, String config_no, String auto,
+			String auto_node, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		JSONObject json = null;
 		try {
 			if (StrUtil.isBlank(out_trade_no)) {
-				throw new Exception("订单号不能为空！");
+				throw new PayException("订单号不能为空！");
 			}
 			if (StrUtil.isBlank(total_fee)) {
-				throw new Exception("付款金额不能为空！");
+				throw new PayException("付款金额不能为空！");
 			}
 			if (StrUtil.isBlank(mch_id)) {
-				throw new Exception("商户号不能为空！");
+				throw new PayException("商户号不能为空！");
 			}
 			if (StrUtil.isBlank(body)) {
-				throw new Exception("商品描述不能为空！");
+				throw new PayException("商品描述不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new Exception("商户密钥不能为空！");
+				throw new PayException("商户密钥不能为空！");
 			}
 			params.put("out_trade_no", out_trade_no);
 			params.put("total_fee", total_fee);
@@ -299,11 +346,17 @@ public class WxPay {
 			params.put("title", title);
 			params.put("attach", attach);
 			params.put("notify_url", notify_url);
+			params.put("config_no", config_no);
+			params.put("auto", auto);
+			params.put("auto_node", auto_node);
 			params.put("sign", sign);
 			json = (JSONObject) JSONObject.toJSON(params);
+		} catch (PayException e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new PayException(e.getMessage());
 		}
 		return json;
 	}
@@ -322,21 +375,21 @@ public class WxPay {
 	 * @return refundOrder 退款订单对象
 	 *         参考文档：http://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder
 	 */
-	public static RefundOrder orderRefund(String out_trade_no, String mch_id, String money, String key) throws Exception {
+	public static RefundOrder orderRefund(String out_trade_no, String mch_id, String money, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		RefundOrder refundOrder = null;
 		try {
 			if (StrUtil.isBlank(out_trade_no)) {
-				throw new Exception("订单号不能为空！");
+				throw new PayException("订单号不能为空！");
 			}
 			if (StrUtil.isBlank(mch_id)) {
-				throw new Exception("商户号不能为空！");
+				throw new PayException("商户号不能为空！");
 			}
 			if (StrUtil.isBlank(money)) {
-				throw new Exception("退款金额不能为空！");
+				throw new PayException("退款金额不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new Exception("商户密钥不能为空！");
+				throw new PayException("商户密钥不能为空！");
 			}
 			params.put("out_trade_no", out_trade_no);
 			params.put("mch_id", mch_id);
@@ -347,25 +400,28 @@ public class WxPay {
 			String result = HttpRequest.post(WxPayApiConfig.refundOrderUrl).form(params).execute().body();
 			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
-				throw new Exception("API接口返回为空，请联系客服");
+				throw new PayException("API接口返回为空，请联系客服");
 			}
 			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
 			if (jsonObject == null) {
-				throw new Exception("API结果转换错误");
+				throw new PayException("API结果转换错误");
 			}
 			Integer code = jsonObject.getInteger("code");
 			if (0 != code.intValue()) {
-				throw new Exception(jsonObject.getString("msg"));
+				throw new PayException(jsonObject.getString("msg"));
 			}
 			JSONObject json = jsonObject.getJSONObject("data");
 			if (json == null) {
-				throw new Exception("API结果数据转换错误");
+				throw new PayException("API结果数据转换错误");
 			}
 			refundOrder = JSONObject.toJavaObject(json, RefundOrder.class);
 
+		} catch (PayException e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new PayException(e.getMessage());
 		}
 		return refundOrder;
 	}
@@ -382,18 +438,18 @@ public class WxPay {
 	 * @return RefundSearch 退款结果对象，参考文档
 	 *         http://open.pay.yungouos.com/#/api/api/pay/wxpay/getRefundResult
 	 */
-	public static RefundSearch getRefundResult(String refund_no, String mch_id, String key) throws Exception {
+	public static RefundSearch getRefundResult(String refund_no, String mch_id, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		RefundSearch refundSearch = null;
 		try {
 			if (StrUtil.isBlank(refund_no)) {
-				throw new Exception("退款单号不能为空！");
+				throw new PayException("退款单号不能为空！");
 			}
 			if (StrUtil.isBlank(mch_id)) {
-				throw new Exception("商户号不能为空！");
+				throw new PayException("商户号不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new Exception("商户密钥不能为空！");
+				throw new PayException("商户密钥不能为空！");
 			}
 			params.put("refund_no", refund_no);
 			params.put("mch_id", mch_id);
@@ -403,25 +459,28 @@ public class WxPay {
 			String result = HttpRequest.get(WxPayApiConfig.getRefundResultUrl).form(params).execute().body();
 			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
-				throw new Exception("API接口返回为空，请联系客服");
+				throw new PayException("API接口返回为空，请联系客服");
 			}
 			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
 			if (jsonObject == null) {
-				throw new Exception("API结果转换错误");
+				throw new PayException("API结果转换错误");
 			}
 			Integer code = jsonObject.getInteger("code");
 			if (0 != code.intValue()) {
-				throw new Exception(jsonObject.getString("msg"));
+				throw new PayException(jsonObject.getString("msg"));
 			}
 			JSONObject json = jsonObject.getJSONObject("data");
 			if (json == null) {
-				throw new Exception("API结果数据转换错误");
+				throw new PayException("API结果数据转换错误");
 			}
 			refundSearch = JSONObject.toJavaObject(json, RefundSearch.class);
 
+		} catch (PayException e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new PayException(e.getMessage());
 		}
 		return refundSearch;
 	}
@@ -438,18 +497,18 @@ public class WxPay {
 	 * @return WxBillStatusBiz 结算结果对象，参考文档
 	 *         https://open.pay.yungouos.com/#/api/api/pay/wxpay/getBillStatus
 	 */
-	public static WxBillInfoBiz getWxBillInfo(String mch_id, String date, String key) throws Exception {
+	public static WxBillInfoBiz getWxBillInfo(String mch_id, String date, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		WxBillInfoBiz wxBillInfoBiz = null;
 		try {
 			if (StrUtil.isBlank(mch_id)) {
-				throw new Exception("商户号不能为空！");
+				throw new PayException("商户号不能为空！");
 			}
 			if (StrUtil.isBlank(date)) {
-				throw new Exception("查询日期不能为空！");
+				throw new PayException("查询日期不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new Exception("商户密钥不能为空！");
+				throw new PayException("商户密钥不能为空！");
 			}
 			params.put("mch_id", mch_id);
 			params.put("date", date);
@@ -459,24 +518,27 @@ public class WxPay {
 			String result = HttpRequest.get(WxPayApiConfig.getWxBillInfoUrl).form(params).execute().body();
 			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
-				throw new Exception("API接口返回为空，请联系客服");
+				throw new PayException("API接口返回为空，请联系客服");
 			}
 			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
 			if (jsonObject == null) {
-				throw new Exception("API结果转换错误");
+				throw new PayException("API结果转换错误");
 			}
 			Integer code = jsonObject.getInteger("code");
 			if (0 != code.intValue()) {
-				throw new Exception(jsonObject.getString("msg"));
+				throw new PayException(jsonObject.getString("msg"));
 			}
 			JSONObject json = jsonObject.getJSONObject("data");
 			if (json == null) {
-				throw new Exception("API结果数据转换错误");
+				throw new PayException("API结果数据转换错误");
 			}
 			wxBillInfoBiz = JSONObject.toJavaObject(json, WxBillInfoBiz.class);
+		} catch (PayException e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new PayException(e.getMessage());
 		}
 		return wxBillInfoBiz;
 	}
@@ -493,18 +555,18 @@ public class WxPay {
 	 * @return 结算金额
 	 * 
 	 */
-	public static String sendWxCash(String mch_id, String date, String key) throws Exception {
+	public static String sendWxCash(String mch_id, String date, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String money = null;
 		try {
 			if (StrUtil.isBlank(mch_id)) {
-				throw new Exception("商户号不能为空！");
+				throw new PayException("商户号不能为空！");
 			}
 			if (StrUtil.isBlank(date)) {
-				throw new Exception("查询日期不能为空！");
+				throw new PayException("查询日期不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new Exception("商户密钥不能为空！");
+				throw new PayException("商户密钥不能为空！");
 			}
 			params.put("mch_id", mch_id);
 			params.put("date", date);
@@ -514,20 +576,23 @@ public class WxPay {
 			String result = HttpRequest.post(WxPayApiConfig.getWxSendWxCashUrl).form(params).execute().body();
 			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
-				throw new Exception("API接口返回为空，请联系客服");
+				throw new PayException("API接口返回为空，请联系客服");
 			}
 			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
 			if (jsonObject == null) {
-				throw new Exception("API结果转换错误");
+				throw new PayException("API结果转换错误");
 			}
 			Integer code = jsonObject.getInteger("code");
 			if (0 != code.intValue()) {
-				throw new Exception(jsonObject.getString("msg"));
+				throw new PayException(jsonObject.getString("msg"));
 			}
 			money = jsonObject.getString("data");
+		} catch (PayException e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new PayException(e.getMessage());
 		}
 		return money;
 	}
@@ -545,18 +610,18 @@ public class WxPay {
 	 *         参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/downloadBill
 	 * 
 	 */
-	public static WxDownloadBillBiz downloadBill(String mch_id, String date, String key) throws Exception {
+	public static WxDownloadBillBiz downloadBill(String mch_id, String date, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		WxDownloadBillBiz wxDownloadBillBiz = null;
 		try {
 			if (StrUtil.isBlank(mch_id)) {
-				throw new Exception("商户号不能为空！");
+				throw new PayException("商户号不能为空！");
 			}
 			if (StrUtil.isBlank(date)) {
-				throw new Exception("日期不能为空！");
+				throw new PayException("日期不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new Exception("商户密钥不能为空！");
+				throw new PayException("商户密钥不能为空！");
 			}
 			params.put("mch_id", mch_id);
 			params.put("date", date);
@@ -567,24 +632,27 @@ public class WxPay {
 			// 对账单数据比较大 此处就不打印了
 			// System.out.println(result);
 			if (StrUtil.isBlank(result)) {
-				throw new Exception("API接口返回为空，请联系客服");
+				throw new PayException("API接口返回为空，请联系客服");
 			}
 			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
 			if (jsonObject == null) {
-				throw new Exception("API结果转换错误");
+				throw new PayException("API结果转换错误");
 			}
 			Integer code = jsonObject.getInteger("code");
 			if (0 != code.intValue()) {
-				throw new Exception(jsonObject.getString("msg"));
+				throw new PayException(jsonObject.getString("msg"));
 			}
 			JSONObject dataJson = jsonObject.getJSONObject("data");
 			if (dataJson == null) {
 				return null;
 			}
 			wxDownloadBillBiz = JSON.toJavaObject(dataJson, WxDownloadBillBiz.class);
+		} catch (PayException e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new PayException(e.getMessage());
 		}
 		return wxDownloadBillBiz;
 	}
@@ -598,32 +666,35 @@ public class WxPay {
 	 *            授权结束后携带code返回的地址
 	 * @return 微信授权url，直接重定向到该地址
 	 */
-	public static String getWxOauthUrl(String param, String url) throws Exception {
+	public static String getWxOauthUrl(String param, String url) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String resultUrl = null;
 		try {
 			if (StrUtil.isBlank(url)) {
-				throw new Exception("url不能为空！");
+				throw new PayException("url不能为空！");
 			}
 			params.put("url", url);
 			params.put("params", param);
 			String result = HttpRequest.post(WxPayApiConfig.getWxOauthUrl).form(params).execute().body();
 			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
-				throw new Exception("API接口返回为空，请联系客服");
+				throw new PayException("API接口返回为空，请联系客服");
 			}
 			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
 			if (jsonObject == null) {
-				throw new Exception("API结果转换错误");
+				throw new PayException("API结果转换错误");
 			}
 			Integer code = jsonObject.getInteger("code");
 			if (0 != code.intValue()) {
-				throw new Exception(jsonObject.getString("msg"));
+				throw new PayException(jsonObject.getString("msg"));
 			}
 			resultUrl = jsonObject.getString("data");
+		} catch (PayException e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new PayException(e.getMessage());
 		}
 		return resultUrl;
 	}
@@ -636,38 +707,40 @@ public class WxPay {
 	 * @return WxOauthInfo 授权信息返回对象
 	 *         参考文档：http://open.pay.yungouos.com/#/api/api/wxlogin/getBaseOauthInfo
 	 */
-	public static WxOauthInfo getWxOauthInfo(String code) throws Exception {
+	public static WxOauthInfo getWxOauthInfo(String code) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		WxOauthInfo wxOauthInfo = null;
 		try {
 			if (StrUtil.isBlank(code)) {
-				throw new Exception("code为空！");
+				throw new PayException("code为空！");
 			}
 			params.put("code", code);
 			String result = HttpRequest.get(WxPayApiConfig.getWxOauthInfo).form(params).execute().body();
 			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
-				throw new Exception("API接口返回为空，请联系客服");
+				throw new PayException("API接口返回为空，请联系客服");
 			}
 			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
 			if (jsonObject == null) {
-				throw new Exception("API结果转换错误");
+				throw new PayException("API结果转换错误");
 			}
 			Integer resultCode = jsonObject.getInteger("code");
 			if (0 != resultCode.intValue()) {
-				throw new Exception(jsonObject.getString("msg"));
+				throw new PayException(jsonObject.getString("msg"));
 			}
 			JSONObject json = jsonObject.getJSONObject("data");
 			if (json == null) {
-				throw new Exception("API结果数据转换错误");
+				throw new PayException("API结果数据转换错误");
 			}
 			wxOauthInfo = JSONObject.toJavaObject(json, WxOauthInfo.class);
 
+		} catch (PayException e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception(e.getMessage());
+			throw new PayException(e.getMessage());
 		}
 		return wxOauthInfo;
 	}
-
 }

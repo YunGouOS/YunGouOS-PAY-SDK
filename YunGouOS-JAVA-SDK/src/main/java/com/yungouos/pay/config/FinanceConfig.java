@@ -1,0 +1,39 @@
+package com.yungouos.pay.config;
+
+/**
+ *
+ * YunGouOS资金管理配置
+ * 
+ * @author YunGouOS技术部-029
+ *
+ */
+public class FinanceConfig {
+
+	public static String apiUrl = "https://api.pay.yungouos.com";
+	
+	/**
+	 * 分账配置
+	 */
+	public static String getConfigUrl = apiUrl+"/api/finance/profitsharing/config";
+	
+	/**
+	 * 生成分账账单
+	 */
+	public static String getCreateBillUrl = apiUrl+"/api/finance/profitsharing/createBill";
+	
+	/**
+	 * 分账支付
+	 */
+	public static String getSendPayUrl = apiUrl+"/api/finance/profitsharing/sendPay";
+	
+	/**
+	 * 查询分账支付结果
+	 */
+	public static String getPayResultUrl = apiUrl+"/api/finance/profitsharing/getPayResult";
+	
+	
+	/**
+	 * 停止分账
+	 */
+	public static String getFinishUrl = apiUrl+"/api/finance/profitsharing/finish";
+}
