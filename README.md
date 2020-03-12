@@ -9,9 +9,9 @@ YunGouOS微信支付官方合作伙伴,YunGouOS-PAY是徐州市云宝网络科�
 
 过去我们只将支付提供给自身系统使用，我们对市面上各种第四方支付深感痛恨 我们深知一些个人用户对支付的渴望。
 
-为此，我们开放了重量级产品，YunGouOS旗下“微信个人支付”正式对外开放。
+为此，我们开放了重量级产品，YunGouOS旗下“支付API系统”正式对外开放。
 
-为更多开发者、个体户、个人创业者、小公司提供正规的个人支付产品支持个人、个体户、企业申请签约，资金由微信结算。
+为更多开发者、个体户、个人创业者、小公司提供正规的个人支付产品支持个人、个体户、企业申请签约，资金由微信官方直连结算。
 
 # 用户疑惑
 
@@ -61,6 +61,13 @@ SDK文档：[https://apidoc.gitee.com/YunGouOS/YunGouOS-PAY-SDK/](https://apidoc
 小程序SDK地址：[https://gitee.com/YunGouOS/YunGouOS-PAY-SDK/tree/master/YunGouOS-WxApp-SDK](https://gitee.com/YunGouOS/YunGouOS-PAY-SDK/tree/master/YunGouOS-WxApp-SDK "https://gitee.com/YunGouOS/YunGouOS-PAY-SDK/tree/master/YunGouOS-WxApp-SDK")
 
 
+# 支付分账
+
+针对商户更多的资金分配场景，如分销、推广奖励等，提供相关分账API与自动分账服务。只需在调用支付接口时增加“分账配置单、是否分账、分账节点”三个参数
+
+即可快速实现订单分账，去除了分账复杂的冗余流程。支持个人微信号、微信商户号分账。
+
+
 ## 在线体验
 
 ![https://yungouos.oss-cn-shanghai.aliyuncs.com/YunGouOS/merchant/mindemo/minapp.jpg](https://yungouos.oss-cn-shanghai.aliyuncs.com/YunGouOS/merchant/mindemo/minapp.jpg)
@@ -75,7 +82,7 @@ maven添加依赖
   	<dependency>
 	    <groupId>com.yungouos.pay</groupId>
 	    <artifactId>yungouos-pay-sdk</artifactId>
-	    <version>1.1.2</version>
+	    <version>1.1.12</version>
 	</dependency>
 
 
@@ -86,25 +93,25 @@ maven添加依赖
 
 返回二维码地址或微信支付二维码连接（需自行生成二维码）
 
-    String result = WxPay.nativePay(System.currentTimeMillis() + "", "0.01", "1529637931", "测试", null, null, null, null, "6BA371F4CFAB4465AA04DAEADBAC4161");
+    String = WxPay.nativePay(System.currentTimeMillis() + "", "1", mchId, "测试", null, null, null, null,null,null,null,key);
 
 ## 微信公众号支付
 
 返回JSSDK需要的支付jspackage
 
-	String jspackage = WxPay.jsapiPay(System.currentTimeMillis() + "", "0.01", "1529637931", "测试", "o-_-itxeWVTRnl-iGT_JJ-t3kpxU", null, null, null, "6BA371F4CFAB4465AA04DAEADBAC4161");
+	String jspackage = WxPay.jsapiPay(System.currentTimeMillis() + "", "1", mchId, "测试", "o-_-itxeWVTRnl-iGT_JJ-t3kpxU", null, null, null,null,null,null,key);
 
 ## 收银台支付
 
 返回收银台支付地址，跳转到该地址即可。收银台可根据用户设备自动决定扫码支付还是JSAPI支付
 	
-	String cashierPayUrl=WxPay.cashierPay(System.currentTimeMillis() + "", "1", mchId, "测试收银台支付", null, null, returnUrl, key);
+	String cashierPayUrl=WxPay.cashierPay(System.currentTimeMillis() + "", "1", mchId, "测试收银台支付", null, null, null,null,null,null, key);
 
 ## 小程序支付
 
 返回小程序支付所需的参数，需要使用小程序段端通过携带返回的参数跳转到支付收银小程序发起支付
 	
-	JSONObject minAppPay = WxPay.minAppPay(System.currentTimeMillis()+"", "0.01", mchId, "小程序支付演示", "海底捞", null, null, key);
+	JSONObject minAppPay = WxPay.minAppPay(System.currentTimeMillis()+"", "0.01", mchId, "小程序支付演示", "海底捞", null, null,null,null,null,key);
 
 ## 发起退款接口
 
@@ -175,19 +182,19 @@ maven添加依赖
 
 ## 微信扫码支付
 
-    WxPay.nativePay(订单号,支付金额,微信支付商户号,商品描述,返回类型，附加数据，异步回调地址,同步回调地址,商户密钥)
+    WxPay.nativePay(订单号,支付金额,微信支付商户号,商品描述,返回类型，附加数据，异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥)
 
 ## 微信公众号支付
 
-	 WxPay.jsapi(订单号,支付金额,微信支付商户号,商品描述,用户openid，附加数据，异步回调地址,同步回调地址,商户密钥)
+	 WxPay.jsapi(订单号,支付金额,微信支付商户号,商品描述,用户openid，附加数据，异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥)
 
 ## 收银台支付
 
-	 WxPay.cashierPay(订单号,支付金额,微信支付商户号,商品描述,附加数据，异步回调地址,同步回调地址,商户密钥)
+	 WxPay.cashierPay(订单号,支付金额,微信支付商户号,商品描述,附加数据，异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥)
 
 ## 小程序支付
 
-	 WxPay.minAppPay(订单号,支付金额,微信支付商户号,商品描述,收银台标题,附加数据，异步回调地址,商户密钥)
+	 WxPay.minAppPay(订单号,支付金额,微信支付商户号,商品描述,收银台标题,附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥)
 
 ## 订单查询
 
