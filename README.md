@@ -27,11 +27,11 @@ YunGouOS微信支付官方合作伙伴,YunGouOS-PAY是徐州市云宝网络科�
 
 我们并非使用某种外挂等形式完成支付，与普通企业申请一样，提交资料-》微信审核-》审核通过后微信下发商户号-》根据官网文档完成API对接
 
-个人开户支持接口：扫码支付、JSAPI支付、付款码支付、小程序支付、查询、退款等微信官方接口。单日限额30万。
+个人开户支持接口：扫码支付、JSAPI支付、付款码支付、小程序支付、刷脸支付、查询、退款等微信官方接口。单日限额30万。
 
-个体户开户支持接口：扫码支付、JSAPI支付、付款码支付、查询、退款等微信官方接口。可使用微信官方营销产品。无限额。
+个体户开户支持接口：扫码支付、JSAPI支付、付款码支付、刷脸支付、查询、退款等微信官方接口。可使用微信官方营销产品。无限额。
 
-企业开户支持接口：扫码支付、JSAPI支付、付款码支付、小程序支付、APP支付。可使用所有微信官方营销产品。无限额。
+企业开户支持接口：扫码支付、JSAPI支付、付款码支付、小程序支付、刷脸支付、H5支付、APP支付。可使用所有微信官方营销产品。无限额。
 
 # 流程图
 
@@ -84,7 +84,7 @@ maven添加依赖
   	<dependency>
 	    <groupId>com.yungouos.pay</groupId>
 	    <artifactId>yungouos-pay-sdk</artifactId>
-	    <version>1.1.12</version>
+	    <version>1.1.13</version>
 	</dependency>
 
 
@@ -95,7 +95,7 @@ maven添加依赖
 
 返回二维码地址或微信支付二维码连接（需自行生成二维码）
 
-    String = WxPay.nativePay(System.currentTimeMillis() + "", "1", mchId, "测试", null, null, null, null,null,null,null,key);
+    String result= WxPay.nativePay(System.currentTimeMillis() + "", "1", mchId, "测试", null, null, null, null,null,null,null,key);
 
 ## 微信公众号支付
 
@@ -114,6 +114,36 @@ maven添加依赖
 返回小程序支付所需的参数，需要使用小程序段端通过携带返回的参数跳转到支付收银小程序发起支付
 	
 	JSONObject minAppPay = WxPay.minAppPay(System.currentTimeMillis()+"", "0.01", mchId, "小程序支付演示", "海底捞", null, null,null,null,null,key);
+
+## 微信刷卡支付
+
+返回刷卡支付结果
+
+	CodePayBiz codePayBiz = WxPay.codePay(System.currentTimeMillis() + "", "0.01", mchId, "测试", "134681285892396042", null, null, null, null, null, null, key);
+
+返回结果说明：[http://open.pay.yungouos.com/#/api/api/pay/wxpay/codePay](http://open.pay.yungouos.com/#/api/api/pay/wxpay/codePay "http://open.pay.yungouos.com/#/api/api/pay/wxpay/codePay")		
+
+## 微信刷脸支付
+
+返回微信刷脸支付结果
+
+	FacePayBiz facePayBiz = WxPay.facePay(System.currentTimeMillis() + "", "0.01", mchId, "人脸支付测试", "o-_-itxeWVTRnl-iGT_JJ-t3kpxU", "人脸特征码", null, null, null, null, null, key);
+
+返回结果说明：[http://open.pay.yungouos.com/#/api/api/pay/wxpay/facePay](http://open.pay.yungouos.com/#/api/api/pay/wxpay/facePay "http://open.pay.yungouos.com/#/api/api/pay/wxpay/facePay")	
+
+## 微信H5支付
+
+返回H5支付的链接地址
+
+	String result = WxPay.H5Pay(System.currentTimeMillis() + "", "0.01", mchId, "H5支付测试，仅限企业", null, null, null, null, null, null, key);
+
+## 查询刷卡支付结果
+
+用于查询刷卡支付结果
+
+	CodePayBiz codePayBiz2 = WxPay.getCodePayResult("1556267522899", mchId, key);	
+
+返回结果说明：[http://open.pay.yungouos.com/#/api/api/pay/wxpay/getCodePayResult](http://open.pay.yungouos.com/#/api/api/pay/wxpay/getCodePayResult "http://open.pay.yungouos.com/#/api/api/pay/wxpay/getCodePayResult")	
 
 ## 发起退款接口
 

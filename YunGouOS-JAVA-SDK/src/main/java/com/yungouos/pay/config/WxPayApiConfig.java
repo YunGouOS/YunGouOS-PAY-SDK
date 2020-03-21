@@ -12,6 +12,12 @@ public class WxPayApiConfig {
 
 	public static String apiUrl = "https://api.pay.yungouos.com";
 	
+	
+	/**
+	 * 付款码支付
+	 */
+	public static String codePayUrl=apiUrl+"/api/pay/wxpay/codePay";
+	
 	/**
 	 * 扫码支付
 	 */
@@ -27,6 +33,21 @@ public class WxPayApiConfig {
 	 */
 	public static String cashierUrl=apiUrl+"/api/pay/wxpay/cashierPay";
 	
+	
+	/**
+	 * 微信刷脸支付
+	 */
+	public static String facePayUrl=apiUrl+"/api/pay/wxpay/facePay";
+	
+	/**
+	 * 微信h5支付
+	 */
+	public static String wapPayUrl=apiUrl+"/api/pay/wxpay/wapPay";
+	
+	/**
+	 * 查询刷卡支付结果
+	 */
+	public static String getCodePayResultUrl=apiUrl+"/api/pay/wxpay/getCodePayResult";
 	
 	/**
 	 * 订单退款
