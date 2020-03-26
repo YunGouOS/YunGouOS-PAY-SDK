@@ -45,6 +45,11 @@ public class WxPayApiConfig {
 	public static String wapPayUrl=apiUrl+"/api/pay/wxpay/wapPay";
 	
 	/**
+	 * 微信app支付
+	 */
+	public static String appPayUrl=apiUrl+"/api/pay/wxpay/appPay";
+	
+	/**
 	 * 查询刷卡支付结果
 	 */
 	public static String getCodePayResultUrl=apiUrl+"/api/pay/wxpay/getCodePayResult";

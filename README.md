@@ -137,6 +137,12 @@ maven添加依赖
 
 	String result = WxPay.H5Pay(System.currentTimeMillis() + "", "0.01", mchId, "H5支付测试，仅限企业", null, null, null, null, null, null, key);
 
+## 微信APP支付
+
+返回APP支付所需参数
+
+	JSONObject appPayParams = WxPay.appPay(微信开放平台APPID, System.currentTimeMillis() + "", "0.01", mchId, "APP支付测试，仅限企业", null, null, null, null, null, key);
+
 ## 查询刷卡支付结果
 
 用于查询刷卡支付结果

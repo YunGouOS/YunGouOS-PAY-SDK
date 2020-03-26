@@ -66,6 +66,13 @@ public class WxPayTest {
 			 */
 			String h5payResult = WxPay.H5Pay(System.currentTimeMillis() + "", "0.01", mchId, "H5支付测试，仅限企业", null, null, null, null, null, null, key);
 			System.out.println("微信H5支付结果：" + h5payResult);
+			
+			/**
+			 * 微信APP支付
+			 */
+			JSONObject appPayParams = WxPay.appPay("wx465856913462378a", System.currentTimeMillis() + "", "0.01", mchId, "APP支付测试，仅限企业", null, null, null, null, null, key);
+			System.out.println("微信APP支付结果：" + appPayParams.toJSONString());
+			
 
 			/**
 			 * 查询刷卡支付结果
