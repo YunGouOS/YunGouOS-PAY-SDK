@@ -25,17 +25,17 @@ public class AliPayTest {
 			result = AliPay.nativePay(System.currentTimeMillis() + "", "0.01", mch_id, "测试订单", "2", null, notify, key);
 			System.out.println("支付宝扫码支付返回结果：" + result);
 
-//			// 支付宝wap支付
-//			result = AliPay.wapPay(System.currentTimeMillis() + "", "0.01", mch_id, "支付测试", null, notify, key);
-//			System.out.println("支付宝wap支付返回结果：" + result);
-//
-//			// 发起退款
-//			RefundOrder orderRefund = AliPay.orderRefund("Y194506551713811", mch_id, "0.01", "测试退款", key);
-//			System.out.println("支付宝发起退款返回结果：" + orderRefund.toString());
-//
-//			// 退款查询
-//			RefundSearch refundSearch = AliPay.getRefundResult("R09441868126739", mch_id, key);
-//			System.out.println("支付宝退款结果查询返回结果：" + refundSearch.toString());
+			// 支付宝wap支付
+			result = AliPay.wapPay(System.currentTimeMillis() + "", "0.01", mch_id, "支付测试", null, notify, key);
+			System.out.println("支付宝wap支付返回结果：" + result);
+
+			// 发起退款
+			RefundOrder orderRefund = AliPay.orderRefund("Y194506551713811", mch_id, "0.01", "测试退款", key);
+			System.out.println("支付宝发起退款返回结果：" + orderRefund.toString());
+
+			// 退款查询
+			RefundSearch refundSearch = AliPay.getRefundResult("R09441868126739", mch_id, key);
+			System.out.println("支付宝退款结果查询返回结果：" + refundSearch.toString());
 
 		} catch (Exception e) {
 			e.printStackTrace();
