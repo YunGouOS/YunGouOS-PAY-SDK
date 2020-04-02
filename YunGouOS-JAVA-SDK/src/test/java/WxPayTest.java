@@ -20,7 +20,7 @@ public class WxPayTest {
 
 		String result;
 		String mchId = "1529637931";
-		String key = "6BA371F4CFAB4465AA04DAEADBAC4161";
+		String key = "499F61DB734C4BF39792A098C44FA80A";
 		// 收银台支付结束后返回地址
 		String returnUrl = "http://www.baidu.com";
 		try {
