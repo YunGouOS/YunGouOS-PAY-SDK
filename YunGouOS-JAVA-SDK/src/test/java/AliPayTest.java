@@ -14,9 +14,9 @@ public class AliPayTest {
 	public static void main(String[] args) {
 		String result;
 		// 支付宝商户号，登录www.yungouos.com-》支付宝-》我的支付 获取
-		String mch_id = "2088902606090365";
+		String mch_id = "2088712932012418";
 		// 商户密钥
-		String key = "28CB379EB9E84B43A638F01BEE5B800F";
+		String key = "E86247FCC8334B728E24F97A2E6CE38A";
 		// 回调地址
 		String notify = "http://www.baidu.com";
 

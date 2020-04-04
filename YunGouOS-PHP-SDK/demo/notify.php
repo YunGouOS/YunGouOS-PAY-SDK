@@ -33,9 +33,9 @@ $sign = trim($_POST['sign']);
 $paySign = new PaySign();
 try {
     $key = "6BA371F4CFAB4465AA04DAEADBAC4161";
-    //判断支付方式是支付宝还是微信 决定对应的加密密钥应该是什么值（密钥获取：登录 yungouos.com-》微信支付/支付宝-》我的支付-》独立密钥）
+    //判断支付方式是支付宝还是微信 决定对应的加密密钥应该是什么值（密钥获取：登录 yungouos.com-》微信支付/支付宝-》商户管理-》独立密钥）
     switch($payChannel){
-        //此处因为没启用独立密钥 支付密钥支付宝与微信支付是一样的 （密钥获取：登录 yungouos.com-》我的账户-》账户中心-》商户密钥）
+        //此处因为没启用独立密钥 支付密钥支付宝与微信支付是一样的 （密钥获取：登录 yungouos.com-》我的账户-》商户管理-》商户密钥）
         case 'wxpay':
             $key = "6BA371F4CFAB4465AA04DAEADBAC4161";
             break;

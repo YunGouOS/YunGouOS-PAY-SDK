@@ -49,14 +49,14 @@ try {
     switch ($apitype) {
         case "native":
             //扫码支付
-            $result = $wxpay->nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url, $key);
+            $result = $wxpay->nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url,null,null,null, $key);
             //此处type传递的是2 所以返回的是支付二维码的地址直接显示即可。如果传递1 返回的是微信原生的二维码支付连接，需要自己写生成二维码图片的逻辑
             $html = '<img src="' . $result . '"/>';
             echo $html;
             break;
         case "cashier":
             //收银台支付
-            $result=$wxpay->cashierPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url,$return_url,$key);
+            $result=$wxpay->cashierPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url,$return_url,null,null,null,$key);
             //收银台返回的是收银台地址，此处直接重定向到该地址即可
             header("Location: ".$result."");
             exit;

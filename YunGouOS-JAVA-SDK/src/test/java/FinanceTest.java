@@ -19,7 +19,7 @@ public class FinanceTest {
 		// 商户号
 		String mch_id = "1529637931";
 		// 商户密钥
-		String key = "6BA371F4CFAB4465AA04DAEADBAC4161";
+		String key = "499F61DB734C4BF39792A098C44FA80A";
 
 		/**
 		 * 

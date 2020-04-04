@@ -9,6 +9,8 @@ $api_url = "https://api.pay.yungouos.com";
 
 $apiConfig = array(
     //**************************微信相关接口************************************//
+    //刷卡支付
+    "wxpay_code_pay_url" => $api_url . "/api/pay/wxpay/codePay",
     //扫码支付
     "wxpay_native_pay_url" => $api_url . "/api/pay/wxpay/nativeApi",
     //公众号支付
@@ -17,6 +19,12 @@ $apiConfig = array(
     "wxpay_minapp_pay_url" => $api_url . "/api/pay/wxpay/minAppApi",
     //收银台支付
     "wxpay_cashier_pay_url" => $api_url . "/api/pay/wxpay/cashierPay",
+    //刷脸支付
+    "wxpay_face_pay_url" => $api_url . "/api/pay/wxpay/facePay",
+    //H5支付
+    "wxpay_wap_pay_url" => $api_url . "/api/pay/wxpay/wapPay",
+    //APP支付
+    "wxpay_app_pay_url" => $api_url . "/api/pay/wxpay/appPay",
     //发起退款
     "wxpay_refund_order_url" => $api_url . "/api/pay/wxpay/refundOrder",
     //查询退款结果
@@ -27,6 +35,18 @@ $apiConfig = array(
     "wxpay_send_wx_cash_url"=>$api_url."/api/pay/wxpay/sendWxCash",
     //下载微信对账单
     "wxpay_download_bill_url"=>$api_url."/api/pay/wxpay/downloadBill",
+    //查询刷卡支付结果
+    "wxpay_get_code_pay_result_url"=>$api_url."/api/wxpay/getCodePayResult",
+    //微信支付分账配置
+    "wxpay_finance_config_url"=>$api_url."/api/finance/profitsharing/config",
+    //生成微信支付分账账单
+    "wxpay_finance_create_bill_url"=>$api_url."/api/finance/profitsharing/createBill",
+    //发起微信支付分账
+    "wxpay_finance_send_pay_url"=>$api_url."/api/finance/profitsharing/sendPay",
+    //查询微信支付分账结果
+    "wxpay_finance_get_pay_result_url"=>$api_url."/api/finance/profitsharing/getPayResult",
+    //停止微信分账
+    "wxpay_finance_finish_url"=>$api_url."/api/finance/profitsharing/finish",
     //获取微信授权url
     "wx_get_wx_oauth_url"=>$api_url."/api/wxlogin/getOauthUrl",
     //查询微信授权信息

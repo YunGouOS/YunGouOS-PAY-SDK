@@ -47,6 +47,15 @@ Page({
       console.log('接收到返回支付结果',app.globalData.payStatus);
       console.log('订单号',orderno);
       //处理您自己的业务
+
+      if(app.globalData.payStatus){
+        wx.showToast({
+          title: '支付成功',
+          icon: 'success',
+          duration: 2000
+        })
+      }
+      
     }
   },
   getUserInfo: function(e) {
