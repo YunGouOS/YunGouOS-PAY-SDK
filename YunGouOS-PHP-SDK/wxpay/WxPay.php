@@ -78,12 +78,24 @@ class WxPay
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
             //下面参数不参与签名，但是接口需要这些参数
-            $paramsArray['attach'] = $attach || null;
-            $paramsArray['receipt'] = $receipt || null;
-            $paramsArray['notify_url'] = $notify_url || null;
-            $paramsArray['config_no'] = $config_no || null;
-            $paramsArray['auto'] = $auto || null;
-            $paramsArray['auto_node'] = $auto_node || null;
+            if(!empty($receipt)){
+                $paramsArray['receipt'] = $receipt;
+            }
+            if(!empty($attach)){
+                $paramsArray['attach'] = $attach;
+            }
+            if(!empty($notify_url)){
+                $paramsArray['notify_url'] = $notify_url;
+            }
+            if(!empty($config_no)){
+                $paramsArray['config_no'] = $config_no;
+            }
+            if(!empty($auto)){
+                $paramsArray['auto'] = $auto;
+            }
+            if(!empty($auto_node)){
+                $paramsArray['auto_node'] = $auto_node;
+            }
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpsPost($this->apiConfig['wxpay_code_pay_url'], $paramsArray);
@@ -151,11 +163,21 @@ class WxPay
             }
             //下面参数不参与签名，但是接口需要这些参数
             $paramsArray['type'] = $type;
-            $paramsArray['attach'] = $attach || null;
-            $paramsArray['notify_url'] = $notify_url || null;
-            $paramsArray['config_no'] = $config_no || null;
-            $paramsArray['auto'] = $auto || null;
-            $paramsArray['auto_node'] = $auto_node || null;
+            if(!empty($attach)){
+                $paramsArray['attach'] = $attach;
+            }
+            if(!empty($notify_url)){
+                $paramsArray['notify_url'] = $notify_url;
+            }
+            if(!empty($config_no)){
+                $paramsArray['config_no'] = $config_no;
+            }
+            if(!empty($auto)){
+                $paramsArray['auto'] = $auto;
+            }
+            if(!empty($auto_node)){
+                $paramsArray['auto_node'] = $auto_node;
+            }
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpsPost($this->apiConfig['wxpay_native_pay_url'], $paramsArray);
@@ -223,11 +245,21 @@ class WxPay
             $sign = $this->paySign->getSign($paramsArray, $key);
 
             //下面参数不参与签名，但是接口需要这些参数
-            $paramsArray['attach'] = $attach || null;
-            $paramsArray['notify_url'] = $notify_url || null;
-            $paramsArray['config_no'] = $config_no || null;
-            $paramsArray['auto'] = $auto || null;
-            $paramsArray['auto_node'] = $auto_node || null;
+            if(!empty($attach)){
+                $paramsArray['attach'] = $attach;
+            }
+            if(!empty($notify_url)){
+                $paramsArray['notify_url'] = $notify_url;
+            }
+            if(!empty($config_no)){
+                $paramsArray['config_no'] = $config_no;
+            }
+            if(!empty($auto)){
+                $paramsArray['auto'] = $auto;
+            }
+            if(!empty($auto_node)){
+                $paramsArray['auto_node'] = $auto_node;
+            }
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpsPost($this->apiConfig['wxpay_jsapi_pay_url'], $paramsArray);
@@ -291,12 +323,24 @@ class WxPay
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
             //下面参数不参与签名，但是接口需要这些参数
-            $paramsArray['attach'] = $attach || null;
-            $paramsArray['notify_url'] = $notify_url || null;
-            $paramsArray['return_url'] = $return_url || null;
-            $paramsArray['config_no'] = $config_no || null;
-            $paramsArray['auto'] = $auto || null;
-            $paramsArray['auto_node'] = $auto_node || null;
+            if(!empty($attach)){
+                $paramsArray['attach'] = $attach;
+            }
+            if(!empty($notify_url)){
+                $paramsArray['notify_url'] = $notify_url;
+            }
+            if(!empty($return_url)){
+                $paramsArray['return_url'] = $return_url;
+            }
+            if(!empty($config_no)){
+                $paramsArray['config_no'] = $config_no;
+            }
+            if(!empty($auto)){
+                $paramsArray['auto'] = $auto;
+            }
+            if(!empty($auto_node)){
+                $paramsArray['auto_node'] = $auto_node;
+            }
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpsPost($this->apiConfig['wxpay_cashier_pay_url'], $paramsArray);
@@ -369,11 +413,22 @@ class WxPay
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
             //下面参数不参与签名，但是接口需要这些参数
-            $paramsArray['attach'] = $attach || null;
-            $paramsArray['notify_url'] = $notify_url || null;
-            $paramsArray['config_no'] = $config_no || null;
-            $paramsArray['auto'] = $auto || null;
-            $paramsArray['auto_node'] = $auto_node || null;
+
+            if(!empty($attach)){
+                $paramsArray['attach'] = $attach;
+            }
+            if(!empty($notify_url)){
+                $paramsArray['notify_url'] = $notify_url;
+            }
+            if(!empty($config_no)){
+                $paramsArray['config_no'] = $config_no;
+            }
+            if(!empty($auto)){
+                $paramsArray['auto'] = $auto;
+            }
+            if(!empty($auto_node)){
+                $paramsArray['auto_node'] = $auto_node;
+            }
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpsPost($this->apiConfig['wxpay_face_pay_url'], $paramsArray);
@@ -437,12 +492,24 @@ class WxPay
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
             //下面参数不参与签名，但是接口需要这些参数
-            $paramsArray['attach'] = $attach || null;
-            $paramsArray['notify_url'] = $notify_url || null;
-            $paramsArray['return_url'] = $return_url || null;
-            $paramsArray['config_no'] = $config_no || null;
-            $paramsArray['auto'] = $auto || null;
-            $paramsArray['auto_node'] = $auto_node || null;
+            if(!empty($attach)){
+                $paramsArray['attach'] = $attach;
+            }
+            if(!empty($notify_url)){
+                $paramsArray['notify_url'] = $notify_url;
+            }
+            if(!empty($return_url)){
+                $paramsArray['return_url'] = $return_url;
+            }
+            if(!empty($config_no)){
+                $paramsArray['config_no'] = $config_no;
+            }
+            if(!empty($auto)){
+                $paramsArray['auto'] = $auto;
+            }
+            if(!empty($auto_node)){
+                $paramsArray['auto_node'] = $auto_node;
+            }
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpsPost($this->apiConfig['wxpay_wap_pay_url'], $paramsArray);
@@ -509,11 +576,21 @@ class WxPay
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
             //下面参数不参与签名，但是接口需要这些参数
-            $paramsArray['attach'] = $attach || null;
-            $paramsArray['notify_url'] = $notify_url || null;
-            $paramsArray['config_no'] = $config_no || null;
-            $paramsArray['auto'] = $auto || null;
-            $paramsArray['auto_node'] = $auto_node || null;
+            if(!empty($attach)){
+                $paramsArray['attach'] = $attach;
+            }
+            if(!empty($notify_url)){
+                $paramsArray['notify_url'] = $notify_url;
+            }
+            if(!empty($config_no)){
+                $paramsArray['config_no'] = $config_no;
+            }
+            if(!empty($auto)){
+                $paramsArray['auto'] = $auto;
+            }
+            if(!empty($auto_node)){
+                $paramsArray['auto_node'] = $auto_node;
+            }
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpsPost($this->apiConfig['wxpay_app_pay_url'], $paramsArray);
