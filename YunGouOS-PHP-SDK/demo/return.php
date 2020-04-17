@@ -28,21 +28,14 @@ $openId = trim($_GET['openId']);
 //签名（见签名算法文档）
 $sign = trim($_GET['sign']);
 
-$wxPaySign = new WxPaySign();
+$paySign = new PaySign();
 try {
     //此处不一定需要像异步回调那么严格，可以直接获取outTradeNo 您自己的订单号，查询您系统库内的订单状态即可
-    $signParam = array(
-        "code" => $code,
-        "orderNo" => $orderNo,
-        "outTradeNo" => $outTradeNo,
-        "wxPayNo" => $wxPayNo,
-        "money" => $money,
-        "mchId" => $mchId
-    );
-    //商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
+
+    //商户密钥 登录 yungouos.com-》微信支付/支付宝-》商户管理-》独立密钥
     $key = "6BA371F4CFAB4465AA04DAEADBAC4161";
     //验证签名
-    $result = $wxPaySign->checkSing($signParam, $key);
+    $result=$paySign->checkNotifySign($_POST,$key);
     if (!$result) {
         //签名错误
         exit();
