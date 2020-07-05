@@ -13,8 +13,8 @@ $code = trim($_GET['code']);
 $orderNo = trim($_GET['orderNo']);
 //商户订单号
 $outTradeNo = trim($_GET['outTradeNo']);
-//微信支付单号（微信支付单号）
-$wxPayNo = trim($_GET['wxPayNo']);
+//支付单号
+$payNo = trim($_GET['payNo']);
 //支付金额 单位：元
 $money = trim($_GET['money']);
 //商户号

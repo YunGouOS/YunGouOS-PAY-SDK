@@ -13,8 +13,8 @@ $code = trim($_POST['code']);
 $orderNo = trim($_POST['orderNo']);
 //商户订单号
 $outTradeNo = trim($_POST['outTradeNo']);
-//微信支付单号（微信支付单号）
-$wxPayNo = trim($_POST['wxPayNo']);
+//支付单号（支付单号）
+$payNo = trim($_POST['payNo']);
 //支付金额 单位：元
 $money = trim($_POST['money']);
 //商户号
