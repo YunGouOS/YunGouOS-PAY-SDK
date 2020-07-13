@@ -30,9 +30,9 @@ public class SystemOrder {
 	 * @param mch_id
 	 *            支付商户号
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
+	 *            商户密钥 登录YunGouOS.com-》微信支付/支付宝-》商户管理 查看支付密钥
 	 * @return WxPayOrder订单对象
-	 *         参考文档：http://open.pay.yungouos.com/#/api/api/pay/wxpay/getWxPayOrderInfo
+	 *         参考文档：https://open.pay.yungouos.com/#/api/api/system/order/getPayOrderInfo
 	 */
 	public static PayOrder getOrderInfoByOutTradeNo(String out_trade_no, String mch_id, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();

@@ -56,6 +56,12 @@ public class WxPayTest {
 			System.out.println("小程序支付结果：" + minAppPay.toJSONString());
 
 			/**
+			 * 小程序支付，真正的下单，返回小程序支付所需参数
+			 */
+			minAppPay = WxPay.minAppPaySend("o-_-itxeWVTRnl-iGT_JJ-t3kpxU", System.currentTimeMillis() + "", "0.01", mchId, "小程序支付演示", null, null, null, null, null, key);
+			System.out.println("小程序支付结果：" + minAppPay.toJSONString());
+
+			/**
 			 * 微信刷脸支付
 			 */
 			FacePayBiz facePayBiz = WxPay.facePay(System.currentTimeMillis() + "", "0.01", mchId, "人脸支付测试", "o-_-itxeWVTRnl-iGT_JJ-t3kpxU", "人脸特征码", null, null, null, null, null, key);
@@ -66,13 +72,12 @@ public class WxPayTest {
 			 */
 			String h5payResult = WxPay.H5Pay(System.currentTimeMillis() + "", "0.01", mchId, "H5支付测试，仅限企业", null, null, null, null, null, null, key);
 			System.out.println("微信H5支付结果：" + h5payResult);
-			
+
 			/**
 			 * 微信APP支付
 			 */
 			JSONObject appPayParams = WxPay.appPay("wx465856913462378a", System.currentTimeMillis() + "", "0.01", mchId, "APP支付测试，仅限企业", null, null, null, null, null, key);
 			System.out.println("微信APP支付结果：" + appPayParams.toJSONString());
-			
 
 			/**
 			 * 查询刷卡支付结果
@@ -96,7 +101,7 @@ public class WxPayTest {
 			 * 获取微信授权url
 			 */
 			String url = "http://www.yungouos.com/oauth?a=1"; // 授权结束后写到code参数返回到该地址注意需要包含http://以及携带一个参数
-																
+
 			JSONObject paramJson = new JSONObject();
 			// 额外参数 按需添加，可以同查询授权信息接口获得
 			paramJson.put("key", "123456");
@@ -113,8 +118,7 @@ public class WxPayTest {
 			System.out.println("查询微信授权信息结果：" + wxOauthInfo.toString());
 
 			/**
-			 * 下载对账单 正常直接通过getUrl获取到excel地址到浏览器访问下载即可
-			 * 也可以通过getList获取到对账单的数据流集成到业务系统中
+			 * 下载对账单 正常直接通过getUrl获取到excel地址到浏览器访问下载即可 也可以通过getList获取到对账单的数据流集成到业务系统中
 			 */
 			WxDownloadBillBiz downloadBillBiz = WxPay.downloadBill(mchId, "2020-01-29", key);
 			System.out.println("对账单excel地址：" + downloadBillBiz.getUrl());

@@ -179,8 +179,7 @@ public class AliPay {
 	 *            退款金额
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
-	 * @return refundOrder 退款订单对象
-	 *         参考文档：http://open.pay.yungouos.com/#/api/api/pay/alipay/refundOrder
+	 * @return refundOrder 退款订单对象 参考文档：http://open.pay.yungouos.com/#/api/api/pay/alipay/refundOrder
 	 */
 	public static RefundOrder orderRefund(String out_trade_no, String mch_id, String money, String refund_desc, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();

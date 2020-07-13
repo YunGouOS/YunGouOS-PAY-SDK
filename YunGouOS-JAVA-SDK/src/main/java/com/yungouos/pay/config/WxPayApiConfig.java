@@ -21,8 +21,14 @@ public class WxPayApiConfig {
 	/**
 	 * 扫码支付
 	 */
-	public static String nativeApiUrl = apiUrl + "/api/pay/wxpay/nativeApi";
+	public static String nativePayUrl = apiUrl + "/api/pay/wxpay/nativePay";
 
+	
+	/**
+	 * 小程序支付
+	 */
+	public static String minAppPayUrl = apiUrl + "/api/pay/wxpay/minAppApi";
+	
 	/**
 	 * 公众号支付
 	 */
@@ -59,6 +65,11 @@ public class WxPayApiConfig {
 	 */
 	public static String refundOrderUrl=apiUrl+"/api/pay/wxpay/refundOrder";
 	
+	/**
+	 * 查询微信支付投诉信息
+	 */
+	public static String getComplaintUrl=apiUrl+"/api/pay/wxpay/getComplaint";
+	
 	
 	/**
 	 * 查询退款结果
@@ -69,11 +80,6 @@ public class WxPayApiConfig {
 	 * 查询结算信息
 	 */
 	public static String getWxBillInfoUrl=apiUrl+"/api/pay/wxpay/getWxBillInfo";
-	
-	/**
-	 * 发起微信结算
-	 */
-	public static String getWxSendWxCashUrl=apiUrl+"/api/pay/wxpay/sendWxCash";
 	
 	/**
 	 * 下载对账单

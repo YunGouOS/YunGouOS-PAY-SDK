@@ -27,7 +27,7 @@ import cn.hutool.http.HttpRequest;
  *
  */
 public class WxPay {
-	
+
 	/**
 	 * 微信付款码支付（原刷卡支付） 被扫
 	 * 
@@ -55,13 +55,13 @@ public class WxPay {
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
-	 *            
+	 * 
 	 * @return CodePayBiz 付款码支付结果对象 参考文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/codePay
 	 */
-	public static CodePayBiz codePay(String out_trade_no, String total_fee, String mch_id, String body, String auth_code, String attach,String receipt, String notify_url,String config_no, String auto,
-			String auto_node, String key) throws PayException {
+	public static CodePayBiz codePay(String out_trade_no, String total_fee, String mch_id, String body, String auth_code, String attach, String receipt, String notify_url, String config_no,
+			String auto, String auto_node, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
-		CodePayBiz codePayBiz =null;
+		CodePayBiz codePayBiz = null;
 		try {
 			if (StrUtil.isBlank(out_trade_no)) {
 				throw new PayException("订单号不能为空！");
@@ -122,7 +122,6 @@ public class WxPay {
 		}
 		return codePayBiz;
 	}
-	
 
 	/**
 	 * 微信扫码支付
@@ -151,7 +150,7 @@ public class WxPay {
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》 独立密钥 查看密钥
-	 *            
+	 * 
 	 * @return 支付二维码连接
 	 */
 	public static String nativePay(String out_trade_no, String total_fee, String mch_id, String body, String type, String attach, String notify_url, String return_url, String config_no, String auto,
@@ -191,7 +190,7 @@ public class WxPay {
 			params.put("auto", auto);
 			params.put("auto_node", auto_node);
 			params.put("sign", sign);
-			String result = HttpRequest.post(WxPayApiConfig.nativeApiUrl).form(params).execute().body();
+			String result = HttpRequest.post(WxPayApiConfig.nativePayUrl).form(params).execute().body();
 			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
@@ -242,7 +241,7 @@ public class WxPay {
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》 独立密钥 查看密钥
-	 *            
+	 * 
 	 * @return JSSDK支付需要的jspackage
 	 */
 	public static String jsapiPay(String out_trade_no, String total_fee, String mch_id, String body, String openId, String attach, String notify_url, String return_url, String config_no, String auto,
@@ -331,7 +330,7 @@ public class WxPay {
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》 独立密钥 查看密钥
-	 *            
+	 * 
 	 * @return 返回收银台地址，重定向到该地址即可
 	 */
 	public static String cashierPay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String return_url, String config_no, String auto,
@@ -416,7 +415,7 @@ public class WxPay {
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》 独立密钥 查看密钥
-	 *            
+	 * 
 	 * @return 返回小程序支付所需的参数，拿到参数后由小程序端将参数携带跳转到“支付收银”小程序
 	 */
 	public static JSONObject minAppPay(String out_trade_no, String total_fee, String mch_id, String body, String title, String attach, String notify_url, String config_no, String auto,
@@ -462,8 +461,95 @@ public class WxPay {
 		}
 		return json;
 	}
-	
-	
+
+	/**
+	 * 小程序支付
+	 * 
+	 * @param openId
+	 *            小程序openId
+	 * @param out_trade_no
+	 *            订单号 不可重复
+	 * @param total_fee
+	 *            支付金额 单位：元 范围：0.01-99999
+	 * @param mch_id
+	 *            微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
+	 * @param body
+	 *            商品描述
+	 * @param attach
+	 *            附加数据 回调时原路返回 可不传
+	 * @param notify_url
+	 *            异步回调地址，不传无回调
+	 * @param config_no
+	 *            分账配置单号。支持多个分账，使用,号分割
+	 * @param auto
+	 *            自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
+	 * @param auto_node
+	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+	 * @param key
+	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》 独立密钥 查看密钥
+	 * 
+	 * @return 返回原生小程序支付所需的参数，拿到参数后由小程序端调用微信小程序API发起支付
+	 */
+	public static JSONObject minAppPaySend(String openId, String out_trade_no, String total_fee, String mch_id, String body,String attach, String notify_url, String config_no, String auto,
+			String auto_node, String key) throws PayException {
+		Map<String, Object> params = new HashMap<String, Object>();
+		JSONObject json = null;
+		try {
+			if (StrUtil.isBlank(out_trade_no)) {
+				throw new PayException("订单号不能为空！");
+			}
+			if (StrUtil.isBlank(total_fee)) {
+				throw new PayException("付款金额不能为空！");
+			}
+			if (StrUtil.isBlank(mch_id)) {
+				throw new PayException("商户号不能为空！");
+			}
+			if (StrUtil.isBlank(body)) {
+				throw new PayException("商品描述不能为空！");
+			}
+			if (StrUtil.isBlank(key)) {
+				throw new PayException("商户密钥不能为空！");
+			}
+			params.put("out_trade_no", out_trade_no);
+			params.put("total_fee", total_fee);
+			params.put("mch_id", mch_id);
+			params.put("body", body);
+			// 上述必传参数签名
+			String sign = PaySignUtil.createSign(params, key);
+			params.put("openId", openId);
+			params.put("attach", attach);
+			params.put("notify_url", notify_url);
+			params.put("config_no", config_no);
+			params.put("auto", auto);
+			params.put("auto_node", auto_node);
+			params.put("sign", sign);
+			String result = HttpRequest.post(WxPayApiConfig.minAppPayUrl).form(params).execute().body();
+			System.out.println(result);
+			if (StrUtil.isBlank(result)) {
+				throw new PayException("API接口返回为空，请联系客服");
+			}
+			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
+			if (jsonObject == null) {
+				throw new PayException("API结果转换错误");
+			}
+			Integer code = jsonObject.getInteger("code");
+			if (0 != code.intValue()) {
+				throw new PayException(jsonObject.getString("msg"));
+			}
+			json = jsonObject.getJSONObject("data");
+			if (json == null) {
+				throw new PayException("小程序支付发起失败");
+			}
+		} catch (PayException e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
+		}
+		return json;
+	}
+
 	/**
 	 * 微信刷脸支付
 	 * 
@@ -491,13 +577,13 @@ public class WxPay {
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》 独立密钥 查看密钥
-	 *            
+	 * 
 	 * @return FacePayBiz 人脸支付结果对象 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/facePay
 	 */
-	public static FacePayBiz facePay(String out_trade_no, String total_fee, String mch_id, String body, String openId,String face_code, String attach, String notify_url, String config_no, String auto,
-			String auto_node, String key) throws PayException {
+	public static FacePayBiz facePay(String out_trade_no, String total_fee, String mch_id, String body, String openId, String face_code, String attach, String notify_url, String config_no,
+			String auto, String auto_node, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
-		FacePayBiz facePayBiz =null;
+		FacePayBiz facePayBiz = null;
 		try {
 			if (StrUtil.isBlank(out_trade_no)) {
 				throw new PayException("订单号不能为空！");
@@ -558,8 +644,7 @@ public class WxPay {
 		}
 		return facePayBiz;
 	}
-	
-	
+
 	/**
 	 * 微信H5支付（注意，该接口仅限企业用户使用）
 	 * 
@@ -576,7 +661,7 @@ public class WxPay {
 	 * @param notify_url
 	 *            异步回调地址，不传无回调
 	 * @param return_url
-	 *            同步回调地址，用户支付成功后从微信APP跳转回该地址。调转不会携带任何参数，如需携带参数请自行拼接        
+	 *            同步回调地址，用户支付成功后从微信APP跳转回该地址。调转不会携带任何参数，如需携带参数请自行拼接
 	 * @param config_no
 	 *            分账配置单号。支持多个分账，使用,号分割
 	 * @param auto
@@ -585,13 +670,13 @@ public class WxPay {
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》 独立密钥 查看密钥
-	 *            
+	 * 
 	 * @return 返回微信H5支付链接，重定向到该地址可打开微信H5进行支付
 	 */
-	public static String H5Pay(String out_trade_no, String total_fee, String mch_id, String body,String attach, String notify_url,String return_url,String config_no, String auto,
-			String auto_node, String key) throws PayException {
+	public static String H5Pay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String return_url, String config_no, String auto, String auto_node,
+			String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
-		String resultUrl =null;
+		String resultUrl = null;
 		try {
 			if (StrUtil.isBlank(out_trade_no)) {
 				throw new PayException("订单号不能为空！");
@@ -644,13 +729,12 @@ public class WxPay {
 		}
 		return resultUrl;
 	}
-	
-	
-	
+
 	/**
 	 * 微信APP支付（注意，该接口仅限企业用户使用）
+	 * 
 	 * @param app_id
-	 * 			     微信开放平台申请的APPID
+	 *            微信开放平台申请的APPID
 	 * @param out_trade_no
 	 *            订单号 不可重复
 	 * @param total_fee
@@ -662,7 +746,7 @@ public class WxPay {
 	 * @param attach
 	 *            附加数据 回调时原路返回 可不传
 	 * @param notify_url
-	 *            异步回调地址，不传无回调        
+	 *            异步回调地址，不传无回调
 	 * @param config_no
 	 *            分账配置单号。支持多个分账，使用,号分割
 	 * @param auto
@@ -671,13 +755,13 @@ public class WxPay {
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》 独立密钥 查看密钥
-	 *            
+	 * 
 	 * @return JSONObject 返回微信APP支付所需的参数 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/appPay
 	 */
-	public static JSONObject appPay(String app_id,String out_trade_no, String total_fee, String mch_id, String body,String attach, String notify_url,String config_no, String auto,
-			String auto_node, String key) throws PayException {
+	public static JSONObject appPay(String app_id, String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String config_no, String auto, String auto_node,
+			String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
-		JSONObject resultJson=null;
+		JSONObject resultJson = null;
 		try {
 			if (StrUtil.isBlank(app_id)) {
 				throw new PayException("微信开放平台APPID不能为空！");
@@ -733,8 +817,7 @@ public class WxPay {
 		}
 		return resultJson;
 	}
-	
-	
+
 	/**
 	 * 查询微信刷卡支付结果
 	 * 
@@ -744,12 +827,12 @@ public class WxPay {
 	 *            微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》 独立密钥 查看密钥
-	 *            
+	 * 
 	 * @return CodePayBiz 刷卡支付结果对象 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/getCodePayResult
 	 */
-	public static CodePayBiz getCodePayResult(String out_trade_no, String mch_id,String key) throws PayException {
+	public static CodePayBiz getCodePayResult(String out_trade_no, String mch_id, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
-		CodePayBiz codePayBiz=null;
+		CodePayBiz codePayBiz = null;
 		try {
 			if (StrUtil.isBlank(out_trade_no)) {
 				throw new PayException("订单号不能为空！");
@@ -765,7 +848,7 @@ public class WxPay {
 			// 上述必传参数签名
 			String sign = PaySignUtil.createSign(params, key);
 			params.put("sign", sign);
-			String result = HttpRequest.post(WxPayApiConfig.getCodePayResultUrl).form(params).execute().body();
+			String result = HttpRequest.get(WxPayApiConfig.getCodePayResultUrl).form(params).execute().body();
 			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
@@ -789,7 +872,6 @@ public class WxPay {
 		}
 		return codePayBiz;
 	}
-	
 
 	/**
 	 * 订单退款
@@ -802,9 +884,8 @@ public class WxPay {
 	 *            退款金额
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》 独立密钥 查看密钥
-	 *            
-	 * @return refundOrder 退款订单对象
-	 *         参考文档：http://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder
+	 * 
+	 * @return refundOrder 退款订单对象 参考文档：http://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder
 	 */
 	public static RefundOrder orderRefund(String out_trade_no, String mch_id, String money, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -866,9 +947,8 @@ public class WxPay {
 	 *            微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》 独立密钥 查看密钥
-	 *            
-	 * @return RefundSearch 退款结果对象，参考文档
-	 *         http://open.pay.yungouos.com/#/api/api/pay/wxpay/getRefundResult
+	 * 
+	 * @return RefundSearch 退款结果对象，参考文档 http://open.pay.yungouos.com/#/api/api/pay/wxpay/getRefundResult
 	 */
 	public static RefundSearch getRefundResult(String refund_no, String mch_id, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -926,9 +1006,8 @@ public class WxPay {
 	 *            需要查询的结算日期，如：2020-01-23
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
-	 *            
-	 * @return WxBillStatusBiz 结算结果对象，参考文档
-	 *         https://open.pay.yungouos.com/#/api/api/pay/wxpay/getBillStatus
+	 * 
+	 * @return WxBillStatusBiz 结算结果对象，参考文档 https://open.pay.yungouos.com/#/api/api/pay/wxpay/getBillStatus
 	 */
 	public static WxBillInfoBiz getWxBillInfo(String mch_id, String date, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -976,7 +1055,6 @@ public class WxPay {
 		return wxBillInfoBiz;
 	}
 
-
 	/**
 	 * 下载对账单
 	 * 
@@ -986,9 +1064,8 @@ public class WxPay {
 	 *            对账单日期，如：2020-01-23
 	 * @param key
 	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
-	 *            
-	 * @return WxDownloadBillBiz 对账单对象
-	 *         参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/downloadBill
+	 * 
+	 * @return WxDownloadBillBiz 对账单对象 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/downloadBill
 	 * 
 	 */
 	public static WxDownloadBillBiz downloadBill(String mch_id, String date, String key) throws PayException {
@@ -1039,13 +1116,85 @@ public class WxPay {
 	}
 
 	/**
+	 * 查询微信支付投诉（内测接口，请勿使用）
+	 * 
+	 * @param mch_id
+	 *            微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
+	 * @param status
+	 *            状态 0：待处理 1：已处理
+	 * @param order_no
+	 *            系统单号
+	 * @param out_trade_no
+	 *            商户单号
+	 * @param pay_no
+	 *            支付单号
+	 * @param start_time
+	 *            起始时间
+	 * @param end_time
+	 *            结束时间
+	 * @param key
+	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
+	 * 
+	 */
+	public static void getComplaintList(String mch_id, String status, String order_no, String out_trade_no, String pay_no, String start_time, String end_time, String key) throws PayException {
+		Map<String, Object> params = new HashMap<String, Object>();
+		try {
+			if (StrUtil.isBlank(mch_id)) {
+				throw new PayException("商户号不能为空！");
+			}
+			params.put("mch_id", mch_id);
+			// 上述必传参数签名
+			String sign = PaySignUtil.createSign(params, key);
+			params.put("sign", sign);
+			if (!StrUtil.isBlank(status)) {
+				params.put("status", status);
+			}
+			if (!StrUtil.isBlank(order_no)) {
+				params.put("order_no", order_no);
+			}
+			if (!StrUtil.isBlank(out_trade_no)) {
+				params.put("out_trade_no", out_trade_no);
+			}
+			if (!StrUtil.isBlank(pay_no)) {
+				params.put("pay_no", pay_no);
+			}
+			if (!StrUtil.isBlank(start_time)) {
+				params.put("start_time", start_time);
+			}
+			if (!StrUtil.isBlank(end_time)) {
+				params.put("end_time", end_time);
+			}
+			String result = HttpRequest.get(WxPayApiConfig.getComplaintUrl).form(params).execute().body();
+			System.out.println(result);
+			if (StrUtil.isBlank(result)) {
+				throw new PayException("API接口返回为空，请联系客服");
+			}
+			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
+			if (jsonObject == null) {
+				throw new PayException("API结果转换错误");
+			}
+			Integer code = jsonObject.getInteger("code");
+			if (0 != code.intValue()) {
+				throw new PayException(jsonObject.getString("msg"));
+			}
+			JSONObject dataJson = jsonObject.getJSONObject("data");
+		} catch (PayException e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
+		}
+	}
+
+	/**
 	 * 获取微信授权URL 为了获取openid
 	 * 
 	 * @param param
 	 *            额外参数，原路返回 需要json字符串
 	 * @param url
 	 *            授权结束后携带code返回的地址
-	 *            
+	 * 
 	 * @return 微信授权url，直接重定向到该地址
 	 */
 	public static String getWxOauthUrl(String param, String url) throws PayException {
@@ -1086,9 +1235,8 @@ public class WxPay {
 	 * 
 	 * @param code
 	 *            授权结束后返回
-	 *            
-	 * @return WxOauthInfo 授权信息返回对象
-	 *         参考文档：http://open.pay.yungouos.com/#/api/api/wxlogin/getBaseOauthInfo
+	 * 
+	 * @return WxOauthInfo 授权信息返回对象 参考文档：http://open.pay.yungouos.com/#/api/api/wxlogin/getBaseOauthInfo
 	 */
 	public static WxOauthInfo getWxOauthInfo(String code) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
