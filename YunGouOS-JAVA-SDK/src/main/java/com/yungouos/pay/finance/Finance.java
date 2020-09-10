@@ -24,8 +24,142 @@ import cn.hutool.http.HttpRequest;
  *
  */
 public class Finance {
+	
+	
+	/**
+	 * 配置分账，添加分账收款方的账户信息。使用该功能请仔细阅读注意事项。文档地址：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/config
+	 * 
+	 * @param mch_id
+	 *            分账方支付商户号
+	 * @param appId
+	 *            自定义appId，如果传递了该参数则openId必须是通过该appId获取           
+	 * @param reason
+	 *            分账原因
+	 * @param channel
+	 *            分账渠道
+	 * @param openId
+	 *            分账收款方的openId，通过授权接口获得。 优先级：高
+	 * @param receiver_mch_id
+	 *            分账收款方的商户号。 优先级：低
+	 * @param name
+	 *            分账收款方姓名或商户号主体名称。传递了则校验
+	 * @param rate
+	 *            分账比例。如：10 则代表分账比例是订单金额的10% 优先级高于money参数
+	 * @param money
+	 *            固定分账金额。每笔订单固定分账金额，优先级次于rate参数
+	 * @param key
+	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
+	 * @return String 配置单号
+	 */
+	public static String configV2(String mch_id,String appId,String reason, String channel, String openId, String receiver_mch_id, String name, String rate, String money, String key)
+			throws PayException {
+		Map<String, Object> params = new HashMap<String, Object>();
+		String configNo = null;
+		try {
+			if (StrUtil.isBlank(mch_id)) {
+				throw new PayException("商户号不能为空！");
+			}
+			if (StrUtil.isBlank(reason)) {
+				throw new PayException("分账原因不能为空！");
+			}
+			if (StrUtil.isBlank(channel)) {
+				throw new PayException("分账渠道不能为空！");
+			}
+
+			// 验证渠道
+			List<String> channelList = new ArrayList<String>();
+			channelList.add("wxpay");
+			channelList.add("alipay");
+			if (!channelList.contains(channel)) {
+				throw new PayException("分账渠道参数不合法！参考值：" + channelList.toString());
+			}
+
+			// 收款方账户信息验证
+			if (StrUtil.isBlank(openId) &&StrUtil.isBlank(receiver_mch_id)) {
+				throw new PayException("分账收款方openId、收款帐号、收款商户号不能同时为空！");
+			}
+
+			// 分账比例验证
+			if (StrUtil.isBlank(rate) && StrUtil.isBlank(money)) {
+				throw new PayException("分账比例、固定分账金额不能同时为空！");
+			}
+
+			// 设置了比例 验证比例
+			if (!StrUtil.isBlank(rate)) {
+				if (!NumberUtil.isNumber(rate)) {
+					throw new PayException("分账比例不是合法的数字类型！");
+				}
+			}
+			// 设置了金额 验证金额
+			if (!StrUtil.isBlank(money)) {
+				if (!NumberUtil.isNumber(money)) {
+					throw new PayException("固定分账金额不是合法的数字类型！");
+				}
+			}
+
+			if (StrUtil.isBlank(key)) {
+				throw new PayException("商户密钥不能为空！");
+			}
+			params.put("mch_id", mch_id);
+			params.put("reason", reason);
+			params.put("channel", channel);
+			if (!StrUtil.isBlank(openId)) {
+				// 设置了openId参数，参与签名
+				params.put("openId", openId);
+			}
+			if (!StrUtil.isBlank(receiver_mch_id)) {
+				// 设置了receiver_mch_id参数，参与签名
+				params.put("receiver_mch_id", receiver_mch_id);
+			}
+			if (!StrUtil.isBlank(name)) {
+				// 设置了name参数，参与签名
+				params.put("name", name);
+			}
+			if (!StrUtil.isBlank(rate)) {
+				// 设置了rate参数，参与签名
+				params.put("rate", rate);
+			}
+			if (!StrUtil.isBlank(money)) {
+				// 设置了money参数，参与签名
+				params.put("money", money);
+			}
+			// 上述参数签名
+			String sign = PaySignUtil.createSign(params, key);
+			params.put("sign", sign);
+			//不参与签名
+			if(!StrUtil.isBlank(appId)){
+				params.put("appId", appId);
+			}
+			String result = HttpRequest.post(FinanceConfig.getConfigUrl).form(params).execute().body();
+			System.out.println(result);
+			if (StrUtil.isBlank(result)) {
+				throw new PayException("API接口返回为空，请联系客服");
+			}
+			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
+			if (jsonObject == null) {
+				throw new PayException("API结果转换错误");
+			}
+			Integer code = jsonObject.getInteger("code");
+			if (0 != code.intValue()) {
+				throw new PayException(jsonObject.getString("msg"));
+			}
+			configNo = jsonObject.getString("data");
+		} catch (PayException e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
+		}
+		return configNo;
+	}
+	
+	
 
 	/**
+	 * 
+	 * （接口已升级，建议使用configV2方法）
+	 * 
 	 * 配置分账，添加分账收款方的账户信息。使用该功能请仔细阅读注意事项。文档地址：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/config
 	 * 
 	 * @param mch_id
@@ -50,6 +184,7 @@ public class Finance {
 	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
 	 * @return String 配置单号
 	 */
+	@Deprecated
 	public static String config(String mch_id, String reason, String channel, String openId, String account, String receiver_mch_id, String name, String rate, String money, String key)
 			throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
