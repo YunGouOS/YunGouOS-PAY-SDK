@@ -126,7 +126,6 @@ public class Finance {
 				params.put("appId", appId);
 			}
 			String result = HttpRequest.post(FinanceConfig.getConfigUrl).form(params).execute().body();
-			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}

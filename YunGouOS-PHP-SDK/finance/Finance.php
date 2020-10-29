@@ -35,6 +35,111 @@ class Finance
     /**
      * 配置分账，添加分账收款方的账户信息。使用该功能请仔细阅读注意事项。文档地址：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/config
      * @param $mch_id 分账方支付商户号
+     * @param $appId 自定义appId，如果传递了该参数则openId必须是通过该appId获取
+     * @param $reason 分账原因
+     * @param $channel 分账渠道
+     * @param $openId 分账收款方的openId，通过授权接口获得。 优先级：高
+     * @param $receiver_mch_id 分账收款方的商户号。 优先级：低
+     * @param $name 分账收款方姓名。当传递了account参数时，该参数必填，且需要与account对应的微信实名信息一致
+     * @param $rate 分账比例。如：10 则代表分账比例是订单金额的10% 优先级高于money参数
+     * @param $money 固定分账金额。每笔订单固定分账金额，优先级次于rate参数
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
+     * @return String 配置单号
+     */
+    public function configV2($mch_id,$appId, $reason, $channel, $openId,$receiver_mch_id, $name, $rate, $money, $key)
+    {
+        $result = null;
+        $paramsArray = array();
+        try {
+            if (empty($mch_id)) {
+                throw new Exception("商户号不能为空！");
+            }
+            if (empty($reason)) {
+                throw new Exception("分账原因不能为空！");
+            }
+            if (empty($channel)) {
+                throw new Exception("分账渠道不能为空！");
+            }
+            // 验证渠道
+            $channelList = array('wxpay', 'alipay');
+            if (in_array($channel, $channelList)) {
+                throw new Exception("分账渠道参数不合法！参考值：" . implode(" ", $channelList));
+            }
+            // 收款方账户信息验证
+            if (empty($openId) && empty($receiver_mch_id)) {
+                throw new Exception("分账收款方openId、收款商户号不能同时为空！");
+            }
+            // 设置了比例 验证比例
+            if (!empty($rate)) {
+                if (!is_numeric($rate)) {
+                    throw new Exception("分账比例不是合法的数字类型！");
+                }
+            }
+            // 设置了金额 验证金额
+            if (!empty($money)) {
+                if (!is_numeric($money)) {
+                    throw new Exception("固定分账金额不是合法的数字类型！");
+                }
+            }
+            if (empty($key)) {
+                throw new Exception("商户密钥不能为空！");
+            }
+            $paramsArray["mch_id"] = $mch_id;
+            $paramsArray["reason"] = $reason;
+            $paramsArray["channel"] = $channel;
+            if (!empty($openId)) {
+                // 设置了openId参数，参与签名
+                $paramsArray["openId"] = $openId;
+            }
+            if (!empty($receiver_mch_id)) {
+                // 设置了receiver_mch_id参数，参与签名
+                $paramsArray["receiver_mch_id"] = $receiver_mch_id;
+            }
+            if (!empty($name)) {
+                // 设置了name参数，参与签名
+                $paramsArray["name"] = $name;
+            }
+            if (!empty($rate)) {
+                // 设置了rate参数，参与签名
+                $paramsArray["rate"] = $rate;
+            }
+            if (!empty($money)) {
+                // 设置了money参数，参与签名
+                $paramsArray["money"] = $money;
+            }
+            // 上述必传参数签名
+            $sign = $this->paySign->getSign($paramsArray, $key);
+            $paramsArray["sign"] = $sign;
+            if(!empty($appId)){
+                $paramsArray["appId"] = $appId;
+            }
+            $resp = $this->httpUtil->httpsPost($this->apiConfig['wxpay_finance_config_url'], $paramsArray);
+            if (empty($resp)) {
+                throw new Exception("API接口返回为空");
+            }
+            $ret = @json_decode($resp, true);
+            if (empty($ret)) {
+                throw new Exception("API接口返回为空");
+            }
+            $code = $ret['code'];
+            if ($code != 0) {
+                throw new Exception($ret['msg']);
+            }
+            $result = $ret['data'];
+        } catch (Exception $e) {
+            throw  new Exception($e->getMessage());
+        }
+        return $result;
+    }
+
+
+
+    /**
+     *
+     * 建议使用configV2升级版方法
+     *
+     * 配置分账，添加分账收款方的账户信息。使用该功能请仔细阅读注意事项。文档地址：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/config
+     * @param $mch_id 分账方支付商户号
      * @param $reason 分账原因
      * @param $channel 分账渠道
      * @param $openId 分账收款方的openId，通过授权接口获得。 优先级：高
