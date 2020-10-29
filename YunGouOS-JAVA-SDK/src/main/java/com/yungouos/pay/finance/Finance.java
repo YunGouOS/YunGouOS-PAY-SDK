@@ -79,11 +79,6 @@ public class Finance {
 				throw new PayException("分账收款方openId、收款帐号、收款商户号不能同时为空！");
 			}
 
-			// 分账比例验证
-			if (StrUtil.isBlank(rate) && StrUtil.isBlank(money)) {
-				throw new PayException("分账比例、固定分账金额不能同时为空！");
-			}
-
 			// 设置了比例 验证比例
 			if (!StrUtil.isBlank(rate)) {
 				if (!NumberUtil.isNumber(rate)) {
@@ -216,11 +211,6 @@ public class Finance {
 			// 收款方姓名验证
 			if (!StrUtil.isBlank(account) && StrUtil.isBlank(name)) {
 				throw new PayException("分账收款方为帐号类型，分账收款方姓名不能为空！");
-			}
-
-			// 分账比例验证
-			if (StrUtil.isBlank(rate) && StrUtil.isBlank(money)) {
-				throw new PayException("分账比例、固定分账金额不能同时为空！");
 			}
 
 			// 设置了比例 验证比例

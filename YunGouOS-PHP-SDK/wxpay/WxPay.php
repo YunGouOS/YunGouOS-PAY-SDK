@@ -45,7 +45,7 @@ class WxPay
      * @param $config_no 分账配置单号。支持多个分账，使用,号分割
      * @param $auto 自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
-     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
     public function codePay($out_trade_no, $total_fee, $mch_id, $body, $auth_code, $attach, $receipt, $notify_url, $config_no, $auto, $auto_node, $key)
     {
@@ -130,7 +130,7 @@ class WxPay
      * @param $config_no 分账配置单号。支持多个分账，使用,号分割
      * @param $auto 自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
-     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
     public function nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url, $config_no, $auto, $auto_node, $key)
     {
@@ -211,7 +211,7 @@ class WxPay
      * @param $config_no 分账配置单号。支持多个分账，使用,号分割
      * @param $auto 自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
-     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
     public function jsapiPay($out_trade_no, $total_fee, $mch_id, $body, $openId, $attach, $notify_url, $config_no, $auto, $auto_node, $key)
     {
@@ -294,7 +294,7 @@ class WxPay
      * @param $config_no 分账配置单号。支持多个分账，使用,号分割
      * @param $auto 自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
-     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
     public function cashierPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node, $key)
     {
@@ -376,7 +376,7 @@ class WxPay
      * @param $config_no 分账配置单号。支持多个分账，使用,号分割
      * @param $auto 自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
-     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
     public function facePay($out_trade_no, $total_fee, $mch_id, $body, $openId, $face_code, $attach, $notify_url, $config_no, $auto, $auto_node, $key)
     {
@@ -463,7 +463,7 @@ class WxPay
      * @param $config_no 分账配置单号。支持多个分账，使用,号分割
      * @param $auto 自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
-     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
     public function wapPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node, $key)
     {
@@ -543,7 +543,7 @@ class WxPay
      * @param $config_no 分账配置单号。支持多个分账，使用,号分割
      * @param $auto 自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
-     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
     public function appPay($app_id, $out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $config_no, $auto, $auto_node, $key)
     {
@@ -619,7 +619,7 @@ class WxPay
      * @param $mch_id 微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
      * @param $money 退款金额
      * @param $refund_desc 退款描述
-     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      * @return 退款信息 详情 https://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder
      * @throws Exception
      */
@@ -671,7 +671,7 @@ class WxPay
      * 查询退款结果
      * @param $refund_no 退款单号，调用发起退款结果返回
      * @param $mch_id 微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
-     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      * @return 退款对象 详情参考 https://open.pay.yungouos.com/#/api/api/pay/wxpay/getRefundResult
      * @throws Exception
      */
@@ -789,60 +789,12 @@ class WxPay
         return $result;
     }
 
-
-    /**
-     * 查询微信结算信息
-     * @param $mch_id 微信支付商户号
-     * @param $date 查询日期 示例值：2020-01-23
-     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
-     * @return 结算信息 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/getWxBillInfo
-     * @throws Exception
-     */
-    public function getWxBillInfo($mch_id, $date, $key)
-    {
-        $result = null;
-        $paramsArray = array();
-        try {
-            if (empty($mch_id)) {
-                throw new Exception("商户号不能为空！");
-            }
-            if (empty($date)) {
-                throw new Exception("查询日期不能为空！");
-            }
-            if (empty($key)) {
-                throw new Exception("商户密钥不能为空！");
-            }
-            $paramsArray['mch_id'] = $mch_id;
-            $paramsArray['date'] = $date;
-            // 上述必传参数签名
-            $sign = $this->paySign->getSign($paramsArray, $key);
-            $paramsArray['sign'] = $sign;
-
-            $resp = $this->httpUtil->httpGet($this->apiConfig['wxpay_get_wx_bill_info_url'] . "?" . http_build_query($paramsArray));
-            if (empty($resp)) {
-                throw new Exception("API接口返回为空");
-            }
-            $ret = @json_decode($resp, true);
-            if (empty($ret)) {
-                throw new Exception("API接口返回为空");
-            }
-            $code = $ret['code'];
-            if ($code != 0) {
-                throw new Exception($ret['msg']);
-            }
-            $result = $ret['data'];
-        } catch (Exception $e) {
-            throw  new Exception($e->getMessage());
-        }
-        return $result;
-    }
-
     /**
      * 下载微信对账单
      * 使用场景：下载微信官方对账单。商户可以通过该接口下载历史交易清单。返回excel下载地址和原生数据。
      * @param $mch_id 微信支付商户号
      * @param $date 对账单日期 示例值：2020-01-23
-     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      * @return 对账单信息 包括对账单数据，excel下载地址，汇总数据 文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/downloadBill
      * @throws Exception
      */
@@ -890,7 +842,7 @@ class WxPay
      * 查询刷卡支付结果
      * @param $mch_id 微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
      * @param $out_trade_no 商户单号
-     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      * @return 查询结果对象 详情参考 https://open.pay.yungouos.com/#/api/api/pay/wxpay/getCodePayResult
      * @throws Exception
      */
