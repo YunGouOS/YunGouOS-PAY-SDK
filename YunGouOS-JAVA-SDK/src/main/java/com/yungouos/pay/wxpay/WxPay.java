@@ -54,7 +54,7 @@ public class WxPay {
 	 * @param auto_node
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
 	 * 
 	 * @return CodePayBiz 付款码支付结果对象 参考文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/codePay
 	 */
@@ -79,7 +79,7 @@ public class WxPay {
 				throw new PayException("授权码不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new PayException("商户密钥不能为空！");
+				throw new PayException("支付密钥不能为空！");
 			}
 			params.put("out_trade_no", out_trade_no);
 			params.put("total_fee", total_fee);
@@ -149,7 +149,7 @@ public class WxPay {
 	 * @param auto_node
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》 独立密钥 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》 支付密钥 查看密钥
 	 * 
 	 * @return 支付二维码连接
 	 */
@@ -171,7 +171,7 @@ public class WxPay {
 				throw new PayException("商品描述不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new PayException("商户密钥不能为空！");
+				throw new PayException("支付密钥不能为空！");
 			}
 			params.put("out_trade_no", out_trade_no);
 			params.put("total_fee", total_fee);
@@ -240,7 +240,7 @@ public class WxPay {
 	 * @param auto_node
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》 独立密钥 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》 支付密钥 查看密钥
 	 * 
 	 * @return JSSDK支付需要的jspackage
 	 */
@@ -265,7 +265,7 @@ public class WxPay {
 				throw new PayException("openId不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new PayException("商户密钥不能为空！");
+				throw new PayException("支付密钥不能为空！");
 			}
 			params.put("out_trade_no", out_trade_no);
 			params.put("total_fee", total_fee);
@@ -329,7 +329,7 @@ public class WxPay {
 	 * @param auto_node
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》 独立密钥 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》 支付密钥 查看密钥
 	 * 
 	 * @return 返回收银台地址，重定向到该地址即可
 	 */
@@ -351,7 +351,7 @@ public class WxPay {
 				throw new PayException("商品描述不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new PayException("商户密钥不能为空！");
+				throw new PayException("支付密钥不能为空！");
 			}
 			params.put("out_trade_no", out_trade_no);
 			params.put("total_fee", total_fee);
@@ -414,7 +414,7 @@ public class WxPay {
 	 * @param auto_node
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》 独立密钥 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》 支付密钥 查看密钥
 	 * 
 	 * @return 返回小程序支付所需的参数，拿到参数后由小程序端将参数携带跳转到“支付收银”小程序
 	 */
@@ -436,7 +436,7 @@ public class WxPay {
 				throw new PayException("商品描述不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new PayException("商户密钥不能为空！");
+				throw new PayException("支付密钥不能为空！");
 			}
 			params.put("out_trade_no", out_trade_no);
 			params.put("total_fee", total_fee);
@@ -486,7 +486,7 @@ public class WxPay {
 	 * @param auto_node
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》 独立密钥 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》 支付密钥 查看密钥
 	 * 
 	 * @return 返回原生小程序支付所需的参数，拿到参数后由小程序端调用微信小程序API发起支付
 	 */
@@ -508,7 +508,7 @@ public class WxPay {
 				throw new PayException("商品描述不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new PayException("商户密钥不能为空！");
+				throw new PayException("支付密钥不能为空！");
 			}
 			params.put("out_trade_no", out_trade_no);
 			params.put("total_fee", total_fee);
@@ -576,7 +576,7 @@ public class WxPay {
 	 * @param auto_node
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》 独立密钥 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》 支付密钥 查看密钥
 	 * 
 	 * @return FacePayBiz 人脸支付结果对象 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/facePay
 	 */
@@ -604,7 +604,7 @@ public class WxPay {
 				throw new PayException("人脸凭证不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new PayException("商户密钥不能为空！");
+				throw new PayException("支付密钥不能为空！");
 			}
 			params.put("out_trade_no", out_trade_no);
 			params.put("total_fee", total_fee);
@@ -669,7 +669,7 @@ public class WxPay {
 	 * @param auto_node
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》 独立密钥 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》 支付密钥 查看密钥
 	 * 
 	 * @return 返回微信H5支付链接，重定向到该地址可打开微信H5进行支付
 	 */
@@ -691,7 +691,7 @@ public class WxPay {
 				throw new PayException("商品描述不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new PayException("商户密钥不能为空！");
+				throw new PayException("支付密钥不能为空！");
 			}
 			params.put("out_trade_no", out_trade_no);
 			params.put("total_fee", total_fee);
@@ -754,7 +754,7 @@ public class WxPay {
 	 * @param auto_node
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》 独立密钥 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》 支付密钥 查看密钥
 	 * 
 	 * @return JSONObject 返回微信APP支付所需的参数 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/appPay
 	 */
@@ -779,7 +779,7 @@ public class WxPay {
 				throw new PayException("商品描述不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new PayException("商户密钥不能为空！");
+				throw new PayException("支付密钥不能为空！");
 			}
 			params.put("app_id", app_id);
 			params.put("out_trade_no", out_trade_no);
@@ -826,7 +826,7 @@ public class WxPay {
 	 * @param mch_id
 	 *            微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》 独立密钥 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》 支付密钥 查看密钥
 	 * 
 	 * @return CodePayBiz 刷卡支付结果对象 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/getCodePayResult
 	 */
@@ -841,7 +841,7 @@ public class WxPay {
 				throw new PayException("商户号不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new PayException("商户密钥不能为空！");
+				throw new PayException("支付密钥不能为空！");
 			}
 			params.put("out_trade_no", out_trade_no);
 			params.put("mch_id", mch_id);
@@ -883,7 +883,7 @@ public class WxPay {
 	 * @param money
 	 *            退款金额
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》 独立密钥 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》 支付密钥 查看密钥
 	 * 
 	 * @return refundOrder 退款订单对象 参考文档：http://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder
 	 */
@@ -901,7 +901,7 @@ public class WxPay {
 				throw new PayException("退款金额不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new PayException("商户密钥不能为空！");
+				throw new PayException("支付密钥不能为空！");
 			}
 			params.put("out_trade_no", out_trade_no);
 			params.put("mch_id", mch_id);
@@ -946,7 +946,7 @@ public class WxPay {
 	 * @param mch_id
 	 *            微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》 独立密钥 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》 支付密钥 查看密钥
 	 * 
 	 * @return RefundSearch 退款结果对象，参考文档 http://open.pay.yungouos.com/#/api/api/pay/wxpay/getRefundResult
 	 */
@@ -961,7 +961,7 @@ public class WxPay {
 				throw new PayException("商户号不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new PayException("商户密钥不能为空！");
+				throw new PayException("支付密钥不能为空！");
 			}
 			params.put("refund_no", refund_no);
 			params.put("mch_id", mch_id);
@@ -1005,7 +1005,7 @@ public class WxPay {
 	 * @param date
 	 *            需要查询的结算日期，如：2020-01-23
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
 	 * 
 	 * @return WxBillStatusBiz 结算结果对象，参考文档 https://open.pay.yungouos.com/#/api/api/pay/wxpay/getBillStatus
 	 */
@@ -1020,7 +1020,7 @@ public class WxPay {
 				throw new PayException("查询日期不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new PayException("商户密钥不能为空！");
+				throw new PayException("支付密钥不能为空！");
 			}
 			params.put("mch_id", mch_id);
 			params.put("date", date);
@@ -1063,7 +1063,7 @@ public class WxPay {
 	 * @param date
 	 *            对账单日期，如：2020-01-23
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
 	 * 
 	 * @return WxDownloadBillBiz 对账单对象 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/downloadBill
 	 * 
@@ -1079,7 +1079,7 @@ public class WxPay {
 				throw new PayException("日期不能为空！");
 			}
 			if (StrUtil.isBlank(key)) {
-				throw new PayException("商户密钥不能为空！");
+				throw new PayException("支付密钥不能为空！");
 			}
 			params.put("mch_id", mch_id);
 			params.put("date", date);
@@ -1133,7 +1133,7 @@ public class WxPay {
 	 * @param end_time
 	 *            结束时间
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
 	 * 
 	 */
 	public static void getComplaintList(String mch_id, String status, String order_no, String out_trade_no, String pay_no, String start_time, String end_time, String key) throws PayException {

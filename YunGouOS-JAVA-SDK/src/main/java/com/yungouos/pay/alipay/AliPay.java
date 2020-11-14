@@ -40,7 +40,7 @@ public class AliPay {
 	 * @param notify_url
 	 *            异步回调地址，不传无回调
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
 	 * @return 支付二维码连接
 	 */
 	public static String nativePay(String out_trade_no, String total_fee, String mch_id, String body, String type, String attach, String notify_url, String key) throws PayException {
@@ -114,7 +114,7 @@ public class AliPay {
 	 * @param notify_url
 	 *            异步回调地址，不传无回调
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
 	 * @return wap支付连接，重定向到该地址自动打开支付APP付款
 	 */
 	public static String wapPay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String key) throws PayException {
@@ -178,7 +178,7 @@ public class AliPay {
 	 * @param money
 	 *            退款金额
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
 	 * @return refundOrder 退款订单对象 参考文档：http://open.pay.yungouos.com/#/api/api/pay/alipay/refundOrder
 	 */
 	public static RefundOrder orderRefund(String out_trade_no, String mch_id, String money, String refund_desc, String key) throws PayException {
@@ -240,7 +240,7 @@ public class AliPay {
 	 * @param mch_id
 	 *            支付宝商户号 登录YunGouOS.com-》支付宝-》我的支付 查看商户号
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》我的账户-》账户中心 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
 	 * @return RefundSearch 退款结果对象，参考文档
 	 *         http://open.pay.yungouos.com/#/api/api/pay/alipay/getRefundResult
 	 */

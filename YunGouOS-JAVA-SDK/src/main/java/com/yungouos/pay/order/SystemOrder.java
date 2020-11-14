@@ -30,7 +30,7 @@ public class SystemOrder {
 	 * @param mch_id
 	 *            支付商户号
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》微信支付/支付宝-》商户管理 查看支付密钥
+	 *            支付密钥 登录YunGouOS.com-》微信支付/支付宝-》商户管理 查看支付密钥
 	 * @return WxPayOrder订单对象
 	 *         参考文档：https://open.pay.yungouos.com/#/api/api/system/order/getPayOrderInfo
 	 */

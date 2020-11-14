@@ -48,7 +48,7 @@ public class Finance {
 	 * @param money
 	 *            固定分账金额。每笔订单固定分账金额，优先级次于rate参数
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
 	 * @return String 配置单号
 	 */
 	public static String configV2(String mch_id,String appId,String reason, String channel, String openId, String receiver_mch_id, String name, String rate, String money, String key)
@@ -175,7 +175,7 @@ public class Finance {
 	 * @param money
 	 *            固定分账金额。每笔订单固定分账金额，优先级次于rate参数
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
 	 * @return String 配置单号
 	 */
 	@Deprecated
@@ -292,7 +292,7 @@ public class Finance {
 	 * @param config_no
 	 *            配置单号（分账收款人配置单号，支持多个 使用,号分割）
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
 	 * @return String 配置单号
 	 */
 	public static List<String> createBill(String mch_id, String out_trade_no, String config_no, String key) throws PayException {
@@ -348,7 +348,7 @@ public class Finance {
 	 * @param description
 	 *            分账描述
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
 	 * @return String 配置单号
 	 */
 	public static boolean sendPay(String mch_id, String ps_no, String description, String key) throws PayException {
@@ -402,7 +402,7 @@ public class Finance {
 	 * @param ps_no
 	 *            分账单号
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
 	 * @return String 配置单号
 	 */
 	public static AllocateResultBiz getPayResult(String mch_id, String ps_no, String key) throws PayException {
@@ -458,7 +458,7 @@ public class Finance {
 	 * @param out_trade_no
 	 *            分账单号
 	 * @param key
-	 *            商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
+	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
 	 * @return String 配置单号
 	 */
 	public static boolean finish(String mch_id, String out_trade_no, String key) throws PayException {
