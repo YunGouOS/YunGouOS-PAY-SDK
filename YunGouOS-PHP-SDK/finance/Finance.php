@@ -43,7 +43,7 @@ class Finance
      * @param $name 分账收款方姓名。当传递了account参数时，该参数必填，且需要与account对应的微信实名信息一致
      * @param $rate 分账比例。如：10 则代表分账比例是订单金额的10% 优先级高于money参数
      * @param $money 固定分账金额。每笔订单固定分账金额，优先级次于rate参数
-     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      * @return String 配置单号
      */
     public function configV2($mch_id,$appId, $reason, $channel, $openId,$receiver_mch_id, $name, $rate, $money, $key)
@@ -148,7 +148,7 @@ class Finance
      * @param $name 分账收款方姓名。当传递了account参数时，该参数必填，且需要与account对应的微信实名信息一致
      * @param $rate 分账比例。如：10 则代表分账比例是订单金额的10% 优先级高于money参数
      * @param $money 固定分账金额。每笔订单固定分账金额，优先级次于rate参数
-     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      * @return String 配置单号
      */
     public function config($mch_id, $reason, $channel, $openId, $account, $receiver_mch_id, $name, $rate, $money, $key)
@@ -253,7 +253,7 @@ class Finance
      * @param $mch_id 分账方支付商户号
      * @param $out_trade_no 商户单号 （需要分账的订单号）
      * @param $config_no 配置单号（分账收款人配置单号，支持多个 使用,号分割）
-     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      * @return String 配置单号
      */
     public function createBill($mch_id, $out_trade_no, $config_no, $key)
@@ -299,7 +299,7 @@ class Finance
      * @param $mch_id 分账方支付商户号
      * @param $ps_no 分账单号
      * @param $description 分账描述
-     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      * @return String 配置单号
      */
     public function sendPay($mch_id, $ps_no, $description, $key)
@@ -346,7 +346,7 @@ class Finance
      * 查询分账支付结果。文档地址：https://api.pay.yungouos.com/api/finance/profitsharing/getPayResult
      * @param $mch_id 分账方支付商户号
      * @param $ps_no 分账单号
-     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      * @return String 配置单号
      */
     public function getPayResult($mch_id, $ps_no, $key)
@@ -396,7 +396,7 @@ class Finance
      *
      * @param $mch_id 分账方支付商户号
      * @param $out_trade_no 分账单号
-     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》独立密钥 查看密钥
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      * @return String 配置单号
      */
     public function finish($mch_id, $out_trade_no, $key)

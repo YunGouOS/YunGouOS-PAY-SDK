@@ -33,8 +33,8 @@ class Order
     /**
      * 查询订单
      * @param $out_trade_no 商户订单号
-     * @param $mch_id 支付商户号 取决于订单所属类型。【微信支付：登录YunGouOS.com-》微信支付-》我的支付-》查看商户号】 【支付宝：登录YunGouOS.com-》支付宝-》我的支付-》查看商户号】
-     * @param $key 商户密钥 取决于订单所属类型。【微信支付：登录YunGouOS.com-》微信支付-》我的支付-》独立密钥 查看密钥】 【支付宝：登录YunGouOS.com-》支付宝-》我的支付-》独立密钥 查看密钥】
+     * @param $mch_id 支付商户号 取决于订单所属类型。【微信支付：登录YunGouOS.com-》微信支付-》商户管理-》查看商户号】 【支付宝：登录YunGouOS.com-》支付宝-》商户管理-》查看商户号】
+     * @param $key 商户密钥 取决于订单所属类型。【微信支付：登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥】 【支付宝：登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥】
      * @return 订单对象信息 详情参考https://open.pay.yungouos.com/#/api/api/system/order/getPayOrderInfo
      * @throws Exception
      */

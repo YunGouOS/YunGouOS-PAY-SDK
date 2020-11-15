@@ -40,7 +40,7 @@ class AliPay
      * @param $type 返回类型（1、返回支付宝的支付连接需要自行生成二维码；2、直接返回付款二维码地址，页面上展示即可。不填默认1 ）
      * @param $attach 附加数据 回调时原路返回 可不传
      * @param $notify_url 异步回调地址，不传无回调
-     * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付-》独立密钥 查看密钥
+     * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付-》支付密钥 查看密钥
      */
     public function nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url, $key)
     {
@@ -104,7 +104,7 @@ class AliPay
      * @param $body  商品描述
      * @param $attach 附加数据 回调时原路返回 可不传
      * @param $notify_url 异步回调地址，不传无回调
-     * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付-》独立密钥 查看密钥
+     * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付-》支付密钥 查看密钥
      */
     public function wapPay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url, $key)
     {
@@ -162,7 +162,7 @@ class AliPay
      * @param $mch_id 支付宝商户号 登录YunGouOS.com-》支付宝-》我的支付 查看商户号
      * @param $money 退款金额
      * @param $refund_desc 退款描述
-     * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付 独立密钥 查看密钥
+     * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付 支付密钥 查看密钥
      * @return 退款信息 详情 https://open.pay.yungouos.com/#/api/api/pay/alipay/refundOrder
      * @throws Exception
      */
@@ -214,7 +214,7 @@ class AliPay
      * 查询退款结果
      * @param $refund_no 退款单号，调用发起退款结果返回
      * @param $mch_id 微信支付商户号 登录YunGouOS.com-》支付宝-》我的支付 查看商户号
-     * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付 独立密钥 查看密钥
+     * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付 支付密钥 查看密钥
      * @return 退款对象 详情参考https://open.pay.yungouos.com/#/api/api/pay/alipay/getRefundResult
      * @throws Exception
      */
