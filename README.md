@@ -81,11 +81,11 @@ SDK文档：[https://apidoc.gitee.com/YunGouOS/YunGouOS-PAY-SDK/](https://apidoc
 
 maven添加依赖
 
-  	<dependency>
-	    <groupId>com.yungouos.pay</groupId>
-	    <artifactId>yungouos-pay-sdk</artifactId>
-	    <version>1.1.19</version>
-	</dependency>
+  <dependency>
+    <groupId>com.yungouos.pay</groupId>
+    <artifactId>yungouos-pay-sdk</artifactId>
+    <version>1.1.20</version>
+</dependency>
 
 
 # 微信支付--示例代码
@@ -135,13 +135,13 @@ maven添加依赖
 
 返回H5支付的链接地址
 
-	String result = WxPay.H5Pay(System.currentTimeMillis() + "", "0.01", mchId, "H5支付测试，仅限企业", null, null, null, null, null, null, key);
+	String result = WxPay.H5Pay(System.currentTimeMillis() + "", "0.01", mchId, "H5支付测试", null, null, null, null, null, null, key);
 
 ## 微信APP支付
 
 返回APP支付所需参数
 
-	JSONObject appPayParams = WxPay.appPay(微信开放平台APPID, System.currentTimeMillis() + "", "0.01", mchId, "APP支付测试，仅限企业", null, null, null, null, null, key);
+	JSONObject appPayParams = WxPay.appPay(微信开放平台APPID, System.currentTimeMillis() + "", "0.01", mchId, "APP支付测试", null, null, null, null, null, key);
 
 ## 查询刷卡支付结果
 
@@ -233,6 +233,14 @@ maven添加依赖
 ## 小程序支付
 
 	 WxPay.minAppPay(订单号,支付金额,微信支付商户号,商品描述,收银台标题,附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥)
+
+## H5支付
+
+	 WxPay.H5Pay(订单号,支付金额,微信支付商户号,商品描述,附加数据，异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥)	 
+
+## APP支付
+
+	 WxPay.appPay(开放平台APPID,订单号,支付金额,微信支付商户号,商品描述,附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥)
 
 ## 订单查询
 
