@@ -81,11 +81,17 @@ SDK文档：[https://apidoc.gitee.com/YunGouOS/YunGouOS-PAY-SDK/](https://apidoc
 
 maven添加依赖
 
-  <dependency>
+  
+
+```java
+<dependency>
     <groupId>com.yungouos.pay</groupId>
     <artifactId>yungouos-pay-sdk</artifactId>
     <version>1.1.20</version>
 </dependency>
+```
+
+
 
 
 # 微信支付--示例代码
@@ -95,7 +101,9 @@ maven添加依赖
 
 返回二维码地址或微信支付二维码连接（需自行生成二维码）
 
-    String result= WxPay.nativePay(System.currentTimeMillis() + "", "1", mchId, "测试", null, null, null, null,null,null,null,key);
+```java
+String result= WxPay.nativePay(System.currentTimeMillis() + "", "1", mchId, "测试", null, null, null, null,null,null,null,key);
+```
 
 ## 微信公众号支付
 
@@ -199,7 +207,7 @@ maven添加依赖
 
 ## 订单查询接口
 	PayOrder payOrder = SystemOrder.getOrderInfoByOutTradeNo("1556267522899", "1529637931", "6BA371F4CFAB4465AA04DAEADBAC4161");
-	
+
 
 返回结果说明：[http://open.pay.yungouos.com/#/api/api/pay/wxpay/getWxPayOrderInfo](http://open.pay.yungouos.com/#/api/api/pay/wxpay/getWxPayOrderInfo "http://open.pay.yungouos.com/#/api/api/pay/wxpay/getWxPayOrderInfo")
 
@@ -249,13 +257,13 @@ maven添加依赖
 ## 发起退款
 
 	WxPay.orderRefund(订单号, 微信支付商户号, 退款金额, 商户密钥);
-	
+
 ## 查询微信支付退款结果
-	
+
 	WxPay.getRefundResult(退款单号（发起退款接口返回）,微信支付商户号, 商户密钥);
 
 ## 获取微信授权URL
-	
+
 	WxPay.getWxOauthUrl(额外参数json字符串,授权结束后返回地址);
 
 ## 查询微信授权信息
@@ -263,7 +271,7 @@ maven添加依赖
 	WxPay.getWxOauthInfo(授权结束后返回的code);
 
 ## 支付宝扫码支付
-	
+
 	AliPay.nativePay(订单号,支付金额,支付宝商户号,商品描述,返回类型，附加数据，异步回调地址,同步回调地址,商户密钥);
 
 ## 支付宝WAP支付
@@ -275,15 +283,16 @@ maven添加依赖
 	AliPay.orderRefund(订单号, 支付宝商户号, 退款金额, 退款描述,商户密钥);
 
 ## 查询支付宝退款结果
-	
+
 	WxPay.getRefundResult(退款单号（发起退款接口返回）,支付宝商户号, 商户密钥);
-	
+
 ## 签名工具
 	 //参数签名
 	 PaySignUtil.createSign([类型Map]签名参数,商户密钥)；
-
+	
 	 //回调签名验证
 	 PaySignUtil.checkNotifySign(回调的request对象)；
 
-	
-	
+
+​	
+​	
