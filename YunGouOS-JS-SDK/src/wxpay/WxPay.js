@@ -188,7 +188,7 @@ function codePay(out_trade_no, total_fee, mch_id, body, auth_code, attach, recei
  * @param {*} auto_node 执行自动分账动作的节点，枚举值【pay、callback】分别表示【付款成功后分账、回调成功后分账】
  * @param {*} config_no 分账配置单号。支持多个分账，使用,号分割
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
-* @return {*} 返回二维码支付链接地址或原生支付链接
+ * @return {*} 返回二维码支付链接地址或原生支付链接
  */
 async function nativePayAsync(out_trade_no, total_fee, mch_id, body, type, attach, notify_url, auto, auto_node, config_no, payKey) {
     if (Common.isEmpty(out_trade_no)) {
