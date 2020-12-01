@@ -56,10 +56,12 @@ npm i yungouos-pay-sdk
 2、项目中引入
 
 ```js
-import {WxPay} from 'yungouos-pay-sdk'
+import {WxPay,AliPay} from 'yungouos-pay-sdk'
 ```
 
 ## 二、使用
+
+### 1、微信支付
 
 #### 扫码支付（同步）
 
@@ -213,3 +215,74 @@ WxPay.downloadBill(refund_no, mch_id, payKey).then((response)=>{
 });
 ```
 
+### 2、支付宝
+
+#### 扫码支付（同步）
+
+```js
+let result = AliPay.nativePayAsync(out_trade_no, total_fee, mch_id, body, type, attach, notify_url, payKey);
+//二维码链接地址
+console.log(result);
+```
+
+#### 扫码支付（异步）
+
+```js
+AliPay.nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_url, payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
+#### wap支付（同步）
+
+```js
+let result = AliPay.wapPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, payKey);
+//wap支付链接地址
+console.log(result);
+```
+
+#### wap支付（异步）
+
+```js
+AliPay.wapPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
+
+#### 发起退款（同步）
+
+```js
+let result = AliPay.refundAsync(out_trade_no, mch_id, money, refund_desc, payKey);
+//发起退款结果
+console.log(result);
+```
+
+#### 发起退款（异步）
+
+```js
+AliPay.refund(out_trade_no, mch_id, money, refund_desc, payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
+
+#### 查询退款结果（同步）
+
+```js
+let result = AliPay.getRefundResultAsync(out_trade_no, mch_id, money, refund_desc, payKey);
+//查询退款结果
+console.log(result);
+```
+
+#### 查询退款结果（异步）
+
+```js
+AliPay.getRefundResult(out_trade_no, mch_id, money, refund_desc, payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
