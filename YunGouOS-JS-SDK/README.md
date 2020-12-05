@@ -286,3 +286,92 @@ AliPay.getRefundResult(out_trade_no, mch_id, money, refund_desc, payKey).then((r
     console.log(response);
 });
 ```
+
+### 3、微信支付分账
+
+
+#### 配置分账账户（同步）
+
+```js
+let result =Finance.configAsync(mch_id,appId,reason,channel,openId,receiver_mch_id,name,rate,money,payKey);
+//配置分账结果
+console.log(result);
+```
+
+#### 配置分账账户（异步）
+
+```js
+Finance.config(mch_id,appId,reason,channel,openId,receiver_mch_id,name,rate,money,payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
+#### 生成分账账单（同步）
+
+```js
+let result =Finance.createBillAsync(mch_id, out_trade_no, config_no, payKey);
+//生成分账账单结果
+console.log(result);
+```
+
+#### 生成分账账单（异步）
+
+```js
+Finance.createBill(mch_id, out_trade_no, config_no, payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
+
+#### 发起分账支付（同步）
+
+```js
+let result =Finance.sendPayAsync(mch_id, ps_no, description, payKey);
+//发起分账支付结果
+console.log(result);
+```
+
+#### 发起分账支付（异步）
+
+```js
+Finance.sendPay(mch_id, ps_no, description, payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
+#### 查询分账支付结果（同步）
+
+```js
+let result =Finance.getPayResultAsync(mch_id, ps_no, payKey);
+//查询分账支付结果
+console.log(result);
+```
+
+#### 查询分账支付结果（异步）
+
+```js
+Finance.getPayResult(mch_id, ps_no, payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
+#### 完结分账（同步）
+
+```js
+let result =Finance.finishAsync(mch_id, out_trade_no, payKey);
+//完结分账结果
+console.log(result);
+```
+
+#### 完结分账（异步）
+
+```js
+Finance.finish(mch_id, out_trade_no, payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
