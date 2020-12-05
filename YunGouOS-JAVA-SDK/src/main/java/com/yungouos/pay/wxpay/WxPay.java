@@ -646,7 +646,7 @@ public class WxPay {
 	}
 
 	/**
-	 * 微信H5支付（注意，该接口仅限企业用户使用）
+	 * 微信H5支付
 	 * 
 	 * @param out_trade_no
 	 *            订单号 不可重复
@@ -731,7 +731,7 @@ public class WxPay {
 	}
 
 	/**
-	 * 微信APP支付（注意，该接口仅限企业用户使用）
+	 * 微信APP支付
 	 * 
 	 * @param app_id
 	 *            微信开放平台申请的APPID

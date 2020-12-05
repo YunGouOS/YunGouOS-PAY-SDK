@@ -456,7 +456,7 @@ public class Finance {
 	 * @param mch_id
 	 *            分账方支付商户号
 	 * @param out_trade_no
-	 *            分账单号
+	 *            商户单号
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
 	 * @return String 配置单号
