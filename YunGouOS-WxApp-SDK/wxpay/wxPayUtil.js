@@ -1,4 +1,4 @@
-import md5 from 'md5'
+import md5 from './md5'
 import config from './config';
 
 /**
@@ -62,7 +62,7 @@ function toPay(out_trade_no,total_fee,body,notify_url,attach,title,callback) {
         mch_id: config.mch_id,
         body: body,
     }
-    //加密参数，商户密钥（登录YunGouOS.com 我的账户-》账户中心 查看）
+    //加密参数，商户密钥（登录YunGouOS.com 微信支付-》商户管理 查看）
     let sign = wxPaySign(data, config.key);
     //构造其他小程序跳转参数数据
     data.notify_url = notify_url;
