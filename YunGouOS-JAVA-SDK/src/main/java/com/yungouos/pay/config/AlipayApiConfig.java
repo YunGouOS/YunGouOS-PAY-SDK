@@ -15,7 +15,7 @@ public class AlipayApiConfig {
 	/**
 	 * 扫码支付
 	 */
-	public static String nativeApiUrl = apiUrl + "/api/pay/alipay/nativeApi";
+	public static String nativeApiUrl = apiUrl + "/api/pay/alipay/nativePay";
 
 	/**
 	 * WAP支付
