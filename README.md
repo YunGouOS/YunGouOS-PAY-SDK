@@ -286,7 +286,7 @@ String result= WxPay.nativePay(System.currentTimeMillis() + "", "1", mchId, "测
 	 PaySignUtil.createSign([类型Map]签名参数,商户密钥)；
 	
 	 //回调签名验证
-	 PaySignUtil.checkNotifySign(回调的request对象)；
+	 PaySignUtil.checkNotifySign(回调的request对象,商户密钥)；
 
 
 ​	
