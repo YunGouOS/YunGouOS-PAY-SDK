@@ -9,6 +9,7 @@ module.exports = {
   output: {
     filename: 'index.js',
     path: path.resolve(__dirname, '../dist/'),
+    globalObject: 'this',// 解决打包之后node.js引入时报 ReferenceError: window is not defined
     libraryTarget: 'umd',
     library:'yungouos-pay-sdk'
   },
