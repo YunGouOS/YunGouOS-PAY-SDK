@@ -36,4 +36,16 @@ public class FinanceConfig {
 	 * 停止分账
 	 */
 	public static String getFinishUrl = apiUrl+"/api/finance/profitsharing/finish";
+	
+	
+	/**
+	 * 微信转账
+	 */
+	public static String getRePayWxPayUrl = apiUrl+"/api/finance/repay/wxpay";
+	
+	
+	/**
+	 * 支付宝转账
+	 */
+	public static String getRePayAliPayUrl = apiUrl+"/api/finance/repay/alipay";
 }

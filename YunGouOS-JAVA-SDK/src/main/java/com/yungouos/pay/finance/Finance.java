@@ -10,6 +10,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.yungouos.pay.common.PayException;
 import com.yungouos.pay.config.FinanceConfig;
 import com.yungouos.pay.entity.AllocateResultBiz;
+import com.yungouos.pay.entity.RePayBiz;
 import com.yungouos.pay.util.PaySignUtil;
 
 import cn.hutool.core.util.NumberUtil;
@@ -293,7 +294,7 @@ public class Finance {
 	 *            配置单号（分账收款人配置单号，支持多个 使用,号分割）
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
-	 * @return String 配置单号
+	 * @return List 配置单号列表
 	 */
 	public static List<String> createBill(String mch_id, String out_trade_no, String config_no, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -349,7 +350,7 @@ public class Finance {
 	 *            分账描述
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
-	 * @return String 配置单号
+	 * @return boolean 是否成功
 	 */
 	public static boolean sendPay(String mch_id, String ps_no, String description, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -459,7 +460,7 @@ public class Finance {
 	 *            商户单号
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
-	 * @return String 配置单号
+	 * @return boolean 是否成功
 	 */
 	public static boolean finish(String mch_id, String out_trade_no, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -498,5 +499,179 @@ public class Finance {
 			throw new PayException(e.getMessage());
 		}
 		return flag;
+	}
+	
+	
+	/**
+	 * 转账到微信零钱
+	 * 
+	 * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/wxpay
+	 * 
+	 * @param merchant_id
+	 *            YunGouOS商户ID  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 
+	 * @param out_trade_no
+	 *            商户单号
+	 * @param account
+	 *            收款账户openid
+	 * @param account_name
+	 *            收款方真实姓名
+	 * @param money
+	 *            付款金额。单位：元（范围：1~5000）
+	 * @param desc
+	 *            付款描述
+	 * @param mch_id
+	 *            付款商户号。自有商户接入的开通了代付权限的可以使用，如果使用YunGouOS代付体系可不传
+	 * @param key
+	 *            商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
+	 *            
+	 * @return RePayBiz 参考文档：https://open.pay.yungouos.com/#/api/api/finance/repay/wxpay
+	 */
+	public static RePayBiz rePayWxPay(String merchant_id, String out_trade_no,String account,String account_name,String money,String desc,String mch_id, String key) throws PayException {
+		Map<String, Object> params = new HashMap<String, Object>();
+		RePayBiz rePayBiz = null;
+		try {
+			if (StrUtil.isBlank(merchant_id)) {
+				throw new PayException("YunGouOS商户ID不能为空！");
+			}
+			if (StrUtil.isBlank(out_trade_no)) {
+				throw new PayException("商户单号不能为空！");
+			}
+			if (StrUtil.isBlank(account)) {
+				throw new PayException("收款账户openid不能为空！");
+			}
+			if (StrUtil.isBlank(money)) {
+				throw new PayException("付款金额不能为空！");
+			}
+			if (StrUtil.isBlank(desc)) {
+				throw new PayException("付款描述不能为空！");
+			}
+			// 上述参数签名
+			params.put("merchant_id", merchant_id);
+			params.put("out_trade_no", out_trade_no);
+			params.put("account", account);
+			params.put("money", money);
+			params.put("desc", desc);
+			String sign = PaySignUtil.createSign(params, key);
+			params.put("sign", sign);
+			//不需要参与签名的参数
+			if(!StrUtil.isBlank(account_name)){
+				params.put("account_name", account_name);
+			}
+			if(!StrUtil.isBlank(mch_id)){
+				params.put("mch_id", mch_id);
+			}
+			String result = HttpRequest.post(FinanceConfig.getRePayWxPayUrl).form(params).execute().body();
+			if (StrUtil.isBlank(result)) {
+				throw new PayException("API接口返回为空，请联系客服");
+			}
+			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
+			if (jsonObject == null) {
+				throw new PayException("API结果转换错误");
+			}
+			Integer code = jsonObject.getInteger("code");
+			if (code==null||0 != code.intValue()) {
+				throw new PayException(jsonObject.getString("msg"));
+			}
+			JSONObject json = (JSONObject) jsonObject.get("data");
+			if (json == null) {
+				throw new PayException("查询结果转换失败！");
+			}
+			rePayBiz = JSONObject.toJavaObject(json, RePayBiz.class);
+		} catch (PayException e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
+		}
+		return rePayBiz;
+	}
+	
+	
+	
+	/**
+	 * 转账到支付宝余额
+	 * 
+	 * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/alipay
+	 * 
+	 * @param merchant_id
+	 *            YunGouOS商户ID  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 
+	 * @param out_trade_no
+	 *            商户单号
+	 * @param account
+	 *            收款支付宝账户
+	 * @param account_name
+	 *            收款方真实姓名
+	 * @param money
+	 *            付款金额。单位：元（范围：1~5000）
+	 * @param desc
+	 *            付款描述
+	 * @param mch_id
+	 *            付款商户号。自有商户接入的开通了代付权限的可以使用，如果使用YunGouOS代付体系可不传
+	 * @param key
+	 *            商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
+	 *            
+	 * @return RePayBiz 参考文档：https://open.pay.yungouos.com/#/api/api/finance/repay/alipay
+	 */
+	public static RePayBiz rePayAliPay(String merchant_id, String out_trade_no,String account,String account_name,String money,String desc,String mch_id, String key) throws PayException {
+		Map<String, Object> params = new HashMap<String, Object>();
+		RePayBiz rePayBiz = null;
+		try {
+			if (StrUtil.isBlank(merchant_id)) {
+				throw new PayException("YunGouOS商户ID不能为空！");
+			}
+			if (StrUtil.isBlank(out_trade_no)) {
+				throw new PayException("商户单号不能为空！");
+			}
+			if (StrUtil.isBlank(account)) {
+				throw new PayException("收款支付宝账户不能为空！");
+			}
+			if (StrUtil.isBlank(account_name)) {
+				throw new PayException("收款支付宝姓名不能为空！");
+			}
+			if (StrUtil.isBlank(money)) {
+				throw new PayException("付款金额不能为空！");
+			}
+			if (StrUtil.isBlank(desc)) {
+				throw new PayException("付款描述不能为空！");
+			}
+			// 上述参数签名
+			params.put("merchant_id", merchant_id);
+			params.put("out_trade_no", out_trade_no);
+			params.put("account", account);
+			params.put("account_name", account_name);
+			params.put("money", money);
+			params.put("desc", desc);
+			String sign = PaySignUtil.createSign(params, key);
+			params.put("sign", sign);
+			//不需要参与签名的参数
+			if(!StrUtil.isBlank(mch_id)){
+				params.put("mch_id", mch_id);
+			}
+			String result = HttpRequest.post(FinanceConfig.getRePayAliPayUrl).form(params).execute().body();
+			if (StrUtil.isBlank(result)) {
+				throw new PayException("API接口返回为空，请联系客服");
+			}
+			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
+			if (jsonObject == null) {
+				throw new PayException("API结果转换错误");
+			}
+			Integer code = jsonObject.getInteger("code");
+			if (code==null||0 != code.intValue()) {
+				throw new PayException(jsonObject.getString("msg"));
+			}
+			JSONObject json = (JSONObject) jsonObject.get("data");
+			if (json == null) {
+				throw new PayException("查询结果转换失败！");
+			}
+			rePayBiz = JSONObject.toJavaObject(json, RePayBiz.class);
+		} catch (PayException e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
+		}
+		return rePayBiz;
 	}
 }
