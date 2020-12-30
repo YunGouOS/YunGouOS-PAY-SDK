@@ -125,7 +125,8 @@ String result= WxPay.nativePay(System.currentTimeMillis() + "", "1", mchId, "测
 
 没错就是这么简单，就可以快速的接入支付宝官方支付。
 
-## 签名工具
+# 签名工具
+
 	 //参数签名
 	 PaySignUtil.createSign([类型Map]签名参数,商户密钥)；
 	
@@ -139,7 +140,6 @@ String result= WxPay.nativePay(System.currentTimeMillis() + "", "1", mchId, "测
 
 
 返回结果说明：[http://open.pay.yungouos.com/#/api/api/pay/wxpay/getWxPayOrderInfo](http://open.pay.yungouos.com/#/api/api/pay/wxpay/getWxPayOrderInfo "http://open.pay.yungouos.com/#/api/api/pay/wxpay/getWxPayOrderInfo")
-
 
 
 ## 获取微信授权URL
