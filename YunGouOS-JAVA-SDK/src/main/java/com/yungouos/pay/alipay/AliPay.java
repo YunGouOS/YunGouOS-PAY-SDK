@@ -6,6 +6,8 @@ import java.util.Map;
 import com.alibaba.fastjson.JSONObject;
 import com.yungouos.pay.common.PayException;
 import com.yungouos.pay.config.AlipayApiConfig;
+import com.yungouos.pay.entity.AliPayJsPayBiz;
+import com.yungouos.pay.entity.PayOrder;
 import com.yungouos.pay.entity.RefundOrder;
 import com.yungouos.pay.entity.RefundSearch;
 import com.yungouos.pay.util.PaySignUtil;
@@ -91,7 +93,7 @@ public class AliPay {
 		} catch (PayException e) {
 			e.printStackTrace();
 			throw new PayException(e.getMessage());
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new PayException(e.getMessage());
 		}
@@ -161,11 +163,87 @@ public class AliPay {
 		} catch (PayException e) {
 			e.printStackTrace();
 			throw new PayException(e.getMessage());
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new PayException(e.getMessage());
 		}
 		return resultUrl;
+	}
+
+	/**
+	 * JS支付
+	 * 
+	 * @param out_trade_no
+	 *            订单号 不可重复
+	 * @param total_fee
+	 *            支付金额 单位：元 范围：0.01-99999
+	 * @param mch_id
+	 *            支付宝商户号 登录YunGouOS.com-》支付宝-》我的支付 查看商户号
+	 * @param body
+	 *            商品描述
+	 * @param attach
+	 *            附加数据 回调时原路返回 可不传
+	 * @param notify_url
+	 *            异步回调地址，不传无回调
+	 * @param key
+	 *            支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
+	 * @return 支付宝JSSDK所需的对象数据 参考：https://open.pay.yungouos.com/#/api/api/pay/alipay/jsPay
+	 */
+	public static AliPayJsPayBiz jsPay(String out_trade_no, String total_fee, String mch_id,String buyer_id, String body, String attach, String notify_url, String key) throws PayException {
+		Map<String, Object> params = new HashMap<String, Object>();
+		AliPayJsPayBiz aliPayJsPayBiz = null;
+		try {
+			if (StrUtil.isBlank(out_trade_no)) {
+				throw new PayException("订单号不能为空！");
+			}
+			if (StrUtil.isBlank(total_fee)) {
+				throw new PayException("付款金额不能为空！");
+			}
+			if (StrUtil.isBlank(mch_id)) {
+				throw new PayException("商户号不能为空！");
+			}
+			if (StrUtil.isBlank(body)) {
+				throw new PayException("商品描述不能为空！");
+			}
+			if (StrUtil.isBlank(key)) {
+				throw new PayException("商户密钥不能为空！");
+			}
+			params.put("out_trade_no", out_trade_no);
+			params.put("total_fee", total_fee);
+			params.put("mch_id", mch_id);
+			params.put("buyer_id", buyer_id);
+			params.put("body", body);
+			// 上述必传参数签名
+			String sign = PaySignUtil.createSign(params, key);
+			params.put("attach", attach);
+			params.put("notify_url", notify_url);
+			params.put("sign", sign);
+			String result = HttpRequest.post(AlipayApiConfig.jsPayUrl).form(params).execute().body();
+			System.out.println(result);
+			if (StrUtil.isBlank(result)) {
+				throw new PayException("API接口返回为空，请联系客服");
+			}
+			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
+			if (jsonObject == null) {
+				throw new PayException("API结果转换错误");
+			}
+			Integer code = jsonObject.getInteger("code");
+			if (0 != code.intValue()) {
+				throw new PayException(jsonObject.getString("msg"));
+			}
+			JSONObject data = jsonObject.getJSONObject("data");
+			if (data == null) {
+				throw new PayException("API结果为空");
+			}
+			aliPayJsPayBiz = JSONObject.toJavaObject(data, AliPayJsPayBiz.class);
+		} catch (PayException e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
+		}
+		return aliPayJsPayBiz;
 	}
 
 	/**
@@ -225,7 +303,7 @@ public class AliPay {
 		} catch (PayException e) {
 			e.printStackTrace();
 			throw new PayException(e.getMessage());
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new PayException(e.getMessage());
 		}
@@ -241,8 +319,7 @@ public class AliPay {
 	 *            支付宝商户号 登录YunGouOS.com-》支付宝-》我的支付 查看商户号
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
-	 * @return RefundSearch 退款结果对象，参考文档
-	 *         http://open.pay.yungouos.com/#/api/api/pay/alipay/getRefundResult
+	 * @return RefundSearch 退款结果对象，参考文档 http://open.pay.yungouos.com/#/api/api/pay/alipay/getRefundResult
 	 */
 	public static RefundSearch getRefundResult(String refund_no, String mch_id, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -283,7 +360,7 @@ public class AliPay {
 		} catch (PayException e) {
 			e.printStackTrace();
 			throw new PayException(e.getMessage());
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new PayException(e.getMessage());
 		}

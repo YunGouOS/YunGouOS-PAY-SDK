@@ -1,4 +1,5 @@
 import com.yungouos.pay.alipay.AliPay;
+import com.yungouos.pay.entity.AliPayJsPayBiz;
 import com.yungouos.pay.entity.RefundOrder;
 import com.yungouos.pay.entity.RefundSearch;
 
@@ -28,6 +29,12 @@ public class AliPayTest {
 			// 支付宝wap支付
 			result = AliPay.wapPay(System.currentTimeMillis() + "", "0.01", mch_id, "支付测试", null, notify, key);
 			System.out.println("支付宝wap支付返回结果：" + result);
+
+			String buyer_id = "支付宝买家唯一编号，通过支付宝授权接口获取";
+
+			// 支付宝JS支付
+			AliPayJsPayBiz aliPayJsPayBiz = AliPay.jsPay(System.currentTimeMillis() + "", "0.01", mch_id, buyer_id, "支付测试", null, notify, key);
+			System.out.println(aliPayJsPayBiz.toString());
 
 			// 发起退款
 			RefundOrder orderRefund = AliPay.orderRefund("Y194506551713811", mch_id, "0.01", "测试退款", key);

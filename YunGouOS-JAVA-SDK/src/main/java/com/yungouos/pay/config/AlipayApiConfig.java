@@ -21,6 +21,12 @@ public class AlipayApiConfig {
 	 * WAP支付
 	 */
 	public static String wapPayUrl = apiUrl + "/api/pay/alipay/wapPay";
+	
+	
+	/**
+	 * JS支付
+	 */
+	public static String jsPayUrl = apiUrl + "/api/pay/alipay/jsPay";
 
 	/**
 	 * 订单退款
