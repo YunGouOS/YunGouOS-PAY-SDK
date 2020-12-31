@@ -34,7 +34,7 @@ public class AliPayTest {
 
 			// 支付宝JS支付
 			AliPayJsPayBiz aliPayJsPayBiz = AliPay.jsPay(System.currentTimeMillis() + "", "0.01", mch_id, buyer_id, "支付测试", null, notify, key);
-			System.out.println(aliPayJsPayBiz.toString());
+			System.out.println("支付宝JS支付返回结果"+aliPayJsPayBiz.toString());
 
 			// 发起退款
 			RefundOrder orderRefund = AliPay.orderRefund("Y194506551713811", mch_id, "0.01", "测试退款", key);
