@@ -377,7 +377,7 @@ Finance.finish(mch_id, out_trade_no, payKey).then((response)=>{
 ```
 
 
-### 3、转账代付
+### 4、转账代付
 
 
 #### 转账到微信零钱（同步）
