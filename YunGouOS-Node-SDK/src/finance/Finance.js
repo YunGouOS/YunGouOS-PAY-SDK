@@ -23,7 +23,7 @@ import PaySignUtil from '../util/PaySignUtil';
  * @param {*} payKey 支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
  * @return {*} 配置单号
  */
-async function configAsync(mch_id,appId,reason,channel,openId,receiver_mch_id,name,rate,money,payKey) {
+async function configAsync(mch_id, appId, reason, channel, openId, receiver_mch_id, name, rate, money, payKey) {
     if (Common.isEmpty(mch_id)) {
         console.error("yungouos sdk error", "商户号不能为空");
         return null;
@@ -57,7 +57,7 @@ async function configAsync(mch_id,appId,reason,channel,openId,receiver_mch_id,na
         channel: channel
     }
 
-    if (!Common.isEmpty(openId)) { 
+    if (!Common.isEmpty(openId)) {
         // 设置了openId参数，参与签名
         params.openId = openId;
     }
@@ -68,7 +68,7 @@ async function configAsync(mch_id,appId,reason,channel,openId,receiver_mch_id,na
     }
 
     if (!Common.isEmpty(name)) {
-       // 设置了name参数，参与签名
+        // 设置了name参数，参与签名
         params.name = name;
     }
 
@@ -530,6 +530,254 @@ function finish(mch_id, out_trade_no, payKey) {
     return HttpUtil.post(FinanceConfig.getFinishUrl, params);
 }
 
+/**
+ * 转账到微信零钱（同步）
+ * 
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/wxpay
+ *  
+ * @param {*} merchant_id  YunGouOS商户ID  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号
+ * @param {*} out_trade_no 商户单号
+ * @param {*} account 收款账户openid
+ * @param {*} account_name 收款方真实姓名
+ * @param {*} money 付款金额。单位：元（范围：1~5000）
+ * @param {*} desc  付款描述
+ * @param {*} mch_id 付款商户号。自有商户接入的开通了代付权限的可以使用，如果使用YunGouOS代付体系可不传
+ * @param {*} key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
+ */
+async function rePayWxPayAsync(merchant_id, out_trade_no, account, account_name, money, desc, mch_id, key) {
+    if (Common.isEmpty(merchant_id)) {
+        console.error("yungouos sdk error", "YunGouOS商户ID不能为空");
+        return null;
+    }
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户单号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(account)) {
+        console.error("yungouos sdk error", "收款账户openid不能为空");
+        return null;
+    }
+    if (Common.isEmpty(money)) {
+        console.error("yungouos sdk error", "付款金额不能为空");
+        return null;
+    }
+    if (Common.isEmpty(desc)) {
+        console.error("yungouos sdk error", "付款描述不能为空");
+        return null;
+    }
+    let params = {
+        merchant_id: merchant_id,
+        out_trade_no: out_trade_no,
+        account: account,
+        money: money,
+        desc: desc
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, key);
+    params.sign = sign;
+    if (!Common.isEmpty(account_name)) {
+        params.account_name = account_name;
+    }
+    if (!Common.isEmpty(mch_id)) {
+        params.mch_id = mch_id;
+    }
+    params.sign = sign;
+    let response = await HttpUtil.post(FinanceConfig.getRePayWxPayUrl, params);
+    let result = Common.doApiResult(response);
+    if (Common.isEmpty(result)) {
+        return null;
+    }
+    let data = result.data;
+    if (Common.isEmpty(data)) {
+        console.error("yungouos sdk error", "API无返回结果");
+        return null;
+    }
+    return data;
+}
+
+/**
+ * 转账到微信零钱（异步）
+ *
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/wxpay
+ *
+ * @param {*} merchant_id  YunGouOS商户ID  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号
+ * @param {*} out_trade_no 商户单号
+ * @param {*} account 收款账户openid
+ * @param {*} account_name 收款方真实姓名
+ * @param {*} money 付款金额。单位：元（范围：1~5000）
+ * @param {*} desc  付款描述
+ * @param {*} mch_id 付款商户号。自有商户接入的开通了代付权限的可以使用，如果使用YunGouOS代付体系可不传
+ * @param {*} key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
+ */
+function rePayWxPay(merchant_id, out_trade_no, account, account_name, money, desc, mch_id, key) {
+    if (Common.isEmpty(merchant_id)) {
+        console.error("yungouos sdk error", "YunGouOS商户ID不能为空");
+        return null;
+    }
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户单号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(account)) {
+        console.error("yungouos sdk error", "收款账户openid不能为空");
+        return null;
+    }
+    if (Common.isEmpty(money)) {
+        console.error("yungouos sdk error", "付款金额不能为空");
+        return null;
+    }
+    if (Common.isEmpty(desc)) {
+        console.error("yungouos sdk error", "付款描述不能为空");
+        return null;
+    }
+    let params = {
+        merchant_id: merchant_id,
+        out_trade_no: out_trade_no,
+        account: account,
+        money: money,
+        desc: desc
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, key);
+    params.sign = sign;
+    if (!Common.isEmpty(account_name)) {
+        params.account_name = account_name;
+    }
+    if (!Common.isEmpty(mch_id)) {
+        params.mch_id = mch_id;
+    }
+    params.sign = sign;
+    return HttpUtil.post(FinanceConfig.getRePayWxPayUrl, params);
+}
+
+
+
+/**
+ * 转账到支付宝（同步）
+ * 
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/alipay
+ *  
+ * @param {*} merchant_id  YunGouOS商户ID  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号
+ * @param {*} out_trade_no 商户单号
+ * @param {*} account 收款账户openid
+ * @param {*} account_name 收款方真实姓名
+ * @param {*} money 付款金额。单位：元（范围：1~5000）
+ * @param {*} desc  付款描述
+ * @param {*} mch_id 付款商户号。自有商户接入的开通了代付权限的可以使用，如果使用YunGouOS代付体系可不传
+ * @param {*} key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
+ */
+async function rePayAliPayAsync(merchant_id, out_trade_no, account, account_name, money, desc, mch_id, key) {
+    if (Common.isEmpty(merchant_id)) {
+        console.error("yungouos sdk error", "YunGouOS商户ID不能为空");
+        return null;
+    }
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户单号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(account)) {
+        console.error("yungouos sdk error", "收款支付宝账户不能为空");
+        return null;
+    }
+    if (Common.isEmpty(account_name)) {
+        console.error("yungouos sdk error", "收款支付宝姓名不能为空");
+        return null;
+    }
+    if (Common.isEmpty(money)) {
+        console.error("yungouos sdk error", "付款金额不能为空");
+        return null;
+    }
+    if (Common.isEmpty(desc)) {
+        console.error("yungouos sdk error", "付款描述不能为空");
+        return null;
+    }
+    let params = {
+        merchant_id: merchant_id,
+        out_trade_no: out_trade_no,
+        account: account,
+        account_name: account_name,
+        money: money,
+        desc: desc
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, key);
+    params.sign = sign;
+    if (!Common.isEmpty(mch_id)) {
+        params.mch_id = mch_id;
+    }
+    params.sign = sign;
+    let response = await HttpUtil.post(FinanceConfig.getRePayAliPayUrl, params);
+    let result = Common.doApiResult(response);
+    if (Common.isEmpty(result)) {
+        return null;
+    }
+    let data = result.data;
+    if (Common.isEmpty(data)) {
+        console.error("yungouos sdk error", "API无返回结果");
+        return null;
+    }
+    return data;
+}
+
+
+
+/**
+ * 转账到支付宝（异步）
+ * 
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/alipay
+ *  
+ * @param {*} merchant_id  YunGouOS商户ID  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号
+ * @param {*} out_trade_no 商户单号
+ * @param {*} account 收款账户openid
+ * @param {*} account_name 收款方真实姓名
+ * @param {*} money 付款金额。单位：元（范围：1~5000）
+ * @param {*} desc  付款描述
+ * @param {*} mch_id 付款商户号。自有商户接入的开通了代付权限的可以使用，如果使用YunGouOS代付体系可不传
+ * @param {*} key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
+ */
+function rePayAliPay(merchant_id, out_trade_no, account, account_name, money, desc, mch_id, key) {
+    if (Common.isEmpty(merchant_id)) {
+        console.error("yungouos sdk error", "YunGouOS商户ID不能为空");
+        return null;
+    }
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户单号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(account)) {
+        console.error("yungouos sdk error", "收款支付宝账户不能为空");
+        return null;
+    }
+    if (Common.isEmpty(account_name)) {
+        console.error("yungouos sdk error", "收款支付宝姓名不能为空");
+        return null;
+    }
+    if (Common.isEmpty(money)) {
+        console.error("yungouos sdk error", "付款金额不能为空");
+        return null;
+    }
+    if (Common.isEmpty(desc)) {
+        console.error("yungouos sdk error", "付款描述不能为空");
+        return null;
+    }
+    let params = {
+        merchant_id: merchant_id,
+        out_trade_no: out_trade_no,
+        account: account,
+        account_name: account_name,
+        money: money,
+        desc: desc
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, key);
+    params.sign = sign;
+    if (!Common.isEmpty(mch_id)) {
+        params.mch_id = mch_id;
+    }
+    params.sign = sign;
+    return HttpUtil.post(FinanceConfig.getRePayAliPayUrl, params);
+}
+
 export default {
     configAsync,
     config,
@@ -540,5 +788,9 @@ export default {
     getPayResultAsync,
     getPayResult,
     finishAsync,
-    finish
+    finish,
+    rePayWxPayAsync,
+    rePayWxPay,
+    rePayAliPayAsync,
+    rePayAliPay
 }
