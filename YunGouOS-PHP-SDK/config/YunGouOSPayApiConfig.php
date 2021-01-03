@@ -61,6 +61,11 @@ $apiConfig = array(
     //**************************订单相关接口************************************//
     //查询订单
     "serarch_order_url" => $api_url . "/api/pay/wxpay/getWxPayOrderInfo",
+    //**************************转账付款相关接口************************************//
+    //转账到微信零钱
+    "repay_wxpay_url" => $api_url . "/api/finance/repay/wxpay",
+    //转账到支付宝
+    "repay_alipay_url" => $api_url . "/api/finance/repay/alipay",
 );
 
 return $apiConfig;
