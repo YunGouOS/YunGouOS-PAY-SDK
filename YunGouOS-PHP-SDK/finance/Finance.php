@@ -395,7 +395,7 @@ class Finance
      * 文档地址：https://api.pay.yungouos.com/api/finance/profitsharing/finish
      *
      * @param $mch_id 分账方支付商户号
-     * @param $out_trade_no 分账单号
+     * @param $out_trade_no 商户单号
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      * @return String 配置单号
      */
@@ -452,7 +452,8 @@ class Finance
      * @param $mch_id 付款商户号。自有商户接入的开通了代付权限的可以使用，如果使用YunGouOS代付体系可不传
      * @param $key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
      */
-    public function  rePayWxPay($merchant_id, $out_trade_no,$account,$account_name,$money,$desc,$mch_id, $key){
+    public function  rePayWxPay($merchant_id, $out_trade_no,$account,$account_name,$money,$desc,$mch_id, $key)
+    {
         $result = null;
         $paramsArray = array();
         try {
@@ -522,7 +523,8 @@ class Finance
      * @param $mch_id 付款商户号。自有商户接入的开通了代付权限的可以使用，如果使用YunGouOS代付体系可不传
      * @param $key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
      */
-    public function  rePayAliPay($merchant_id, $out_trade_no,$account,$account_name,$money,$desc,$mch_id, $key){
+    public function  rePayAliPay($merchant_id, $out_trade_no,$account,$account_name,$money,$desc,$mch_id, $key)
+    {
         $result = null;
         $paramsArray = array();
         try {
