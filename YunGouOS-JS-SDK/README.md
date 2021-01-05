@@ -384,7 +384,7 @@ Finance.finish(mch_id, out_trade_no, payKey).then((response)=>{
 
 ```js
 let result =Finance.rePayWxPayAsync(merchant_id, out_trade_no, account, account_name, money, desc, mch_id, key);
-//完结分账结果
+//微信转账结果
 console.log(result);
 ```
 
@@ -402,7 +402,7 @@ Finance.rePayWxPay(merchant_id, out_trade_no, account, account_name, money, desc
 
 ```js
 let result =Finance.rePayAliPayAsync(merchant_id, out_trade_no, account, account_name, money, desc, mch_id, key);
-//完结分账结果
+//支付宝转账结果
 console.log(result);
 ```
 
@@ -410,6 +410,27 @@ console.log(result);
 
 ```js
 Finance.rePayAliPay(merchant_id, out_trade_no, account, account_name, money, desc, mch_id, key).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
+
+### 5、订单查询
+
+
+#### 查询订单（同步）
+
+```js
+let result =Order.getOrderInfoAsync(out_trade_no,mch_id,payKey);
+//订单查询结果
+console.log(result);
+```
+
+#### 查询订单（异步）
+
+```js
+Order.getOrderInfoAsync(out_trade_no,mch_id,payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });

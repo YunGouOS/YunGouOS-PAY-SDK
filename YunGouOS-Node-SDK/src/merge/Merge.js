@@ -13,7 +13,7 @@ import PaySignUtil from '../util/PaySignUtil';
  * 
  * @param {*} out_trade_no 商户订单号
  * @param {*} total_fee 支付金额  单位:元
- * @param {*} mch_id 支付宝商户号 登录yungouos.com-》聚合支付-》商户管理 支付宝商户号 获取
+ * @param {*} mch_id 商户号 登录yungouos.com-》聚合支付-》商户管理 支付宝商户号 获取
  * @param {*} body 商品描述
  * @param {*} type 返回类型（1、返回原生的支付连接需要自行生成二维码；2、直接返回付款二维码地址，页面上展示即可。不填默认1）
  * @param {*} attach 附加数据，回调时候原路返回 
@@ -101,7 +101,7 @@ async function nativePayAsync(out_trade_no, total_fee, mch_id, body, type, attac
  * 
  * @param {*} out_trade_no 商户订单号
  * @param {*} total_fee 支付金额  单位:元
- * @param {*} mch_id 支付宝商户号 登录yungouos.com-》聚合支付-》商户管理 商户号 获取
+ * @param {*} mch_id 聚合支付商户号 登录yungouos.com-》聚合支付-》商户管理 商户号 获取
  * @param {*} body 商品描述
  * @param {*} type 返回类型（1、返回原生的支付连接需要自行生成二维码；2、直接返回付款二维码地址，页面上展示即可。不填默认1）
  * @param {*} attach 附加数据，回调时候原路返回 
@@ -164,17 +164,7 @@ function nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_u
     if (!Common.isEmpty(config_no)) {
         params.config_no = config_no;
     }
-    let response = await HttpUtil.post(MergePayConfig.nativePay, params);
-    let result = Common.doApiResult(response);
-    if (Common.isEmpty(result)) {
-        return null;
-    }
-    let data = result.data;
-    if (Common.isEmpty(data)) {
-        console.error("yungouos sdk error", "API无返回结果");
-        return null;
-    }
-    return data;
+    return HttpUtil.post(MergePayConfig.nativePay, params);
 }
 
 export default {
