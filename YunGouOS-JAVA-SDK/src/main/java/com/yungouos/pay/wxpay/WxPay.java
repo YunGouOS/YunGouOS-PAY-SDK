@@ -99,7 +99,6 @@ public class WxPay {
 			params.put("auto_node", auto_node);
 			params.put("sign", sign);
 			String result = HttpRequest.post(WxPayApiConfig.codePayUrl).form(params).execute().body();
-			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}
@@ -191,7 +190,6 @@ public class WxPay {
 			params.put("auto_node", auto_node);
 			params.put("sign", sign);
 			String result = HttpRequest.post(WxPayApiConfig.nativePayUrl).form(params).execute().body();
-			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}
@@ -282,7 +280,6 @@ public class WxPay {
 			params.put("auto_node", auto_node);
 			params.put("sign", sign);
 			String result = HttpRequest.post(WxPayApiConfig.jsapiUrl).form(params).execute().body();
-			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}
@@ -367,7 +364,6 @@ public class WxPay {
 			params.put("auto_node", auto_node);
 			params.put("sign", sign);
 			String result = HttpRequest.post(WxPayApiConfig.cashierUrl).form(params).execute().body();
-			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}
@@ -524,7 +520,6 @@ public class WxPay {
 			params.put("auto_node", auto_node);
 			params.put("sign", sign);
 			String result = HttpRequest.post(WxPayApiConfig.minAppPayUrl).form(params).execute().body();
-			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}
@@ -621,7 +616,6 @@ public class WxPay {
 			params.put("auto_node", auto_node);
 			params.put("sign", sign);
 			String result = HttpRequest.post(WxPayApiConfig.facePayUrl).form(params).execute().body();
-			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}
@@ -707,7 +701,6 @@ public class WxPay {
 			params.put("auto_node", auto_node);
 			params.put("sign", sign);
 			String result = HttpRequest.post(WxPayApiConfig.wapPayUrl).form(params).execute().body();
-			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}
@@ -795,7 +788,6 @@ public class WxPay {
 			params.put("auto_node", auto_node);
 			params.put("sign", sign);
 			String result = HttpRequest.post(WxPayApiConfig.appPayUrl).form(params).execute().body();
-			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}
@@ -849,7 +841,6 @@ public class WxPay {
 			String sign = PaySignUtil.createSign(params, key);
 			params.put("sign", sign);
 			String result = HttpRequest.get(WxPayApiConfig.getCodePayResultUrl).form(params).execute().body();
-			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}
@@ -910,7 +901,6 @@ public class WxPay {
 			String sign = PaySignUtil.createSign(params, key);
 			params.put("sign", sign);
 			String result = HttpRequest.post(WxPayApiConfig.refundOrderUrl).form(params).execute().body();
-			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}
@@ -969,7 +959,6 @@ public class WxPay {
 			String sign = PaySignUtil.createSign(params, key);
 			params.put("sign", sign);
 			String result = HttpRequest.get(WxPayApiConfig.getRefundResultUrl).form(params).execute().body();
-			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}
@@ -1028,7 +1017,6 @@ public class WxPay {
 			String sign = PaySignUtil.createSign(params, key);
 			params.put("sign", sign);
 			String result = HttpRequest.get(WxPayApiConfig.getWxBillInfoUrl).form(params).execute().body();
-			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}
@@ -1087,8 +1075,6 @@ public class WxPay {
 			String sign = PaySignUtil.createSign(params, key);
 			params.put("sign", sign);
 			String result = HttpRequest.get(WxPayApiConfig.getDownloadBillUrl).form(params).execute().body();
-			// 对账单数据比较大 此处就不打印了
-			// System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}
@@ -1165,7 +1151,6 @@ public class WxPay {
 				params.put("end_time", end_time);
 			}
 			String result = HttpRequest.get(WxPayApiConfig.getComplaintUrl).form(params).execute().body();
-			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}
@@ -1207,7 +1192,6 @@ public class WxPay {
 			params.put("url", url);
 			params.put("params", param);
 			String result = HttpRequest.post(WxPayApiConfig.getWxOauthUrl).form(params).execute().body();
-			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}
@@ -1247,7 +1231,6 @@ public class WxPay {
 			}
 			params.put("code", code);
 			String result = HttpRequest.get(WxPayApiConfig.getWxOauthInfo).form(params).execute().body();
-			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}

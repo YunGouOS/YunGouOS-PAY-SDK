@@ -88,7 +88,6 @@ public class MergePay {
 			params.put("auto_node", auto_node);
 			params.put("sign", sign);
 			String result = HttpRequest.post(MergePayApiConfig.nativePayUrl).form(params).execute().body();
-			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}

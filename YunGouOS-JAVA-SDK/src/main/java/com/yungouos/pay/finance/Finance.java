@@ -260,7 +260,6 @@ public class Finance {
 			String sign = PaySignUtil.createSign(params, key);
 			params.put("sign", sign);
 			String result = HttpRequest.post(FinanceConfig.getConfigUrl).form(params).execute().body();
-			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}
@@ -313,7 +312,6 @@ public class Finance {
 			params.put("config_no", config_no);
 			params.put("sign", sign);
 			String result = HttpRequest.post(FinanceConfig.getCreateBillUrl).form(params).execute().body();
-			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}
@@ -372,7 +370,6 @@ public class Finance {
 			String sign = PaySignUtil.createSign(params, key);
 			params.put("sign", sign);
 			String result = HttpRequest.post(FinanceConfig.getSendPayUrl).form(params).execute().body();
-			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}
@@ -422,7 +419,6 @@ public class Finance {
 			String sign = PaySignUtil.createSign(params, key);
 			params.put("sign", sign);
 			String result = HttpRequest.get(FinanceConfig.getPayResultUrl).form(params).execute().body();
-			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}
@@ -478,7 +474,6 @@ public class Finance {
 			String sign = PaySignUtil.createSign(params, key);
 			params.put("sign", sign);
 			String result = HttpRequest.post(FinanceConfig.getFinishUrl).form(params).execute().body();
-			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}

@@ -219,7 +219,6 @@ public class AliPay {
 			params.put("notify_url", notify_url);
 			params.put("sign", sign);
 			String result = HttpRequest.post(AlipayApiConfig.jsPayUrl).form(params).execute().body();
-			System.out.println(result);
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}
