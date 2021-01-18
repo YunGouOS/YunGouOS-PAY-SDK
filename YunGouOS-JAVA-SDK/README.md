@@ -110,6 +110,25 @@ String result= WxPay.nativePay(System.currentTimeMillis() + "", "1", mchId, "测
 
 	String result=AliPay.wapPay(System.currentTimeMillis() + "", "0.01", "2088802674000755", "支付测试", null, null, "6BA371F4CFAB4465AA04DAEADBAC4161");
 
+## 支付宝JS支付
+
+返回支付宝JSSDK所需的参数
+
+	String result=AliPay.jsPay(System.currentTimeMillis() + "", "0.01", "2088802674000755","2088802674000755","支付测试", null, null, "6BA371F4CFAB4465AA04DAEADBAC4161");
+
+## 支付宝H5支付
+
+返回支付宝H5支付跳转的form表单，客户端直接输出表单跳转即可
+
+	String result=AliPay.h5Pay(System.currentTimeMillis() + "", "0.01", "2088802674000755", "支付测试", null, null,null, "6BA371F4CFAB4465AA04DAEADBAC4161");
+
+
+## 支付宝APP支付
+
+返回支付宝APP支付所需的参数，客户端按照支付宝官方APP支付SDK拉起支付宝即可
+
+	String result=AliPay.appPay(System.currentTimeMillis() + "", "0.01", "2088802674000755", "支付测试", null, null, "6BA371F4CFAB4465AA04DAEADBAC4161");
+
 
 ## 发起支付宝退款接口
 
@@ -207,6 +226,18 @@ String result= WxPay.nativePay(System.currentTimeMillis() + "", "1", mchId, "测
 
 	AliPay.wapPay(订单号,支付金额,支付宝商户号,商品描述,附加数据，异步回调地址,商户密钥);
 
+## 支付宝JS支付
+
+	AliPay.jsPay(订单号,支付金额,支付宝商户号,买家的支付宝唯一用户号,商品描述,附加数据，异步回调地址,商户密钥);
+
+## 支付宝H5支付
+
+	AliPay.h5Pay(订单号,支付金额,支付宝商户号,商品描述,附加数据，异步回调地址,同步回调地址,商户密钥);
+
+## 支付宝APP支付
+
+	AliPay.appPay(订单号,支付金额,支付宝商户号,商品描述,附加数据，异步回调地址,商户密钥);
+
 ## 发起支付宝退款
 
 	AliPay.orderRefund(订单号, 支付宝商户号, 退款金额, 退款描述,商户密钥);
@@ -214,8 +245,3 @@ String result= WxPay.nativePay(System.currentTimeMillis() + "", "1", mchId, "测
 ## 查询支付宝退款结果
 
 	WxPay.getRefundResult(退款单号（发起退款接口返回）,支付宝商户号, 商户密钥);
-
-
-
-​	
-​	

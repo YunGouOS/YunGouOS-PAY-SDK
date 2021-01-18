@@ -27,6 +27,17 @@ public class AlipayApiConfig {
 	 * JS支付
 	 */
 	public static String jsPayUrl = apiUrl + "/api/pay/alipay/jsPay";
+	
+	/**
+	 * H5支付
+	 */
+	public static String h5PayUrl = apiUrl + "/api/pay/alipay/mobilePay";
+	
+	
+	/**
+	 * APP支付
+	 */
+	public static String appPayUrl = apiUrl + "/api/pay/alipay/appPay";
 
 	/**
 	 * 订单退款
