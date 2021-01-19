@@ -54,6 +54,12 @@ $apiConfig = array(
     "alipay_native_pay_url"=>$api_url."/api/pay/alipay/nativeApi",
     //支付宝WAP支付
     "alipay_wap_pay_url"=>$api_url."/api/pay/alipay/wapPay",
+    //支付宝JS支付
+    "alipay_js_pay_url"=>$api_url."/api/pay/alipay/jsPay",
+    //支付宝H5支付
+    "alipay_mobile_pay_url"=>$api_url."/api/pay/alipay/mobilePay",
+    //支付宝APP支付
+    "alipay_app_pay_url"=>$api_url."/api/pay/alipay/appPay",
     //支付宝发起退款
     "alipay_refund_order_url"=>$api_url."/api/pay/alipay/refundOrder",
     //支付宝查询退款结果

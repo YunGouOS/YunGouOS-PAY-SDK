@@ -156,6 +156,200 @@ class AliPay
         return $result;
     }
 
+
+    /**
+     *  支付宝JS支付，适用于支付宝网页内打开的H5应用使用支付宝的JSSDK发起支付
+     * @param $out_trade_no 订单号不可重复
+     * @param $total_fee 支付金额 单位元 范围 0.01-99999
+     * @param $mch_id 支付宝商户号 登录YunGouOS.com-》支付宝-》我的支付 查看商户号
+     * @param $buyer_id 买家的支付宝唯一用户号（2088开头的16位纯数字）
+     * @param $body  商品描述
+     * @param $attach 附加数据 回调时原路返回 可不传
+     * @param $notify_url 异步回调地址，不传无回调
+     * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付-》支付密钥 查看密钥
+     */
+    public function jsPay($out_trade_no, $total_fee, $mch_id,$buyer_id,$body,$attach, $notify_url, $key)
+    {
+        $result = null;
+        $paramsArray = array();
+        try {
+            if (empty($out_trade_no)) {
+                throw new Exception("订单号不能为空！");
+            }
+            if (empty($total_fee)) {
+                throw new Exception("付款金额不能为空！");
+            }
+            if (empty($mch_id)) {
+                throw new Exception("商户号不能为空！");
+            }
+            if (empty($buyer_id)) {
+                throw new Exception("买家ID不能为空！");
+            }
+            if (empty($body)) {
+                throw new Exception("商品描述不能为空！");
+            }
+            if (empty($key)) {
+                throw new Exception("商户密钥不能为空！");
+            }
+            $paramsArray['out_trade_no'] = $out_trade_no;
+            $paramsArray['total_fee'] = $total_fee;
+            $paramsArray['mch_id'] = $mch_id;
+            $paramsArray['buyer_id'] = $buyer_id;
+            $paramsArray['body'] = $body;
+            // 上述必传参数签名
+            $sign = $this->paySign->getSign($paramsArray, $key);
+            //下面参数不参与签名，但是接口需要这些参数
+            $paramsArray['attach'] = $attach;
+            $paramsArray['notify_url'] = $notify_url;
+            $paramsArray['sign'] = $sign;
+
+            $resp = $this->httpUtil->httpsPost($this->apiConfig['alipay_js_pay_url'], $paramsArray);
+            if (empty($resp)) {
+                throw new Exception("API接口返回为空");
+            }
+            $ret = @json_decode($resp, true);
+            if (empty($ret)) {
+                throw new Exception("API接口返回为空");
+            }
+            $code = $ret['code'];
+            if ($code != 0) {
+                throw new Exception($ret['msg']);
+            }
+            $result = $ret['data'];
+        } catch (Exception $e) {
+            throw  new Exception($e->getMessage());
+        }
+        return $result;
+    }
+
+
+    /**
+     *  支付宝H5手机网站接口，可自动打开支付宝APP支付。和WAP接口不同的是，H5可以传递return_url也就是支付后或取消支付可以自动跳回网站
+     * @param $out_trade_no 订单号不可重复
+     * @param $total_fee 支付金额 单位元 范围 0.01-99999
+     * @param $mch_id 支付宝商户号 登录YunGouOS.com-》支付宝-》我的支付 查看商户号
+     * @param $body  商品描述
+     * @param $attach 附加数据 回调时原路返回 可不传
+     * @param $notify_url 异步回调地址，不传无回调
+     * @param $return_url 异步回调地址，不传无回调
+     * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付-》支付密钥 查看密钥
+     */
+    public function h5Pay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url,$return_url,$key)
+    {
+        $result = null;
+        $paramsArray = array();
+        try {
+            if (empty($out_trade_no)) {
+                throw new Exception("订单号不能为空！");
+            }
+            if (empty($total_fee)) {
+                throw new Exception("付款金额不能为空！");
+            }
+            if (empty($mch_id)) {
+                throw new Exception("商户号不能为空！");
+            }
+            if (empty($body)) {
+                throw new Exception("商品描述不能为空！");
+            }
+            if (empty($key)) {
+                throw new Exception("商户密钥不能为空！");
+            }
+            $paramsArray['out_trade_no'] = $out_trade_no;
+            $paramsArray['total_fee'] = $total_fee;
+            $paramsArray['mch_id'] = $mch_id;
+            $paramsArray['body'] = $body;
+            // 上述必传参数签名
+            $sign = $this->paySign->getSign($paramsArray, $key);
+            //下面参数不参与签名，但是接口需要这些参数
+            $paramsArray['attach'] = $attach;
+            $paramsArray['notify_url'] = $notify_url;
+            $paramsArray['return_url'] = $return_url;
+            $paramsArray['sign'] = $sign;
+
+            $resp = $this->httpUtil->httpsPost($this->apiConfig['alipay_mobile_pay_url'], $paramsArray);
+            if (empty($resp)) {
+                throw new Exception("API接口返回为空");
+            }
+            $ret = @json_decode($resp, true);
+            if (empty($ret)) {
+                throw new Exception("API接口返回为空");
+            }
+            $code = $ret['code'];
+            if ($code != 0) {
+                throw new Exception($ret['msg']);
+            }
+            $result = $ret['data'];
+            if(empty($result)){
+                throw new Exception('支付宝H5下单失败');
+            }
+            $result=$result['form'];
+        } catch (Exception $e) {
+            throw  new Exception($e->getMessage());
+        }
+        return $result;
+    }
+
+
+    /**
+     *  支付宝原生APP支付，返回APP端拉起支付宝所需的参数。
+     * @param $out_trade_no 订单号不可重复
+     * @param $total_fee 支付金额 单位元 范围 0.01-99999
+     * @param $mch_id 支付宝商户号 登录YunGouOS.com-》支付宝-》我的支付 查看商户号
+     * @param $body  商品描述
+     * @param $attach 附加数据 回调时原路返回 可不传
+     * @param $notify_url 异步回调地址，不传无回调
+     * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付-》支付密钥 查看密钥
+     */
+    public function appPay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url, $key)
+    {
+        $result = null;
+        $paramsArray = array();
+        try {
+            if (empty($out_trade_no)) {
+                throw new Exception("订单号不能为空！");
+            }
+            if (empty($total_fee)) {
+                throw new Exception("付款金额不能为空！");
+            }
+            if (empty($mch_id)) {
+                throw new Exception("商户号不能为空！");
+            }
+            if (empty($body)) {
+                throw new Exception("商品描述不能为空！");
+            }
+            if (empty($key)) {
+                throw new Exception("商户密钥不能为空！");
+            }
+            $paramsArray['out_trade_no'] = $out_trade_no;
+            $paramsArray['total_fee'] = $total_fee;
+            $paramsArray['mch_id'] = $mch_id;
+            $paramsArray['body'] = $body;
+            // 上述必传参数签名
+            $sign = $this->paySign->getSign($paramsArray, $key);
+            //下面参数不参与签名，但是接口需要这些参数
+            $paramsArray['attach'] = $attach;
+            $paramsArray['notify_url'] = $notify_url;
+            $paramsArray['sign'] = $sign;
+
+            $resp = $this->httpUtil->httpsPost($this->apiConfig['alipay_app_pay_url'], $paramsArray);
+            if (empty($resp)) {
+                throw new Exception("API接口返回为空");
+            }
+            $ret = @json_decode($resp, true);
+            if (empty($ret)) {
+                throw new Exception("API接口返回为空");
+            }
+            $code = $ret['code'];
+            if ($code != 0) {
+                throw new Exception($ret['msg']);
+            }
+            $result = $ret['data'];
+        } catch (Exception $e) {
+            throw  new Exception($e->getMessage());
+        }
+        return $result;
+    }
+
     /**
      * 发起退款
      * @param $out_trade_no 商户订单号

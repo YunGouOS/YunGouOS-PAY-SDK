@@ -251,6 +251,57 @@ AliPay.wapPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, payKey)
 });
 ```
 
+#### js支付（同步）
+
+```js
+let result = AliPay.jsPayAsync(out_trade_no, total_fee, mch_id,buyer_id,body, attach, notify_url, payKey);
+//支付宝JSSDK所需的参数
+console.log(result);
+```
+
+#### js支付（异步）
+
+```js
+AliPay.jsPay(out_trade_no, total_fee, mch_id,buyer_id,body, attach, notify_url, payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
+#### H5支付（同步）
+
+```js
+let result = AliPay.h5PayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, payKey);
+//H5支付表单
+console.log(result);
+```
+
+#### H5支付（异步）
+
+```js
+AliPay.h5Pay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
+#### app支付（同步）
+
+```js
+let result = AliPay.appPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, payKey);
+//APP支付所需的参数
+console.log(result);
+```
+
+#### app支付（异步）
+
+```js
+AliPay.appPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
 
 #### 发起退款（同步）
 

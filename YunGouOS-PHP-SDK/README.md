@@ -50,9 +50,12 @@ demo文件夹下已经集成了微信扫码支付、微信收银台支付、微�
 		│      payController.php
 		│      return.php
 		│
-		finance //资金类相关，分账、转账
+		├─finance //资金类相关，分账、转账
 		│      Finance.php
-		|      
+		│
+		├─merge //聚合支付相关
+		│      Merge.php
+		│
 		├─order //订单相关
 		│      Order.php
 		│      
@@ -117,6 +120,18 @@ demo文件夹下已经集成了微信扫码支付、微信收银台支付、微�
 ## 支付宝WAP支付
 
 	$result = $alipay->wapPay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url, $key);
+
+## 支付宝JS支付
+
+	$result = $alipay->jsPay($out_trade_no, $total_fee, $mch_id,$buyer_id,$body,$attach, $notify_url, $key);
+
+## 支付宝H5支付
+
+	$result = $alipay->h5Pay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url,$return_url,$key);
+
+## 支付宝APP支付
+
+	$result = $alipay->appPay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url, $key);
 
 ## 支付宝发起退款
 
@@ -224,6 +239,18 @@ demo文件夹下已经集成了微信扫码支付、微信收银台支付、微�
 ## 支付宝WAP支付
 
 	$alipay->wapPay(订单号,支付金额,支付宝商户号,商品描述，附加数据，异步回调地址,商户密钥);
+
+## 支付宝JS支付
+
+	$alipay->jsPay(订单号,支付金额,支付宝商户号,买家支付宝ID,商品描述，附加数据，异步回调地址,商户密钥);
+
+## 支付宝H5支付
+
+	$alipay->h5Pay(订单号,支付金额,支付宝商户号,商品描述，附加数据，异步回调地址,同步回调地址,商户密钥);
+
+## 支付宝APP支付
+
+	$alipay->appPay(订单号,支付金额,支付宝商户号,商品描述，附加数据，异步回调地址,商户密钥);
 
 ## 发起退款
 	
