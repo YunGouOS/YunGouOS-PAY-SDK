@@ -26,26 +26,26 @@ public class AliPayTest {
 
 		try {
 			// 支付宝扫码支付
-			result = AliPay.nativePay(System.currentTimeMillis() + "", "0.01", mch_id, "测试订单", "2", null, notify, key);
+			result = AliPay.nativePay(System.currentTimeMillis() + "", "0.01", mch_id, "测试订单", "2", null, notify, null, null, null, key);
 			System.out.println("支付宝扫码支付返回结果：" + result);
 
 			// 支付宝wap支付
-			result = AliPay.wapPay(System.currentTimeMillis() + "", "0.01", mch_id, "支付测试", null, notify, key);
+			result = AliPay.wapPay(System.currentTimeMillis() + "", "0.01", mch_id, "支付测试", null, notify, null, null, null, key);
 			System.out.println("支付宝wap支付返回结果：" + result);
 
 			String buyer_id = "支付宝买家唯一编号，通过支付宝授权接口获取";
 
 			// 支付宝JS支付
-			AliPayJsPayBiz aliPayJsPayBiz = AliPay.jsPay(System.currentTimeMillis() + "", "0.01", mch_id, buyer_id, "支付测试", null, notify, key);
+			AliPayJsPayBiz aliPayJsPayBiz = AliPay.jsPay(System.currentTimeMillis() + "", "0.01", mch_id, buyer_id, "支付测试", null, notify, null, null, null, key);
 			System.out.println("支付宝JS支付返回结果：" + aliPayJsPayBiz.toString());
 
 			// 支付宝H5支付
-			String h5Pay = AliPay.h5Pay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试", null, notify, returnUrl, key);
-			System.out.println("支付宝H5支付返回结果："+h5Pay);
+			String h5Pay = AliPay.h5Pay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试", null, notify, returnUrl, null, null, null, key);
+			System.out.println("支付宝H5支付返回结果：" + h5Pay);
 
 			// 支付宝appPay支付
-			String appPay = AliPay.appPay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试", null, notify, key);
-			System.out.println("支付宝APP支付返回结果："+appPay);
+			String appPay = AliPay.appPay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试", null, notify, null, null, null, key);
+			System.out.println("支付宝APP支付返回结果：" + appPay);
 
 			// 发起退款
 			RefundOrder orderRefund = AliPay.orderRefund("Y194506551713811", mch_id, "0.01", "测试退款", key);

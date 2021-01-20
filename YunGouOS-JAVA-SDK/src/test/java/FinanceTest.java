@@ -51,8 +51,14 @@ public class FinanceTest {
 		/**
 		 * 分账配置，返回配置单号。后续生成分账账单需要用
 		 */
-		String configNo = Finance.configV2(mch_id, "wx91edcb4802c85677", "测试分账", "wxpay", "orxRA5Q0pjCjxQbI3EYVJfnDAnK8", null, null, "0.12", null, key);
-		System.out.println("分账配置结果：" + configNo);
+		String configNo = Finance.wxPayConfig(mch_id, null, "测试分账", "o-_-itxeWVTRnl-iGT_JJ-t3kpxU", null, null, "0.12", null, key);
+		System.out.println("微信分账配置结果：" + configNo);
+
+		/**
+		 * 支付宝分账配置
+		 */
+		String aliPayConfigNo = Finance.aliPayConfig("支付宝商户号", "测试分账", "分账收款方支付宝账户", "分账收款方支付宝姓名", null, null, "支付宝密钥");
+		System.out.println("微信分账配置结果：" + aliPayConfigNo);
 
 		/**
 		 * 生成分账账单
