@@ -35,16 +35,6 @@ $apiConfig = array(
     "wxpay_download_bill_url"=>$api_url."/api/pay/wxpay/downloadBill",
     //查询刷卡支付结果
     "wxpay_get_code_pay_result_url"=>$api_url."/api/wxpay/getCodePayResult",
-    //微信支付分账配置
-    "wxpay_finance_config_url"=>$api_url."/api/finance/profitsharing/config",
-    //生成微信支付分账账单
-    "wxpay_finance_create_bill_url"=>$api_url."/api/finance/profitsharing/createBill",
-    //发起微信支付分账
-    "wxpay_finance_send_pay_url"=>$api_url."/api/finance/profitsharing/sendPay",
-    //查询微信支付分账结果
-    "wxpay_finance_get_pay_result_url"=>$api_url."/api/finance/profitsharing/getPayResult",
-    //停止微信分账
-    "wxpay_finance_finish_url"=>$api_url."/api/finance/profitsharing/finish",
     //获取微信授权url
     "wx_get_wx_oauth_url"=>$api_url."/api/wxlogin/getOauthUrl",
     //查询微信授权信息
@@ -67,6 +57,19 @@ $apiConfig = array(
     //**************************订单相关接口************************************//
     //查询订单
     "serarch_order_url" => $api_url . "/api/pay/wxpay/getWxPayOrderInfo",
+
+    //**************************分账相关接口************************************//
+    //分账配置
+    "finance_config_url"=>$api_url."/api/finance/profitsharing/config",
+    //生成分账账单
+    "finance_create_bill_url"=>$api_url."/api/finance/profitsharing/createBill",
+    //发起分账
+    "finance_send_pay_url"=>$api_url."/api/finance/profitsharing/sendPay",
+    //查询分账结果
+    "finance_get_pay_result_url"=>$api_url."/api/finance/profitsharing/getPayResult",
+    //停止分账
+    "finance_finish_url"=>$api_url."/api/finance/profitsharing/finish",
+
     //**************************转账付款相关接口************************************//
     //转账到微信零钱
     "repay_wxpay_url" => $api_url . "/api/finance/repay/wxpay",
