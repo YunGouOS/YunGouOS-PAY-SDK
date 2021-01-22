@@ -115,23 +115,23 @@ demo文件夹下已经集成了微信扫码支付、微信收银台支付、微�
 
 ## 支付宝扫码支付
 
-	$result = $alipay->nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url, $key);
+	$result = $alipay->nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url,$config_no, $auto, $auto_node, $key);
 
 ## 支付宝WAP支付
 
-	$result = $alipay->wapPay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url, $key);
+	$result = $alipay->wapPay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url,$config_no, $auto, $auto_node, $key);
 
 ## 支付宝JS支付
 
-	$result = $alipay->jsPay($out_trade_no, $total_fee, $mch_id,$buyer_id,$body,$attach, $notify_url, $key);
+	$result = $alipay->jsPay($out_trade_no, $total_fee, $mch_id,$buyer_id,$body,$attach, $notify_url,$config_no, $auto, $auto_node, $key);
 
 ## 支付宝H5支付
 
-	$result = $alipay->h5Pay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url,$return_url,$key);
+	$result = $alipay->h5Pay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url,$return_url,$config_no, $auto, $auto_node,$key);
 
 ## 支付宝APP支付
 
-	$result = $alipay->appPay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url, $key);
+	$result = $alipay->appPay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url,$config_no, $auto, $auto_node, $key);
 
 ## 支付宝发起退款
 
@@ -234,23 +234,23 @@ demo文件夹下已经集成了微信扫码支付、微信收银台支付、微�
 
 ## 支付宝扫码支付
 
-	$alipay->nativePay(订单号,支付金额,支付宝商户号,商品描述,返回类型，附加数据，异步回调地址,商户密钥);
+	$alipay->nativePay(订单号,支付金额,支付宝商户号,商品描述,返回类型，附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
 
 ## 支付宝WAP支付
 
-	$alipay->wapPay(订单号,支付金额,支付宝商户号,商品描述，附加数据，异步回调地址,商户密钥);
+	$alipay->wapPay(订单号,支付金额,支付宝商户号,商品描述，附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
 
 ## 支付宝JS支付
 
-	$alipay->jsPay(订单号,支付金额,支付宝商户号,买家支付宝ID,商品描述，附加数据，异步回调地址,商户密钥);
+	$alipay->jsPay(订单号,支付金额,支付宝商户号,买家支付宝ID,商品描述，附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
 
 ## 支付宝H5支付
 
-	$alipay->h5Pay(订单号,支付金额,支付宝商户号,商品描述，附加数据，异步回调地址,同步回调地址,商户密钥);
+	$alipay->h5Pay(订单号,支付金额,支付宝商户号,商品描述，附加数据，异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
 
 ## 支付宝APP支付
 
-	$alipay->appPay(订单号,支付金额,支付宝商户号,商品描述，附加数据，异步回调地址,商户密钥);
+	$alipay->appPay(订单号,支付金额,支付宝商户号,商品描述，附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
 
 ## 发起退款
 	

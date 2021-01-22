@@ -42,7 +42,7 @@ class AliPay
      * @param $notify_url 异步回调地址，不传无回调
      * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付-》支付密钥 查看密钥
      */
-    public function nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url, $key)
+    public function nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url, $config_no, $auto, $auto_node, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -73,8 +73,21 @@ class AliPay
             }
             //下面参数不参与签名，但是接口需要这些参数
             $paramsArray['type'] = $type;
-            $paramsArray['attach'] = $attach;
-            $paramsArray['notify_url'] = $notify_url;
+            if(!empty($attach)){
+                $paramsArray['attach'] = $attach;
+            }
+            if(!empty($notify_url)){
+                $paramsArray['notify_url'] = $notify_url;
+            }
+            if(!empty($config_no)){
+                $paramsArray['config_no'] = $config_no;
+            }
+            if(!empty($auto)){
+                $paramsArray['auto'] = $auto;
+            }
+            if(!empty($auto_node)){
+                $paramsArray['auto_node'] = $auto_node;
+            }
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpsPost($this->apiConfig['alipay_native_pay_url'], $paramsArray);
@@ -106,7 +119,7 @@ class AliPay
      * @param $notify_url 异步回调地址，不传无回调
      * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付-》支付密钥 查看密钥
      */
-    public function wapPay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url, $key)
+    public function wapPay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url, $config_no, $auto, $auto_node, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -133,8 +146,23 @@ class AliPay
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
             //下面参数不参与签名，但是接口需要这些参数
-            $paramsArray['attach'] = $attach;
-            $paramsArray['notify_url'] = $notify_url;
+
+            if(!empty($attach)){
+                $paramsArray['attach'] = $attach;
+            }
+            if(!empty($notify_url)){
+                $paramsArray['notify_url'] = $notify_url;
+            }
+            if(!empty($config_no)){
+                $paramsArray['config_no'] = $config_no;
+            }
+            if(!empty($auto)){
+                $paramsArray['auto'] = $auto;
+            }
+            if(!empty($auto_node)){
+                $paramsArray['auto_node'] = $auto_node;
+            }
+
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpsPost($this->apiConfig['alipay_wap_pay_url'], $paramsArray);
@@ -168,7 +196,7 @@ class AliPay
      * @param $notify_url 异步回调地址，不传无回调
      * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付-》支付密钥 查看密钥
      */
-    public function jsPay($out_trade_no, $total_fee, $mch_id,$buyer_id,$body,$attach, $notify_url, $key)
+    public function jsPay($out_trade_no, $total_fee, $mch_id,$buyer_id,$body,$attach, $notify_url, $config_no, $auto, $auto_node, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -199,8 +227,23 @@ class AliPay
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
             //下面参数不参与签名，但是接口需要这些参数
-            $paramsArray['attach'] = $attach;
-            $paramsArray['notify_url'] = $notify_url;
+
+            if(!empty($attach)){
+                $paramsArray['attach'] = $attach;
+            }
+            if(!empty($notify_url)){
+                $paramsArray['notify_url'] = $notify_url;
+            }
+            if(!empty($config_no)){
+                $paramsArray['config_no'] = $config_no;
+            }
+            if(!empty($auto)){
+                $paramsArray['auto'] = $auto;
+            }
+            if(!empty($auto_node)){
+                $paramsArray['auto_node'] = $auto_node;
+            }
+
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpsPost($this->apiConfig['alipay_js_pay_url'], $paramsArray);
@@ -234,7 +277,7 @@ class AliPay
      * @param $return_url 异步回调地址，不传无回调
      * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付-》支付密钥 查看密钥
      */
-    public function h5Pay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url,$return_url,$key)
+    public function h5Pay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url,$return_url, $config_no, $auto, $auto_node,$key)
     {
         $result = null;
         $paramsArray = array();
@@ -261,9 +304,26 @@ class AliPay
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
             //下面参数不参与签名，但是接口需要这些参数
-            $paramsArray['attach'] = $attach;
-            $paramsArray['notify_url'] = $notify_url;
-            $paramsArray['return_url'] = $return_url;
+
+            if(!empty($attach)){
+                $paramsArray['attach'] = $attach;
+            }
+            if(!empty($notify_url)){
+                $paramsArray['notify_url'] = $notify_url;
+            }
+            if(!empty($return_url)){
+                $paramsArray['return_url'] = $return_url;
+            }
+            if(!empty($config_no)){
+                $paramsArray['config_no'] = $config_no;
+            }
+            if(!empty($auto)){
+                $paramsArray['auto'] = $auto;
+            }
+            if(!empty($auto_node)){
+                $paramsArray['auto_node'] = $auto_node;
+            }
+
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpsPost($this->apiConfig['alipay_mobile_pay_url'], $paramsArray);
@@ -300,7 +360,7 @@ class AliPay
      * @param $notify_url 异步回调地址，不传无回调
      * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付-》支付密钥 查看密钥
      */
-    public function appPay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url, $key)
+    public function appPay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url, $config_no, $auto, $auto_node, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -327,8 +387,23 @@ class AliPay
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
             //下面参数不参与签名，但是接口需要这些参数
-            $paramsArray['attach'] = $attach;
-            $paramsArray['notify_url'] = $notify_url;
+
+            if(!empty($attach)){
+                $paramsArray['attach'] = $attach;
+            }
+            if(!empty($notify_url)){
+                $paramsArray['notify_url'] = $notify_url;
+            }
+            if(!empty($config_no)){
+                $paramsArray['config_no'] = $config_no;
+            }
+            if(!empty($auto)){
+                $paramsArray['auto'] = $auto;
+            }
+            if(!empty($auto_node)){
+                $paramsArray['auto_node'] = $auto_node;
+            }
+
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpsPost($this->apiConfig['alipay_app_pay_url'], $paramsArray);
