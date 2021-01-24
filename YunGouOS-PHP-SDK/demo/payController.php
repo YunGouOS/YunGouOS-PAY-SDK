@@ -93,13 +93,13 @@ try {
             break;
         case "alipay_native":
             //扫码支付
-            $result = $alipay->nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url,null,null,null, $key);
+            $result = $alipay->nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url,null,null,null,null,null, $key);
             //此处type传递的是2 所以返回的是支付二维码的地址直接显示即可。如果传递1 返回的是支付宝原生的二维码支付连接，需要自己写生成二维码图片的逻辑
             $html = '<img src="' . $result . '"/>';
             echo $html;
             break;
         case "alipay_wap":
-            $result = $alipay->wapPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url,null,null,null, $key);
+            $result = $alipay->wapPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url,null,null,null,null,null, $key);
             //此处返回的是支付宝的原生支付连接，重定向即可自动打开支付宝付款
             header("Location: " . $result . "");
             break;
