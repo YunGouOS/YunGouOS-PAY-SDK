@@ -6,7 +6,7 @@
 <dependency>
     <groupId>com.yungouos.pay</groupId>
     <artifactId>yungouos-pay-sdk</artifactId>
-    <version>2.0.6</version>
+    <version>2.0.7</version>
 </dependency>
 
 ```
@@ -100,32 +100,32 @@
 
 返回二维码地址或微信支付二维码连接（需自行生成二维码）
 
-    String result = AliPay.nativePay(System.currentTimeMillis() + "", "0.01", mch_id, "测试订单", "2", null, notify, null, null, null, key);
+    String result = AliPay.nativePay(System.currentTimeMillis() + "", "0.01", mch_id, "测试订单", "2", null, notify, null, null, null,null, key);
 
 ## 支付宝WAP支付
 
 返回支付宝跳转连接，手机端重定向自动打开支付宝APP付款
 
-	String result = AliPay.wapPay(System.currentTimeMillis() + "", "0.01", mch_id, "支付测试", null, notify, null, null, null, key);
+	String result = AliPay.wapPay(System.currentTimeMillis() + "", "0.01", mch_id, "支付测试", null, notify, null, null, null,null,  key);
 
 ## 支付宝JS支付
 
 返回支付宝JSSDK所需的参数
 
-	AliPayJsPayBiz aliPayJsPayBiz = AliPay.jsPay(System.currentTimeMillis() + "", "0.01", mch_id, buyer_id, "支付测试", null, notify, null, null, null, key);
+	AliPayJsPayBiz aliPayJsPayBiz = AliPay.jsPay(System.currentTimeMillis() + "", "0.01", mch_id, buyer_id, "支付测试", null, notify, null, null, null,null,  key);
 
 ## 支付宝H5支付
 
 返回支付宝H5支付跳转的form表单，客户端直接输出表单跳转即可
 
-	String result = AliPay.h5Pay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试", null, notify, returnUrl, null, null, null, key);
+	String result = AliPay.h5Pay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试", null, notify, returnUrl, null, null, null,null,  key);
 
 
 ## 支付宝APP支付
 
 返回支付宝APP支付所需的参数，客户端按照支付宝官方APP支付SDK拉起支付宝即可
 
-	String result = AliPay.appPay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试", null, notify, null, null, null, key);
+	String result = AliPay.appPay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试", null, notify, null, null, null, null, key);
 
 
 ## 发起支付宝退款接口
@@ -218,23 +218,23 @@
 
 ## 支付宝扫码支付
 
-	AliPay.nativePay(订单号,支付金额,支付宝商户号,商品描述,返回类型，附加数据，异步回调地址,同步回调地址,,分账配置单号,是否自动分账,自动分账节点,商户密钥);
+	AliPay.nativePay(订单号,支付金额,支付宝商户号,商品描述,返回类型，附加数据，异步回调地址,同步回调地址,,分账配置单号,是否自动分账,自动分账节点,花呗分期业务,商户密钥);
 
 ## 支付宝WAP支付
 
-	AliPay.wapPay(订单号,支付金额,支付宝商户号,商品描述,附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
+	AliPay.wapPay(订单号,支付金额,支付宝商户号,商品描述,附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,花呗分期业务,商户密钥);
 
 ## 支付宝JS支付
 
-	AliPay.jsPay(订单号,支付金额,支付宝商户号,买家的支付宝唯一用户号,商品描述,附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
+	AliPay.jsPay(订单号,支付金额,支付宝商户号,买家的支付宝唯一用户号,商品描述,附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,花呗分期业务,商户密钥);
 
 ## 支付宝H5支付
 
-	AliPay.h5Pay(订单号,支付金额,支付宝商户号,商品描述,附加数据，异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
+	AliPay.h5Pay(订单号,支付金额,支付宝商户号,商品描述,附加数据，异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,花呗分期业务,商户密钥);
 
 ## 支付宝APP支付
 
-	AliPay.appPay(订单号,支付金额,支付宝商户号,商品描述,附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
+	AliPay.appPay(订单号,支付金额,支付宝商户号,商品描述,附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,花呗分期业务,商户密钥);
 
 ## 发起支付宝退款
 

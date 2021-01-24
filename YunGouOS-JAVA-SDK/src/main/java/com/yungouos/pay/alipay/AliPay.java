@@ -3,10 +3,12 @@ package com.yungouos.pay.alipay;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yungouos.pay.common.PayException;
 import com.yungouos.pay.config.AlipayApiConfig;
 import com.yungouos.pay.entity.AliPayJsPayBiz;
+import com.yungouos.pay.entity.HbFqBiz;
 import com.yungouos.pay.entity.PayOrder;
 import com.yungouos.pay.entity.RefundOrder;
 import com.yungouos.pay.entity.RefundSearch;
@@ -47,12 +49,14 @@ public class AliPay {
 	 *            自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
 	 * @param auto_node
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+	 * @param hbFqBiz
+	 *            花呗分期业务对象
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
 	 * @return 支付二维码连接
 	 */
-	public static String nativePay(String out_trade_no, String total_fee, String mch_id, String body, String type, String attach, String notify_url,String config_no,
-			String auto, String auto_node, String key) throws PayException {
+	public static String nativePay(String out_trade_no, String total_fee, String mch_id, String body, String type, String attach, String notify_url, String config_no, String auto, String auto_node,
+			HbFqBiz hbFqBiz, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String resultUrl = null;
 		try {
@@ -86,6 +90,12 @@ public class AliPay {
 			params.put("config_no", config_no);
 			params.put("auto", auto);
 			params.put("auto_node", auto_node);
+			if (hbFqBiz != null) {
+				JSONObject hbfqJson = (JSONObject) JSON.toJSON(hbFqBiz);
+				if (hbfqJson != null) {
+					params.put("hb_fq", hbfqJson.toJSONString());
+				}
+			}
 			params.put("sign", sign);
 			String result = HttpRequest.post(AlipayApiConfig.nativeApiUrl).form(params).execute().body();
 			if (StrUtil.isBlank(result)) {
@@ -130,13 +140,15 @@ public class AliPay {
 	 * @param auto
 	 *            自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
 	 * @param auto_node
-	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】           
+	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+	 * @param hbFqBiz
+	 *            花呗分期业务对象
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
 	 * @return wap支付连接，重定向到该地址自动打开支付APP付款
 	 */
-	public static String wapPay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url,String config_no,
-			String auto, String auto_node, String key) throws PayException {
+	public static String wapPay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String config_no, String auto, String auto_node,HbFqBiz hbFqBiz, String key)
+			throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String resultUrl = null;
 		try {
@@ -166,6 +178,12 @@ public class AliPay {
 			params.put("config_no", config_no);
 			params.put("auto", auto);
 			params.put("auto_node", auto_node);
+			if (hbFqBiz != null) {
+				JSONObject hbfqJson = (JSONObject) JSON.toJSON(hbFqBiz);
+				if (hbfqJson != null) {
+					params.put("hb_fq", hbfqJson.toJSONString());
+				}
+			}
 			params.put("sign", sign);
 			String result = HttpRequest.post(AlipayApiConfig.wapPayUrl).form(params).execute().body();
 			if (StrUtil.isBlank(result)) {
@@ -213,12 +231,14 @@ public class AliPay {
 	 *            自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
 	 * @param auto_node
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+	 * @param hbFqBiz
+	 *            花呗分期业务对象
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
 	 * @return 支付宝JSSDK所需的对象数据 参考：https://open.pay.yungouos.com/#/api/api/pay/alipay/jsPay
 	 */
-	public static AliPayJsPayBiz jsPay(String out_trade_no, String total_fee, String mch_id, String buyer_id, String body, String attach, String notify_url,String config_no,
-			String auto, String auto_node, String key) throws PayException {
+	public static AliPayJsPayBiz jsPay(String out_trade_no, String total_fee, String mch_id, String buyer_id, String body, String attach, String notify_url, String config_no, String auto,
+			String auto_node, HbFqBiz hbFqBiz,String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		AliPayJsPayBiz aliPayJsPayBiz = null;
 		try {
@@ -252,6 +272,12 @@ public class AliPay {
 			params.put("config_no", config_no);
 			params.put("auto", auto);
 			params.put("auto_node", auto_node);
+			if (hbFqBiz != null) {
+				JSONObject hbfqJson = (JSONObject) JSON.toJSON(hbFqBiz);
+				if (hbfqJson != null) {
+					params.put("hb_fq", hbfqJson.toJSONString());
+				}
+			}
 			params.put("sign", sign);
 			String result = HttpRequest.post(AlipayApiConfig.jsPayUrl).form(params).execute().body();
 			if (StrUtil.isBlank(result)) {
@@ -302,13 +328,15 @@ public class AliPay {
 	 * @param auto
 	 *            自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
 	 * @param auto_node
-	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】           
+	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+	 * @param hbFqBiz
+	 *            花呗分期业务对象
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
 	 * @return 拉起H5页面的form表单
 	 */
-	public static String h5Pay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String return_url,String config_no,
-			String auto, String auto_node, String key) throws PayException {
+	public static String h5Pay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String return_url, String config_no, String auto, String auto_node,
+			HbFqBiz hbFqBiz,String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String form = null;
 		try {
@@ -339,6 +367,12 @@ public class AliPay {
 			params.put("config_no", config_no);
 			params.put("auto", auto);
 			params.put("auto_node", auto_node);
+			if (hbFqBiz != null) {
+				JSONObject hbfqJson = (JSONObject) JSON.toJSON(hbFqBiz);
+				if (hbfqJson != null) {
+					params.put("hb_fq", hbfqJson.toJSONString());
+				}
+			}
 			params.put("sign", sign);
 			String result = HttpRequest.post(AlipayApiConfig.h5PayUrl).form(params).execute().body();
 			if (StrUtil.isBlank(result)) {
@@ -390,13 +424,15 @@ public class AliPay {
 	 * @param auto
 	 *            自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
 	 * @param auto_node
-	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】           
+	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+	 * @param hbFqBiz
+	 *            花呗分期业务对象
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
 	 * @return APP支付所需的参数
 	 */
-	public static String appPay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url,String config_no,
-			String auto, String auto_node, String key) throws PayException {
+	public static String appPay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String config_no, String auto, String auto_node,HbFqBiz hbFqBiz, String key)
+			throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String appParams = null;
 		try {
@@ -426,6 +462,12 @@ public class AliPay {
 			params.put("config_no", config_no);
 			params.put("auto", auto);
 			params.put("auto_node", auto_node);
+			if (hbFqBiz != null) {
+				JSONObject hbfqJson = (JSONObject) JSON.toJSON(hbFqBiz);
+				if (hbfqJson != null) {
+					params.put("hb_fq", hbfqJson.toJSONString());
+				}
+			}
 			params.put("sign", sign);
 			String result = HttpRequest.post(AlipayApiConfig.appPayUrl).form(params).execute().body();
 			if (StrUtil.isBlank(result)) {
