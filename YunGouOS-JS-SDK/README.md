@@ -50,13 +50,13 @@ WxPay.nativePay
 1、项目根目录命令行执行
 
 ```sh
-npm i yungouos-pay-sdk
+npm i yungouos-pay-node-sdk
 ```
 
 2、项目中引入
 
 ```js
-import {WxPay,AliPay} from 'yungouos-pay-sdk'
+import {WxPay,AliPay} from 'yungouos-pay-node-sdk'
 ```
 
 ## 二、使用
@@ -220,7 +220,7 @@ WxPay.downloadBill(refund_no, mch_id, payKey).then((response)=>{
 #### 扫码支付（同步）
 
 ```js
-let result = AliPay.nativePayAsync(out_trade_no, total_fee, mch_id, body, type, attach, notify_url, payKey);
+let result = AliPay.nativePayAsync(out_trade_no, total_fee, mch_id, body, type, attach, notify_url,hbfq_num,hbfq_percent,payKey);
 //二维码链接地址
 console.log(result);
 ```
@@ -228,7 +228,7 @@ console.log(result);
 #### 扫码支付（异步）
 
 ```js
-AliPay.nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_url, payKey).then((response)=>{
+AliPay.nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_url,hbfq_num,hbfq_percent, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -237,7 +237,7 @@ AliPay.nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_url
 #### wap支付（同步）
 
 ```js
-let result = AliPay.wapPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, payKey);
+let result = AliPay.wapPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url,hbfq_num,hbfq_percent, payKey);
 //wap支付链接地址
 console.log(result);
 ```
@@ -245,7 +245,7 @@ console.log(result);
 #### wap支付（异步）
 
 ```js
-AliPay.wapPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, payKey).then((response)=>{
+AliPay.wapPay(out_trade_no, total_fee, mch_id, body, attach, notify_url,hbfq_num,hbfq_percent, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -254,7 +254,7 @@ AliPay.wapPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, payKey)
 #### js支付（同步）
 
 ```js
-let result = AliPay.jsPayAsync(out_trade_no, total_fee, mch_id,buyer_id,body, attach, notify_url, payKey);
+let result = AliPay.jsPayAsync(out_trade_no, total_fee, mch_id,buyer_id,body, attach, notify_url,hbfq_num,hbfq_percent, payKey);
 //支付宝JSSDK所需的参数
 console.log(result);
 ```
@@ -262,7 +262,7 @@ console.log(result);
 #### js支付（异步）
 
 ```js
-AliPay.jsPay(out_trade_no, total_fee, mch_id,buyer_id,body, attach, notify_url, payKey).then((response)=>{
+AliPay.jsPay(out_trade_no, total_fee, mch_id,buyer_id,body, attach, notify_url,hbfq_num,hbfq_percent, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -271,7 +271,7 @@ AliPay.jsPay(out_trade_no, total_fee, mch_id,buyer_id,body, attach, notify_url, 
 #### H5支付（同步）
 
 ```js
-let result = AliPay.h5PayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, payKey);
+let result = AliPay.h5PayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url,hbfq_num,hbfq_percent, payKey);
 //H5支付表单
 console.log(result);
 ```
@@ -279,7 +279,7 @@ console.log(result);
 #### H5支付（异步）
 
 ```js
-AliPay.h5Pay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, payKey).then((response)=>{
+AliPay.h5Pay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url,hbfq_num,hbfq_percent, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -288,7 +288,7 @@ AliPay.h5Pay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_u
 #### app支付（同步）
 
 ```js
-let result = AliPay.appPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, payKey);
+let result = AliPay.appPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url,hbfq_num,hbfq_percent, payKey);
 //APP支付所需的参数
 console.log(result);
 ```
@@ -296,7 +296,7 @@ console.log(result);
 #### app支付（异步）
 
 ```js
-AliPay.appPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, payKey).then((response)=>{
+AliPay.appPay(out_trade_no, total_fee, mch_id, body, attach, notify_url,hbfq_num,hbfq_percent, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -338,25 +338,45 @@ AliPay.getRefundResult(out_trade_no, mch_id, money, refund_desc, payKey).then((r
 });
 ```
 
-### 3、微信支付分账
+### 3、支付分账
 
 
-#### 配置分账账户（同步）
+#### 微信支付配置分账账户（同步）
 
 ```js
-let result =Finance.configAsync(mch_id,appId,reason,channel,openId,receiver_mch_id,name,rate,money,payKey);
+let result =Finance.wxPayConfigAsync(mch_id, appId, reason,openId, receiver_mch_id, name, rate, money, payKey);
 //配置分账结果
 console.log(result);
 ```
 
-#### 配置分账账户（异步）
+#### 微信支付配置分账账户（异步）
 
 ```js
-Finance.config(mch_id,appId,reason,channel,openId,receiver_mch_id,name,rate,money,payKey).then((response)=>{
+Finance.wxPayConfig(mch_id, appId, reason,openId, receiver_mch_id, name, rate, money, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
 ```
+
+
+#### 支付宝配置分账账户（同步）
+
+```js
+let result =Finance.aliPayConfigAsync(mch_id, reason,account, name, rate, money, payKey);
+//配置分账结果
+console.log(result);
+```
+
+#### 支付宝配置分账账户（异步）
+
+```js
+Finance.aliPayConfig(mch_id, reason,account, name, rate, money, payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
+
 
 #### 生成分账账单（同步）
 
@@ -427,7 +447,6 @@ Finance.finish(mch_id, out_trade_no, payKey).then((response)=>{
 });
 ```
 
-
 ### 4、转账代付
 
 
@@ -465,7 +484,6 @@ Finance.rePayAliPay(merchant_id, out_trade_no, account, account_name, money, des
     console.log(response);
 });
 ```
-
 
 ### 5、订单查询
 

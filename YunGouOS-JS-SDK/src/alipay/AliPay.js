@@ -18,10 +18,12 @@ import PaySignUtil from '../util/PaySignUtil';
  * @param {*} type 返回类型（1、返回支付宝原生的支付连接需要自行生成二维码；2、直接返回付款二维码地址，页面上展示即可。不填默认1）
  * @param {*} attach 附加数据，回调时候原路返回 
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
+ * @param {*} hbfq_num 花呗分期期数。只支持3、6、12（仅限渠道商户使用）
+ * @param {*} hbfq_percent 花呗分期商户承担手续费比例。只支持0、100（仅限渠道商户使用）
  * @param {*} payKey 支付密钥 登录yungouos.com-》支付宝-》商户管理 支付密钥 获取
  * @return {*} 返回二维码支付链接地址或原生支付链接
  */
-async function nativePayAsync(out_trade_no, total_fee, mch_id, body, type, attach, notify_url, payKey) {
+async function nativePayAsync(out_trade_no, total_fee, mch_id, body, type, attach, notify_url, hbfq_num, hbfq_percent, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -59,6 +61,17 @@ async function nativePayAsync(out_trade_no, total_fee, mch_id, body, type, attac
     }
     if (!Common.isEmpty(notify_url)) {
         params.notify_url = notify_url;
+    }
+    //花呗分期业务
+    let hbfqBiz = {};
+    if (!Common.isEmpty(hbfq_num)) {
+        hbfqBiz.hbfq_num = hbfq_num;
+    }
+    if (!Common.isEmpty(hbfq_percent)) {
+        hbfqBiz.hbfq_percent = hbfq_percent;
+    }
+    if (!Common.isEmpty(hbfqBiz)) {
+        params.hb_fq = JSON.stringify(hbfqBiz);
     }
     let response = await HttpUtil.post(AliPayConfig.nativePay, params);
     let result = Common.doApiResult(response);
@@ -89,10 +102,12 @@ async function nativePayAsync(out_trade_no, total_fee, mch_id, body, type, attac
  * @param {*} type 返回类型（1、返回支付宝原生的支付连接需要自行生成二维码；2、直接返回付款二维码地址，页面上展示即可。不填默认1）
  * @param {*} attach 附加数据，回调时候原路返回 
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
+ * @param {*} hbfq_num 花呗分期期数。只支持3、6、12（仅限渠道商户使用）
+ * @param {*} hbfq_percent 花呗分期商户承担手续费比例。只支持0、100（仅限渠道商户使用）
  * @param {*} payKey 支付密钥 登录yungouos.com-》支付宝-》商户管理 支付密钥 获取
  * @return {*} 返回Promise化结果，需要自行处理返回结果
  */
-function nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_url, payKey) {
+function nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_url, hbfq_num, hbfq_percent, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -131,6 +146,17 @@ function nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_u
     if (!Common.isEmpty(notify_url)) {
         params.notify_url = notify_url;
     }
+    //花呗分期业务
+    let hbfqBiz = {};
+    if (!Common.isEmpty(hbfq_num)) {
+        hbfqBiz.hbfq_num = hbfq_num;
+    }
+    if (!Common.isEmpty(hbfq_percent)) {
+        hbfqBiz.hbfq_percent = hbfq_percent;
+    }
+    if (!Common.isEmpty(hbfqBiz)) {
+        params.hb_fq = JSON.stringify(hbfqBiz);
+    }
     return HttpUtil.post(AliPayConfig.nativePay, params);
 }
 
@@ -149,10 +175,12 @@ function nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_u
  * @param {*} body 商品描述
  * @param {*} attach 附加数据，回调时候原路返回 
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
+ * @param {*} hbfq_num 花呗分期期数。只支持3、6、12（仅限渠道商户使用）
+ * @param {*} hbfq_percent 花呗分期商户承担手续费比例。只支持0、100（仅限渠道商户使用）
  * @param {*} payKey 支付密钥 登录yungouos.com-》支付宝-》商户管理 支付密钥 获取
  * @return {*} 返回支付宝WAP支付连接
  */
-async function wapPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, payKey) {
+async function wapPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, hbfq_num, hbfq_percent, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -187,6 +215,17 @@ async function wapPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify
     }
     if (!Common.isEmpty(notify_url)) {
         params.notify_url = notify_url;
+    }
+    //花呗分期业务
+    let hbfqBiz = {};
+    if (!Common.isEmpty(hbfq_num)) {
+        hbfqBiz.hbfq_num = hbfq_num;
+    }
+    if (!Common.isEmpty(hbfq_percent)) {
+        hbfqBiz.hbfq_percent = hbfq_percent;
+    }
+    if (!Common.isEmpty(hbfqBiz)) {
+        params.hb_fq = JSON.stringify(hbfqBiz);
     }
     let response = await HttpUtil.post(AliPayConfig.wapPay, params);
     let result = Common.doApiResult(response);
@@ -216,10 +255,12 @@ async function wapPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify
  * @param {*} body 商品描述
  * @param {*} attach 附加数据，回调时候原路返回 
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
+ * @param {*} hbfq_num 花呗分期期数。只支持3、6、12（仅限渠道商户使用）
+ * @param {*} hbfq_percent 花呗分期商户承担手续费比例。只支持0、100（仅限渠道商户使用）
  * @param {*} payKey 支付密钥 登录yungouos.com-》支付宝-》商户管理 支付密钥 获取
  * @return {*} 返回支付宝WAP支付连接
  */
-function wapPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, payKey) {
+function wapPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, hbfq_num, hbfq_percent, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -255,8 +296,20 @@ function wapPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, payKe
     if (!Common.isEmpty(notify_url)) {
         params.notify_url = notify_url;
     }
+    //花呗分期业务
+    let hbfqBiz = {};
+    if (!Common.isEmpty(hbfq_num)) {
+        hbfqBiz.hbfq_num = hbfq_num;
+    }
+    if (!Common.isEmpty(hbfq_percent)) {
+        hbfqBiz.hbfq_percent = hbfq_percent;
+    }
+    if (!Common.isEmpty(hbfqBiz)) {
+        params.hb_fq = JSON.stringify(hbfqBiz);
+    }
     return HttpUtil.post(AliPayConfig.wapPay, params);
 }
+
 
 
 
@@ -274,10 +327,12 @@ function wapPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, payKe
  * @param {*} body 商品描述
  * @param {*} attach 附加数据，回调时候原路返回 
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
+ * @param {*} hbfq_num 花呗分期期数。只支持3、6、12（仅限渠道商户使用）
+ * @param {*} hbfq_percent 花呗分期商户承担手续费比例。只支持0、100（仅限渠道商户使用）
  * @param {*} payKey 支付密钥 登录yungouos.com-》支付宝-》商户管理 支付密钥 获取
  * @return {*} 返回支付宝的JSSDK所需的参数
  */
-async function jsPayAsync(out_trade_no, total_fee, mch_id,buyer_id,body, attach, notify_url, payKey) {
+async function jsPayAsync(out_trade_no, total_fee, mch_id, buyer_id, body, attach, notify_url, hbfq_num, hbfq_percent, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -317,6 +372,17 @@ async function jsPayAsync(out_trade_no, total_fee, mch_id,buyer_id,body, attach,
     }
     if (!Common.isEmpty(notify_url)) {
         params.notify_url = notify_url;
+    }
+    //花呗分期业务
+    let hbfqBiz = {};
+    if (!Common.isEmpty(hbfq_num)) {
+        hbfqBiz.hbfq_num = hbfq_num;
+    }
+    if (!Common.isEmpty(hbfq_percent)) {
+        hbfqBiz.hbfq_percent = hbfq_percent;
+    }
+    if (!Common.isEmpty(hbfqBiz)) {
+        params.hb_fq = JSON.stringify(hbfqBiz);
     }
     let response = await HttpUtil.post(AliPayConfig.jsPay, params);
     let result = Common.doApiResult(response);
@@ -347,10 +413,12 @@ async function jsPayAsync(out_trade_no, total_fee, mch_id,buyer_id,body, attach,
  * @param {*} body 商品描述
  * @param {*} attach 附加数据，回调时候原路返回 
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
+ * @param {*} hbfq_num 花呗分期期数。只支持3、6、12（仅限渠道商户使用）
+ * @param {*} hbfq_percent 花呗分期商户承担手续费比例。只支持0、100（仅限渠道商户使用）
  * @param {*} payKey 支付密钥 登录yungouos.com-》支付宝-》商户管理 支付密钥 获取
  * @return {*} 返回支付宝的JSSDK所需的参数
  */
-function jsPay(out_trade_no, total_fee, mch_id, buyer_id, body, attach, notify_url, payKey) {
+function jsPay(out_trade_no, total_fee, mch_id, buyer_id, body, attach, notify_url, hbfq_num, hbfq_percent, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -391,6 +459,17 @@ function jsPay(out_trade_no, total_fee, mch_id, buyer_id, body, attach, notify_u
     if (!Common.isEmpty(notify_url)) {
         params.notify_url = notify_url;
     }
+    //花呗分期业务
+    let hbfqBiz = {};
+    if (!Common.isEmpty(hbfq_num)) {
+        hbfqBiz.hbfq_num = hbfq_num;
+    }
+    if (!Common.isEmpty(hbfq_percent)) {
+        hbfqBiz.hbfq_percent = hbfq_percent;
+    }
+    if (!Common.isEmpty(hbfqBiz)) {
+        params.hb_fq = JSON.stringify(hbfqBiz);
+    }
     return HttpUtil.post(AliPayConfig.jsPay, params);
 }
 
@@ -410,10 +489,12 @@ function jsPay(out_trade_no, total_fee, mch_id, buyer_id, body, attach, notify_u
  * @param {*} attach 附加数据，回调时候原路返回 
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
  * @param {*} return_url 同步回调地址，用户支付成功后或取消支付都会跳转回到该地址
+ * @param {*} hbfq_num 花呗分期期数。只支持3、6、12（仅限渠道商户使用）
+ * @param {*} hbfq_percent 花呗分期商户承担手续费比例。只支持0、100（仅限渠道商户使用）
  * @param {*} payKey 支付密钥 登录yungouos.com-》支付宝-》商户管理 支付密钥 获取
  * @return {*} 返回支付宝H5支付的form表单
  */
-async function h5PayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, payKey) {
+async function h5PayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, hbfq_num, hbfq_percent, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -451,6 +532,17 @@ async function h5PayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_
     }
     if (!Common.isEmpty(return_url)) {
         params.return_url = return_url;
+    }
+    //花呗分期业务
+    let hbfqBiz = {};
+    if (!Common.isEmpty(hbfq_num)) {
+        hbfqBiz.hbfq_num = hbfq_num;
+    }
+    if (!Common.isEmpty(hbfq_percent)) {
+        hbfqBiz.hbfq_percent = hbfq_percent;
+    }
+    if (!Common.isEmpty(hbfqBiz)) {
+        params.hb_fq = JSON.stringify(hbfqBiz);
     }
     let response = await HttpUtil.post(AliPayConfig.mobilePay, params);
     let result = Common.doApiResult(response);
@@ -482,10 +574,12 @@ async function h5PayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_
  * @param {*} attach 附加数据，回调时候原路返回 
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
  * @param {*} return_url 同步回调地址，用户支付成功后或取消支付都会跳转回到该地址
+ * @param {*} hbfq_num 花呗分期期数。只支持3、6、12（仅限渠道商户使用）
+ * @param {*} hbfq_percent 花呗分期商户承担手续费比例。只支持0、100（仅限渠道商户使用）
  * @param {*} payKey 支付密钥 登录yungouos.com-》支付宝-》商户管理 支付密钥 获取
  * @return {*} 返回支付宝H5支付的form表单
  */
-function h5Pay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, payKey) {
+function h5Pay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, hbfq_num, hbfq_percent, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -524,6 +618,17 @@ function h5Pay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return
     if (!Common.isEmpty(return_url)) {
         params.return_url = return_url;
     }
+    //花呗分期业务
+    let hbfqBiz = {};
+    if (!Common.isEmpty(hbfq_num)) {
+        hbfqBiz.hbfq_num = hbfq_num;
+    }
+    if (!Common.isEmpty(hbfq_percent)) {
+        hbfqBiz.hbfq_percent = hbfq_percent;
+    }
+    if (!Common.isEmpty(hbfqBiz)) {
+        params.hb_fq = JSON.stringify(hbfqBiz);
+    }
     return HttpUtil.post(AliPayConfig.mobilePay, params);
 }
 
@@ -542,10 +647,12 @@ function h5Pay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return
  * @param {*} body 商品描述
  * @param {*} attach 附加数据，回调时候原路返回 
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
+ * @param {*} hbfq_num 花呗分期期数。只支持3、6、12（仅限渠道商户使用）
+ * @param {*} hbfq_percent 花呗分期商户承担手续费比例。只支持0、100（仅限渠道商户使用）
  * @param {*} payKey 支付密钥 登录yungouos.com-》支付宝-》商户管理 支付密钥 获取
  * @return {*} 返回APP端拉起支付宝所需的参数
  */
-async function appPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, payKey) {
+async function appPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, hbfq_num, hbfq_percent, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -580,6 +687,17 @@ async function appPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify
     }
     if (!Common.isEmpty(notify_url)) {
         params.notify_url = notify_url;
+    }
+    //花呗分期业务
+    let hbfqBiz = {};
+    if (!Common.isEmpty(hbfq_num)) {
+        hbfqBiz.hbfq_num = hbfq_num;
+    }
+    if (!Common.isEmpty(hbfq_percent)) {
+        hbfqBiz.hbfq_percent = hbfq_percent;
+    }
+    if (!Common.isEmpty(hbfqBiz)) {
+        params.hb_fq = JSON.stringify(hbfqBiz);
     }
     let response = await HttpUtil.post(AliPayConfig.appPay, params);
     let result = Common.doApiResult(response);
@@ -608,10 +726,12 @@ async function appPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify
  * @param {*} body 商品描述
  * @param {*} attach 附加数据，回调时候原路返回 
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
+ * @param {*} hbfq_num 花呗分期期数。只支持3、6、12（仅限渠道商户使用）
+ * @param {*} hbfq_percent 花呗分期商户承担手续费比例。只支持0、100（仅限渠道商户使用）
  * @param {*} payKey 支付密钥 登录yungouos.com-》支付宝-》商户管理 支付密钥 获取
  * @return {*} 返回APP端拉起支付宝所需的参数
  */
-function appPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, payKey) {
+function appPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, hbfq_num, hbfq_percent, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -647,8 +767,21 @@ function appPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, payKe
     if (!Common.isEmpty(notify_url)) {
         params.notify_url = notify_url;
     }
+    //花呗分期业务
+    let hbfqBiz = {};
+    if (!Common.isEmpty(hbfq_num)) {
+        hbfqBiz.hbfq_num = hbfq_num;
+    }
+    if (!Common.isEmpty(hbfq_percent)) {
+        hbfqBiz.hbfq_percent = hbfq_percent;
+    }
+    if (!Common.isEmpty(hbfqBiz)) {
+        params.hb_fq = JSON.stringify(hbfqBiz);
+    }
     return HttpUtil.post(AliPayConfig.appPay, params);
 }
+
+
 
 
 /**

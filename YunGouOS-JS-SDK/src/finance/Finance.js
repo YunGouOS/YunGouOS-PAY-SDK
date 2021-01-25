@@ -4,8 +4,10 @@ import HttpUtil from '../util/HttpUtil';
 import PaySignUtil from '../util/PaySignUtil';
 
 
+
+
 /**
- * 分账配置（同步）
+ * 微信支付分账配置（同步）
  * 
  * 添加分账收款方的账户信息。使用该功能请仔细阅读注意事项。
  * 
@@ -14,7 +16,6 @@ import PaySignUtil from '../util/PaySignUtil';
  * @param {*} mch_id 分账方支付商户号
  * @param {*} appId 自定义appId，如果传递了该参数则openId必须是通过该appId获取
  * @param {*} reason 分账原因
- * @param {*} channel 分账渠道
  * @param {*} openId 分账收款方的openId，通过授权接口获得。 优先级：高
  * @param {*} receiver_mch_id 分账收款方的商户号。 优先级：低
  * @param {*} name 分账收款方姓名或商户号主体名称。传递了则校验
@@ -23,7 +24,8 @@ import PaySignUtil from '../util/PaySignUtil';
  * @param {*} payKey 支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
  * @return {*} 配置单号
  */
-async function configAsync(mch_id,appId,reason,channel,openId,receiver_mch_id,name,rate,money,payKey) {
+async function wxPayConfigAsync(mch_id, appId, reason, openId, receiver_mch_id, name, rate, money, payKey) {
+    let channel = "wxpay";
     if (Common.isEmpty(mch_id)) {
         console.error("yungouos sdk error", "商户号不能为空");
         return null;
@@ -32,17 +34,8 @@ async function configAsync(mch_id,appId,reason,channel,openId,receiver_mch_id,na
         console.error("yungouos sdk error", "分账原因不能为空");
         return null;
     }
-    if (Common.isEmpty(channel)) {
-        console.error("yungouos sdk error", "分账渠道不能为空");
-        return null;
-    }
     if (Common.isEmpty(payKey)) {
         console.error("yungouos sdk error", "支付密钥不能为空");
-        return null;
-    }
-
-    if ("wxpay" != channel && "alipay" != channel) {
-        console.error("yungouos sdk error", "分账渠道参数不合法！参考值：wxpay、alipay");
         return null;
     }
 
@@ -57,7 +50,7 @@ async function configAsync(mch_id,appId,reason,channel,openId,receiver_mch_id,na
         channel: channel
     }
 
-    if (!Common.isEmpty(openId)) { 
+    if (!Common.isEmpty(openId)) {
         // 设置了openId参数，参与签名
         params.openId = openId;
     }
@@ -68,7 +61,7 @@ async function configAsync(mch_id,appId,reason,channel,openId,receiver_mch_id,na
     }
 
     if (!Common.isEmpty(name)) {
-       // 设置了name参数，参与签名
+        // 设置了name参数，参与签名
         params.name = name;
     }
 
@@ -105,6 +98,332 @@ async function configAsync(mch_id,appId,reason,channel,openId,receiver_mch_id,na
 
 
 /**
+ * 微信支付分账配置（异步）
+ * 
+ * 添加分账收款方的账户信息。使用该功能请仔细阅读注意事项。
+ * 
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/config
+ * 
+ * @param {*} mch_id 分账方支付商户号
+ * @param {*} appId 自定义appId，如果传递了该参数则openId必须是通过该appId获取
+ * @param {*} reason 分账原因
+ * @param {*} openId 分账收款方的openId，通过授权接口获得。 优先级：高
+ * @param {*} receiver_mch_id 分账收款方的商户号。 优先级：低
+ * @param {*} name 分账收款方姓名或商户号主体名称。传递了则校验
+ * @param {*} rate 分账比例。如：10 则代表分账比例是订单金额的10% 优先级高于money参数
+ * @param {*} money 固定分账金额。每笔订单固定分账金额，优先级次于rate参数
+ * @param {*} payKey 支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
+ * @return {*} 配置单号
+ */
+function wxPayConfig(mch_id, appId, reason, openId, receiver_mch_id, name, rate, money, payKey) {
+    let channel = "wxpay";
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(reason)) {
+        console.error("yungouos sdk error", "分账原因不能为空");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+
+    if (Common.isEmpty(openId) && Common.isEmpty(receiver_mch_id)) {
+        console.error("yungouos sdk error", "分账收款方openId、收款帐号、收款商户号不能同时为空！");
+        return null;
+    }
+
+    let params = {
+        mch_id: mch_id,
+        reason: reason,
+        channel: channel
+    }
+
+    if (!Common.isEmpty(openId)) {
+        // 设置了openId参数，参与签名
+        params.openId = openId;
+    }
+
+    if (!Common.isEmpty(receiver_mch_id)) {
+        // 设置了receiver_mch_id参数，参与签名
+        params.receiver_mch_id = receiver_mch_id;
+    }
+
+    if (!Common.isEmpty(name)) {
+        // 设置了name参数，参与签名
+        params.name = name;
+    }
+
+    if (!Common.isEmpty(rate)) {
+        // 设置了rate参数，参与签名
+        params.rate = rate;
+    }
+
+    if (!Common.isEmpty(money)) {
+        // 设置了money参数，参与签名
+        params.money = money;
+    }
+
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    //不参与签名
+    if (!Common.isEmpty(appId)) {
+        params.appId = appId;
+    }
+    return HttpUtil.post(FinanceConfig.getConfigUrl, params);
+}
+
+
+/**
+ * 支付宝分账配置（同步）
+ * 
+ * 添加分账收款方的账户信息。使用该功能请仔细阅读注意事项。
+ * 
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/config
+ * 
+ * @param {*} mch_id 分账方支付商户号 登录YunGouOS.com-》支付宝-》商户管理-》支付宝商户号 查看商户号
+ * @param {*} reason 分账原因
+ * @param {*} account 分账收款方支付宝账号
+ * @param {*} name 分账收款方支付宝实名姓名
+ * @param {*} rate 分账比例。如：10 则代表分账比例是订单金额的10% 优先级高于money参数
+ * @param {*} money 固定分账金额。每笔订单固定分账金额，优先级次于rate参数
+ * @param {*} payKey 支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
+ * @return {*} 配置单号
+ */
+async function aliPayConfigAsync(mch_id, reason, account, name, rate, money, payKey) {
+    let channel = "alipay";
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(reason)) {
+        console.error("yungouos sdk error", "分账原因不能为空");
+        return null;
+    }
+    if (Common.isEmpty(account)) {
+        console.error("yungouos sdk error", "分账方支付宝账户不能为空");
+        return null;
+    }
+    if (Common.isEmpty(name)) {
+        console.error("yungouos sdk error", "分账方支付宝账户姓名不能为空");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+
+    let params = {
+        mch_id: mch_id,
+        reason: reason,
+        channel: channel,
+        account: account,
+        name: name
+    }
+
+    if (!Common.isEmpty(rate)) {
+        // 设置了rate参数，参与签名
+        params.rate = rate;
+    }
+
+    if (!Common.isEmpty(money)) {
+        // 设置了money参数，参与签名
+        params.money = money;
+    }
+
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    let response = await HttpUtil.post(FinanceConfig.getConfigUrl, params);
+    let result = Common.doApiResult(response);
+    if (Common.isEmpty(result)) {
+        return null;
+    }
+    let data = result.data;
+    if (Common.isEmpty(data)) {
+        console.error("yungouos sdk error", "API无返回结果");
+        return null;
+    }
+    return data;
+}
+
+
+
+/**
+ * 支付宝分账配置（异步）
+ * 
+ * 添加分账收款方的账户信息。使用该功能请仔细阅读注意事项。
+ * 
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/config
+ * 
+ * @param {*} mch_id 分账方支付商户号
+ * @param {*} reason 分账原因
+ * @param {*} account 分账收款方支付宝账号
+ * @param {*} name 分账收款方支付宝实名姓名
+ * @param {*} rate 分账比例。如：10 则代表分账比例是订单金额的10% 优先级高于money参数
+ * @param {*} money 固定分账金额。每笔订单固定分账金额，优先级次于rate参数
+ * @param {*} payKey 支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
+ * @return {*} 配置单号
+ */
+function aliPayConfig(mch_id, reason, account, name, rate, money, payKey) {
+    let channel = "alipay";
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(reason)) {
+        console.error("yungouos sdk error", "分账原因不能为空");
+        return null;
+    }
+    if (Common.isEmpty(account)) {
+        console.error("yungouos sdk error", "分账方支付宝账户不能为空");
+        return null;
+    }
+    if (Common.isEmpty(name)) {
+        console.error("yungouos sdk error", "分账方支付宝账户姓名不能为空");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+
+    let params = {
+        mch_id: mch_id,
+        reason: reason,
+        channel: channel,
+        account: account,
+        name: name
+    }
+
+    if (!Common.isEmpty(rate)) {
+        // 设置了rate参数，参与签名
+        params.rate = rate;
+    }
+
+    if (!Common.isEmpty(money)) {
+        // 设置了money参数，参与签名
+        params.money = money;
+    }
+
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    return HttpUtil.post(FinanceConfig.getConfigUrl, params);
+}
+
+
+
+/**
+ * 
+ * 废弃，建议使用 wxPayConfig或aliPayConfig方法
+ * 
+ * 分账配置（同步）
+ * 
+ * 添加分账收款方的账户信息。使用该功能请仔细阅读注意事项。
+ * 
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/config
+ * 
+ * @param {*} mch_id 分账方支付商户号
+ * @param {*} appId 自定义appId，如果传递了该参数则openId必须是通过该appId获取
+ * @param {*} reason 分账原因
+ * @param {*} channel 分账渠道
+ * @param {*} openId 分账收款方的openId，通过授权接口获得。 优先级：高
+ * @param {*} receiver_mch_id 分账收款方的商户号。 优先级：低
+ * @param {*} name 分账收款方姓名或商户号主体名称。传递了则校验
+ * @param {*} rate 分账比例。如：10 则代表分账比例是订单金额的10% 优先级高于money参数
+ * @param {*} money 固定分账金额。每笔订单固定分账金额，优先级次于rate参数
+ * @param {*} payKey 支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
+ * @return {*} 配置单号
+ */
+async function configAsync(mch_id, appId, reason, channel, openId, receiver_mch_id, name, rate, money, payKey) {
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(reason)) {
+        console.error("yungouos sdk error", "分账原因不能为空");
+        return null;
+    }
+    if (Common.isEmpty(channel)) {
+        console.error("yungouos sdk error", "分账渠道不能为空");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+
+    if ("wxpay" != channel && "alipay" != channel) {
+        console.error("yungouos sdk error", "分账渠道参数不合法！参考值：wxpay、alipay");
+        return null;
+    }
+
+    if (Common.isEmpty(openId) && Common.isEmpty(receiver_mch_id)) {
+        console.error("yungouos sdk error", "分账收款方openId、收款帐号、收款商户号不能同时为空！");
+        return null;
+    }
+
+    let params = {
+        mch_id: mch_id,
+        reason: reason,
+        channel: channel
+    }
+
+    if (!Common.isEmpty(openId)) {
+        // 设置了openId参数，参与签名
+        params.openId = openId;
+    }
+
+    if (!Common.isEmpty(receiver_mch_id)) {
+        // 设置了receiver_mch_id参数，参与签名
+        params.receiver_mch_id = receiver_mch_id;
+    }
+
+    if (!Common.isEmpty(name)) {
+        // 设置了name参数，参与签名
+        params.name = name;
+    }
+
+    if (!Common.isEmpty(rate)) {
+        // 设置了rate参数，参与签名
+        params.rate = rate;
+    }
+
+    if (!Common.isEmpty(money)) {
+        // 设置了money参数，参与签名
+        params.money = money;
+    }
+
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    //不参与签名
+    if (!Common.isEmpty(appId)) {
+        params.appId = appId;
+    }
+    let response = await HttpUtil.post(FinanceConfig.getConfigUrl, params);
+    let result = Common.doApiResult(response);
+    if (Common.isEmpty(result)) {
+        return null;
+    }
+    let data = result.data;
+    if (Common.isEmpty(data)) {
+        console.error("yungouos sdk error", "API无返回结果");
+        return null;
+    }
+    return data;
+}
+
+
+
+/**
+ * 
+ * 废弃，建议使用 wxPayConfig或aliPayConfig方法
+ * 
  * 分账配置（同步）
  * 
  * 添加分账收款方的账户信息。使用该功能请仔细阅读注意事项。
@@ -792,5 +1111,9 @@ export default {
     rePayWxPayAsync,
     rePayWxPay,
     rePayAliPayAsync,
-    rePayAliPay
+    rePayAliPay,
+    wxPayConfigAsync,
+    wxPayConfig,
+    aliPayConfigAsync,
+    aliPayConfig
 }
