@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yungouos.pay.common.PayException;
 import com.yungouos.pay.config.AlipayApiConfig;
+import com.yungouos.pay.entity.AliPayH5Biz;
 import com.yungouos.pay.entity.AliPayJsPayBiz;
 import com.yungouos.pay.entity.HbFqBiz;
 import com.yungouos.pay.entity.PayOrder;
@@ -147,8 +148,8 @@ public class AliPay {
 	 *            支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
 	 * @return wap支付连接，重定向到该地址自动打开支付APP付款
 	 */
-	public static String wapPay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String config_no, String auto, String auto_node,HbFqBiz hbFqBiz, String key)
-			throws PayException {
+	public static String wapPay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String config_no, String auto, String auto_node, HbFqBiz hbFqBiz,
+			String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String resultUrl = null;
 		try {
@@ -238,7 +239,7 @@ public class AliPay {
 	 * @return 支付宝JSSDK所需的对象数据 参考：https://open.pay.yungouos.com/#/api/api/pay/alipay/jsPay
 	 */
 	public static AliPayJsPayBiz jsPay(String out_trade_no, String total_fee, String mch_id, String buyer_id, String body, String attach, String notify_url, String config_no, String auto,
-			String auto_node, HbFqBiz hbFqBiz,String key) throws PayException {
+			String auto_node, HbFqBiz hbFqBiz, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		AliPayJsPayBiz aliPayJsPayBiz = null;
 		try {
@@ -335,10 +336,10 @@ public class AliPay {
 	 *            支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
 	 * @return 拉起H5页面的form表单
 	 */
-	public static String h5Pay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String return_url, String config_no, String auto, String auto_node,
-			HbFqBiz hbFqBiz,String key) throws PayException {
+	public static AliPayH5Biz h5Pay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String return_url, String config_no, String auto,
+			String auto_node, HbFqBiz hbFqBiz, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
-		String form = null;
+		AliPayH5Biz aliPayH5Biz = null;
 		try {
 			if (StrUtil.isBlank(out_trade_no)) {
 				throw new PayException("订单号不能为空！");
@@ -390,10 +391,7 @@ public class AliPay {
 			if (data == null) {
 				throw new PayException("API结果为空");
 			}
-			form = data.getString("form");
-			if (StrUtil.isBlank(form)) {
-				throw new PayException("H5下单失败");
-			}
+			aliPayH5Biz = JSON.toJavaObject(data, AliPayH5Biz.class);
 		} catch (PayException e) {
 			e.printStackTrace();
 			throw new PayException(e.getMessage());
@@ -401,7 +399,7 @@ public class AliPay {
 			e.printStackTrace();
 			throw new PayException(e.getMessage());
 		}
-		return form;
+		return aliPayH5Biz;
 	}
 
 	/**
@@ -431,8 +429,8 @@ public class AliPay {
 	 *            支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
 	 * @return APP支付所需的参数
 	 */
-	public static String appPay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String config_no, String auto, String auto_node,HbFqBiz hbFqBiz, String key)
-			throws PayException {
+	public static String appPay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String config_no, String auto, String auto_node, HbFqBiz hbFqBiz,
+			String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String appParams = null;
 		try {

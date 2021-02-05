@@ -1,4 +1,5 @@
 import com.yungouos.pay.alipay.AliPay;
+import com.yungouos.pay.entity.AliPayH5Biz;
 import com.yungouos.pay.entity.AliPayJsPayBiz;
 import com.yungouos.pay.entity.HbFqBiz;
 import com.yungouos.pay.entity.RefundOrder;
@@ -50,8 +51,11 @@ public class AliPayTest {
 			System.out.println("支付宝JS支付返回结果：" + aliPayJsPayBiz.toString());
 
 			// 支付宝H5支付
-			String h5Pay = AliPay.h5Pay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试", null, notify, returnUrl, null, null, null, hbFqBiz, key);
-			System.out.println("支付宝H5支付返回结果：" + h5Pay);
+			AliPayH5Biz aliPayH5Biz = AliPay.h5Pay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试", null, notify, returnUrl, null, null, null, hbFqBiz, key);
+			//form表单需要自行输出跳转
+			System.out.println("支付宝H5支付返回form表单：" + aliPayH5Biz.getForm());
+			//url直接重定向访问即可
+			System.out.println("支付宝H5支付返回url：" + aliPayH5Biz.getUrl());
 
 			// 支付宝appPay支付
 			String appPay = AliPay.appPay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试", null, notify, null, null, null, hbFqBiz, key);

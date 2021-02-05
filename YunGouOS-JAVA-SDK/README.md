@@ -6,7 +6,7 @@
 <dependency>
     <groupId>com.yungouos.pay</groupId>
     <artifactId>yungouos-pay-sdk</artifactId>
-    <version>2.0.7</version>
+    <version>2.0.8</version>
 </dependency>
 
 ```
@@ -116,9 +116,9 @@
 
 ## 支付宝H5支付
 
-返回支付宝H5支付跳转的form表单，客户端直接输出表单跳转即可
+返回支付宝H5支付跳转的form表单和跳转url，客户端可输出表单或直接重定向url
 
-	String result = AliPay.h5Pay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试", null, notify, returnUrl, null, null, null,null,  key);
+	AliPayH5Biz aliPayH5Biz = AliPay.h5Pay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试", null, notify, returnUrl, null, null, null,null,  key);
 
 
 ## 支付宝APP支付
