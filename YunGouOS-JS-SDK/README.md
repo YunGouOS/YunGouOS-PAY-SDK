@@ -50,13 +50,13 @@ WxPay.nativePay
 1、项目根目录命令行执行
 
 ```sh
-npm i yungouos-pay-node-sdk
+npm i yungouos-pay-sdk
 ```
 
 2、项目中引入
 
 ```js
-import {WxPay,AliPay} from 'yungouos-pay-node-sdk'
+import {WxPay,AliPay} from 'yungouos-pay-sdk'
 ```
 
 ## 二、使用
