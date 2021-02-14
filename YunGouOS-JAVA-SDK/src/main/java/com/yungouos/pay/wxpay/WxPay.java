@@ -14,7 +14,6 @@ import com.yungouos.pay.entity.RefundSearch;
 import com.yungouos.pay.entity.WxBillInfoBiz;
 import com.yungouos.pay.entity.WxDownloadBillBiz;
 import com.yungouos.pay.entity.WxOauthInfo;
-import com.yungouos.pay.entity.WxPayDetailApiBiz;
 import com.yungouos.pay.util.PaySignUtil;
 
 import cn.hutool.core.util.StrUtil;
@@ -487,7 +486,7 @@ public class WxPay {
 	 * 
 	 * @return 返回原生小程序支付所需的参数，拿到参数后由小程序端调用微信小程序API发起支付
 	 */
-	public static JSONObject minAppPaySend(String openId, String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String config_no, String auto,
+	public static JSONObject minAppPaySend(String openId, String out_trade_no, String total_fee, String mch_id, String body,String attach, String notify_url, String config_no, String auto,
 			String auto_node, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		JSONObject json = null;
@@ -874,14 +873,12 @@ public class WxPay {
 	 *            微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
 	 * @param money
 	 *            退款金额
-	 * @param notify_url
-	 *            退款成功异步回调地址
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》 支付密钥 查看密钥
 	 * 
 	 * @return refundOrder 退款订单对象 参考文档：http://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder
 	 */
-	public static RefundOrder orderRefund(String out_trade_no, String mch_id, String money, String notify_url, String key) throws PayException {
+	public static RefundOrder orderRefund(String out_trade_no, String mch_id, String money, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		RefundOrder refundOrder = null;
 		try {
@@ -902,9 +899,6 @@ public class WxPay {
 			params.put("money", money);
 			// 上述必传参数签名
 			String sign = PaySignUtil.createSign(params, key);
-			if (!StrUtil.isBlank(notify_url)) {
-				params.put("notify_url", notify_url);
-			}
 			params.put("sign", sign);
 			String result = HttpRequest.post(WxPayApiConfig.refundOrderUrl).form(params).execute().body();
 			if (StrUtil.isBlank(result)) {
@@ -1056,15 +1050,13 @@ public class WxPay {
 	 *            微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
 	 * @param date
 	 *            对账单日期，如：2020-01-23
-	 * @param end_date
-	 *            对账单结束日期，如：2020-02-23
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
 	 * 
 	 * @return WxDownloadBillBiz 对账单对象 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/downloadBill
 	 * 
 	 */
-	public static WxDownloadBillBiz downloadBill(String mch_id, String date, String endDate, String key) throws PayException {
+	public static WxDownloadBillBiz downloadBill(String mch_id, String date, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		WxDownloadBillBiz wxDownloadBillBiz = null;
 		try {
@@ -1081,9 +1073,6 @@ public class WxPay {
 			params.put("date", date);
 			// 上述必传参数签名
 			String sign = PaySignUtil.createSign(params, key);
-			if (!StrUtil.isBlank(endDate)) {
-				params.put("end_date", endDate);
-			}
 			params.put("sign", sign);
 			String result = HttpRequest.get(WxPayApiConfig.getDownloadBillUrl).form(params).execute().body();
 			if (StrUtil.isBlank(result)) {

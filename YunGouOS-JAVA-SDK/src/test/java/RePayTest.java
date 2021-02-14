@@ -12,13 +12,13 @@ import com.yungouos.pay.finance.Finance;
 public class RePayTest {
 
 	public static void main(String[] args) {
-		String merchant_id = "商户号";// YunGouOS商户ID 登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号
-		String key = "商户密钥";// 商户密钥 登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
+		String merchant_id = "100000000";// YunGouOS商户ID 登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号
+		String key = "FF46609C5EA8422784E9224ACE34DA23";// 商户密钥 登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
 
 		String out_trade_no = System.currentTimeMillis() + "";
-		String account = "收款人openid";
+		String account = "o-_-itxeWVTRnl-iGT_JJ-t3kpxU";
 		String account_name = "";
-		String money = "0.01";
+		String money = "0.3";
 		String desc = "这是转账描述";
 		String mch_id = null;
 
