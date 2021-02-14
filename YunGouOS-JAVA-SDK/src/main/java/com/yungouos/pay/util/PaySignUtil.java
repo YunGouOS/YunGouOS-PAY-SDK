@@ -80,7 +80,7 @@ public class PaySignUtil {
 	}
 
 	/**
-	 * 验证回调签名是否正确
+	 * 验证支付回调签名是否正确
 	 * 
 	 * @param request
 	 *            回调的request对象
@@ -109,6 +109,62 @@ public class PaySignUtil {
 			params.put("payNo", payNo);
 			params.put("money", money);
 			params.put("mchId", mchId);
+			String reSign = PaySignUtil.createSign(params, partnerKey);
+			if (sign.equals(reSign)) {
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return false;
+	}
+	
+	
+	
+	/**
+	 * 验证退款回调签名是否正确
+	 * 
+	 * @param request
+	 *            回调的request对象
+	 * @return 签名是否正确
+	 * @throws Exception
+	 */
+	public static boolean checkRefundNotifySign(HttpServletRequest request, String partnerKey) throws Exception {
+		try {
+			if (request == null) {
+				throw new Exception("request对象不能为空");
+			}
+			String sign = request.getParameter("sign");
+			if (StrUtil.isBlank(sign)) {
+				throw new Exception("request中未获取到sign");
+			}
+			Map<String, Object> params = new HashMap<String, Object>();
+			String code = request.getParameter("code");
+			String refundNo=request.getParameter("refundNo");
+			String orderNo = request.getParameter("orderNo");
+			String outTradeNo = request.getParameter("outTradeNo");
+			String payNo = request.getParameter("payNo");
+			String mchId = request.getParameter("mchId");
+			String payName = request.getParameter("payName");
+			String refundMoney = request.getParameter("refundMoney");
+			String channel = request.getParameter("channel");
+			String refundTime = request.getParameter("refundTime");
+			String payRefundNo = request.getParameter("payRefundNo");
+			String applyTime = request.getParameter("applyTime");
+			
+			params.put("code", code);
+			params.put("refundNo", refundNo);
+			params.put("orderNo", orderNo);
+			params.put("outTradeNo", outTradeNo);
+			params.put("payNo", payNo);
+			params.put("mchId", mchId);
+			params.put("payName", payName);
+			params.put("refundMoney", refundMoney);
+			params.put("channel", channel);
+			params.put("refundTime", refundTime);
+			params.put("payRefundNo", payRefundNo);
+			params.put("applyTime", applyTime);
 			String reSign = PaySignUtil.createSign(params, partnerKey);
 			if (sign.equals(reSign)) {
 				return true;
