@@ -1143,10 +1143,11 @@ async function appPay(app_id, out_trade_no, total_fee, mch_id, body, attach, not
  * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
  * @param {*} money 退款金额
  * @param {*} refund_desc 退款描述
+ * @param {*} notify_url 异步回调地址，退款成功后会把退款结果发送到该地址，不填则无回调
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder
  */
-async function refundAsync(out_trade_no, mch_id, money, refund_desc, payKey) {
+async function refundAsync(out_trade_no, mch_id, money, refund_desc,notify_url,payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -1170,10 +1171,13 @@ async function refundAsync(out_trade_no, mch_id, money, refund_desc, payKey) {
     }
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
-    params.sign = sign;
     if (!Common.isEmpty(refund_desc)) {
         params.refund_desc = refund_desc;
     }
+    if (!Common.isEmpty(notify_url)) {
+        params.notify_url = notify_url;
+    }
+    params.sign = sign;
     let response = HttpUtil.post(WxPayConfig.refundOrder, params);
     let result = Common.doApiResult(response);
     if (Common.isEmpty(result)) {
@@ -1200,10 +1204,11 @@ async function refundAsync(out_trade_no, mch_id, money, refund_desc, payKey) {
  * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
  * @param {*} money 退款金额
  * @param {*} refund_desc 退款描述
+ * @param {*} notify_url 异步回调地址，退款成功后会把退款结果发送到该地址，不填则无回调
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder
  */
-function refund(out_trade_no, mch_id, money, refund_desc, payKey) {
+function refund(out_trade_no, mch_id, money, refund_desc, notify_url, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -1227,10 +1232,14 @@ function refund(out_trade_no, mch_id, money, refund_desc, payKey) {
     }
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
-    params.sign = sign;
+
     if (!Common.isEmpty(refund_desc)) {
         params.refund_desc = refund_desc;
     }
+    if (!Common.isEmpty(notify_url)) {
+        params.notify_url = notify_url;
+    }
+    params.sign = sign;
     return HttpUtil.post(WxPayConfig.refundOrder, params);
 }
 
@@ -1329,10 +1338,11 @@ function getRefundResult(refund_no, mch_id, payKey) {
  * 
  * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
  * @param {*} date 对账单日期 示例值：2020-01-23
+ * @param {*} end_date 对账单结束日期 示例值：2020-01-25
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/downloadBill
  */
-async function downloadBillAsync(mch_id, date, payKey) {
+async function downloadBillAsync(mch_id, date,end_date,payKey) {
     if (Common.isEmpty(mch_id)) {
         console.error("yungouos sdk error", "商户号不能为空");
         return null;
@@ -1351,6 +1361,9 @@ async function downloadBillAsync(mch_id, date, payKey) {
     }
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
+    if (!Common.isEmpty(end_date)) { 
+        params.end_date = end_date;
+    }
     params.sign = sign;
     let response = HttpUtil.post(WxPayConfig.downloadBill, params);
     let result = Common.doApiResult(response);
@@ -1375,10 +1388,11 @@ async function downloadBillAsync(mch_id, date, payKey) {
  * 
  * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
  * @param {*} date 对账单日期 示例值：2020-01-23
+ * @param {*} end_date 对账单结束日期 示例值：2020-01-25
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/downloadBill
  */
-function downloadBill(mch_id, date, payKey) {
+function downloadBill(mch_id, date, end_date, payKey) {
     if (Common.isEmpty(mch_id)) {
         console.error("yungouos sdk error", "商户号不能为空");
         return null;
@@ -1397,6 +1411,9 @@ function downloadBill(mch_id, date, payKey) {
     }
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
+    if (!Common.isEmpty(end_date)) {
+        params.end_date = end_date;
+    }
     params.sign = sign;
     return HttpUtil.post(WxPayConfig.downloadBill, params);
 }

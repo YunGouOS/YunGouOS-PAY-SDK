@@ -173,13 +173,13 @@ WxPay.appPay(app_id, out_trade_no, total_fee, mch_id, body, attach, notify_url, 
 #### 订单退款（同步）
 
 ```js
-let result = WxPay.refundAsync(out_trade_no, mch_id, money, refund_desc, payKey);
+let result = WxPay.refundAsync(out_trade_no, mch_id, money, refund_desc,notify_url, payKey);
 ```
 
 #### 订单退款（异步）
 
 ```js
-WxPay.refund(out_trade_no, mch_id, money, refund_desc, payKey).then((response)=>{
+WxPay.refund(out_trade_no, mch_id, money, refund_desc,notify_url, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -203,13 +203,13 @@ WxPay.getRefundResult(refund_no, mch_id, payKey).then((response)=>{
 #### 下载对账单（同步）
 
 ```js
-let result = WxPay.downloadBillAsync(refund_no, mch_id, payKey);
+let result = WxPay.downloadBillAsync(mch_id, date,end_date, payKey);
 ```
 
 #### 下载对账单（异步）
 
 ```js
-WxPay.downloadBill(refund_no, mch_id, payKey).then((response)=>{
+WxPay.downloadBill(mch_id, date,end_date, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
