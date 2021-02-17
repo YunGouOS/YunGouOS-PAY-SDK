@@ -619,11 +619,12 @@ class WxPay
      * @param $mch_id 微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
      * @param $money 退款金额
      * @param $refund_desc 退款描述
+     * @param $notify_url 退款结果异步通知地址
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      * @return 退款信息 详情 https://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder
      * @throws Exception
      */
-    public function orderRefund($out_trade_no, $mch_id, $money, $refund_desc, $key)
+    public function orderRefund($out_trade_no, $mch_id, $money, $refund_desc,$notify_url,$key)
     {
         $result = null;
         $paramsArray = array();
@@ -646,6 +647,9 @@ class WxPay
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
             $paramsArray['refund_desc'] = $refund_desc;
+            if(!empty($notify_url)){
+                $paramsArray['notify_url'] = $notify_url;
+            }
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpsPost($this->apiConfig['wxpay_refund_order_url'], $paramsArray);
@@ -794,11 +798,12 @@ class WxPay
      * 使用场景：下载微信官方对账单。商户可以通过该接口下载历史交易清单。返回excel下载地址和原生数据。
      * @param $mch_id 微信支付商户号
      * @param $date 对账单日期 示例值：2020-01-23
+     * @param $end_date 对账单结束日期 示例值：2020-01-25
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      * @return 对账单信息 包括对账单数据，excel下载地址，汇总数据 文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/downloadBill
      * @throws Exception
      */
-    public function downloadBill($mch_id, $date, $key)
+    public function downloadBill($mch_id, $date,$end_date, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -816,6 +821,9 @@ class WxPay
             $paramsArray['date'] = $date;
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
+            if(!empty($end_date)){
+                $paramsArray['end_date'] = $end_date;
+            }
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpGet($this->apiConfig['wxpay_download_bill_url'] . "?" . http_build_query($paramsArray));
