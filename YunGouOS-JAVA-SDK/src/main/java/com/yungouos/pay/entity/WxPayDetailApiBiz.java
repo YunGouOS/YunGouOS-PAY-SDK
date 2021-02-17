@@ -11,14 +11,8 @@ import cn.hutool.core.util.StrUtil;
 /**
  * 
  * 微信支付商品详情对象
- * 
- * 
- * @action
  *
  * @author YunGouOS技术部-029
- *
- * @time 2021年2月6日 下午9:31:51
- *
  *
  */
 public class WxPayDetailApiBiz implements Serializable {

@@ -874,6 +874,8 @@ public class WxPay {
 	 *            微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
 	 * @param money
 	 *            退款金额
+	 * @param refund_desc
+	 *            退款描述           
 	 * @param notify_url
 	 *            退款成功异步回调地址
 	 * @param key
@@ -881,7 +883,7 @@ public class WxPay {
 	 * 
 	 * @return refundOrder 退款订单对象 参考文档：http://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder
 	 */
-	public static RefundOrder orderRefund(String out_trade_no, String mch_id, String money, String notify_url, String key) throws PayException {
+	public static RefundOrder orderRefund(String out_trade_no, String mch_id, String money,String refund_desc,String notify_url, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		RefundOrder refundOrder = null;
 		try {
@@ -902,6 +904,9 @@ public class WxPay {
 			params.put("money", money);
 			// 上述必传参数签名
 			String sign = PaySignUtil.createSign(params, key);
+			if (!StrUtil.isBlank(refund_desc)) {
+				params.put("refund_desc", refund_desc);
+			}
 			if (!StrUtil.isBlank(notify_url)) {
 				params.put("notify_url", notify_url);
 			}
@@ -1064,7 +1069,7 @@ public class WxPay {
 	 * @return WxDownloadBillBiz 对账单对象 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/downloadBill
 	 * 
 	 */
-	public static WxDownloadBillBiz downloadBill(String mch_id, String date, String endDate, String key) throws PayException {
+	public static WxDownloadBillBiz downloadBill(String mch_id, String date, String end_date, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		WxDownloadBillBiz wxDownloadBillBiz = null;
 		try {
@@ -1081,8 +1086,8 @@ public class WxPay {
 			params.put("date", date);
 			// 上述必传参数签名
 			String sign = PaySignUtil.createSign(params, key);
-			if (!StrUtil.isBlank(endDate)) {
-				params.put("end_date", endDate);
+			if (!StrUtil.isBlank(end_date)) {
+				params.put("end_date", end_date);
 			}
 			params.put("sign", sign);
 			String result = HttpRequest.get(WxPayApiConfig.getDownloadBillUrl).form(params).execute().body();

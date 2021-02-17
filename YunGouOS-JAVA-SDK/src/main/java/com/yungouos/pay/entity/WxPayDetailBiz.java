@@ -3,6 +3,13 @@ package com.yungouos.pay.entity;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 
+ * 微信商品单品详情对象
+ * 
+ * @author YunGouOS技术部-029
+ *
+ */
 public class WxPayDetailBiz implements Serializable {
 
 	private static final long serialVersionUID = -7572505256449532515L;

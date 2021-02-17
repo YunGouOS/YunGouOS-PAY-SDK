@@ -81,7 +81,7 @@
 
 ## 发起退款接口
 
-	RefundOrder refundOrder = WxPay.orderRefund("1556267522899", "1529637931", "0.1", "6BA371F4CFAB4465AA04DAEADBAC4161");
+	RefundOrder refundOrder = WxPay.orderRefund("1556267522899", "1529637931", "0.1","订单退款",null,"6BA371F4CFAB4465AA04DAEADBAC4161");
 
 返回结果说明：[http://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder](http://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder "http://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder")
 
@@ -202,7 +202,7 @@
 
 ## 发起退款
 
-	WxPay.orderRefund(订单号, 微信支付商户号, 退款金额, 商户密钥);
+	WxPay.orderRefund(订单号, 微信支付商户号, 退款金额,退款描述,异步回调地址,商户密钥);
 
 ## 查询微信支付退款结果
 

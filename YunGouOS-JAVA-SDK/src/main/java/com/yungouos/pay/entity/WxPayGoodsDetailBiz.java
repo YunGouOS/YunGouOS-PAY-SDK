@@ -6,13 +6,7 @@ import java.io.Serializable;
  * 
  * 微信商品详情
  * 
- * 
- * @action
- *
  * @author YunGouOS技术部-029
- *
- * @time 2021年2月6日 上午10:43:46
- *
  *
  */
 public class WxPayGoodsDetailBiz implements Serializable {

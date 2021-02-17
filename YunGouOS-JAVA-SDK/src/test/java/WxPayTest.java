@@ -88,7 +88,7 @@ public class WxPayTest {
 			/**
 			 * 订单退款
 			 */
-			RefundOrder refundOrder = WxPay.orderRefund("1556267522899", mchId, "0.1",null, key);
+			RefundOrder refundOrder = WxPay.orderRefund("1556267522899", mchId, "0.1","退款描述",null, key);
 			System.out.println("订单退款结果：" + refundOrder.toString());
 
 			/**
