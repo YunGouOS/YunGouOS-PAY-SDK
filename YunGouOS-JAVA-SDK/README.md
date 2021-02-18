@@ -6,7 +6,7 @@
 <dependency>
     <groupId>com.yungouos.pay</groupId>
     <artifactId>yungouos-pay-sdk</artifactId>
-    <version>2.0.8</version>
+    <version>2.0.9</version>
 </dependency>
 
 ```
