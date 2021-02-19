@@ -74,3 +74,7 @@ YunGouOS支付平台是为更多开发者、个体户、个人创业者、小微
 ### 方式二：按照API文档调用
 
 接口文档：[https://open.pay.yungouos.com](https://open.pay.yungouos.com "https://open.pay.yungouos.com")
+
+# 视频教程
+
+[1、30分钟详细了解微信支付宝账户体系和支付接口业务流程](https://www.bilibili.com/video/BV1GU4y1W7HQ/ "https://www.bilibili.com/video/BV1GU4y1W7HQ/")
