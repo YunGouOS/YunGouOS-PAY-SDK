@@ -77,4 +77,4 @@ YunGouOS支付平台是为更多开发者、个体户、个人创业者、小微
 
 # 视频教程
 
-[1、30分钟详细了解微信支付宝账户体系和支付接口业务流程](https://www.bilibili.com/video/BV1GU4y1W7HQ/ "https://www.bilibili.com/video/BV1GU4y1W7HQ/")
+<a href="https://www.bilibili.com/video/BV1GU4y1W7HQ" target="_blank">第一章：30分钟详细了解微信支付宝账户体系和支付接口业务流程</a>
