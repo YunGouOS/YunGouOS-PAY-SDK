@@ -80,3 +80,5 @@ YunGouOS支付平台是为更多开发者、个体户、个人创业者、小微
 <a href="https://www.bilibili.com/video/BV1GU4y1W7HQ" target="_blank">第一章：30分钟详细了解微信支付宝账户体系和支付接口业务流程</a>
 
 <a href="https://www.bilibili.com/video/BV1Wv411Y719" target="_blank">第二章：微信支付宝支付接口接入开发工具安装与环境配置（Java）</a>
+
+<a href="https://www.bilibili.com/video/BV1Bb4y1R7gg" target="_blank">第三章：手把手教你对接微信支付宝接口收款JAVA语言编码实战（附源码）</a>
