@@ -44,9 +44,11 @@
 
 第四步：在您的app.js文件中的onShow方法下 增加如下代码（注意此处需要在onShow方法中增加参数，修改后为 onShow(options) ）
 	
-   if (options == null || options == '' || options.referrerInfo == null || options.referrerInfo=='') { 
+   
+    if (options == null || options == '' || options.referrerInfo == null || options.referrerInfo=='') { 
       return;
     }
+
     let extraData=options.referrerInfo.extraData;
     if(extraData){
       //不管成功失败 先把支付结果赋值
