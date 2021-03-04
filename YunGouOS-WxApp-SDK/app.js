@@ -37,6 +37,9 @@ App({
   onShow(options) {
     //接受支付收银小程序返回的数据
     //参数示例：{"code": 0,data:{"order": "123456"},"msg": "支付成功"} 详情见文档 http://open.pay.yungouos.com/#/api/api/pay/wxpay/minPay
+    if (options == null || options == '' || options.referrerInfo == null || options.referrerInfo=='') { 
+      return;
+    }
     let extraData=options.referrerInfo.extraData;
     console.log(extraData);
     if(extraData){
