@@ -18,7 +18,7 @@
 
 第三步：修改 project.config.json 文件中的appid改成您自己的小程序
 
-第四步：修改 /wxpay/config.js 中的微信支付商户号与商户密钥
+第四步：修改 /wxpay/config.js 中的微信支付商户号与支付密钥
 
 第五步：预览或真机调试体验
 

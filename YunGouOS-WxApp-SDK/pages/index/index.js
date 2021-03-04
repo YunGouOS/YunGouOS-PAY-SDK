@@ -79,8 +79,6 @@ Page({
     let out_trade_no=wxPayUtil.getOrderNo("WA");
     //支付金额 单位：元
     let total_fee='0.10';
-    //支付商户号，登录YunGouOS.com 申请 支持资质个人申请
-    let mch_id=config.mch_id;
     //商品简称
     let body='小程序支付接口演示';
     //回调地址
