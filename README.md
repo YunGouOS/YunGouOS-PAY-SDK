@@ -69,11 +69,19 @@ YunGouOS支付平台是为更多开发者、个体户、个人创业者、小微
 - [PHP](https://gitee.com/YunGouOS/YunGouOS-PAY-SDK/tree/master/YunGouOS-PHP-SDK)
 - [JS](https://gitee.com/YunGouOS/YunGouOS-PAY-SDK/tree/master/YunGouOS-JS-SDK)
 - [Node](https://gitee.com/YunGouOS/YunGouOS-PAY-SDK/tree/master/YunGouOS-Node-SDK)
+- [uniapp](https://gitee.com/YunGouOS/YunGouOS-PAY-SDK/tree/master/YunGouOS-UniApp-SDK)
 - [微信小程序](https://gitee.com/YunGouOS/YunGouOS-PAY-SDK/tree/master/YunGouOS-WxApp-SDK)
 
 ### 方式二：按照API文档调用
 
 接口文档：[https://open.pay.yungouos.com](https://open.pay.yungouos.com "https://open.pay.yungouos.com")
+
+
+# 示例代码
+
+<a href="https://gitee.com/YunGouOS/SpringBootDemo" target="_blank">springBoot接入微信、支付宝、回调方法示例</a>
+
+<a href="https://gitee.com/YunGouOS/yungouos-uniapp-demo" target="_blank">uniapp项目接入SDK微信、支付宝方法示例</a>
 
 # 视频教程
 
