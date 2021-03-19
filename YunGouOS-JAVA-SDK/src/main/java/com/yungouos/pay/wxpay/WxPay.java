@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.yungouos.pay.common.PayException;
 import com.yungouos.pay.config.WxPayApiConfig;
+import com.yungouos.pay.entity.BizParams;
 import com.yungouos.pay.entity.CodePayBiz;
 import com.yungouos.pay.entity.FacePayBiz;
 import com.yungouos.pay.entity.RefundOrder;
@@ -54,13 +56,15 @@ public class WxPay {
 	 *            自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
 	 * @param auto_node
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+	 * @param bizParams
+	 *            附加业务参数对象，具体参考API文档biz_params参数说明         
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
 	 * 
 	 * @return CodePayBiz 付款码支付结果对象 参考文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/codePay
 	 */
 	public static CodePayBiz codePay(String out_trade_no, String total_fee, String mch_id, String body, String auth_code, String attach, String receipt, String notify_url, String config_no,
-			String auto, String auto_node, String key) throws PayException {
+			String auto, String auto_node,BizParams bizParams,String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		CodePayBiz codePayBiz = null;
 		try {
@@ -98,6 +102,12 @@ public class WxPay {
 			params.put("config_no", config_no);
 			params.put("auto", auto);
 			params.put("auto_node", auto_node);
+			if(bizParams!=null){
+				JSONObject bizParamsJson=(JSONObject) JSON.toJSON(bizParams);
+				if(bizParamsJson!=null){
+					params.put("biz_params", bizParamsJson.toJSONString());
+				}
+			}
 			params.put("sign", sign);
 			String result = HttpRequest.post(WxPayApiConfig.codePayUrl).form(params).execute().body();
 			if (StrUtil.isBlank(result)) {
@@ -113,6 +123,8 @@ public class WxPay {
 			}
 			JSONObject dataJson = jsonObject.getJSONObject("data");
 			codePayBiz = JSON.toJavaObject(dataJson, CodePayBiz.class);
+		} catch (JSONException e) {
+			throw new PayException(e.getMessage());
 		} catch (PayException e) {
 			e.printStackTrace();
 			throw new PayException(e.getMessage());
@@ -148,13 +160,15 @@ public class WxPay {
 	 *            自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
 	 * @param auto_node
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+	 * @param bizParams
+	 *            附加业务参数对象，具体参考API文档biz_params参数说明    
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》 支付密钥 查看密钥
 	 * 
 	 * @return 支付二维码连接
 	 */
 	public static String nativePay(String out_trade_no, String total_fee, String mch_id, String body, String type, String attach, String notify_url, String return_url, String config_no, String auto,
-			String auto_node, String key) throws PayException {
+			String auto_node,BizParams bizParams, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String resultUrl = null;
 		try {
@@ -189,6 +203,14 @@ public class WxPay {
 			params.put("config_no", config_no);
 			params.put("auto", auto);
 			params.put("auto_node", auto_node);
+			
+			if(bizParams!=null){
+				JSONObject bizParamsJson=(JSONObject) JSON.toJSON(bizParams);
+				if(bizParamsJson!=null){
+					params.put("biz_params", bizParamsJson.toJSONString());
+				}
+			}
+			
 			params.put("sign", sign);
 			String result = HttpRequest.post(WxPayApiConfig.nativePayUrl).form(params).execute().body();
 			if (StrUtil.isBlank(result)) {
@@ -203,6 +225,8 @@ public class WxPay {
 				throw new PayException(jsonObject.getString("msg"));
 			}
 			resultUrl = jsonObject.getString("data");
+		} catch (JSONException e) {
+			throw new PayException(e.getMessage());
 		} catch (PayException e) {
 			e.printStackTrace();
 			throw new PayException(e.getMessage());
@@ -238,13 +262,15 @@ public class WxPay {
 	 *            自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
 	 * @param auto_node
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+	 * @param bizParams
+	 *            附加业务参数对象，具体参考API文档biz_params参数说明    
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》 支付密钥 查看密钥
 	 * 
 	 * @return JSSDK支付需要的jspackage
 	 */
 	public static String jsapiPay(String out_trade_no, String total_fee, String mch_id, String body, String openId, String attach, String notify_url, String return_url, String config_no, String auto,
-			String auto_node, String key) throws PayException {
+			String auto_node,BizParams bizParams, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String resultUrl = null;
 		try {
@@ -279,6 +305,12 @@ public class WxPay {
 			params.put("config_no", config_no);
 			params.put("auto", auto);
 			params.put("auto_node", auto_node);
+			if(bizParams!=null){
+				JSONObject bizParamsJson=(JSONObject) JSON.toJSON(bizParams);
+				if(bizParamsJson!=null){
+					params.put("biz_params", bizParamsJson.toJSONString());
+				}
+			}
 			params.put("sign", sign);
 			String result = HttpRequest.post(WxPayApiConfig.jsapiUrl).form(params).execute().body();
 			if (StrUtil.isBlank(result)) {
@@ -293,6 +325,8 @@ public class WxPay {
 				throw new PayException(jsonObject.getString("msg"));
 			}
 			resultUrl = jsonObject.getString("data");
+		} catch (JSONException e) {
+			throw new PayException(e.getMessage());
 		} catch (PayException e) {
 			e.printStackTrace();
 			throw new PayException(e.getMessage());
@@ -326,13 +360,15 @@ public class WxPay {
 	 *            自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
 	 * @param auto_node
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+	 * @param bizParams
+	 *            附加业务参数对象，具体参考API文档biz_params参数说明    
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》 支付密钥 查看密钥
 	 * 
 	 * @return 返回收银台地址，重定向到该地址即可
 	 */
 	public static String cashierPay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String return_url, String config_no, String auto,
-			String auto_node, String key) throws PayException {
+			String auto_node,BizParams bizParams, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String resultUrl = null;
 		try {
@@ -363,6 +399,12 @@ public class WxPay {
 			params.put("config_no", config_no);
 			params.put("auto", auto);
 			params.put("auto_node", auto_node);
+			if(bizParams!=null){
+				JSONObject bizParamsJson=(JSONObject) JSON.toJSON(bizParams);
+				if(bizParamsJson!=null){
+					params.put("biz_params", bizParamsJson.toJSONString());
+				}
+			}
 			params.put("sign", sign);
 			String result = HttpRequest.post(WxPayApiConfig.cashierUrl).form(params).execute().body();
 			if (StrUtil.isBlank(result)) {
@@ -377,6 +419,8 @@ public class WxPay {
 				throw new PayException(jsonObject.getString("msg"));
 			}
 			resultUrl = jsonObject.getString("data");
+		} catch (JSONException e) {
+			throw new PayException(e.getMessage());
 		} catch (PayException e) {
 			e.printStackTrace();
 			throw new PayException(e.getMessage());
@@ -410,13 +454,15 @@ public class WxPay {
 	 *            自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
 	 * @param auto_node
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+	 * @param bizParams
+	 *            附加业务参数对象，具体参考API文档biz_params参数说明    
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》 支付密钥 查看密钥
 	 * 
 	 * @return 返回小程序支付所需的参数，拿到参数后由小程序端将参数携带跳转到“支付收银”小程序
 	 */
 	public static JSONObject minAppPay(String out_trade_no, String total_fee, String mch_id, String body, String title, String attach, String notify_url, String config_no, String auto,
-			String auto_node, String key) throws PayException {
+			String auto_node,BizParams bizParams, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		JSONObject json = null;
 		try {
@@ -447,8 +493,16 @@ public class WxPay {
 			params.put("config_no", config_no);
 			params.put("auto", auto);
 			params.put("auto_node", auto_node);
+			if(bizParams!=null){
+				JSONObject bizParamsJson=(JSONObject) JSON.toJSON(bizParams);
+				if(bizParamsJson!=null){
+					params.put("biz_params", bizParamsJson.toJSONString());
+				}
+			}
 			params.put("sign", sign);
 			json = (JSONObject) JSONObject.toJSON(params);
+		} catch (JSONException e) {
+			throw new PayException(e.getMessage());
 		} catch (PayException e) {
 			e.printStackTrace();
 			throw new PayException(e.getMessage());
@@ -482,13 +536,15 @@ public class WxPay {
 	 *            自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
 	 * @param auto_node
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+	 * @param bizParams
+	 *            附加业务参数对象，具体参考API文档biz_params参数说明    
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》 支付密钥 查看密钥
 	 * 
 	 * @return 返回原生小程序支付所需的参数，拿到参数后由小程序端调用微信小程序API发起支付
 	 */
 	public static JSONObject minAppPaySend(String openId, String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String config_no, String auto,
-			String auto_node, String key) throws PayException {
+			String auto_node,BizParams bizParams, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		JSONObject json = null;
 		try {
@@ -519,6 +575,12 @@ public class WxPay {
 			params.put("config_no", config_no);
 			params.put("auto", auto);
 			params.put("auto_node", auto_node);
+			if(bizParams!=null){
+				JSONObject bizParamsJson=(JSONObject) JSON.toJSON(bizParams);
+				if(bizParamsJson!=null){
+					params.put("biz_params", bizParamsJson.toJSONString());
+				}
+			}
 			params.put("sign", sign);
 			String result = HttpRequest.post(WxPayApiConfig.minAppPayUrl).form(params).execute().body();
 			if (StrUtil.isBlank(result)) {
@@ -536,6 +598,8 @@ public class WxPay {
 			if (json == null) {
 				throw new PayException("小程序支付发起失败");
 			}
+		} catch (JSONException e) {
+			throw new PayException(e.getMessage());
 		} catch (PayException e) {
 			e.printStackTrace();
 			throw new PayException(e.getMessage());
@@ -571,13 +635,15 @@ public class WxPay {
 	 *            自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
 	 * @param auto_node
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+	 * @param bizParams
+	 *            附加业务参数对象，具体参考API文档biz_params参数说明    
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》 支付密钥 查看密钥
 	 * 
 	 * @return FacePayBiz 人脸支付结果对象 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/facePay
 	 */
 	public static FacePayBiz facePay(String out_trade_no, String total_fee, String mch_id, String body, String openId, String face_code, String attach, String notify_url, String config_no,
-			String auto, String auto_node, String key) throws PayException {
+			String auto, String auto_node,BizParams bizParams, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		FacePayBiz facePayBiz = null;
 		try {
@@ -615,6 +681,12 @@ public class WxPay {
 			params.put("config_no", config_no);
 			params.put("auto", auto);
 			params.put("auto_node", auto_node);
+			if(bizParams!=null){
+				JSONObject bizParamsJson=(JSONObject) JSON.toJSON(bizParams);
+				if(bizParamsJson!=null){
+					params.put("biz_params", bizParamsJson.toJSONString());
+				}
+			}
 			params.put("sign", sign);
 			String result = HttpRequest.post(WxPayApiConfig.facePayUrl).form(params).execute().body();
 			if (StrUtil.isBlank(result)) {
@@ -630,6 +702,8 @@ public class WxPay {
 			}
 			JSONObject dataJson = jsonObject.getJSONObject("data");
 			facePayBiz = JSON.toJavaObject(dataJson, FacePayBiz.class);
+		} catch (JSONException e) {
+			throw new PayException(e.getMessage());
 		} catch (PayException e) {
 			e.printStackTrace();
 			throw new PayException(e.getMessage());
@@ -663,13 +737,15 @@ public class WxPay {
 	 *            自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
 	 * @param auto_node
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+	 * @param bizParams
+	 *            附加业务参数对象，具体参考API文档biz_params参数说明    
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》 支付密钥 查看密钥
 	 * 
 	 * @return 返回微信H5支付链接，重定向到该地址可打开微信H5进行支付
 	 */
 	public static String H5Pay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String return_url, String config_no, String auto, String auto_node,
-			String key) throws PayException {
+			BizParams bizParams,String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		String resultUrl = null;
 		try {
@@ -700,6 +776,12 @@ public class WxPay {
 			params.put("config_no", config_no);
 			params.put("auto", auto);
 			params.put("auto_node", auto_node);
+			if(bizParams!=null){
+				JSONObject bizParamsJson=(JSONObject) JSON.toJSON(bizParams);
+				if(bizParamsJson!=null){
+					params.put("biz_params", bizParamsJson.toJSONString());
+				}
+			}
 			params.put("sign", sign);
 			String result = HttpRequest.post(WxPayApiConfig.wapPayUrl).form(params).execute().body();
 			if (StrUtil.isBlank(result)) {
@@ -714,6 +796,8 @@ public class WxPay {
 				throw new PayException(jsonObject.getString("msg"));
 			}
 			resultUrl = jsonObject.getString("data");
+		} catch (JSONException e) {
+			throw new PayException(e.getMessage());
 		} catch (PayException e) {
 			e.printStackTrace();
 			throw new PayException(e.getMessage());
@@ -747,13 +831,15 @@ public class WxPay {
 	 *            自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
 	 * @param auto_node
 	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+	 * @param bizParams
+	 *            附加业务参数对象，具体参考API文档biz_params参数说明    
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》 支付密钥 查看密钥
 	 * 
 	 * @return JSONObject 返回微信APP支付所需的参数 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/appPay
 	 */
 	public static JSONObject appPay(String app_id, String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String config_no, String auto, String auto_node,
-			String key) throws PayException {
+			BizParams bizParams,String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		JSONObject resultJson = null;
 		try {
@@ -787,6 +873,12 @@ public class WxPay {
 			params.put("config_no", config_no);
 			params.put("auto", auto);
 			params.put("auto_node", auto_node);
+			if(bizParams!=null){
+				JSONObject bizParamsJson=(JSONObject) JSON.toJSON(bizParams);
+				if(bizParamsJson!=null){
+					params.put("biz_params", bizParamsJson.toJSONString());
+				}
+			}
 			params.put("sign", sign);
 			String result = HttpRequest.post(WxPayApiConfig.appPayUrl).form(params).execute().body();
 			if (StrUtil.isBlank(result)) {
@@ -801,6 +893,8 @@ public class WxPay {
 				throw new PayException(jsonObject.getString("msg"));
 			}
 			resultJson = jsonObject.getJSONObject("data");
+		} catch (JSONException e) {
+			throw new PayException(e.getMessage());
 		} catch (PayException e) {
 			e.printStackTrace();
 			throw new PayException(e.getMessage());
@@ -1063,13 +1157,15 @@ public class WxPay {
 	 *            对账单日期，如：2020-01-23
 	 * @param end_date
 	 *            对账单结束日期，如：2020-02-23
+	 * @param device_info
+	 *            设备号或门店号           
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
 	 * 
 	 * @return WxDownloadBillBiz 对账单对象 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/downloadBill
 	 * 
 	 */
-	public static WxDownloadBillBiz downloadBill(String mch_id, String date, String end_date, String key) throws PayException {
+	public static WxDownloadBillBiz downloadBill(String mch_id, String date, String end_date,String device_info, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		WxDownloadBillBiz wxDownloadBillBiz = null;
 		try {
@@ -1088,6 +1184,9 @@ public class WxPay {
 			String sign = PaySignUtil.createSign(params, key);
 			if (!StrUtil.isBlank(end_date)) {
 				params.put("end_date", end_date);
+			}
+			if (!StrUtil.isBlank(device_info)) {
+				params.put("device_info", device_info);
 			}
 			params.put("sign", sign);
 			String result = HttpRequest.get(WxPayApiConfig.getDownloadBillUrl).form(params).execute().body();

@@ -6,7 +6,7 @@
 <dependency>
     <groupId>com.yungouos.pay</groupId>
     <artifactId>yungouos-pay-sdk</artifactId>
-    <version>2.0.9</version>
+    <version>2.0.10</version>
 </dependency>
 
 ```
@@ -23,31 +23,31 @@
 
 返回二维码地址或微信支付二维码连接（需自行生成二维码）
 
-	String result= WxPay.nativePay(System.currentTimeMillis() + "", "1", mchId, "测试", null, null, null, null,null,null,null,key);
+	String result= WxPay.nativePay(System.currentTimeMillis() + "", "1", mchId, "测试", null, null, null, null,null,null,null,null,key);
 
 ## 微信公众号支付
 
 返回JSSDK需要的支付jspackage
 
-	String jspackage = WxPay.jsapiPay(System.currentTimeMillis() + "", "1", mchId, "测试", "o-_-itxeWVTRnl-iGT_JJ-t3kpxU", null, null, null,null,null,null,key);
+	String jspackage = WxPay.jsapiPay(System.currentTimeMillis() + "", "1", mchId, "测试", "o-_-itxeWVTRnl-iGT_JJ-t3kpxU", null, null, null,null,null,null,null,key);
 
 ## 收银台支付
 
 返回收银台支付地址，跳转到该地址即可。收银台可根据用户设备自动决定扫码支付还是JSAPI支付
 	
-	String cashierPayUrl=WxPay.cashierPay(System.currentTimeMillis() + "", "1", mchId, "测试收银台支付", null, null, null,null,null,null, key);
+	String cashierPayUrl=WxPay.cashierPay(System.currentTimeMillis() + "", "1", mchId, "测试收银台支付", null, null, null,null,null,null,null, key);
 
 ## 小程序支付
 
 返回小程序支付所需的参数，需要使用小程序段端通过携带返回的参数跳转到支付收银小程序发起支付
 	
-	JSONObject minAppPay = WxPay.minAppPay(System.currentTimeMillis()+"", "0.01", mchId, "小程序支付演示", "海底捞", null, null,null,null,null,key);
+	JSONObject minAppPay = WxPay.minAppPay(System.currentTimeMillis()+"", "0.01", mchId, "小程序支付演示", "海底捞", null, null,null,null,null,null,key);
 
 ## 微信刷卡支付
 
 返回刷卡支付结果
 
-	CodePayBiz codePayBiz = WxPay.codePay(System.currentTimeMillis() + "", "0.01", mchId, "测试", "134681285892396042", null, null, null, null, null, null, key);
+	CodePayBiz codePayBiz = WxPay.codePay(System.currentTimeMillis() + "", "0.01", mchId, "测试", "134681285892396042", null, null, null, null, null, null,null, key);
 
 返回结果说明：[http://open.pay.yungouos.com/#/api/api/pay/wxpay/codePay](http://open.pay.yungouos.com/#/api/api/pay/wxpay/codePay "http://open.pay.yungouos.com/#/api/api/pay/wxpay/codePay")		
 
@@ -55,7 +55,7 @@
 
 返回微信刷脸支付结果
 
-	FacePayBiz facePayBiz = WxPay.facePay(System.currentTimeMillis() + "", "0.01", mchId, "人脸支付测试", "o-_-itxeWVTRnl-iGT_JJ-t3kpxU", "人脸特征码", null, null, null, null, null, key);
+	FacePayBiz facePayBiz = WxPay.facePay(System.currentTimeMillis() + "", "0.01", mchId, "人脸支付测试", "o-_-itxeWVTRnl-iGT_JJ-t3kpxU", "人脸特征码", null, null, null, null, null,null, key);
 
 返回结果说明：[http://open.pay.yungouos.com/#/api/api/pay/wxpay/facePay](http://open.pay.yungouos.com/#/api/api/pay/wxpay/facePay "http://open.pay.yungouos.com/#/api/api/pay/wxpay/facePay")	
 
@@ -63,13 +63,13 @@
 
 返回H5支付的链接地址
 
-	String result = WxPay.H5Pay(System.currentTimeMillis() + "", "0.01", mchId, "H5支付测试", null, null, null, null, null, null, key);
+	String result = WxPay.H5Pay(System.currentTimeMillis() + "", "0.01", mchId, "H5支付测试", null, null, null, null, null, null,null, key);
 
 ## 微信APP支付
 
 返回APP支付所需参数
 
-	JSONObject appPayParams = WxPay.appPay(微信开放平台APPID, System.currentTimeMillis() + "", "0.01", mchId, "APP支付测试", null, null, null, null, null, key);
+	JSONObject appPayParams = WxPay.appPay(微信开放平台APPID, System.currentTimeMillis() + "", "0.01", mchId, "APP支付测试", null, null, null, null, null,null, key);
 
 ## 查询刷卡支付结果
 
@@ -100,32 +100,32 @@
 
 返回二维码地址或微信支付二维码连接（需自行生成二维码）
 
-    String result = AliPay.nativePay(System.currentTimeMillis() + "", "0.01", mch_id, "测试订单", "2", null, notify, null, null, null,null, key);
+    String result = AliPay.nativePay(System.currentTimeMillis() + "", "0.01", mch_id, "测试订单", "2", null, notify, null, null, null,null,key);
 
 ## 支付宝WAP支付
 
 返回支付宝跳转连接，手机端重定向自动打开支付宝APP付款
 
-	String result = AliPay.wapPay(System.currentTimeMillis() + "", "0.01", mch_id, "支付测试", null, notify, null, null, null,null,  key);
+	String result = AliPay.wapPay(System.currentTimeMillis() + "", "0.01", mch_id, "支付测试", null, notify, null, null, null,null,key);
 
 ## 支付宝JS支付
 
 返回支付宝JSSDK所需的参数
 
-	AliPayJsPayBiz aliPayJsPayBiz = AliPay.jsPay(System.currentTimeMillis() + "", "0.01", mch_id, buyer_id, "支付测试", null, notify, null, null, null,null,  key);
+	AliPayJsPayBiz aliPayJsPayBiz = AliPay.jsPay(System.currentTimeMillis() + "", "0.01", mch_id, buyer_id, "支付测试", null, notify, null, null, null,null,key);
 
 ## 支付宝H5支付
 
 返回支付宝H5支付跳转的form表单和跳转url，客户端可输出表单或直接重定向url
 
-	AliPayH5Biz aliPayH5Biz = AliPay.h5Pay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试", null, notify, returnUrl, null, null, null,null,  key);
+	AliPayH5Biz aliPayH5Biz = AliPay.h5Pay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试", null, notify, returnUrl, null, null, null,null,key);
 
 
 ## 支付宝APP支付
 
 返回支付宝APP支付所需的参数，客户端按照支付宝官方APP支付SDK拉起支付宝即可
 
-	String result = AliPay.appPay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试", null, notify, null, null, null, null, key);
+	String result = AliPay.appPay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试", null, notify, null, null, null, null,key);
 
 
 ## 发起支付宝退款接口
@@ -174,27 +174,27 @@
 
 ## 微信扫码支付
 
-    WxPay.nativePay(订单号,支付金额,微信支付商户号,商品描述,返回类型，附加数据，异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥)
+    WxPay.nativePay(订单号,支付金额,微信支付商户号,商品描述,返回类型，附加数据，异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,附加业务参数,商户密钥)
 
 ## 微信公众号支付
 
-	 WxPay.jsapi(订单号,支付金额,微信支付商户号,商品描述,用户openid，附加数据，异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥)
+	 WxPay.jsapi(订单号,支付金额,微信支付商户号,商品描述,用户openid，附加数据，异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,附加业务参数,商户密钥)
 
 ## 收银台支付
 
-	 WxPay.cashierPay(订单号,支付金额,微信支付商户号,商品描述,附加数据，异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥)
+	 WxPay.cashierPay(订单号,支付金额,微信支付商户号,商品描述,附加数据，异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,附加业务参数,商户密钥)
 
 ## 小程序支付
 
-	 WxPay.minAppPay(订单号,支付金额,微信支付商户号,商品描述,收银台标题,附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥)
+	 WxPay.minAppPay(订单号,支付金额,微信支付商户号,商品描述,收银台标题,附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,附加业务参数,商户密钥)
 
 ## H5支付
 
-	 WxPay.H5Pay(订单号,支付金额,微信支付商户号,商品描述,附加数据，异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥)	 
+	 WxPay.H5Pay(订单号,支付金额,微信支付商户号,商品描述,附加数据，异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,附加业务参数,商户密钥)	 
 
 ## APP支付
 
-	 WxPay.appPay(开放平台APPID,订单号,支付金额,微信支付商户号,商品描述,附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥)
+	 WxPay.appPay(开放平台APPID,订单号,支付金额,微信支付商户号,商品描述,附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,附加业务参数,商户密钥)
 
 ## 订单查询
 
