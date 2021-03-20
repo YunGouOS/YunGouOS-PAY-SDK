@@ -45,9 +45,10 @@ class WxPay
      * @param $config_no 分账配置单号。支持多个分账，使用,号分割
      * @param $auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+     * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
-    public function codePay($out_trade_no, $total_fee, $mch_id, $body, $auth_code, $attach, $receipt, $notify_url, $config_no, $auto, $auto_node, $key)
+    public function codePay($out_trade_no, $total_fee, $mch_id, $body, $auth_code, $attach, $receipt, $notify_url, $config_no, $auto, $auto_node,$biz_params,$key)
     {
         $result = null;
         $paramsArray = array();
@@ -96,6 +97,14 @@ class WxPay
             if(!empty($auto_node)){
                 $paramsArray['auto_node'] = $auto_node;
             }
+            if(!empty($biz_params)){
+                if(is_array($biz_params)){
+                    throw new Exception("biz_params不是合法的数组");
+                }
+                $biz_paramsJson=json_encode($biz_params);
+                $paramsArray['biz_params'] = $biz_paramsJson;
+            }
+
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpsPost($this->apiConfig['wxpay_code_pay_url'], $paramsArray);
@@ -130,9 +139,10 @@ class WxPay
      * @param $config_no 分账配置单号。支持多个分账，使用,号分割
      * @param $auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+     * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
-    public function nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url, $config_no, $auto, $auto_node, $key)
+    public function nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url, $config_no, $auto, $auto_node,$biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -178,6 +188,15 @@ class WxPay
             if(!empty($auto_node)){
                 $paramsArray['auto_node'] = $auto_node;
             }
+
+            if(!empty($biz_params)){
+                if(is_array($biz_params)){
+                    throw new Exception("biz_params不是合法的数组");
+                }
+                $biz_paramsJson=json_encode($biz_params);
+                $paramsArray['biz_params'] = $biz_paramsJson;
+            }
+
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpsPost($this->apiConfig['wxpay_native_pay_url'], $paramsArray);
@@ -211,9 +230,10 @@ class WxPay
      * @param $config_no 分账配置单号。支持多个分账，使用,号分割
      * @param $auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+     * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
-    public function jsapiPay($out_trade_no, $total_fee, $mch_id, $body, $openId, $attach, $notify_url, $config_no, $auto, $auto_node, $key)
+    public function jsapiPay($out_trade_no, $total_fee, $mch_id, $body, $openId, $attach, $notify_url, $config_no, $auto, $auto_node,$biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -260,6 +280,15 @@ class WxPay
             if(!empty($auto_node)){
                 $paramsArray['auto_node'] = $auto_node;
             }
+
+            if(!empty($biz_params)){
+                if(is_array($biz_params)){
+                    throw new Exception("biz_params不是合法的数组");
+                }
+                $biz_paramsJson=json_encode($biz_params);
+                $paramsArray['biz_params'] = $biz_paramsJson;
+            }
+
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpsPost($this->apiConfig['wxpay_jsapi_pay_url'], $paramsArray);
@@ -294,9 +323,10 @@ class WxPay
      * @param $config_no 分账配置单号。支持多个分账，使用,号分割
      * @param $auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+     * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
-    public function cashierPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node, $key)
+    public function cashierPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node,$biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -341,6 +371,14 @@ class WxPay
             if(!empty($auto_node)){
                 $paramsArray['auto_node'] = $auto_node;
             }
+            if(!empty($biz_params)){
+                if(is_array($biz_params)){
+                    throw new Exception("biz_params不是合法的数组");
+                }
+                $biz_paramsJson=json_encode($biz_params);
+                $paramsArray['biz_params'] = $biz_paramsJson;
+            }
+
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpsPost($this->apiConfig['wxpay_cashier_pay_url'], $paramsArray);
@@ -376,9 +414,10 @@ class WxPay
      * @param $config_no 分账配置单号。支持多个分账，使用,号分割
      * @param $auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0 开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+     * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
-    public function facePay($out_trade_no, $total_fee, $mch_id, $body, $openId, $face_code, $attach, $notify_url, $config_no, $auto, $auto_node, $key)
+    public function facePay($out_trade_no, $total_fee, $mch_id, $body, $openId, $face_code, $attach, $notify_url, $config_no, $auto, $auto_node,$biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -429,6 +468,15 @@ class WxPay
             if(!empty($auto_node)){
                 $paramsArray['auto_node'] = $auto_node;
             }
+
+            if(!empty($biz_params)){
+                if(is_array($biz_params)){
+                    throw new Exception("biz_params不是合法的数组");
+                }
+                $biz_paramsJson=json_encode($biz_params);
+                $paramsArray['biz_params'] = $biz_paramsJson;
+            }
+
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpsPost($this->apiConfig['wxpay_face_pay_url'], $paramsArray);
@@ -463,9 +511,10 @@ class WxPay
      * @param $config_no 分账配置单号。支持多个分账，使用,号分割
      * @param $auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+     * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
-    public function wapPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node, $key)
+    public function wapPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node,$biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -510,6 +559,15 @@ class WxPay
             if(!empty($auto_node)){
                 $paramsArray['auto_node'] = $auto_node;
             }
+
+            if(!empty($biz_params)){
+                if(is_array($biz_params)){
+                    throw new Exception("biz_params不是合法的数组");
+                }
+                $biz_paramsJson=json_encode($biz_params);
+                $paramsArray['biz_params'] = $biz_paramsJson;
+            }
+
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpsPost($this->apiConfig['wxpay_wap_pay_url'], $paramsArray);
@@ -543,9 +601,10 @@ class WxPay
      * @param $config_no 分账配置单号。支持多个分账，使用,号分割
      * @param $auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+     * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
-    public function appPay($app_id, $out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $config_no, $auto, $auto_node, $key)
+    public function appPay($app_id, $out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $config_no, $auto, $auto_node,$biz_params,$key)
     {
         $result = null;
         $paramsArray = array();
@@ -591,6 +650,15 @@ class WxPay
             if(!empty($auto_node)){
                 $paramsArray['auto_node'] = $auto_node;
             }
+
+            if(!empty($biz_params)){
+                if(is_array($biz_params)){
+                    throw new Exception("biz_params不是合法的数组");
+                }
+                $biz_paramsJson=json_encode($biz_params);
+                $paramsArray['biz_params'] = $biz_paramsJson;
+            }
+
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpsPost($this->apiConfig['wxpay_app_pay_url'], $paramsArray);
@@ -799,11 +867,12 @@ class WxPay
      * @param $mch_id 微信支付商户号
      * @param $date 对账单日期 示例值：2020-01-23
      * @param $end_date 对账单结束日期 示例值：2020-01-25
+     * @param $device_info 设备号或门店号
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      * @return 对账单信息 包括对账单数据，excel下载地址，汇总数据 文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/downloadBill
      * @throws Exception
      */
-    public function downloadBill($mch_id, $date,$end_date, $key)
+    public function downloadBill($mch_id, $date,$end_date,$device_info, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -823,6 +892,9 @@ class WxPay
             $sign = $this->paySign->getSign($paramsArray, $key);
             if(!empty($end_date)){
                 $paramsArray['end_date'] = $end_date;
+            }
+            if(!empty($device_info)){
+                $paramsArray['device_info'] = $device_info;
             }
             $paramsArray['sign'] = $sign;
 

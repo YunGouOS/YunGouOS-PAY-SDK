@@ -72,43 +72,43 @@ demo文件夹下已经集成了微信扫码支付、微信收银台支付、微�
 
 返回二维码地址或微信支付二维码连接（需自行生成二维码）
 
-    $result = $wxpay->nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url,$config_no, $auto, $auto_node, $key);
+    $result = $wxpay->nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url,$config_no, $auto, $auto_node,$biz_params, $key);
 
 ## 微信公众号支付
 
 返回JSSDK需要的支付jspackage
 
-	$jsapi = $wxpay->jsapiPay($out_trade_no, $total_fee, $mch_id, $body, $openId, $attach, $notify_url, $config_no, $auto, $auto_node, $key);
+	$jsapi = $wxpay->jsapiPay($out_trade_no, $total_fee, $mch_id, $body, $openId, $attach, $notify_url, $config_no, $auto, $auto_node,$biz_params, $key);
 
 ## 收银台支付
 
 返回收银台支付地址，跳转到该地址即可。收银台可根据用户设备自动决定扫码支付还是JSAPI支付
 	
-	$result=$wxpay->cashierPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node, $key);
+	$result=$wxpay->cashierPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node,$biz_params, $key);
 
 ## 微信H5支付
 
 第三方浏览器外部拉起微信客户端进行支付，返回H5页面拉起微信APP的链接地址
 	
-	$result=$wxpay->wapPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node, $key);
+	$result=$wxpay->wapPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node,$biz_params, $key);
 
 ## 微信APP支付
 
 第三方APP拉起微信APP进行支付，返回微信APP端SDK所需的支付参数，客户端需要按照微信官方SDK拉起方法，自行拉起。
 	
-	$result=$wxpay->appPay($app_id, $out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $config_no, $auto, $auto_node, $key);
+	$result=$wxpay->appPay($app_id, $out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $config_no, $auto, $auto_node,$biz_params, $key);
 
 ## 微信付款码支付
 
 线下扫码枪、扫码盒子、收银软件被扫支付，客户主动出示付款码，借助扫码设备完成收款。
 	
-	$result=$wxpay->codePay($out_trade_no, $total_fee, $mch_id, $body, $auth_code, $attach, $receipt, $notify_url, $config_no, $auto, $auto_node, $key);
+	$result=$wxpay->codePay($out_trade_no, $total_fee, $mch_id, $body, $auth_code, $attach, $receipt, $notify_url, $config_no, $auto, $auto_node, $biz_params,$key);
 
 ## 微信刷脸支付
 
 配合微信刷脸设备，如青蛙Pro、或其他支持微信刷脸的摄像头读取用户faceid后调用该接口完成扣款。
 	
-	$result=$wxpay->facePay($out_trade_no, $total_fee, $mch_id, $body, $openId, $face_code, $attach, $notify_url, $config_no, $auto, $auto_node, $key);
+	$result=$wxpay->facePay($out_trade_no, $total_fee, $mch_id, $body, $openId, $face_code, $attach, $notify_url, $config_no, $auto, $auto_node,$biz_params, $key);
 
 
 # 支付宝
@@ -183,31 +183,31 @@ demo文件夹下已经集成了微信扫码支付、微信收银台支付、微�
 
 ## 微信扫码支付
 
-    $wxpay->nativePay(订单号,支付金额,微信支付商户号,商品描述,返回类型,附加数据,异步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
+    $wxpay->nativePay(订单号,支付金额,微信支付商户号,商品描述,返回类型,附加数据,异步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
 
 ## 微信公众号支付
 
-	 $wxpay->jsapiPay(订单号,支付金额,微信支付商户号,商品描述,用户openid,附加数据,异步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
+	 $wxpay->jsapiPay(订单号,支付金额,微信支付商户号,商品描述,用户openid,附加数据,异步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
 
 ## 微信收银台支付
 
-	 $wxpay->cashierPay(订单号,支付金额,微信支付商户号,商品描述,附加数据,异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
+	 $wxpay->cashierPay(订单号,支付金额,微信支付商户号,商品描述,附加数据,异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
 
 ## 微信H5支付
 
-	$wxpay->wapPay(订单号, 支付金额, 微信支付商户号, 商品描述, 附加数据, 异步回调地址, 同步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
+	$wxpay->wapPay(订单号, 支付金额, 微信支付商户号, 商品描述, 附加数据, 异步回调地址, 同步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
 
 ## 微信APP支付
 
-	$wxpay->wapPay(开放平台APPID,订单号, 支付金额, 微信支付商户号, 商品描述, 附加数据, 异步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
+	$wxpay->wapPay(开放平台APPID,订单号, 支付金额, 微信支付商户号, 商品描述, 附加数据, 异步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
 
 ## 微信付款码支付
 
-	$wxpay->codePay(订单号, 支付金额, 微信支付商户号, 商品描述, 付款码, 附加数据, 是否需要发票,异步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
+	$wxpay->codePay(订单号, 支付金额, 微信支付商户号, 商品描述, 付款码, 附加数据, 是否需要发票,异步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
 
 ## 微信刷脸支付
 
-	$wxpay->facePay(订单号, 支付金额, 微信支付商户号, 商品描述,用户openid,人脸凭证, 附加数据, 异步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
+	$wxpay->facePay(订单号, 支付金额, 微信支付商户号, 商品描述,用户openid,人脸凭证, 附加数据, 异步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
 
 ## 发起退款
 
@@ -227,7 +227,7 @@ demo文件夹下已经集成了微信扫码支付、微信收银台支付、微�
 
 ## 下载微信对账单
 
-	$wxpay->downloadBill(微信支付商户号,对账单日期,对账单结束日期,商户密钥);
+	$wxpay->downloadBill(微信支付商户号,对账单日期,对账单结束日期,设备/门店,商户密钥);
 
 
 # 支付宝支付方法说明
