@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>支付接口接入演示</title>
+
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta name="content-type" content="text/html; charset=UTF-8">
+</head>
+<body>
+	商品名称：
+	<input type="text" id="body">
+	商品金额：
+	<input type="text" id="money">
+
+	<select id="type">
+		<option value="wxpay">微信支付</option>
+		<option value="alipay">支付宝</option>
+	</select>
+
+	<button onclick="toPay()">提交</button>
+
+	<div id="payCode"></div>
+
+
+	<div id="result">未支付</div>
+
+	<input type="hidden" id="orderNo">
+
+</body>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+<script type="text/javascript">
+
+
+	var timer = null;
+
+	function toPay() {
+		var url = "/api/wxpay/nativePay";
+
+		//拿到支付方式
+		var type = $("#type").val();
+
+		switch (type) {
+		case "wxpay":
+			url = "/api/wxpay/nativePay"
+			break;
+		case "alipay":
+			url = "/api/alipay/nativePay"
+			break;
+		default:
+			break;
+		}
+		var body = $("#body").val();
+		var money = $("#money").val();
+		$.ajax({
+			//请求方式
+			type : "POST",
+			//请求地址
+			url : url,
+			//数据，json字符串
+			data : "body=" + body + "&money=" + money,
+			//请求成功
+			success : function(result) {
+				if (result.code != 1) {
+					alert(result.msg);
+					return;
+				}
+
+				var data = result.data;
+
+				var url = data.url;
+
+				var orderNo = data.orderNo;
+
+
+				$("#payCode").html('<img src="' + url + '"/>');
+
+				$("#orderNo").val(orderNo);
+
+
+				timer = setInterval(() => {
+					checkOrderStatus();
+				}, 1000)
+
+			},
+			//请求失败，包含具体的错误信息
+			error : function(e) {
+				console.log(e.status);
+				console.log(e.responseText);
+			}
+		});
+	}
+
+
+
+	function checkOrderStatus() {
+		var orderNo = $("#orderNo").val();
+
+		$.ajax({
+			//请求方式
+			type : "POST",
+			//请求地址
+			url : "/api/order/checkOrderStatus",
+			//数据，json字符串
+			data : "orderNo=" + orderNo,
+			//请求成功
+			success : function(result) {
+				if (result.code != 1) {
+					alert(result.msg);
+					return;
+				}
+				if (result.data) {
+					if (timer != null) {
+						clearInterval(timer);
+						console.log("定时器已清除");
+					}
+					$("#result").html('<span style="color:green">支付成功</span>')
+				}
+				console.log(result);
+			},
+			//请求失败，包含具体的错误信息
+			error : function(e) {
+				console.log(e.status);
+				console.log(e.responseText);
+			}
+		});
+
+	}
+</script>
+</html>

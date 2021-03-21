@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: YunGouOS-SpringBoot-Demo
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: Administrator
+Implementation-Vendor-Id: com.yungouos
+Build-Jdk: 1.8.0_112
+Implementation-URL: https://spring.io/projects/spring-boot/YunGouOS-Sp
+ ringBoot-Demo
+Created-By: Maven Integration for Eclipse
+
