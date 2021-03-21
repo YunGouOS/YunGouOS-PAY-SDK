@@ -60,6 +60,16 @@ function isEmpty(obj) {
     return false;
 }
 
+
+
+/**
+ * 是否object对象
+ * @param {}} val 
+ */
+function isObject(val) {
+    return val != null && typeof val === 'object' && Array.isArray(val) === false;
+};
+
 /**
  * 暴露方法外部调用
  */
@@ -67,4 +77,5 @@ export default {
     "doApiResult": doApiResult,
     "formatMoney": formatMoney,
     "isEmpty": isEmpty,
+    "isObject": isObject
 }

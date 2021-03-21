@@ -66,7 +66,7 @@ import {WxPay,AliPay} from 'yungouos-pay-uniapp-sdk'
 #### 扫码支付（同步）
 
 ```js
-let result = WxPay.nativePayAsync(out_trade_no, total_fee, mch_id, body, type, attach, notify_url, auto, auto_node, config_no, payKey);
+let result = WxPay.nativePayAsync(out_trade_no, total_fee, mch_id, body, type, attach, notify_url, auto, auto_node, config_no,biz_params, payKey);
 //二维码链接地址
 console.log(result);
 ```
@@ -74,7 +74,7 @@ console.log(result);
 #### 扫码支付（异步）
 
 ```js
-WxPay.nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_url, auto, auto_node, config_no, payKey).then((response)=>{
+WxPay.nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_url, auto, auto_node, config_no,biz_params, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -83,13 +83,13 @@ WxPay.nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_url,
 #### 刷卡支付（同步）
 
 ```js
-let result = WxPay.codePayAsync(out_trade_no, total_fee, mch_id, body, auth_code, attach,receipt,notify_url, auto, auto_node, config_no, payKey);
+let result = WxPay.codePayAsync(out_trade_no, total_fee, mch_id, body, auth_code, attach,receipt,notify_url, auto, auto_node, config_no,biz_params, payKey);
 ```
 
 #### 刷卡支付（异步）
 
 ```js
-WxPay.codePay(out_trade_no, total_fee, mch_id, body, auth_code, attach,receipt,notify_url, auto, auto_node, config_no, payKey).then((response)=>{
+WxPay.codePay(out_trade_no, total_fee, mch_id, body, auth_code, attach,receipt,notify_url, auto, auto_node, config_no,biz_params, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -98,13 +98,13 @@ WxPay.codePay(out_trade_no, total_fee, mch_id, body, auth_code, attach,receipt,n
 #### 公众号支付/JSAPI（同步）
 
 ```js
-let result = WxPay.jsapiPayAsync(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no, payKey);
+let result = WxPay.jsapiPayAsync(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no,biz_params, payKey);
 ```
 
 #### 公众号支付/JSAPI（异步）
 
 ```js
-WxPay.jsapiPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no, payKey).then((response)=>{
+WxPay.jsapiPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no,biz_params, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -113,13 +113,13 @@ WxPay.jsapiPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url
 #### 收银台支付（同步）
 
 ```js
-let result = WxPay.cashierPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, payKey);
+let result = WxPay.cashierPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no,biz_params, payKey);
 ```
 
 #### 收银台支付（异步）
 
 ```js
-WxPay.cashierPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, payKey).then((response)=>{
+WxPay.cashierPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no,biz_params, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -128,13 +128,13 @@ WxPay.cashierPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, retu
 #### 刷脸支付（同步）
 
 ```js
-let result = WxPay.facePayAsync(out_trade_no, total_fee, mch_id, body, openId, face_code, attach, notify_url, auto, auto_node, config_no, payKey);
+let result = WxPay.facePayAsync(out_trade_no, total_fee, mch_id, body, openId, face_code, attach, notify_url, auto, auto_node, config_no, biz_params,payKey);
 ```
 
 #### 刷脸支付（异步）
 
 ```js
-WxPay.facePay(out_trade_no, total_fee, mch_id, body, openId, face_code, attach, notify_url, auto, auto_node, config_no, payKey).then((response)=>{
+WxPay.facePay(out_trade_no, total_fee, mch_id, body, openId, face_code, attach, notify_url, auto, auto_node, config_no,biz_params, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -143,13 +143,13 @@ WxPay.facePay(out_trade_no, total_fee, mch_id, body, openId, face_code, attach, 
 #### H5支付（同步）
 
 ```js
-let result = WxPay.wapPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, payKey);
+let result = WxPay.wapPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, biz_params,payKey);
 ```
 
 #### H5支付（异步）
 
 ```js
-WxPay.wapPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, payKey).then((response)=>{
+WxPay.wapPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no,biz_params, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -158,13 +158,13 @@ WxPay.wapPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_u
 #### APP支付（同步）
 
 ```js
-let result = WxPay.appPayAsync(app_id, out_trade_no, total_fee, mch_id, body, attach, notify_url, auto, auto_node, config_no, payKey);
+let result = WxPay.appPayAsync(app_id, out_trade_no, total_fee, mch_id, body, attach, notify_url, auto, auto_node, config_no,biz_params, payKey);
 ```
 
 #### APP支付（异步）
 
 ```js
-WxPay.appPay(app_id, out_trade_no, total_fee, mch_id, body, attach, notify_url, auto, auto_node, config_no, payKey).then((response)=>{
+WxPay.appPay(app_id, out_trade_no, total_fee, mch_id, body, attach, notify_url, auto, auto_node, config_no,biz_params, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -203,13 +203,13 @@ WxPay.getRefundResult(refund_no, mch_id, payKey).then((response)=>{
 #### 下载对账单（同步）
 
 ```js
-let result = WxPay.downloadBillAsync(mch_id, date,end_date, payKey);
+let result = WxPay.downloadBillAsync(mch_id, date,end_date,device_info, payKey);
 ```
 
 #### 下载对账单（异步）
 
 ```js
-WxPay.downloadBill(mch_id, date,end_date,payKey).then((response)=>{
+WxPay.downloadBill(mch_id, date,end_date,device_info,payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
