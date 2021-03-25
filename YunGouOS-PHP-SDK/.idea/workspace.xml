@@ -22,11 +22,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="WxPay.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="WxPay.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/wxpay/WxPay.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.064516">
-              <caret line="328" column="20" selection-start-line="328" selection-start-column="20" selection-end-line="328" selection-end-column="20" />
+            <state vertical-scroll-proportion="0.0026455026">
+              <caret line="871" column="102" selection-start-line="871" selection-start-column="99" selection-end-line="871" selection-end-column="102" />
               <folding />
             </state>
           </provider>
@@ -35,7 +35,7 @@
       <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-179.96428">
+            <state vertical-scroll-proportion="0.0">
               <caret line="229" column="24" selection-start-line="229" selection-start-column="12" selection-end-line="229" selection-end-column="24" />
               <folding />
             </state>
@@ -45,17 +45,17 @@
       <file leaf-file-name="oauth.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/demo/oauth.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.17647">
+            <state vertical-scroll-proportion="0.0">
               <caret line="24" column="183" selection-start-line="24" selection-start-column="183" selection-end-line="24" selection-end-column="183" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="payController.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="payController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/demo/payController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.2992456">
+            <state vertical-scroll-proportion="8.088235">
               <caret line="58" column="35" selection-start-line="58" selection-start-column="35" selection-end-line="58" selection-end-column="35" />
               <folding />
             </state>
@@ -119,7 +119,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -140,6 +139,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -193,10 +193,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="2576" height="1416" extended-state="1" />
+    <frame x="-8" y="-8" width="2576" height="1416" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09896661" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09976152" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -563,7 +563,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-179.96428">
+        <state vertical-scroll-proportion="0.0">
           <caret line="229" column="24" selection-start-line="229" selection-start-column="12" selection-end-line="229" selection-end-column="24" />
           <folding />
         </state>
@@ -571,24 +571,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/demo/oauth.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.17647">
+        <state vertical-scroll-proportion="0.0">
           <caret line="24" column="183" selection-start-line="24" selection-start-column="183" selection-end-line="24" selection-end-column="183" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wxpay/WxPay.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.064516">
-          <caret line="328" column="20" selection-start-line="328" selection-start-column="20" selection-end-line="328" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/demo/payController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.2992456">
+        <state vertical-scroll-proportion="8.088235">
           <caret line="58" column="35" selection-start-line="58" selection-start-column="35" selection-end-line="58" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wxpay/WxPay.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0026455026">
+          <caret line="871" column="102" selection-start-line="871" selection-start-column="99" selection-end-line="871" selection-end-column="102" />
           <folding />
         </state>
       </provider>
