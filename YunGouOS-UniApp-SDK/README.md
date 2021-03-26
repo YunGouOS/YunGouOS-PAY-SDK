@@ -29,9 +29,11 @@ YunGouOS微信支付/支付宝官方合作伙伴，YunGouOS-PAY是徐州市云�
 # 快速上手
 
 
-## 示例代项目
+## 视频教程
+<a href="https://www.bilibili.com/video/BV17Z4y1A7zL" target="_blank">uniapp开发微信小程序接入个人微信支付接口实战演练（含源码）</a>
 
-
+## 示例代码
+<a href="https://gitee.com/YunGouOS/YunGouOS-PAY-SDK/tree/master/YunGouOS-UniApp-Demo" target="_blank">YunGouOS-UniApp-Demo</a>
 
 
 

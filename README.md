@@ -30,8 +30,8 @@ YunGouOS支付平台是为更多开发者、个体户、个人创业者、小微
 
 1、问：为什么你们可以给个人用户签约，实现原理是什么？
 
-    我们是服务商，官方对外个人是不开放的，
-    个人这块给部分有权限的服务商从事，我们刚好有相关权限可以给个人用户签约。
+    我们是微信支付官方合作伙伴，官方对外个人是不开放的，
+    个人这块给部分有权限的合作伙伴从事，我们刚好有相关权限可以给个人用户签约。
 
 2、重要：交易款先到你们账户，然后由你们再支付给我？
 
@@ -79,9 +79,9 @@ YunGouOS支付平台是为更多开发者、个体户、个人创业者、小微
 
 # 示例代码
 
-<a href="https://gitee.com/YunGouOS/SpringBootDemo" target="_blank">springBoot接入微信、支付宝、回调方法示例</a>
+<a href="https://gitee.com/YunGouOS/YunGouOS-PAY-SDK/tree/master/YunGouOS-SpringBoot-Demo" target="_blank">springBoot接入微信、支付宝、回调方法示例</a>
 
-<a href="https://gitee.com/YunGouOS/yungouos-uniapp-demo" target="_blank">uniapp项目接入SDK微信、支付宝方法示例</a>
+<a href="https://gitee.com/YunGouOS/YunGouOS-PAY-SDK/tree/master/YunGouOS-UniApp-Demo" target="_blank">uniapp项目接入SDK微信、支付宝方法示例</a>
 
 # 视频教程
 
@@ -92,4 +92,6 @@ YunGouOS支付平台是为更多开发者、个体户、个人创业者、小微
 <a href="https://www.bilibili.com/video/BV1Bb4y1R7gg" target="_blank">第三章：手把手教你对接微信支付宝接口收款JAVA语言编码实战（附源码）</a>
 
 <a href="https://www.bilibili.com/video/BV1di4y1N7VJ" target="_blank">第四章：springBoot支付宝支付接口接入实战演练（附源码）</a>
+
+<a href="https://www.bilibili.com/video/BV17Z4y1A7zL" target="_blank">第五章：uniapp开发微信小程序接入个人微信支付接口实战演练（附源码）</a>
 
