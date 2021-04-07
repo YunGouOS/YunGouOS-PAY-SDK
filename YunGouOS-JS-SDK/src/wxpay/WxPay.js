@@ -1403,7 +1403,7 @@ async function appPayAsync(app_id, out_trade_no, total_fee, mch_id, body, attach
         }
         params.biz_params = JSON.stringify(biz_params);
     }
-    let response = HttpUtil.post(WxPayConfig.appPay, params);
+    let response = await HttpUtil.post(WxPayConfig.appPay, params);
     let result = Common.doApiResult(response);
     if (Common.isEmpty(result)) {
         return null;
@@ -1439,7 +1439,7 @@ async function appPayAsync(app_id, out_trade_no, total_fee, mch_id, body, attach
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/appPay
  */
-async function appPay(app_id, out_trade_no, total_fee, mch_id, body, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
+function appPay(app_id, out_trade_no, total_fee, mch_id, body, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
     if (Common.isEmpty(app_id)) {
         console.error("yungouos sdk error", "APPID不能为空");
         return null;
@@ -1547,7 +1547,7 @@ async function refundAsync(out_trade_no, mch_id, money, refund_desc,notify_url,p
         params.notify_url = notify_url;
     }
     params.sign = sign;
-    let response = HttpUtil.post(WxPayConfig.refundOrder, params);
+    let response = await HttpUtil.post(WxPayConfig.refundOrder, params);
     let result = Common.doApiResult(response);
     if (Common.isEmpty(result)) {
         return null;
@@ -1646,7 +1646,7 @@ async function getRefundResultAsync(refund_no, mch_id, payKey) {
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
     params.sign = sign;
-    let response = HttpUtil.post(WxPayConfig.getRefundResult, params);
+    let response = await HttpUtil.post(WxPayConfig.getRefundResult, params);
     let result = Common.doApiResult(response);
     if (Common.isEmpty(result)) {
         return null;
@@ -1738,7 +1738,7 @@ async function downloadBillAsync(mch_id, date, end_date,device_info,payKey) {
         params.device_info = device_info;
     }
     params.sign = sign;
-    let response = HttpUtil.post(WxPayConfig.downloadBill, params);
+    let response = await HttpUtil.post(WxPayConfig.downloadBill, params);
     let result = Common.doApiResult(response);
     if (Common.isEmpty(result)) {
         return null;

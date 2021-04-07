@@ -157,6 +157,82 @@ uni.navigateToMiniProgram({
 ```
 
 
+
+#### 小程序支付【个体户/企业】（同步）
+
+```js
+let result = WxPay.minAppPayBusinessAsync(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no, biz_params, payKey);
+
+let data=result.minPayParam;
+
+if(data==null||data==''||data==undefined){
+    console.log("支付失败");
+    return;
+}
+
+let minPayParam = JSON.parse(data);
+
+//构建支付成功方法
+minPayParam.success = (response) => {
+    if (response.errMsg == 'requestPayment:ok') {
+        //支付成功
+        console.log("小程序支付成功");
+    }
+}
+//构建支付失败方法
+minPayParam.fail = (response) => {
+    if (response.errMsg == 'requestPayment:fail cancel') {
+        //取消支付
+        console.log("取消支付");
+    }
+}
+//拉起小程序支付界面
+uni.requestPayment(minPayParam);
+
+```
+
+#### 小程序支付【个体户/企业】（异步）
+
+```js
+WxPay.minAppPayBusiness(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no, biz_params, payKey).then((response)=>{
+    //接口返回结果
+    if(response.code!=0||response.data==null){
+        console.log("支付失败");
+        return;
+    }
+
+    let result=response.data;
+
+    let data=result.minPayParam;
+    
+    if(data==null||data==''||data==undefined){
+        console.log("支付失败");
+        return;
+    }
+
+    let minPayParam = JSON.parse(data);
+
+    //构建支付成功方法
+    minPayParam.success = (response) => {
+        if (response.errMsg == 'requestPayment:ok') {
+            //支付成功
+            console.log("小程序支付成功");
+        }
+    }
+    //构建支付失败方法
+    minPayParam.fail = (response) => {
+        if (response.errMsg == 'requestPayment:fail cancel') {
+            //取消支付
+            console.log("取消支付");
+        }
+    }
+    //拉起小程序支付界面
+    uni.requestPayment(minPayParam);
+
+});
+```
+
+
 #### 刷脸支付（同步）
 
 ```js

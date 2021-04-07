@@ -110,6 +110,103 @@ WxPay.jsapiPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url
 });
 ```
 
+
+
+#### 小程序支付【个人】（同步）
+
+```js
+let params = WxPay.minAppPayParams(out_trade_no, total_fee, mch_id, body, attach, title, notify_url, auto, auto_node, config_no, biz_params, payKey);
+
+wx.navigateToMiniProgram({
+        appId: 'wxd9634afb01b983c0',//支付收银小程序的appid 固定值 不可修改
+        path: '/pages/pay/pay',//支付页面 固定值 不可修改
+        extraData: params,//携带的参数
+        success(res) {
+            console.log("小程序拉起成功");
+        }, fail(res) {
+            
+        }
+});
+
+```
+
+
+#### 小程序支付【个体户/企业】（同步）
+
+```js
+let result = WxPay.minAppPayAsync(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no, biz_params, payKey);
+
+let data=result.minPayParam;
+
+if(data==null||data==''||data==undefined){
+    console.log("支付失败");
+    return;
+}
+
+let minPayParam = JSON.parse(data);
+
+//构建支付成功方法
+minPayParam.success = (response) => {
+    if (response.errMsg == 'requestPayment:ok') {
+        //支付成功
+        console.log("小程序支付成功");
+    }
+}
+//构建支付失败方法
+minPayParam.fail = (response) => {
+    if (response.errMsg == 'requestPayment:fail cancel') {
+        //取消支付
+        console.log("取消支付");
+    }
+}
+//拉起小程序支付界面
+wx.requestPayment(minPayParam);
+
+```
+
+#### 小程序支付【个体户/企业】（异步）
+
+```js
+WxPay.minAppPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no, biz_params, payKey).then((response)=>{
+    //接口返回结果
+    if(response.code!=0||response.data==null){
+        console.log("支付失败");
+        return;
+    }
+
+    let result=response.data;
+
+    let data=result.minPayParam;
+    
+    if(data==null||data==''||data==undefined){
+        console.log("支付失败");
+        return;
+    }
+
+    let minPayParam = JSON.parse(data);
+
+    //构建支付成功方法
+    minPayParam.success = (response) => {
+        if (response.errMsg == 'requestPayment:ok') {
+            //支付成功
+            console.log("小程序支付成功");
+        }
+    }
+    //构建支付失败方法
+    minPayParam.fail = (response) => {
+        if (response.errMsg == 'requestPayment:fail cancel') {
+            //取消支付
+            console.log("取消支付");
+        }
+    }
+    //拉起小程序支付界面
+    wx.requestPayment(minPayParam);
+
+});
+```
+
+
+
 #### 收银台支付（同步）
 
 ```js

@@ -873,6 +873,184 @@ function minAppPayParams(out_trade_no, total_fee, mch_id, body, attach, title, n
 
 
 
+
+/**
+ * 微信小程序支付（个体户、企业）
+ *
+ * 微信小程序支付，获取小程序支付所需参数，需自行通过小程序uni.requestPayment拉起支付
+ *
+ * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/minPay
+ *
+* @param {*} out_trade_no 商户订单号
+ * @param {*} total_fee 支付金额  单位:元
+ * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
+ * @param {*} body 商品描述
+ * @param {*} openId 用户openId（调用小程序uni.login接口获取）
+ * @param {*} attach 附加数据，回调时候原路返回
+ * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
+ * @param {*} auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0
+ * @param {*} auto_node 执行自动分账动作的节点，枚举值【pay、callback】分别表示【付款成功后分账、回调成功后分账】
+ * @param {*} config_no 分账配置单号。支持多个分账，使用,号分割
+ * @param {*} biz_params 附加业务参数。json对象，具体参考API文档
+ * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
+ * @return {*} 返回小程序API uni.requestPayment所需的支付参数
+ */
+function minAppPayBusiness(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户订单号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(total_fee)) {
+        console.error("yungouos sdk error", "支付金额不能为空");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(body)) {
+        console.error("yungouos sdk error", "商品名称不能为空");
+        return null;
+    }
+    if (Common.isEmpty(openId)) {
+        console.error("yungouos sdk error", "openId不能为空");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+    let params = {
+        out_trade_no: out_trade_no,
+        total_fee: total_fee,
+        mch_id: mch_id,
+        body: body
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    params.openId = openId;
+    if (!Common.isEmpty(attach)) {
+        params.attach = attach;
+    }
+    if (!Common.isEmpty(notify_url)) {
+        params.notify_url = notify_url;
+    }
+    if (!Common.isEmpty(auto)) {
+        params.auto = auto;
+    }
+    if (!Common.isEmpty(auto_node)) {
+        params.auto_node = auto_node;
+    }
+    if (!Common.isEmpty(config_no)) {
+        params.config_no = config_no;
+    }
+    if (!Common.isEmpty(biz_params)) {
+        if (!Common.isObject(biz_params)) {
+            console.error("yungouos sdk error", "biz_params不是合法的json");
+            return null;
+        }
+        params.biz_params = JSON.stringify(biz_params);
+    }
+    return HttpUtil.post(WxPayConfig.minAppPay, params);
+}
+
+
+
+/**
+ * 微信小程序支付同步（个体户、企业）
+ *
+ * 微信小程序支付，获取小程序支付所需参数，需自行通过小程序uni.requestPayment拉起支付
+ *
+ * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/minPay
+ *
+* @param {*} out_trade_no 商户订单号
+ * @param {*} total_fee 支付金额  单位:元
+ * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
+ * @param {*} body 商品描述
+ * @param {*} openId 用户openId（调用小程序uni.login接口获取）
+ * @param {*} attach 附加数据，回调时候原路返回
+ * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
+ * @param {*} auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0
+ * @param {*} auto_node 执行自动分账动作的节点，枚举值【pay、callback】分别表示【付款成功后分账、回调成功后分账】
+ * @param {*} config_no 分账配置单号。支持多个分账，使用,号分割
+ * @param {*} biz_params 附加业务参数。json对象，具体参考API文档
+ * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
+ * @return {*} 返回小程序API uni.requestPayment所需的支付参数
+ */
+async function minAppPayBusinessAsync(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户订单号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(total_fee)) {
+        console.error("yungouos sdk error", "支付金额不能为空");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(body)) {
+        console.error("yungouos sdk error", "商品名称不能为空");
+        return null;
+    }
+    if (Common.isEmpty(openId)) {
+        console.error("yungouos sdk error", "openId不能为空");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+    let params = {
+        out_trade_no: out_trade_no,
+        total_fee: total_fee,
+        mch_id: mch_id,
+        body: body
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    params.openId = openId;
+    if (!Common.isEmpty(attach)) {
+        params.attach = attach;
+    }
+    if (!Common.isEmpty(notify_url)) {
+        params.notify_url = notify_url;
+    }
+    if (!Common.isEmpty(auto)) {
+        params.auto = auto;
+    }
+    if (!Common.isEmpty(auto_node)) {
+        params.auto_node = auto_node;
+    }
+    if (!Common.isEmpty(config_no)) {
+        params.config_no = config_no;
+    }
+    if (!Common.isEmpty(biz_params)) {
+        if (!Common.isObject(biz_params)) {
+            console.error("yungouos sdk error", "biz_params不是合法的json");
+            return null;
+        }
+        params.biz_params = JSON.stringify(biz_params);
+    }
+    let response = await HttpUtil.post(WxPayConfig.minAppPay, params);
+    let result = Common.doApiResult(response);
+    if (Common.isEmpty(result)) {
+        return null;
+    }
+    let data = result.data;
+    if (Common.isEmpty(data)) {
+        console.error("yungouos sdk error", "API无返回结果");
+        return null;
+    }
+    return data;
+}
+
+
+
+
 /**
  * 刷脸支付（同步）
  * 
@@ -1313,7 +1491,7 @@ async function appPayAsync(app_id, out_trade_no, total_fee, mch_id, body, attach
         }
         params.biz_params = JSON.stringify(biz_params);
     }
-    let response = HttpUtil.post(WxPayConfig.appPay, params);
+    let response = await HttpUtil.post(WxPayConfig.appPay, params);
     let result = Common.doApiResult(response);
     if (Common.isEmpty(result)) {
         return null;
@@ -1349,7 +1527,7 @@ async function appPayAsync(app_id, out_trade_no, total_fee, mch_id, body, attach
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/appPay
  */
-async function appPay(app_id, out_trade_no, total_fee, mch_id, body, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
+function appPay(app_id, out_trade_no, total_fee, mch_id, body, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
     if (Common.isEmpty(app_id)) {
         console.error("yungouos sdk error", "APPID不能为空");
         return null;
@@ -1457,7 +1635,7 @@ async function refundAsync(out_trade_no, mch_id, money, refund_desc, notify_url,
         params.notify_url = notify_url;
     }
     params.sign = sign;
-    let response = HttpUtil.post(WxPayConfig.refundOrder, params);
+    let response = await HttpUtil.post(WxPayConfig.refundOrder, params);
     let result = Common.doApiResult(response);
     if (Common.isEmpty(result)) {
         return null;
@@ -1556,7 +1734,7 @@ async function getRefundResultAsync(refund_no, mch_id, payKey) {
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
     params.sign = sign;
-    let response = HttpUtil.post(WxPayConfig.getRefundResult, params);
+    let response = await HttpUtil.post(WxPayConfig.getRefundResult, params);
     let result = Common.doApiResult(response);
     if (Common.isEmpty(result)) {
         return null;
@@ -1648,7 +1826,7 @@ async function downloadBillAsync(mch_id, date, end_date, device_info, payKey) {
         params.device_info = device_info;
     }
     params.sign = sign;
-    let response = HttpUtil.post(WxPayConfig.downloadBill, params);
+    let response = await HttpUtil.post(WxPayConfig.downloadBill, params);
     let result = Common.doApiResult(response);
     if (Common.isEmpty(result)) {
         return null;
@@ -1717,6 +1895,8 @@ export default {
     cashierPay,
     minAppPay,
     minAppPayParams,
+    minAppPayBusiness,
+    minAppPayBusinessAsync,
     facePayAsync,
     facePay,
     wapPayAsync,
