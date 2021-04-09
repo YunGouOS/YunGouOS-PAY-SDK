@@ -826,7 +826,7 @@ async function refundAsync(out_trade_no, mch_id, money, refund_desc, payKey) {
     if (!Common.isEmpty(refund_desc)) {
         params.refund_desc = refund_desc;
     }
-    let response = HttpUtil.post(AliPayConfig.refundOrder, params);
+    let response = await HttpUtil.post(AliPayConfig.refundOrder, params);
     let result = Common.doApiResult(response);
     if (Common.isEmpty(result)) {
         return null;
@@ -920,7 +920,7 @@ async function getRefundResultAsync(refund_no, mch_id, payKey) {
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
     params.sign = sign;
-    let response = HttpUtil.post(AliPayConfig.getRefundResult, params);
+    let response =await HttpUtil.post(AliPayConfig.getRefundResult, params);
     let result = Common.doApiResult(response);
     if (Common.isEmpty(result)) {
         return null;

@@ -95,3 +95,5 @@ YunGouOS支付平台是为更多开发者、个体户、个人创业者、小微
 
 <a href="https://www.bilibili.com/video/BV17Z4y1A7zL" target="_blank">第五章：uniapp开发微信小程序接入个人微信支付接口实战演练（附源码）</a>
 
+<a href="https://www.bilibili.com/video/BV1j64y1m7w2" target="_blank">第六章：uniapp开发APP接入个人微信支付、支付宝接口实战演练（附源码）</a>
+
