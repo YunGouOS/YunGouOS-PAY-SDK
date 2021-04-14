@@ -34,7 +34,7 @@ async function getOrderInfoAsync(out_trade_no,mch_id,payKey) {
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
     params.sign = sign;
-    let response = await HttpUtil.post(OrderConfig.getPayOrderInfoUrl, params);
+    let response = await HttpUtil.get(OrderConfig.getPayOrderInfoUrl, params);
     let result = Common.doApiResult(response);
     if (Common.isEmpty(result)) {
         return null;
@@ -80,7 +80,7 @@ function getOrderInfo(out_trade_no, mch_id, payKey) {
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
     params.sign = sign;
-    return HttpUtil.post(OrderConfig.getPayOrderInfoUrl, params);
+    return HttpUtil.get(OrderConfig.getPayOrderInfoUrl, params);
 }
 
 export default {

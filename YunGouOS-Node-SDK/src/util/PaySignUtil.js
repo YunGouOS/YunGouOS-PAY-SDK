@@ -1,4 +1,5 @@
 import md5 from 'md5';
+import Common from '../common/Common';
 
 
 /**
@@ -19,6 +20,35 @@ function paySign(params, key) {
     return md5(string).toString().toUpperCase();
 }
 
+
+
+/**
+ * 验证回调签名是否正确
+ * @param {*} params 
+ * @param {*} key 
+ */
+function checkNotifySign(params, sign, key) {
+    if (Common.isEmpty(params)) {
+        console.error("yungouos sdk error", "params参数不能为空");
+        return false;
+    }
+    if (Common.isEmpty(sign)) {
+        console.error("yungouos sdk error", "sign不能为空");
+        return false;
+    }
+    if (Common.isEmpty(key)) {
+        console.error("yungouos sdk error", "key不能空");
+        return false;
+    }
+    let newSign = paySign(params, key);
+    if (sign != newSign) {
+        console.error("yungouos sdk error", "回调签名验证失败");
+        return false;
+    }
+    return true;
+}
+
 export default {
-    "paySign": paySign
+    "paySign": paySign,
+    "checkNotifySign": checkNotifySign
 }

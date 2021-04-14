@@ -56,12 +56,18 @@ npm i yungouos-pay-sdk
 2、项目中引入
 
 ```js
-import {WxPay,AliPay} from 'yungouos-pay-sdk'
+//可按需导入
+import {WxPay,AliPay,Finance,Merge,Order,PaySignUtil} from 'yungouos-pay-sdk'
 ```
 
 ## 二、使用
 
 ### 1、微信支付
+
+```js
+//导入微信支付对象
+import {WxPay} from 'yungouos-pay-sdk'
+```
 
 #### 扫码支付（同步）
 
@@ -312,6 +318,11 @@ WxPay.downloadBill(mch_id, date,end_date,device_info,payKey).then((response)=>{
 
 ### 2、支付宝
 
+```js
+//导入支付宝对象
+import {AliPay} from 'yungouos-pay-sdk'
+```
+
 #### 扫码支付（同步）
 
 ```js
@@ -435,6 +446,11 @@ AliPay.getRefundResult(out_trade_no, mch_id, money, refund_desc, payKey).then((r
 
 ### 3、支付分账
 
+```js
+//导入分账对象
+import {Finance} from 'yungouos-pay-sdk'
+```
+
 
 #### 微信支付配置分账账户（同步）
 
@@ -544,6 +560,11 @@ Finance.finish(mch_id, out_trade_no, payKey).then((response)=>{
 
 ### 4、转账代付
 
+```js
+//导入转账对象
+import {Finance} from 'yungouos-pay-sdk'
+```
+
 
 #### 转账到微信零钱（同步）
 
@@ -582,6 +603,11 @@ Finance.rePayAliPay(merchant_id, out_trade_no, account, account_name, money, des
 
 ### 5、订单查询
 
+```js
+//导入订单对象
+import {Order} from 'yungouos-pay-sdk'
+```
+
 
 #### 查询订单（同步）
 
@@ -598,4 +624,31 @@ Order.getOrderInfo(out_trade_no,mch_id,payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
+```
+
+### 6、签名工具
+
+```js
+//导入签名工具对象
+import {PaySignUtil} from 'yungouos-pay-sdk'
+```
+
+```js
+//参数签名
+let sign=PaySignUtil.paySign(params, key);
+```
+
+```js
+//验证签名（对应的参数值从异步回调请求中获取）
+let params={
+    code:code,
+    orderNo:orderNo,
+    outTradeNo:outTradeNo,
+    payNo:payNo,
+    money:money,
+    mchId:mchId
+}
+let sign="从异步回调请求中获取";
+let key="支付商户号（mchId）对应的支付密钥";
+let result=PaySignUtil.checkNotifySign(params,sign,key);
 ```
