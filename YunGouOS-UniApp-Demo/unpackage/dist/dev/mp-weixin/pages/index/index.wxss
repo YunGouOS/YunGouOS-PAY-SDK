@@ -14,7 +14,7 @@
 	-webkit-justify-content: center;
 	        justify-content: center;
 }
-.btn-view{
-	margin-top:20px;
+.btn-view {
+	margin-top: 20px;
 }
 

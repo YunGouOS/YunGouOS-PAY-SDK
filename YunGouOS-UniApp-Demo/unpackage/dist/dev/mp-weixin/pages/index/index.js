@@ -170,17 +170,37 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _yungouosPayUniappSdk = __webpack_require__(/*! yungouos-pay-uniapp-sdk */ 20);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _yungouosPayUniappSdk = __webpack_require__(/*! yungouos-pay-uniapp-sdk */ 20);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}
+
+
+
+
+
+var time = null;var _default =
 
 {
   data: function data() {
     return {
       title: 'Hello',
-      payCode: '' };
+      payCode: '',
+      orderNo: null };
 
   },
-  onLoad: function onLoad() {
-  },
+  onLoad: function onLoad() {},
   onShow: function onShow() {
     //页面显示时候做的事情
     var globalData = getApp().globalData;
@@ -253,6 +273,12 @@ var _yungouosPayUniappSdk = __webpack_require__(/*! yungouos-pay-uniapp-sdk */ 2
       });
     },
     /**
+        * 公众号支付
+        */
+    jsPay: function jsPay() {
+
+    },
+    /**
         * 微信H5支付 同步
         */
     wapPay: function () {var _wapPay = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, payKey, result, referLink;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
@@ -267,7 +293,8 @@ var _yungouosPayUniappSdk = __webpack_require__(/*! yungouos-pay-uniapp-sdk */ 2
                 auto_node = null;
                 config_no = null;
                 payKey = "D29ADE73DC084C5EB434302014687FAF";_context2.next = 13;return (
-                  _yungouosPayUniappSdk.WxPay.wapPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, null, payKey));case 13:result = _context2.sent;
+                  _yungouosPayUniappSdk.WxPay.wapPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url,
+                  return_url, auto, auto_node, config_no, null, payKey));case 13:result = _context2.sent;
 
                 referLink = document.createElement('a');
                 referLink.href = "http://www.yungouos.com";
@@ -291,7 +318,8 @@ var _yungouosPayUniappSdk = __webpack_require__(/*! yungouos-pay-uniapp-sdk */ 2
       var biz_params = null;
       var payKey = "499F61DB734C4BF39792A098C44FA80A";
 
-      _yungouosPayUniappSdk.WxPay.minAppPay(out_trade_no, total_fee, mch_id, body, attach, title, notify_url, auto, auto_node, config_no, biz_params, payKey);
+      _yungouosPayUniappSdk.WxPay.minAppPay(out_trade_no, total_fee, mch_id, body, attach, title, notify_url, auto, auto_node,
+      config_no, biz_params, payKey);
 
 
       // let params=WxPay.minAppPayParams(out_trade_no, total_fee, mch_id, body, attach, title, notify_url, auto, auto_node, config_no, biz_params, payKey);
@@ -308,6 +336,196 @@ var _yungouosPayUniappSdk = __webpack_require__(/*! yungouos-pay-uniapp-sdk */ 2
       // })
 
       // console.log(params);
+    },
+    /**
+        * APP支付 通过H5接口拉起支付方式
+        */
+    appPayByWap: function () {var _appPayByWap = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var _this2 = this;var body, total_fee;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:
+
+                //调用自己后端API接口保存订单并且订单是未支付
+
+                body = "APP支付模式1演示";
+                total_fee = "0.01";
+
+                uni.request({
+                  url: 'http://yungouos.wicp.net/api/order/add',
+                  method: "POST",
+                  data: "body=" + body + "&money=" + total_fee,
+                  header: {
+                    'content-type': 'application/x-www-form-urlencoded' },
+
+                  success: function () {var _success = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3(res) {var order, out_trade_no, mch_id, attach, notify_url, return_url, auto, auto_node, config_no, biz_params, payKey, result, wv, currentWebview;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
+                              order = res.data.data;
+                              out_trade_no = order.orderNo;
+                              _this2.orderNo = out_trade_no;
+
+                              mch_id = "1602333609";
+                              attach = null;
+                              notify_url = "http://yungouos.wicp.net/api/callback/notify";
+                              return_url = "http://www.yungouos.com";
+                              auto = null;
+                              auto_node = null;
+                              config_no = null;
+                              biz_params = null;
+                              payKey = "D29ADE73DC084C5EB434302014687FAF";_context3.next = 14;return (
+
+                                _yungouosPayUniappSdk.WxPay.wapPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, biz_params, payKey));case 14:result = _context3.sent;
+
+                              wv = plus.webview.create("", "pay-webview", {
+                                plusrequire: "none",
+                                'uni-app': 'none' });
+
+                              wv.loadURL(result, { Referer: 'http://www.yungouos.com' });
+                              currentWebview = _this2.$scope.$getAppWebview();
+                              currentWebview.append(wv);
+                              wv.hide();
+                              //轮询查询自己系统的订单状态
+                              time = setInterval(function () {
+                                //调用查询订单
+                                _this2.getOrderInfo();
+                              }, 1000);case 21:case "end":return _context3.stop();}}}, _callee3);}));function success(_x) {return _success.apply(this, arguments);}return success;}() });case 3:case "end":return _context4.stop();}}}, _callee4);}));function appPayByWap() {return _appPayByWap.apply(this, arguments);}return appPayByWap;}(),
+
+
+
+
+
+    /**
+                                                                                                                                                                                                                                                                                                                                                   * 微信原生APP支付
+                                                                                                                                                                                                                                                                                                                                                   */
+    appPay: function () {var _appPay = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var app_id, out_trade_no, total_fee, mch_id, body, attach, notify_url, auto, auto_node, config_no, biz_params, payKey, result, orderInfo, appPayParam;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:
+                app_id = "wx465856913462378a";
+                out_trade_no = new Date().getTime();
+                total_fee = "0.01";
+                mch_id = "1602333609";
+                body = "微信APP支付原生方式演示";
+                attach = null;
+                notify_url = "http://yungouos.wicp.net/api/callback/notify";
+                auto = null;
+                auto_node = null;
+                config_no = null;
+                biz_params = null;
+                payKey = "D29ADE73DC084C5EB434302014687FAF";_context5.next = 14;return (
+
+                  _yungouosPayUniappSdk.WxPay.appPayAsync(app_id, out_trade_no, total_fee, mch_id, body, attach, notify_url, auto, auto_node, config_no, biz_params, payKey));case 14:result = _context5.sent;if (!(
+
+                result == null || result == '' || result == undefined)) {_context5.next = 18;break;}
+                console.log("支付失败");return _context5.abrupt("return");case 18:
+
+
+
+                orderInfo = JSON.parse(result);
+
+                appPayParam = {};
+
+                appPayParam.orderInfo = orderInfo;
+
+                appPayParam.provider = "wxpay";
+                //构建支付成功方法
+                appPayParam.success = function (response) {
+                  if (response.errMsg == 'requestPayment:ok') {
+                    //支付成功
+                    console.log("APP支付成功");
+                    //调用查询订单
+                    uni.showToast({
+                      title: "支付成功",
+                      icon: 'success' });
+
+                  }
+                };
+                //构建支付失败方法
+                appPayParam.fail = function (response) {
+                  if (response.errMsg == 'requestPayment:fail cancel') {
+                    //取消支付
+                    console.log("取消支付");
+                    uni.showToast({
+                      title: "取消支付" });
+
+                  }
+                };
+
+                //拉起微信APP支付
+                uni.requestPayment(appPayParam);case 25:case "end":return _context5.stop();}}}, _callee5);}));function appPay() {return _appPay.apply(this, arguments);}return appPay;}(),
+
+    /**
+                                                                                                                                                                                            * 支付宝APP原生支付
+                                                                                                                                                                                            */
+    appPayAliPay: function () {var _appPayAliPay = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6() {var out_trade_no, total_fee, mch_id, body, attach, notify_url, hbfq_num, hbfq_percent, payKey, result, appPayParam;return _regenerator.default.wrap(function _callee6$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:
+
+                out_trade_no = new Date().getTime();
+                total_fee = "0.01";
+                mch_id = "2088110007357703";
+                body = "支付宝原生APP支付演示";
+                attach = null;
+                notify_url = "http://yungouos.wicp.net/api/callback/notify";
+                hbfq_num = null;
+                hbfq_percent = null;
+                payKey = "A01D612DA7F94211B55B594C36B825E7";_context6.next = 11;return (
+                  _yungouosPayUniappSdk.AliPay.appPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, hbfq_num, hbfq_percent, payKey));case 11:result = _context6.sent;
+
+                appPayParam = {};
+
+                appPayParam.orderInfo = result;
+
+                appPayParam.provider = "alipay";
+                //构建支付成功方法
+                appPayParam.success = function (response) {
+                  if (response.errMsg == 'requestPayment:ok') {
+                    //支付成功
+                    console.log("APP支付成功");
+                    //调用查询订单
+                    uni.showToast({
+                      title: "支付成功",
+                      icon: 'success' });
+
+                  }
+                };
+                //构建支付失败方法
+                appPayParam.fail = function (response) {
+                  if (response.errMsg == 'requestPayment:fail cancel') {
+                    //取消支付
+                    console.log("取消支付");
+                    uni.showToast({
+                      title: "取消支付" });
+
+                  }
+                };
+                //拉起支付宝APP支付
+                uni.requestPayment(appPayParam);case 18:case "end":return _context6.stop();}}}, _callee6);}));function appPayAliPay() {return _appPayAliPay.apply(this, arguments);}return appPayAliPay;}(),
+
+    /**
+                                                                                                                                                                                                              * 查询自己系统订单状态
+                                                                                                                                                                                                              */
+    getOrderInfo: function getOrderInfo() {
+
+      _yungouosPayUniappSdk.Order.getOrderInfo("12121", "1212121", "21212").then(function (response) {
+        //接口返回结果
+        console.log(response);
+      });
+
+
+      var orderNo = this.orderNo;
+      uni.request({
+        url: 'http://yungouos.wicp.net/api/order/checkOrderStatus',
+        method: "POST",
+        data: "orderNo=" + orderNo,
+        header: {
+          'content-type': 'application/x-www-form-urlencoded' },
+
+        success: function success(res) {
+          var result = res.data;
+          console.log("订单支付结果:" + orderNo, result.data);
+          if (result.data) {
+            if (time != null) {
+              console.log("定时器已清除");
+              clearInterval(time);
+            }
+            uni.showToast({
+              title: "支付成功",
+              icon: 'success' });
+
+          }
+        } });
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

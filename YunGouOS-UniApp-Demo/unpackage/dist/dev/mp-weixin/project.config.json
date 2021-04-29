@@ -9,7 +9,7 @@
   "compileType": "miniprogram",
   "libVersion": "",
   "appid": "touristappid",
-  "projectname": "test",
+  "projectname": "YunGouOS-UniApp-Demo",
   "condition": {
     "search": {
       "current": -1,
