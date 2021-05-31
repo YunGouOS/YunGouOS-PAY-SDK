@@ -35,6 +35,8 @@ YunGouOS微信支付/支付宝官方合作伙伴，YunGouOS-PAY是徐州市云�
 
 <a href="https://www.bilibili.com/video/BV1j64y1m7w2" target="_blank">uniapp开发APP接入个人微信支付、支付宝接口实战演练（附源码）</a>
 
+<a href="https://www.bilibili.com/video/BV1wQ4y1d79U" target="_blank">uniapp开发公众号网页接入微信个人支付接口（附源码）</a>
+
 ## 示例代码
 
 <a href="https://gitee.com/YunGouOS/YunGouOS-PAY-SDK/tree/master/YunGouOS-UniApp-Demo" target="_blank">YunGouOS-UniApp-Demo</a>
@@ -811,8 +813,48 @@ Order.getOrderInfo(out_trade_no,mch_id,payKey).then((response)=>{
 });
 ```
 
+### 6、微信登录
 
-### 6、签名工具
+```js
+//导入签名工具对象
+import {WxLogin} from 'yungouos-pay-uniapp-sdk'
+```
+#### 获取授权链接（同步）
+
+```js
+let result =await WxLogin.getOauthUrlAsync(url,params);
+//获取授权链接结果
+console.log(result);
+```
+
+#### 获取授权链接（异步）
+
+```js
+WxLogin.getOauthUrlAsync(url,params).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
+#### 查询授权信息（异步）
+
+```js
+let result =await WxLogin.getBaseOauthInfoAsync(code);
+//获取授权链接结果
+console.log(result);
+```
+
+#### 查询授权信息（异步）
+
+```js
+WxLogin.getBaseOauthInfoAsync(code).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
+
+### 7、签名工具
 
 ```js
 //导入签名工具对象
