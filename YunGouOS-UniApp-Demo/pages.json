@@ -6,7 +6,16 @@
 				"navigationBarTitleText": "YunGouOS支付演示"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/oauth/oauth",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "授权结果",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",

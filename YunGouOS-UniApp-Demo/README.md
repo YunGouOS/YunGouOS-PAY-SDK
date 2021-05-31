@@ -16,6 +16,8 @@
 
 <a href="https://www.bilibili.com/video/BV1j64y1m7w2" target="_blank">uniapp开发APP接入个人微信支付、支付宝接口实战演练（附源码）</a>
 
+<a href="https://www.bilibili.com/video/BV1wQ4y1d79U" target="_blank">uniapp开发公众号网页接入微信个人支付接口（附源码）</a>
+
 
 #### 安装教程
 

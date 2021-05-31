@@ -8,7 +8,11 @@
 		</view>
 
 		<view class="btn-view">
-			<button type="primary" @click="jsPay">微信公众号支付（JSAPI微信内）</button>
+			<button type="primary" @click="cashierPay">微信收银台支付（微信内）</button>
+		</view>
+		
+		<view class="btn-view">
+			<button type="primary" @click="jsPay">微信公众号支付（微信内）</button>
 		</view>
 
 		<view class="btn-view">
@@ -27,7 +31,6 @@
 			<button type="primary" @click="appPayByWap">微信APP支付(H5模式)</button>
 		</view>
 		
-		
 		<view class="btn-view">
 			<button type="primary" @click="appPayAliPay">支付宝APP支付</button>
 		</view>
@@ -44,7 +47,8 @@
 <script>
 	import {
 		WxPay,
-		AliPay
+		AliPay,
+		WxLogin
 	} from 'yungouos-pay-uniapp-sdk'
 
 	let time=null;
@@ -376,6 +380,42 @@
 						}
 					}
 				});
+			},
+			/**
+			 * 微信收银台支付
+			 */
+			cashierPay:async function(){
+				let out_trade_no = new Date().getTime();
+				let total_fee = "0.01";
+				let mch_id = "1529637931";
+				let body = "收银台支付接口演示";
+				let attach = null;
+				let notify_url = "http://api.merchant.yungouos.com/api/system/demo/callback";
+				let return_url="http://localhost.yungouos.com:8080/#/pages/index/index";
+				let auto = null;
+				let auto_node = null;
+				let config_no = null;
+				let biz_params = null;
+				let payKey = "499F61DB734C4BF39792A098C44FA80A";
+				let result =await WxPay.cashierPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no,biz_params, payKey);
+				console.log(result);
+				window.location.href=result;
+				
+				//支付结果
+				//http://localhost.yungouos.com:8080/#/pages/index/index?code=1&orderNo=Y18464496296897&outTradeNo=1622458002985&payNo=4200001025202105313966476948&money=0.01&mchId=1529637931&time=2021-05-31%2018%3A46%3A48&attach=null&openId=o-_-itxeWVTRnl-iGT_JJ-t3kpxU&sign=E63B31BB8FA27830ACC96C5D982498A3
+			},
+			/**
+			 * 公众号支付
+			 */
+			jsPay:async function(){
+				//1、获取授权链接
+				let url="http://localhost.yungouos.com:8080/#/pages/oauth/oauth?a=1";
+				let params={
+					userId:"12345"
+				}
+				let result =await WxLogin.getOauthUrlAsync(url,params);
+				console.log(result);
+				window.location.href=result;
 			}
 		}
 	}
