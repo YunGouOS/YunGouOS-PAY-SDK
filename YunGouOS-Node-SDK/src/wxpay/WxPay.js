@@ -370,6 +370,7 @@ function nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_u
  * @param {*} openId 用户openId 通过授权接口获得
  * @param {*} attach 附加数据，回调时候原路返回 
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
+ * @param {*} return_url 同步地址。支付完毕后用户浏览器返回到该地址
  * @param {*} auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0
  * @param {*} auto_node 执行自动分账动作的节点，枚举值【pay、callback】分别表示【付款成功后分账、回调成功后分账】
  * @param {*} config_no 分账配置单号。支持多个分账，使用,号分割
@@ -377,7 +378,7 @@ function nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_u
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} JSSDK支付需要的jspackage
  */
-async function jsapiPayAsync(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
+async function jsapiPayAsync(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url,return_url, auto, auto_node, config_no, biz_params, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -417,6 +418,9 @@ async function jsapiPayAsync(out_trade_no, total_fee, mch_id, body, openId, atta
     }
     if (!Common.isEmpty(notify_url)) {
         params.notify_url = notify_url;
+    }
+    if (!Common.isEmpty(return_url)) {
+        params.return_url = return_url;
     }
     if (!Common.isEmpty(auto)) {
         params.auto = auto;
@@ -463,6 +467,7 @@ async function jsapiPayAsync(out_trade_no, total_fee, mch_id, body, openId, atta
  * @param {*} openId 用户openId 通过授权接口获得
  * @param {*} attach 附加数据，回调时候原路返回 
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
+ * @param {*} return_url 同步地址。支付完毕后用户浏览器返回到该地址
  * @param {*} auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0
  * @param {*} auto_node 执行自动分账动作的节点，枚举值【pay、callback】分别表示【付款成功后分账、回调成功后分账】
  * @param {*} config_no 分账配置单号。支持多个分账，使用,号分割
@@ -470,7 +475,7 @@ async function jsapiPayAsync(out_trade_no, total_fee, mch_id, body, openId, atta
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
 * @return {*} JSSDK支付需要的jspackage
  */
-function jsapiPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
+function jsapiPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url,return_url, auto, auto_node, config_no, biz_params, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -510,6 +515,9 @@ function jsapiPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_
     }
     if (!Common.isEmpty(notify_url)) {
         params.notify_url = notify_url;
+    }
+    if (!Common.isEmpty(return_url)) {
+        params.return_url = return_url;
     }
     if (!Common.isEmpty(auto)) {
         params.auto = auto;

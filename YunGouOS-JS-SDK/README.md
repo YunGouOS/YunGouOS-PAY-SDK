@@ -104,13 +104,13 @@ WxPay.codePay(out_trade_no, total_fee, mch_id, body, auth_code, attach,receipt,n
 #### 公众号支付/JSAPI（同步）
 
 ```js
-let result =await WxPay.jsapiPayAsync(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no,biz_params, payKey);
+let result =await WxPay.jsapiPayAsync(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url,return_url, auto, auto_node, config_no,biz_params, payKey);
 ```
 
 #### 公众号支付/JSAPI（异步）
 
 ```js
-WxPay.jsapiPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no, biz_params,payKey).then((response)=>{
+WxPay.jsapiPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url,return_url, auto, auto_node, config_no, biz_params,payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -626,7 +626,48 @@ Order.getOrderInfo(out_trade_no,mch_id,payKey).then((response)=>{
 });
 ```
 
-### 6、签名工具
+
+### 6、微信登录
+
+```js
+//导入微信登录对象
+import {WxLogin} from 'yungouos-pay-sdk'
+```
+#### 获取授权链接（同步）
+
+```js
+let result =await WxLogin.getOauthUrlAsync(url,params);
+//获取授权链接结果
+console.log(result);
+```
+
+#### 获取授权链接（异步）
+
+```js
+WxLogin.getOauthUrlAsync(url,params).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
+#### 查询授权信息（异步）
+
+```js
+let result =await WxLogin.getBaseOauthInfoAsync(code);
+//获取授权链接结果
+console.log(result);
+```
+
+#### 查询授权信息（异步）
+
+```js
+WxLogin.getBaseOauthInfoAsync(code).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
+### 7、签名工具
 
 ```js
 //导入签名工具对象

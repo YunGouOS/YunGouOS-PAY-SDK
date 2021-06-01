@@ -118,13 +118,13 @@ WxPay.codePay(out_trade_no, total_fee, mch_id, body, auth_code, attach,receipt,n
 #### 公众号支付/JSAPI（同步）
 
 ```js
-let result =await WxPay.jsapiPayAsync(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no,biz_params, payKey);
+let result =await WxPay.jsapiPayAsync(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url,return_url, auto, auto_node, config_no,biz_params, payKey);
 ```
 
 #### 公众号支付/JSAPI（异步）
 
 ```js
-WxPay.jsapiPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no,biz_params, payKey).then((response)=>{
+WxPay.jsapiPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url,return_url, auto, auto_node, config_no,biz_params, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -816,7 +816,7 @@ Order.getOrderInfo(out_trade_no,mch_id,payKey).then((response)=>{
 ### 6、微信登录
 
 ```js
-//导入签名工具对象
+//导入微信登录对象
 import {WxLogin} from 'yungouos-pay-uniapp-sdk'
 ```
 #### 获取授权链接（同步）

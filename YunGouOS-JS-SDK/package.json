@@ -1,6 +1,6 @@
 {
   "name": "yungouos-pay-sdk",
-  "version": "2.1.10",
+  "version": "2.1.13",
   "description": "YunGouOS微信和支付宝官方个人支付SDK，集成微信/支付宝官方扫码支付、JSAPI支付、H5支付、小程序支付、订单查询、发起退款、退款查询、分账接口；支付宝扫码支付、WAP支付、发起退款、退款查询接口。支付支持个人用户、个体户、企业用户申请使用，个人用户登录https://merchant.yungouos.com 提交资料申请开通支付权限",
   "main": "dist/index.js",
   "homepage": "https://www.yungouos.com",
