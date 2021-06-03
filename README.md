@@ -83,6 +83,8 @@ YunGouOS支付平台是为更多开发者、个体户、个人创业者、小微
 
 <a href="https://gitee.com/YunGouOS/YunGouOS-PAY-SDK/tree/master/YunGouOS-UniApp-Demo" target="_blank">uniapp项目接入SDK微信、支付宝方法示例</a>
 
+<a href="https://gitee.com/YunGouOS/YunGouOS-PAY-SDK/tree/master/YunGouOS-WxApp-SDK" target="_blank">微信原生小程序调用微信个人支付接口示例</a>
+
 # 视频教程
 
 <a href="https://www.bilibili.com/video/BV1GU4y1W7HQ" target="_blank">第一章：30分钟详细了解微信支付宝账户体系和支付接口业务流程</a>
@@ -97,3 +99,4 @@ YunGouOS支付平台是为更多开发者、个体户、个人创业者、小微
 
 <a href="https://www.bilibili.com/video/BV1j64y1m7w2" target="_blank">第六章：uniapp开发APP接入个人微信支付、支付宝接口实战演练（附源码）</a>
 
+<a href="https://www.bilibili.com/video/BV1wQ4y1d79U" target="_blank">第七章：uniapp开发公众号网页接入微信个人支付接口（附源码）</a>
