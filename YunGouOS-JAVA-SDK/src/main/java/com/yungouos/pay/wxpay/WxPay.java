@@ -255,7 +255,7 @@ public class WxPay {
 	 * @param notify_url
 	 *            异步回调地址，不传无回调
 	 * @param return_url
-	 *            同步回调地址，暂时没什么卵用
+	 *            同步回调地址，支付后用户返回到该地址
 	 * @param config_no
 	 *            分账配置单号。支持多个分账，使用,号分割
 	 * @param auto

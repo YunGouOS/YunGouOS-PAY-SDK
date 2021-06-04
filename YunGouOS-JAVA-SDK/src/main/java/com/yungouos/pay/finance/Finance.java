@@ -727,12 +727,14 @@ public class Finance {
 	 *            付款描述
 	 * @param mch_id
 	 *            付款商户号。自有商户接入的开通了代付权限的可以使用，如果使用YunGouOS代付体系可不传
+	 * @param notify_url
+	 *            异步回调地址。传递后会将转账结果发送到该地址，不传则无回调。           
 	 * @param key
 	 *            商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
 	 *            
 	 * @return RePayBiz 参考文档：https://open.pay.yungouos.com/#/api/api/finance/repay/wxpay
 	 */
-	public static RePayBiz rePayWxPay(String merchant_id, String out_trade_no,String account,String account_name,String money,String desc,String mch_id, String key) throws PayException {
+	public static RePayBiz rePayWxPay(String merchant_id, String out_trade_no,String account,String account_name,String money,String desc,String mch_id,String notify_url, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		RePayBiz rePayBiz = null;
 		try {
@@ -765,6 +767,9 @@ public class Finance {
 			}
 			if(!StrUtil.isBlank(mch_id)){
 				params.put("mch_id", mch_id);
+			}
+			if(!StrUtil.isBlank(notify_url)){
+				params.put("notify_url", notify_url);
 			}
 			String result = HttpRequest.post(FinanceConfig.getRePayWxPayUrl).form(params).execute().body();
 			if (StrUtil.isBlank(result)) {
@@ -814,12 +819,14 @@ public class Finance {
 	 *            付款描述
 	 * @param mch_id
 	 *            付款商户号。自有商户接入的开通了代付权限的可以使用，如果使用YunGouOS代付体系可不传
+	 * @param notify_url
+	 *            异步回调地址。传递后会将转账结果发送到该地址，不传则无回调。           
 	 * @param key
 	 *            商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
 	 *            
 	 * @return RePayBiz 参考文档：https://open.pay.yungouos.com/#/api/api/finance/repay/alipay
 	 */
-	public static RePayBiz rePayAliPay(String merchant_id, String out_trade_no,String account,String account_name,String money,String desc,String mch_id, String key) throws PayException {
+	public static RePayBiz rePayAliPay(String merchant_id, String out_trade_no,String account,String account_name,String money,String desc,String mch_id,String notify_url, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		RePayBiz rePayBiz = null;
 		try {
@@ -853,6 +860,9 @@ public class Finance {
 			//不需要参与签名的参数
 			if(!StrUtil.isBlank(mch_id)){
 				params.put("mch_id", mch_id);
+			}
+			if(!StrUtil.isBlank(notify_url)){
+				params.put("notify_url", notify_url);
 			}
 			String result = HttpRequest.post(FinanceConfig.getRePayAliPayUrl).form(params).execute().body();
 			if (StrUtil.isBlank(result)) {
