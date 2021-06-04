@@ -630,7 +630,7 @@ class Finance
      * @param $mch_id 付款商户号。自有商户接入的开通了代付权限的可以使用，如果使用YunGouOS代付体系可不传
      * @param $key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
      */
-    public function  rePayWxPay($merchant_id, $out_trade_no,$account,$account_name,$money,$desc,$mch_id, $key)
+    public function  rePayWxPay($merchant_id, $out_trade_no,$account,$account_name,$money,$desc,$mch_id,$notify_url, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -667,6 +667,9 @@ class Finance
             if (!empty($mch_id)) {
                 $paramsArray['mch_id'] = $mch_id;
             }
+            if (!empty($notify_url)) {
+                $paramsArray['notify_url'] = $notify_url;
+            }
             $resp = $this->httpUtil->httpsPost($this->apiConfig['repay_wxpay_url'], $paramsArray);
             if (empty($resp)) {
                 throw new Exception("API接口返回为空");
@@ -701,7 +704,7 @@ class Finance
      * @param $mch_id 付款商户号。自有商户接入的开通了代付权限的可以使用，如果使用YunGouOS代付体系可不传
      * @param $key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
      */
-    public function  rePayAliPay($merchant_id, $out_trade_no,$account,$account_name,$money,$desc,$mch_id, $key)
+    public function  rePayAliPay($merchant_id, $out_trade_no,$account,$account_name,$money,$desc,$mch_id,$notify_url, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -739,7 +742,58 @@ class Finance
             if (!empty($mch_id)) {
                 $paramsArray['mch_id'] = $mch_id;
             }
+            if (!empty($notify_url)) {
+                $paramsArray['notify_url'] = $notify_url;
+            }
             $resp = $this->httpUtil->httpsPost($this->apiConfig['repay_alipay_url'], $paramsArray);
+            if (empty($resp)) {
+                throw new Exception("API接口返回为空");
+            }
+            $ret = @json_decode($resp, true);
+            if (empty($ret)) {
+                throw new Exception("API接口返回为空");
+            }
+            $code = $ret['code'];
+            if ($code != 0) {
+                throw new Exception($ret['msg']);
+            }
+            $result = $ret['data'];
+        } catch (Exception $e) {
+            throw  new Exception($e->getMessage());
+        }
+        return $result;
+    }
+
+
+    /**
+     * 查询转账结果
+     *
+     * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/getRePayInfo
+     *
+     * @param $out_trade_no 商户单号
+     * @param $merchant_id YunGouOS商户ID  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号
+     * @param $key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
+     */
+    public function  getRePayInfo($out_trade_no,$merchant_id, $key)
+    {
+        $result = null;
+        $paramsArray = array();
+        try {
+            if (empty($out_trade_no)) {
+                throw new Exception("商户单号不能为空！");
+            }
+            if (empty($merchant_id)) {
+                throw new Exception("YunGouOS商户ID不能为空！");
+            }
+            if (empty($key)) {
+                throw new Exception("商户密钥不能为空！");
+            }
+            $paramsArray['out_trade_no'] = $out_trade_no;
+            $paramsArray['merchant_id'] = $merchant_id;
+            // 上述必传参数签名
+            $sign = $this->paySign->getSign($paramsArray, $key);
+            $paramsArray['sign'] = $sign;
+            $resp = $this->httpUtil->httpGet($this->apiConfig['repay_get_repay_info_url'] . "?" . http_build_query($paramsArray));
             if (empty($resp)) {
                 throw new Exception("API接口返回为空");
             }
