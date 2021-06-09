@@ -33,6 +33,16 @@ public class RePayTest {
 		RePayBiz payAliPay = Finance.rePayAliPay(merchant_id, out_trade_no, account, account_name, money, desc, mch_id, notify_url, key);
 		System.out.println(payAliPay.toString());
 
+		account = "银行卡号";
+		account_name = "银行卡姓名";
+		Integer bank_type = null;
+		String bank_name = null;
+		String bank_code = null;
+		String app_id = null;
+		// 银行卡转账
+		RePayBiz rePayBank = Finance.rePayBank(merchant_id, out_trade_no, account, account_name, money, desc, bank_type, bank_name, bank_code, mch_id, app_id, notify_url, key);
+		System.out.println(rePayBank.toString());
+
 		// 查询转账结果
 		rePayBiz = Finance.getRePayInfo(out_trade_no, merchant_id, key);
 		System.out.println(rePayBiz.toString());

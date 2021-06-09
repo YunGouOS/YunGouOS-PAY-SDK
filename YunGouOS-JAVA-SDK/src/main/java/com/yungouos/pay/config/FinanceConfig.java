@@ -45,6 +45,11 @@ public class FinanceConfig {
 	 * 支付宝转账
 	 */
 	public static String getRePayAliPayUrl = apiUrl + "/api/finance/repay/alipay";
+	
+	/**
+	 * 银行卡转账
+	 */
+	public static String getRePayBankUrl = apiUrl + "/api/finance/repay/bank";
 
 	/**
 	 * 查询转账结果

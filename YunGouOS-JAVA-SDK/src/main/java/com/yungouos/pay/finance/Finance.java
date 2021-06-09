@@ -893,6 +893,118 @@ public class Finance {
 	
 	
 	/**
+	 * 给指定银行卡进行转账。支持对私、对公转账
+	 * 
+	 * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/bank
+	 * 
+	 * @param merchant_id
+	 *            YunGouOS商户ID 登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号
+	 * @param out_trade_no
+	 *            商户单号
+	 * @param account
+	 *            银行卡号
+	 * @param account_name
+	 *            银行卡姓名
+	 * @param money
+	 *            付款金额。单位：元（范围：1~5000）
+	 * @param desc
+	 *            付款描述
+	 * @param bank_type
+	 *            银行卡类型【0：对私、1：对公】不传默认0
+	 * @param bank_name
+	 *            银行名称。对公情况下必传
+	 * @param bank_code
+	 *            银行支行联行号。对公情况下必传
+	 * @param mch_id
+	 *            付款商户号。自有商户接入的开通了代付权限的可以使用，如果使用YunGouOS代付体系可不传（仅限支付宝商户）
+	 * @param app_id
+	 *            付款商户号绑定APPID。自有商户接入的开通了代付权限的可以使用，如果使用YunGouOS代付体系可不传（仅限支付宝商户）          
+	 * @param notify_url
+	 *            异步回调地址。传递后会将转账结果发送到该地址，不传则无回调。
+	 * @param key
+	 *            商户密钥 登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
+	 * 
+	 * @return RePayBiz 参考文档：https://open.pay.yungouos.com/#/api/api/finance/repay/bank
+	 */
+	public static RePayBiz rePayBank(String merchant_id, String out_trade_no,String account,String account_name,String money,String desc,Integer bank_type,String bank_name,String bank_code,String mch_id,String app_id,String notify_url, String key) throws PayException {
+		Map<String, Object> params = new HashMap<String, Object>();
+		RePayBiz rePayBiz = null;
+		try {
+			if (StrUtil.isBlank(merchant_id)) {
+				throw new PayException("YunGouOS商户ID不能为空！");
+			}
+			if (StrUtil.isBlank(out_trade_no)) {
+				throw new PayException("商户单号不能为空！");
+			}
+			if (StrUtil.isBlank(account)) {
+				throw new PayException("银行卡号不能为空！");
+			}
+			if (StrUtil.isBlank(account_name)) {
+				throw new PayException("银行卡姓名不能为空！");
+			}
+			if (StrUtil.isBlank(money)) {
+				throw new PayException("付款金额不能为空！");
+			}
+			if (StrUtil.isBlank(desc)) {
+				throw new PayException("付款描述不能为空！");
+			}
+			// 上述参数签名
+			params.put("merchant_id", merchant_id);
+			params.put("out_trade_no", out_trade_no);
+			params.put("account", account);
+			params.put("account_name", account_name);
+			params.put("money", money);
+			params.put("desc", desc);
+			if(!StrUtil.isBlank(bank_name)){
+				params.put("bank_name", bank_name);
+			}
+			if(!StrUtil.isBlank(bank_code)){
+				params.put("bank_code", bank_code);
+			}
+			String sign = PaySignUtil.createSign(params, key);
+			params.put("sign", sign);
+			//不需要参与签名的参数
+			if(bank_type!=null){
+				params.put("bank_type", bank_type);
+			}
+			if(!StrUtil.isBlank(mch_id)){
+				params.put("mch_id", mch_id);
+			}
+			if(!StrUtil.isBlank(app_id)){
+				params.put("app_id", app_id);
+			}
+			if(!StrUtil.isBlank(notify_url)){
+				params.put("notify_url", notify_url);
+			}
+			String result = HttpRequest.post(FinanceConfig.getRePayBankUrl).form(params).execute().body();
+			if (StrUtil.isBlank(result)) {
+				throw new PayException("API接口返回为空，请联系客服");
+			}
+			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
+			if (jsonObject == null) {
+				throw new PayException("API结果转换错误");
+			}
+			Integer code = jsonObject.getInteger("code");
+			if (code==null||0 != code.intValue()) {
+				throw new PayException(jsonObject.getString("msg"));
+			}
+			JSONObject json = (JSONObject) jsonObject.get("data");
+			if (json == null) {
+				throw new PayException("查询结果转换失败！");
+			}
+			rePayBiz = JSONObject.toJavaObject(json, RePayBiz.class);
+		} catch (PayException e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
+		}
+		return rePayBiz;
+	}
+	
+	
+	/**
 	 * 查询转账结果
 	 * 
 	 * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/getRePayInfo
