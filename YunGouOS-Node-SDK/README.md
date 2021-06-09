@@ -559,11 +559,10 @@ Finance.finish(mch_id, out_trade_no, payKey).then((response)=>{
 import {Finance} from 'yungouos-pay-node-sdk'
 ```
 
-
 #### 转账到微信零钱（同步）
 
 ```js
-let result =await Finance.rePayWxPayAsync(merchant_id, out_trade_no, account, account_name, money, desc, mch_id, key);
+let result =await Finance.rePayWxPayAsync(merchant_id, out_trade_no, account, account_name, money, desc, mch_id,notify_url, key);
 //微信转账结果
 console.log(result);
 ```
@@ -571,7 +570,7 @@ console.log(result);
 #### 转账到微信零钱（异步）
 
 ```js
-Finance.rePayWxPay(merchant_id, out_trade_no, account, account_name, money, desc, mch_id, key).then((response)=>{
+Finance.rePayWxPay(merchant_id, out_trade_no, account, account_name, money, desc, mch_id,notify_url, key).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -581,7 +580,7 @@ Finance.rePayWxPay(merchant_id, out_trade_no, account, account_name, money, desc
 #### 转账到支付宝（同步）
 
 ```js
-let result =await Finance.rePayAliPayAsync(merchant_id, out_trade_no, account, account_name, money, desc, mch_id, key);
+let result =await Finance.rePayAliPayAsync(merchant_id, out_trade_no, account, account_name, money, desc, mch_id,notify_url, key);
 //支付宝转账结果
 console.log(result);
 ```
@@ -589,11 +588,27 @@ console.log(result);
 #### 转账到支付宝（异步）
 
 ```js
-Finance.rePayAliPay(merchant_id, out_trade_no, account, account_name, money, desc, mch_id, key).then((response)=>{
+Finance.rePayAliPay(merchant_id, out_trade_no, account, account_name, money, desc, mch_id,notify_url, key).then((response)=>{
     //接口返回结果
     console.log(response);
 });
 ```
+#### 查询转账详情（同步）
+
+```js
+let result =await Finance.getRePayInfoAsync(out_trade_no, merchant_id, key);
+//转账详情
+console.log(result);
+```
+#### 查询转账详情（异步）
+
+```js
+Finance.getRePayInfoAsync(out_trade_no, merchant_id, key).then((response)=>{
+    //转账详情
+    console.log(response);
+});
+```
+
 
 ### 5、订单查询
 

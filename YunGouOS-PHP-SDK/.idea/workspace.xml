@@ -25,7 +25,7 @@
       <file leaf-file-name="WxPay.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wxpay/WxPay.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-453.94116">
+            <state vertical-scroll-proportion="0.0">
               <caret line="880" column="48" selection-start-line="880" selection-start-column="48" selection-end-line="880" selection-end-column="48" />
               <folding />
             </state>
@@ -35,8 +35,8 @@
       <file leaf-file-name="Finance.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/finance/Finance.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.007936508">
-              <caret line="776" column="33" selection-start-line="776" selection-start-column="21" selection-end-line="776" selection-end-column="33" />
+            <state vertical-scroll-proportion="0.60016763">
+              <caret line="795" column="87" selection-start-line="795" selection-start-column="63" selection-end-line="795" selection-end-column="87" />
               <folding />
             </state>
           </provider>
@@ -132,8 +132,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -190,7 +190,7 @@
     <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10214626" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10294118" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -544,7 +544,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="4.774812">
           <caret line="229" column="24" selection-start-line="229" selection-start-column="12" selection-end-line="229" selection-end-column="24" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -552,7 +551,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.46102265">
           <caret line="24" column="183" selection-start-line="24" selection-start-column="183" selection-end-line="24" selection-end-column="183" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -560,7 +558,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.1735121">
           <caret line="58" column="35" selection-start-line="58" selection-start-column="35" selection-end-line="58" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -568,13 +565,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.70662194">
           <caret line="78" column="29" selection-start-line="78" selection-start-column="5" selection-end-line="78" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wxpay/WxPay.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-453.94116">
+        <state vertical-scroll-proportion="0.0">
           <caret line="880" column="48" selection-start-line="880" selection-start-column="48" selection-end-line="880" selection-end-column="48" />
           <folding />
         </state>
@@ -582,8 +578,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/finance/Finance.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.007936508">
-          <caret line="776" column="33" selection-start-line="776" selection-start-column="21" selection-end-line="776" selection-end-column="33" />
+        <state vertical-scroll-proportion="0.60016763">
+          <caret line="795" column="87" selection-start-line="795" selection-start-column="63" selection-end-line="795" selection-end-column="87" />
           <folding />
         </state>
       </provider>
