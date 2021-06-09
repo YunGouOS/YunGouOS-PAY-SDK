@@ -890,4 +890,61 @@ public class Finance {
 		}
 		return rePayBiz;
 	}
+	
+	
+	/**
+	 * 查询转账结果
+	 * 
+	 * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/getRePayInfo
+	 * 
+	 * @param out_trade_no
+	 *            商户单号
+	 * @param merchant_id
+	 *            YunGouOS商户ID  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 
+	 * @param key
+	 *            商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
+	 *            
+	 * @return RePayBiz 参考文档：https://open.pay.yungouos.com/#/api/api/finance/repay/getRePayInfo
+	 */
+	public static RePayBiz getRePayInfo(String out_trade_no,String merchant_id,String key) throws PayException {
+		Map<String, Object> params = new HashMap<String, Object>();
+		RePayBiz rePayBiz = null;
+		try {
+			if (StrUtil.isBlank(out_trade_no)) {
+				throw new PayException("商户单号不能为空！");
+			}
+			if (StrUtil.isBlank(merchant_id)) {
+				throw new PayException("YunGouOS商户ID不能为空！");
+			}
+			// 上述参数签名
+			params.put("out_trade_no", out_trade_no);
+			params.put("merchant_id", merchant_id);
+			String sign = PaySignUtil.createSign(params, key);
+			params.put("sign", sign);
+			String result = HttpRequest.get(FinanceConfig.getRePayInfoUrl).form(params).execute().body();
+			if (StrUtil.isBlank(result)) {
+				throw new PayException("API接口返回为空，请联系客服");
+			}
+			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
+			if (jsonObject == null) {
+				throw new PayException("API结果转换错误");
+			}
+			Integer code = jsonObject.getInteger("code");
+			if (code==null||0 != code.intValue()) {
+				throw new PayException(jsonObject.getString("msg"));
+			}
+			JSONObject json = (JSONObject) jsonObject.get("data");
+			if (json == null) {
+				throw new PayException("查询结果转换失败！");
+			}
+			rePayBiz = JSONObject.toJavaObject(json, RePayBiz.class);
+		} catch (PayException e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
+		}
+		return rePayBiz;
+	}
 }

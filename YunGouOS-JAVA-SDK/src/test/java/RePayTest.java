@@ -21,14 +21,20 @@ public class RePayTest {
 		String money = "0.01";
 		String desc = "这是转账描述";
 		String mch_id = null;
-		String notify_url=null;
+		String notify_url = null;
 
-		RePayBiz rePayBiz = Finance.rePayWxPay(merchant_id, out_trade_no, account, account_name, money, desc, mch_id,notify_url, key);
+		// 微信转账
+		RePayBiz rePayBiz = Finance.rePayWxPay(merchant_id, out_trade_no, account, account_name, money, desc, mch_id, notify_url, key);
 		System.out.println(rePayBiz.toString());
 
+		// 支付宝转账
 		account = "收款支付宝账户";
 		account_name = "支付宝姓名";
-		RePayBiz payAliPay = Finance.rePayAliPay(merchant_id, out_trade_no, account, account_name, money, desc, mch_id,notify_url, key);
+		RePayBiz payAliPay = Finance.rePayAliPay(merchant_id, out_trade_no, account, account_name, money, desc, mch_id, notify_url, key);
 		System.out.println(payAliPay.toString());
+
+		// 查询转账结果
+		rePayBiz = Finance.getRePayInfo(out_trade_no, merchant_id, key);
+		System.out.println(rePayBiz.toString());
 	}
 }

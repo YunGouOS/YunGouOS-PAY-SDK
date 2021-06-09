@@ -10,42 +10,44 @@ package com.yungouos.pay.config;
 public class FinanceConfig {
 
 	public static String apiUrl = "https://api.pay.yungouos.com";
-	
+
 	/**
 	 * 分账配置
 	 */
-	public static String getConfigUrl = apiUrl+"/api/finance/profitsharing/config";
-	
+	public static String getConfigUrl = apiUrl + "/api/finance/profitsharing/config";
+
 	/**
 	 * 生成分账账单
 	 */
-	public static String getCreateBillUrl = apiUrl+"/api/finance/profitsharing/createBill";
-	
+	public static String getCreateBillUrl = apiUrl + "/api/finance/profitsharing/createBill";
+
 	/**
 	 * 分账支付
 	 */
-	public static String getSendPayUrl = apiUrl+"/api/finance/profitsharing/sendPay";
-	
+	public static String getSendPayUrl = apiUrl + "/api/finance/profitsharing/sendPay";
+
 	/**
 	 * 查询分账支付结果
 	 */
-	public static String getPayResultUrl = apiUrl+"/api/finance/profitsharing/getPayResult";
-	
-	
+	public static String getPayResultUrl = apiUrl + "/api/finance/profitsharing/getPayResult";
+
 	/**
 	 * 停止分账
 	 */
-	public static String getFinishUrl = apiUrl+"/api/finance/profitsharing/finish";
-	
-	
+	public static String getFinishUrl = apiUrl + "/api/finance/profitsharing/finish";
+
 	/**
 	 * 微信转账
 	 */
-	public static String getRePayWxPayUrl = apiUrl+"/api/finance/repay/wxpay";
-	
-	
+	public static String getRePayWxPayUrl = apiUrl + "/api/finance/repay/wxpay";
+
 	/**
 	 * 支付宝转账
 	 */
-	public static String getRePayAliPayUrl = apiUrl+"/api/finance/repay/alipay";
+	public static String getRePayAliPayUrl = apiUrl + "/api/finance/repay/alipay";
+
+	/**
+	 * 查询转账结果
+	 */
+	public static String getRePayInfoUrl = apiUrl + "/api/finance/repay/getRePayInfo";
 }
