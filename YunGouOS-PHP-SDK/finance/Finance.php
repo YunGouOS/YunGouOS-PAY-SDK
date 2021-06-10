@@ -766,6 +766,97 @@ class Finance
 
 
     /**
+     * 转账到银行卡
+     *
+     * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/bank
+     *
+     * @param $merchant_id YunGouOS商户ID  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号
+     * @param $out_trade_no 商户单号
+     * @param $account 收款支付宝账户
+     * @param $account_name  收款方真实姓名
+     * @param $money 付款金额。单位：元（范围：1~5000）
+     * @param $desc 付款描述
+     * @param $bank_type 银行卡类型【0：对私、1：对公】不传默认0
+     * @param $bank_name 银行名称。对公情况下必传
+     * @param $bank_code 银行支行联行号。对公情况下必传
+     * @param $mch_id 付款商户号。自有商户接入的开通了代付权限的可以使用，如果使用YunGouOS代付体系可不传（仅限支付宝商户）
+     * @param $app_id 付款商户号绑定APPID。自有商户接入的开通了代付权限的可以使用，如果使用YunGouOS代付体系可不传（仅限支付宝商户）
+     * @param $key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
+     */
+    public function  rePayBank($merchant_id, $out_trade_no,$account,$account_name,$money,$desc,$bank_type,$bank_name,$bank_code,$mch_id,$app_id,$notify_url, $key)
+    {
+        $result = null;
+        $paramsArray = array();
+        try {
+            if (empty($merchant_id)) {
+                throw new Exception("YunGouOS商户ID不能为空！");
+            }
+            if (empty($out_trade_no)) {
+                throw new Exception("商户单号不能为空！");
+            }
+            if (empty($account)) {
+                throw new Exception("银行卡号不能为空！");
+            }
+            if (empty($account_name)) {
+                throw new Exception("银行卡姓名不能为空！");
+            }
+            if (empty($money)) {
+                throw new Exception("付款金额不能为空！");
+            }
+            if (empty($desc)) {
+                throw new Exception("付款描述不能为空！");
+            }
+            if (empty($key)) {
+                throw new Exception("商户密钥不能为空！");
+            }
+            $paramsArray['merchant_id'] = $merchant_id;
+            $paramsArray['out_trade_no'] = $out_trade_no;
+            $paramsArray['account'] = $account;
+            $paramsArray['account_name'] = $account_name;
+            $paramsArray['money'] = $money;
+            $paramsArray['desc'] = $desc;
+            if (!empty($bank_name)) {
+                $paramsArray['bank_name'] = $bank_name;
+            }
+            if (!empty($bank_code)) {
+                $paramsArray['bank_code'] = $bank_code;
+            }
+            // 上述必传参数签名
+            $sign = $this->paySign->getSign($paramsArray, $key);
+            $paramsArray['sign'] = $sign;
+            if (!empty($bank_type)) {
+                $paramsArray['bank_type'] = $bank_type;
+            }
+            if (!empty($mch_id)) {
+                $paramsArray['mch_id'] = $mch_id;
+            }
+            if (!empty($app_id)) {
+                $paramsArray['app_id'] = $app_id;
+            }
+            if (!empty($notify_url)) {
+                $paramsArray['notify_url'] = $notify_url;
+            }
+            $resp = $this->httpUtil->httpsPost($this->apiConfig['repay_bank_url'], $paramsArray);
+            if (empty($resp)) {
+                throw new Exception("API接口返回为空");
+            }
+            $ret = @json_decode($resp, true);
+            if (empty($ret)) {
+                throw new Exception("API接口返回为空");
+            }
+            $code = $ret['code'];
+            if ($code != 0) {
+                throw new Exception($ret['msg']);
+            }
+            $result = $ret['data'];
+        } catch (Exception $e) {
+            throw  new Exception($e->getMessage());
+        }
+        return $result;
+    }
+
+
+    /**
      * 查询转账结果
      *
      * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/getRePayInfo

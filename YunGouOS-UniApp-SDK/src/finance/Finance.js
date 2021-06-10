@@ -1229,6 +1229,180 @@ function getRePayInfo(out_trade_no, merchant_id, key) {
 
 
 
+/**
+ * 转账到银行卡（同步）
+ * 
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/bank
+ *  
+ * @param {*} merchant_id  YunGouOS商户ID  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号
+ * @param {*} out_trade_no 商户单号
+ * @param {*} account 收款账户openid
+ * @param {*} account_name 收款方真实姓名
+ * @param {*} money 付款金额。单位：元（范围：1~5000）
+ * @param {*} desc  付款描述
+ * @param {*} bank_type 银行卡类型【0：对私、1：对公】不传默认0
+ * @param {*} bank_name 银行名称。对公情况下必传
+ * @param {*} bank_code 银行支行联行号。对公情况下必传
+ * @param {*} mch_id 付款商户号。自有商户接入的开通了代付权限的可以使用，如果使用YunGouOS代付体系可不传（仅限支付宝商户）
+ * @param {*} app_id 付款商户号绑定APPID。自有商户接入的开通了代付权限的可以使用，如果使用YunGouOS代付体系可不传（仅限支付宝商户）    
+ * @param {*} notify_url 异步回调地址。传递后会将转账结果发送到该地址，不传则无回调。
+ * @param {*} key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
+ */
+async function rePayBankAsync(merchant_id, out_trade_no, account, account_name, money, desc,bank_type,bank_name,bank_code,mch_id,app_id,notify_url,key) {
+    if (Common.isEmpty(merchant_id)) {
+        console.error("yungouos sdk error", "YunGouOS商户ID不能为空");
+        return null;
+    }
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户单号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(account)) {
+        console.error("yungouos sdk error", "银行卡号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(account_name)) {
+        console.error("yungouos sdk error", "银行卡姓名不能为空");
+        return null;
+    }
+    if (Common.isEmpty(money)) {
+        console.error("yungouos sdk error", "付款金额不能为空");
+        return null;
+    }
+    if (Common.isEmpty(desc)) {
+        console.error("yungouos sdk error", "付款描述不能为空");
+        return null;
+    }
+    if (Common.isEmpty(key)) {
+        console.error("yungouos sdk error", "商户密钥不能为空");
+        return null;
+    }
+    let params = {
+        merchant_id: merchant_id,
+        out_trade_no: out_trade_no,
+        account: account,
+        account_name: account_name,
+        money: money,
+        desc: desc
+    }
+    if (!Common.isEmpty(bank_name)) {
+        params.bank_name = bank_name;
+    }
+    if (!Common.isEmpty(bank_code)) {
+        params.bank_code = bank_code;
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, key);
+    params.sign = sign;
+    if (!Common.isEmpty(bank_type)) {
+        params.bank_type = bank_type;
+    }
+    if (!Common.isEmpty(mch_id)) {
+        params.mch_id = mch_id;
+    }
+    if (!Common.isEmpty(app_id)) {
+        params.app_id = app_id;
+    }
+    if (!Common.isEmpty(notify_url)) {
+        params.notify_url = notify_url;
+    }
+    let response = await HttpUtil.post(FinanceConfig.getRePayBankUrl, params);
+    let result = Common.doApiResult(response);
+    if (Common.isEmpty(result)) {
+        return null;
+    }
+    let data = result.data;
+    if (Common.isEmpty(data)) {
+        console.error("yungouos sdk error", "API无返回结果");
+        return null;
+    }
+    return data;
+}
+
+
+
+/**
+ * 转账到银行卡（异步）
+ * 
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/bank
+ *  
+ * @param {*} merchant_id  YunGouOS商户ID  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号
+ * @param {*} out_trade_no 商户单号
+ * @param {*} account 收款账户openid
+ * @param {*} account_name 收款方真实姓名
+ * @param {*} money 付款金额。单位：元（范围：1~5000）
+ * @param {*} desc  付款描述
+ * @param {*} bank_type 银行卡类型【0：对私、1：对公】不传默认0
+ * @param {*} bank_name 银行名称。对公情况下必传
+ * @param {*} bank_code 银行支行联行号。对公情况下必传
+ * @param {*} mch_id 付款商户号。自有商户接入的开通了代付权限的可以使用，如果使用YunGouOS代付体系可不传（仅限支付宝商户）
+ * @param {*} app_id 付款商户号绑定APPID。自有商户接入的开通了代付权限的可以使用，如果使用YunGouOS代付体系可不传（仅限支付宝商户）    
+ * @param {*} notify_url 异步回调地址。传递后会将转账结果发送到该地址，不传则无回调。
+ * @param {*} key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
+ */
+function rePayBank(merchant_id, out_trade_no, account, account_name, money, desc,bank_type,bank_name,bank_code,mch_id,app_id,notify_url,key) {
+    if (Common.isEmpty(merchant_id)) {
+        console.error("yungouos sdk error", "YunGouOS商户ID不能为空");
+        return null;
+    }
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户单号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(account)) {
+        console.error("yungouos sdk error", "银行卡号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(account_name)) {
+        console.error("yungouos sdk error", "银行卡姓名不能为空");
+        return null;
+    }
+    if (Common.isEmpty(money)) {
+        console.error("yungouos sdk error", "付款金额不能为空");
+        return null;
+    }
+    if (Common.isEmpty(desc)) {
+        console.error("yungouos sdk error", "付款描述不能为空");
+        return null;
+    }
+    if (Common.isEmpty(key)) {
+        console.error("yungouos sdk error", "商户密钥不能为空");
+        return null;
+    }
+    let params = {
+        merchant_id: merchant_id,
+        out_trade_no: out_trade_no,
+        account: account,
+        account_name: account_name,
+        money: money,
+        desc: desc
+    }
+    if (!Common.isEmpty(bank_name)) {
+        params.bank_name = bank_name;
+    }
+    if (!Common.isEmpty(bank_code)) {
+        params.bank_code = bank_code;
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, key);
+    params.sign = sign;
+    if (!Common.isEmpty(bank_type)) {
+        params.bank_type = bank_type;
+    }
+    if (!Common.isEmpty(mch_id)) {
+        params.mch_id = mch_id;
+    }
+    if (!Common.isEmpty(app_id)) {
+        params.app_id = app_id;
+    }
+    if (!Common.isEmpty(notify_url)) {
+        params.notify_url = notify_url;
+    }
+    return HttpUtil.post(FinanceConfig.getRePayBankUrl, params);
+}
+
+
+
 export default {
     configAsync,
     config,
@@ -1249,5 +1423,7 @@ export default {
     aliPayConfigAsync,
     aliPayConfig,
     getRePayInfoAsync,
-    getRePayInfo
+    getRePayInfo,
+    rePayBankAsync,
+    rePayBank
 }

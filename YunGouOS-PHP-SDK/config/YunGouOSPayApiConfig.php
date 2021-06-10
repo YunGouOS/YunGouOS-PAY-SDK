@@ -75,6 +75,8 @@ $apiConfig = array(
     "repay_wxpay_url" => $api_url . "/api/finance/repay/wxpay",
     //转账到支付宝
     "repay_alipay_url" => $api_url . "/api/finance/repay/alipay",
+    //转账到银行卡
+    "repay_bank_url" => $api_url . "/api/finance/repay/bank",
     //查询转账结果
     "repay_get_repay_info_url" => $api_url . "/api/finance/repay/getRePayInfo",
     //**************************聚合支付相关接口************************************//

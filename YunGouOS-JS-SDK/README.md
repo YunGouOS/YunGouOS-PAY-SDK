@@ -583,7 +583,6 @@ Finance.rePayWxPay(merchant_id, out_trade_no, account, account_name, money, desc
 });
 ```
 
-
 #### 转账到支付宝（同步）
 
 ```js
@@ -600,6 +599,24 @@ Finance.rePayAliPay(merchant_id, out_trade_no, account, account_name, money, des
     console.log(response);
 });
 ```
+
+#### 转账到银行卡（同步）
+
+```js
+let result =await Finance.rePayBankAsync(merchant_id, out_trade_no, account, account_name, money, desc,bank_type,bank_name,bank_code,mch_id,app_id,notify_url,key);
+//转账到银行卡结果
+console.log(result);
+```
+
+#### 转账到银行卡（异步）
+
+```js
+Finance.rePayBank(merchant_id, out_trade_no, account, account_name, money, desc,bank_type,bank_name,bank_code,mch_id,app_id,notify_url,key).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
 #### 查询转账详情（同步）
 
 ```js

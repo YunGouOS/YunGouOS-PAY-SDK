@@ -21,6 +21,9 @@ const getRePayWxPayUrl = apiUrl + "/api/finance/repay/wxpay";
 //转账到支付宝
 const getRePayAliPayUrl = apiUrl + "/api/finance/repay/alipay";
 
+//银行卡转账
+const getRePayBankUrl = apiUrl + "/api/finance/repay/bank";
+
 //查询转账详情
 const getRePayInfoUrl = apiUrl + "/api/finance/repay/getRePayInfo";
 
@@ -32,5 +35,6 @@ export default {
     "getFinishUrl": getFinishUrl,
     "getRePayWxPayUrl": getRePayWxPayUrl,
     "getRePayAliPayUrl": getRePayAliPayUrl,
-    "getRePayInfoUrl":getRePayInfoUrl
+    "getRePayInfoUrl":getRePayInfoUrl,
+    "getRePayBankUrl":getRePayBankUrl
 }
