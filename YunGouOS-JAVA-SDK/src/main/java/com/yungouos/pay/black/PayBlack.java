@@ -28,10 +28,10 @@ public class PayBlack {
 	 *            微信支付商户号/支付宝商户号
 	 * @param account
 	 *            用户的openid或支付宝唯一身份id（2088开头）
-	 * @param end_time
-	 *            黑名单有效期截至时间，不传则永久。示例值：2021-06-24 23:59:59
 	 * @param reason
 	 *            原因
+	 * @param end_time
+	 *            黑名单有效期截至时间，不传则永久。示例值：2021-06-24 23:59:59
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》微信支付/支付宝-》商户管理-》 支付密钥 查看密钥
 	 */
