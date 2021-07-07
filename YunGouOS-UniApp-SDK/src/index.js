@@ -5,6 +5,7 @@ import Merge from './merge/Merge';
 import Order from './order/Order';
 import PaySignUtil from './util/PaySignUtil';
 import WxLogin from './wxlogin/WxLogin';
+import PayBlack from './black/PayBlack';
 
 export {
     WxPay,
@@ -13,5 +14,6 @@ export {
     Merge,
     Order,
     PaySignUtil,
-    WxLogin
+    WxLogin,
+    PayBlack
 }

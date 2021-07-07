@@ -669,7 +669,7 @@ console.log(result);
 #### 获取授权链接（异步）
 
 ```js
-WxLogin.getOauthUrlAsync(url,params).then((response)=>{
+WxLogin.getOauthUrl(url,params).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -686,13 +686,55 @@ console.log(result);
 #### 查询授权信息（异步）
 
 ```js
-WxLogin.getBaseOauthInfoAsync(code).then((response)=>{
+WxLogin.getBaseOauthInfo(code).then((response)=>{
     //接口返回结果
     console.log(response);
 });
 ```
 
-### 7、签名工具
+
+### 7、支付盾
+
+```js
+//导入支付盾对象
+import {PayBlack} from 'yungouos-pay-node-sdk'
+```
+#### 添加黑名单（同步）
+
+```js
+let result =await PayBlack.createAsync(mch_id, account, reason, end_time, payKey);
+//创建支付盾黑名单结果
+console.log(result);
+```
+
+#### 添加黑名单（异步）
+
+```js
+PayBlack.create(mch_id, account, reason, end_time, payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
+#### 验证黑名单（同步）
+
+```js
+let result =await PayBlack.checkAsync(mch_id, account, payKey);
+//是否黑名单结果
+console.log(result);
+```
+
+#### 验证黑名单（异步）
+
+```js
+PayBlack.check(mch_id, account, payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
+
+### 8、签名工具
 
 ```js
 //导入签名工具对象
