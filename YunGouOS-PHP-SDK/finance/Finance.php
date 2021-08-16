@@ -426,7 +426,65 @@ class Finance
     }
 
 
+
     /**
+     * 生成分账账单。对已支付的订单，生成分账账单，后续通过发起分账接口进行分账操作。文档地址：https://api.pay.yungouos.com/api/finance/profitsharing/createBill
+     * @param $mch_id 分账方支付商户号
+     * @param $out_trade_no 商户单号 （需要分账的订单号）
+     * @param $config_no 配置单号（分账收款人配置单号，支持多个 使用,号分割）
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
+     * @return String 配置单号
+     */
+    public function createBillV2($mch_id, $out_trade_no, $config_no,$rate,$money,$notify_url, $key)
+    {
+        $result = null;
+        $paramsArray = array();
+        try {
+            if (empty($mch_id)) {
+                throw new Exception("商户号不能为空！");
+            }
+            if (empty($out_trade_no)) {
+                throw new Exception("商户单号不能为空！");
+            }
+            $paramsArray["mch_id"] = $mch_id;
+            $paramsArray["out_trade_no"] = $out_trade_no;
+            // 上述必传参数签名
+            $sign = $this->paySign->getSign($paramsArray, $key);
+            $paramsArray["config_no"] = $config_no;
+            $paramsArray["sign"] = $sign;
+
+            if (!empty($rate)) {
+                $paramsArray["rate"] = $rate;
+            }
+            if (!empty($money)) {
+                $paramsArray["money"] = $money;
+            }
+            if (!empty($notify_url)) {
+                $paramsArray["notify_url"] = $notify_url;
+            }
+            $resp = $this->httpUtil->httpsPost($this->apiConfig['finance_create_bill_url'], $paramsArray);
+            if (empty($resp)) {
+                throw new Exception("API接口返回为空");
+            }
+            $ret = @json_decode($resp, true);
+            if (empty($ret)) {
+                throw new Exception("API接口返回为空");
+            }
+            $code = $ret['code'];
+            if ($code != 0) {
+                throw new Exception($ret['msg']);
+            }
+            $result = $ret['data'];
+        } catch (Exception $e) {
+            throw  new Exception($e->getMessage());
+        }
+        return $result;
+    }
+
+
+
+    /**
+     * 接口升级，建议使用createBillV2方法
      * 生成分账账单。对已支付的订单，生成分账账单，后续通过发起分账接口进行分账操作。文档地址：https://api.pay.yungouos.com/api/finance/profitsharing/createBill
      * @param $mch_id 分账方支付商户号
      * @param $out_trade_no 商户单号 （需要分账的订单号）

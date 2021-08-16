@@ -63,7 +63,7 @@ public class FinanceTest {
 		/**
 		 * 生成分账账单
 		 */
-		List<String> list = Finance.createBill(mch_id, "1582434286538", configNo, key);
+		List<String> list = Finance.createBill(mch_id, "1582434286538", configNo, null, null, null, key);
 		System.out.println("生成分账账单结果：" + list.toString());
 
 		// 分账账单号 此处不要学哦 没有做数据合法性校验 只是大概演示个流程给大家瞅瞅

@@ -71,7 +71,7 @@ npm i yungouos-pay-uniapp-sdk
 
 ```js
 //可按需导入
-import {WxPay,AliPay,Finance,Merge,Order,PaySignUtil} from 'yungouos-pay-uniapp-sdk'
+import {WxPay,AliPay,Finance,Merge,Order,PaySignUtil,PayBlack,WxLogin} from 'yungouos-pay-uniapp-sdk'
 ```
 
 ## 二、使用
@@ -681,7 +681,7 @@ Finance.aliPayConfig(mch_id, reason,account, name, rate, money, payKey).then((re
 #### 生成分账账单（同步）
 
 ```js
-let result =await Finance.createBillAsync(mch_id, out_trade_no, config_no, payKey);
+let result =await Finance.createBillV2Async(mch_id, out_trade_no, config_no,rate,money,notify_url, payKey);
 //生成分账账单结果
 console.log(result);
 ```
@@ -689,7 +689,7 @@ console.log(result);
 #### 生成分账账单（异步）
 
 ```js
-Finance.createBill(mch_id, out_trade_no, config_no, payKey).then((response)=>{
+Finance.createBillV2(mch_id, out_trade_no, config_no,rate,money,notify_url, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });

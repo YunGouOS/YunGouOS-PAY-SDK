@@ -512,7 +512,124 @@ function config(mch_id, appId, reason, channel, openId, receiver_mch_id, name, r
 }
 
 
+
 /**
+ * 生成分账账单（同步）
+ * 
+ * 对已支付的订单，生成分账账单，后续通过发起分账接口进行分账操作。
+ * 
+ * 文档地址：https://api.pay.yungouos.com/api/finance/profitsharing/createBill
+ * 
+ * @param {*} mch_id 分账方支付商户号
+ * @param {*} out_trade_no 商户单号 （需要分账的订单号）
+ * @param {*} config_no 配置单号（分账收款人配置单号，支持多个 使用,号分割）
+ * @param {*} payKey 支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
+ * @return {*} 配置单号
+ */
+async function createBillV2Async(mch_id, out_trade_no, config_no,rate,money,notify_url,payKey) {
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户单号不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+
+    let params = {
+        mch_id: mch_id,
+        out_trade_no: out_trade_no
+    }
+
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    //不参与签名
+    if (!Common.isEmpty(config_no)) {
+        params.config_no = config_no;
+    }
+    if (!Common.isEmpty(rate)) {
+        params.rate = rate;
+    }
+    if (!Common.isEmpty(money)) {
+        params.money = money;
+    }
+    if (!Common.isEmpty(notify_url)) {
+        params.notify_url = notify_url;
+    }
+    let response = await HttpUtil.post(FinanceConfig.getCreateBillUrl, params);
+    let result = Common.doApiResult(response);
+    if (Common.isEmpty(result)) {
+        return null;
+    }
+    let data = result.data;
+    if (Common.isEmpty(data)) {
+        console.error("yungouos sdk error", "API无返回结果");
+        return null;
+    }
+    return data;
+}
+
+
+
+/**
+ * 生成分账账单（异步）
+ * 
+ * 对已支付的订单，生成分账账单，后续通过发起分账接口进行分账操作。
+ * 
+ * 文档地址：https://api.pay.yungouos.com/api/finance/profitsharing/createBill
+ * 
+ * @param {*} mch_id 分账方支付商户号
+ * @param {*} out_trade_no 商户单号 （需要分账的订单号）
+ * @param {*} config_no 配置单号（分账收款人配置单号，支持多个 使用,号分割）
+ * @param {*} payKey 支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
+ * @return {*} 配置单号
+ */
+function createBillV2(mch_id, out_trade_no, config_no, rate, money, notify_url, payKey) {
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户单号不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+    let params = {
+        mch_id: mch_id,
+        out_trade_no: out_trade_no
+    }
+
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    //不参与签名
+    if (!Common.isEmpty(config_no)) {
+        params.config_no = config_no;
+    }
+    if (!Common.isEmpty(rate)) {
+        params.rate = rate;
+    }
+    if (!Common.isEmpty(money)) {
+        params.money = money;
+    }
+    if (!Common.isEmpty(notify_url)) {
+        params.notify_url = notify_url;
+    }
+    return HttpUtil.post(FinanceConfig.getCreateBillUrl, params);
+}
+
+
+/**
+ * 已废弃，建议使用 createBillV2方法
+ * 
  * 生成分账账单（同步）
  * 
  * 对已支付的订单，生成分账账单，后续通过发起分账接口进行分账操作。
@@ -567,6 +684,9 @@ async function createBillAsync(mch_id, out_trade_no, config_no, payKey) {
 
 
 /**
+ * 
+ * 已废弃，建议使用 createBillV2方法
+ * 
  * 生成分账账单（异步）
  * 
  * 对已支付的订单，生成分账账单，后续通过发起分账接口进行分账操作。
@@ -1408,6 +1528,8 @@ export default {
     config,
     createBillAsync,
     createBill,
+    createBillV2Async,
+    createBillV2,
     sendPayAsync,
     sendPay,
     getPayResultAsync,

@@ -18,7 +18,13 @@ YunGouOS微信支付/支付宝官方合作伙伴，YunGouOS-PAY是徐州市云�
 
 # 如何使用
 
+## 无微信/支付宝商户
+
 在官网提交资料，由微信/支付宝审核，审核通过后下发商户号，对接使用。
+
+## 已有微信商户
+
+登录YunGouOS官网->微信支付->商户接入
 
 # 相关地址
 
@@ -57,7 +63,7 @@ npm i yungouos-pay-sdk
 
 ```js
 //可按需导入
-import {WxPay,AliPay,Finance,Merge,Order,PaySignUtil} from 'yungouos-pay-sdk'
+import {WxPay,AliPay,Finance,Merge,Order,PaySignUtil,PayBlack,WxLogin} from 'yungouos-pay-sdk'
 ```
 
 ## 二、使用
@@ -492,7 +498,7 @@ Finance.aliPayConfig(mch_id, reason,account, name, rate, money, payKey).then((re
 #### 生成分账账单（同步）
 
 ```js
-let result =await Finance.createBillAsync(mch_id, out_trade_no, config_no, payKey);
+let result =await Finance.createBillV2Async(mch_id, out_trade_no, config_no,rate,money,notify_url, payKey);
 //生成分账账单结果
 console.log(result);
 ```
@@ -500,7 +506,7 @@ console.log(result);
 #### 生成分账账单（异步）
 
 ```js
-Finance.createBill(mch_id, out_trade_no, config_no, payKey).then((response)=>{
+Finance.createBillV2(mch_id, out_trade_no, config_no,rate,money,notify_url, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });

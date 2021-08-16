@@ -22,43 +22,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="WxPay.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wxpay/WxPay.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-643.3823">
-              <caret line="880" column="48" selection-start-line="880" selection-start-column="48" selection-end-line="880" selection-end-column="48" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Finance.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/finance/Finance.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.88235295">
-              <caret line="777" column="24" selection-start-line="777" selection-start-column="24" selection-end-line="777" selection-end-column="24" />
+            <state vertical-scroll-proportion="-40.97059">
+              <caret line="486" column="30" selection-start-line="486" selection-start-column="30" selection-end-line="486" selection-end-column="30" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PayBlack.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/black/PayBlack.php">
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.43419948">
-              <caret line="114" column="0" selection-start-line="114" selection-start-column="0" selection-end-line="114" selection-end-column="0" />
-              <folding>
-                <element signature="e#6#81#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="YunGouOSPayApiConfig.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config/YunGouOSPayApiConfig.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-29.264706">
-              <caret line="86" column="24" selection-start-line="86" selection-start-column="5" selection-end-line="86" selection-end-column="24" />
+            <state vertical-scroll-proportion="0.5020851">
+              <caret line="269" column="0" selection-start-line="269" selection-start-column="0" selection-end-line="269" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -73,11 +51,11 @@
         <option value="$PROJECT_DIR$/alipay/AliPay.php" />
         <option value="$PROJECT_DIR$/wxpay/WxPay.php" />
         <option value="$PROJECT_DIR$/demo/payController.php" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/demo/oauth.php" />
-        <option value="$PROJECT_DIR$/finance/Finance.php" />
         <option value="$PROJECT_DIR$/config/YunGouOSPayApiConfig.php" />
         <option value="$PROJECT_DIR$/black/PayBlack.php" />
+        <option value="$PROJECT_DIR$/finance/Finance.php" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -121,7 +99,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -213,6 +190,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -269,7 +247,7 @@
     <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10850556" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10930048" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -598,13 +576,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="4.774812">
-          <caret line="229" column="24" selection-start-line="229" selection-start-column="12" selection-end-line="229" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/demo/oauth.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.46102265">
@@ -621,16 +592,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/wxpay/WxPay.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-643.3823">
+        <state vertical-scroll-proportion="0.0">
           <caret line="880" column="48" selection-start-line="880" selection-start-column="48" selection-end-line="880" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/finance/Finance.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.88235295">
-          <caret line="777" column="24" selection-start-line="777" selection-start-column="24" selection-end-line="777" selection-end-column="24" />
           <folding />
         </state>
       </provider>
@@ -639,7 +602,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.16345347">
           <caret line="32" column="7" selection-start-line="0" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -647,13 +609,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.8398994">
           <caret line="77" column="5" selection-start-line="32" selection-start-column="4" selection-end-line="77" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/config/YunGouOSPayApiConfig.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-29.264706">
+        <state vertical-scroll-proportion="0.0">
           <caret line="86" column="24" selection-start-line="86" selection-start-column="5" selection-end-line="86" selection-end-column="24" />
           <folding />
         </state>
@@ -661,11 +622,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/black/PayBlack.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.43419948">
-          <caret line="114" column="0" selection-start-line="114" selection-start-column="0" selection-end-line="114" selection-end-column="0" />
+        <state vertical-scroll-proportion="-66.70588">
+          <caret line="115" column="102" selection-start-line="115" selection-start-column="102" selection-end-line="115" selection-end-column="102" />
           <folding>
             <element signature="e#6#81#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/finance/Finance.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-40.97059">
+          <caret line="486" column="30" selection-start-line="486" selection-start-column="30" selection-end-line="486" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5020851">
+          <caret line="269" column="0" selection-start-line="269" selection-start-column="0" selection-end-line="269" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
