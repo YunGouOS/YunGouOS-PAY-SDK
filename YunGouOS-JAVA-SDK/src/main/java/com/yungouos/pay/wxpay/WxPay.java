@@ -15,8 +15,6 @@ import com.yungouos.pay.entity.RefundOrder;
 import com.yungouos.pay.entity.RefundSearch;
 import com.yungouos.pay.entity.WxBillInfoBiz;
 import com.yungouos.pay.entity.WxDownloadBillBiz;
-import com.yungouos.pay.entity.WxOauthInfo;
-import com.yungouos.pay.entity.WxPayDetailApiBiz;
 import com.yungouos.pay.util.PaySignUtil;
 
 import cn.hutool.core.util.StrUtil;
@@ -1287,89 +1285,4 @@ public class WxPay {
 		}
 	}
 
-	/**
-	 * 获取微信授权URL 为了获取openid
-	 * 
-	 * @param param
-	 *            额外参数，原路返回 需要json字符串
-	 * @param url
-	 *            授权结束后携带code返回的地址
-	 * 
-	 * @return 微信授权url，直接重定向到该地址
-	 */
-	public static String getWxOauthUrl(String param, String url) throws PayException {
-		Map<String, Object> params = new HashMap<String, Object>();
-		String resultUrl = null;
-		try {
-			if (StrUtil.isBlank(url)) {
-				throw new PayException("url不能为空！");
-			}
-			params.put("url", url);
-			params.put("params", param);
-			String result = HttpRequest.post(WxPayApiConfig.getWxOauthUrl).form(params).execute().body();
-			if (StrUtil.isBlank(result)) {
-				throw new PayException("API接口返回为空，请联系客服");
-			}
-			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
-			if (jsonObject == null) {
-				throw new PayException("API结果转换错误");
-			}
-			Integer code = jsonObject.getInteger("code");
-			if (0 != code.intValue()) {
-				throw new PayException(jsonObject.getString("msg"));
-			}
-			resultUrl = jsonObject.getString("data");
-		} catch (PayException e) {
-			e.printStackTrace();
-			throw new PayException(e.getMessage());
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new PayException(e.getMessage());
-		}
-		return resultUrl;
-	}
-
-	/**
-	 * 根据授权返回的code，查询授权信息
-	 * 
-	 * @param code
-	 *            授权结束后返回
-	 * 
-	 * @return WxOauthInfo 授权信息返回对象 参考文档：http://open.pay.yungouos.com/#/api/api/wxlogin/getBaseOauthInfo
-	 */
-	public static WxOauthInfo getWxOauthInfo(String code) throws PayException {
-		Map<String, Object> params = new HashMap<String, Object>();
-		WxOauthInfo wxOauthInfo = null;
-		try {
-			if (StrUtil.isBlank(code)) {
-				throw new PayException("code为空！");
-			}
-			params.put("code", code);
-			String result = HttpRequest.get(WxPayApiConfig.getWxOauthInfo).form(params).execute().body();
-			if (StrUtil.isBlank(result)) {
-				throw new PayException("API接口返回为空，请联系客服");
-			}
-			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
-			if (jsonObject == null) {
-				throw new PayException("API结果转换错误");
-			}
-			Integer resultCode = jsonObject.getInteger("code");
-			if (0 != resultCode.intValue()) {
-				throw new PayException(jsonObject.getString("msg"));
-			}
-			JSONObject json = jsonObject.getJSONObject("data");
-			if (json == null) {
-				throw new PayException("API结果数据转换错误");
-			}
-			wxOauthInfo = JSONObject.toJavaObject(json, WxOauthInfo.class);
-
-		} catch (PayException e) {
-			e.printStackTrace();
-			throw new PayException(e.getMessage());
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new PayException(e.getMessage());
-		}
-		return wxOauthInfo;
-	}
 }

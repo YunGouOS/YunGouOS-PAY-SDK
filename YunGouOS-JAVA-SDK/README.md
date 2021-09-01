@@ -6,7 +6,7 @@
 <dependency>
     <groupId>com.yungouos.pay</groupId>
     <artifactId>yungouos-pay-sdk</artifactId>
-    <version>2.0.15</version>
+    <version>2.0.16</version>
 </dependency>
 
 ```
@@ -25,6 +25,8 @@
 <a href="https://gitee.com/YunGouOS/YunGouOS-PAY-SDK/blob/master/YunGouOS-JAVA-SDK/src/test/java/PayBlackTest.java" target="_blank">6、支付盾接口调用示例</a>
 
 <a href="https://gitee.com/YunGouOS/YunGouOS-PAY-SDK/blob/master/YunGouOS-JAVA-SDK/src/test/java/OrderTest.java" target="_blank">7、订单接口调用示例</a>
+
+<a href="https://gitee.com/YunGouOS/YunGouOS-PAY-SDK/blob/master/YunGouOS-JAVA-SDK/src/test/java/WxApiTest.java" target="_blank">8、微信登录调用示例</a>
 
 
 # 微信支付--示例代码
@@ -172,14 +174,22 @@
 
 ## 获取微信授权URL
 
-	String url="http://www.yungouos.com/oauth?a=1"; 
-	JSONObject paramJson=new JSONObject();
-	paramJson.put("key", "123456");
-	String oauthUrl = WxPay.getWxOauthUrl(paramJson.toJSONString(), url);
+	String mch_id="商户号";
+	String callback_url="http://www.yungouos.com/oauth"; 
+	String type="mp-base";
+	JSONObject params=new JSONObject();
+	params.put("key", "123456");
+	String key="商户密钥";
+
+	String oauthUrl = WxApi.getWxOauthUrl(mch_id, callback_url, type, params, key);
 
 ## 查询微信授权信息
 
-	WxOauthInfo wxOauthInfo = WxPay.getWxOauthInfo("45AA0CEE43AE4F048384D655A77FA770");
+	String mch_id="商户号";
+	String code="授权回调返回的code";
+	String key="商户密钥";	
+	WxOauthInfo wxOauthInfo = WxApi.getWxOauthInfo(mch_id, code, key);
+	
 
 # 方法说明
 
@@ -221,11 +231,10 @@
 
 ## 获取微信授权URL
 
-	WxPay.getWxOauthUrl(额外参数json字符串,授权结束后返回地址);
-
+	WxApi.getWxOauthUrl(商户号, 授权结束后返回地址, 类型, 额外参数json字符串, 商户密钥);
 ## 查询微信授权信息
 
-	WxPay.getWxOauthInfo(授权结束后返回的code);
+	 WxApi.getWxOauthInfo(商户号, 授权结束返回的code, 商户密钥);
 
 ## 支付宝扫码支付
 

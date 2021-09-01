@@ -98,26 +98,6 @@ public class WxPayTest {
 			System.out.println("查询退款结果：" + refundSearch.toString());
 
 			/**
-			 * 获取微信授权url
-			 */
-			String url = "http://www.yungouos.com/oauth?a=1"; // 授权结束后写到code参数返回到该地址注意需要包含http://以及携带一个参数
-
-			JSONObject paramJson = new JSONObject();
-			// 额外参数 按需添加，可以同查询授权信息接口获得
-			paramJson.put("key", "123456");
-			String oauthUrl = WxPay.getWxOauthUrl(paramJson.toJSONString(), url);
-			// 该地址直接重定向出去 完成授权后会跳转到 携带参数跳转到传递的url地址上
-			// 示例值：http://www.yungouos.com/oauth?a=1&code=364BD76826BD4EDEB475FF5A00B6750E
-			System.out.println("获取微信授权url结果：" + oauthUrl);
-
-			/**
-			 * 查询微信授权信息
-			 */
-			String code = "9D71A178C2EE4BA4AA7715F87B3694F9";// 通过授权返回的url中
-			WxOauthInfo wxOauthInfo = WxPay.getWxOauthInfo(code);
-			System.out.println("查询微信授权信息结果：" + wxOauthInfo.toString());
-
-			/**
 			 * 下载对账单 正常直接通过getUrl获取到excel地址到浏览器访问下载即可 也可以通过getList获取到对账单的数据流集成到业务系统中
 			 */
 			WxDownloadBillBiz downloadBillBiz = WxPay.downloadBill(mchId, "2020-01-29",null,null, key);

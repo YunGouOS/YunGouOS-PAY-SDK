@@ -10,7 +10,6 @@ import com.yungouos.pay.config.AlipayApiConfig;
 import com.yungouos.pay.entity.AliPayH5Biz;
 import com.yungouos.pay.entity.AliPayJsPayBiz;
 import com.yungouos.pay.entity.HbFqBiz;
-import com.yungouos.pay.entity.PayOrder;
 import com.yungouos.pay.entity.RefundOrder;
 import com.yungouos.pay.entity.RefundSearch;
 import com.yungouos.pay.util.PaySignUtil;

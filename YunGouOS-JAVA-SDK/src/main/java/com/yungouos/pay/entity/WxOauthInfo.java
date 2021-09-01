@@ -20,6 +20,11 @@ public class WxOauthInfo {
 	 */
 	private JSONObject params;
 
+	/**
+	 * 微信用戶详细信息
+	 */
+	private WxUserInfo wxUserInfo;
+
 	public String getOpenId() {
 		return openId;
 	}
@@ -36,10 +41,17 @@ public class WxOauthInfo {
 		this.params = params;
 	}
 
-	@Override
-	public String toString() {
-		return "WxOauthInfo [openId=" + openId + ", params=" + params + "]";
+	public WxUserInfo getWxUserInfo() {
+		return wxUserInfo;
 	}
 
-	
+	public void setWxUserInfo(WxUserInfo wxUserInfo) {
+		this.wxUserInfo = wxUserInfo;
+	}
+
+	@Override
+	public String toString() {
+		return "WxOauthInfo [openId=" + openId + ", params=" + params + ", wxUserInfo=" + wxUserInfo + "]";
+	}
+
 }
