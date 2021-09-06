@@ -850,10 +850,11 @@ Order.getOrderInfo(out_trade_no,mch_id,payKey).then((response)=>{
 //导入微信登录对象
 import {WxLogin} from 'yungouos-pay-uniapp-sdk'
 ```
+
 #### 获取授权链接（同步）
 
 ```js
-let result =await WxLogin.getOauthUrlAsync(url,params);
+let result =await WxLogin.getOauthUrlAsync(mch_id, callback_url, type, params, key);
 //获取授权链接结果
 console.log(result);
 ```
@@ -861,7 +862,23 @@ console.log(result);
 #### 获取授权链接（异步）
 
 ```js
-WxLogin.getOauthUrl(url,params).then((response)=>{
+WxLogin.getOauthUrl(mch_id, callback_url, type, params, key).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+#### 微信PC扫码登录（同步）
+
+```js
+let result =await WxLogin.getWebLoginAsync(mch_id, callback_url,params, key);
+//获取授权链接结果
+console.log(result);
+```
+
+#### 微信PC扫码登录（异步）
+
+```js
+WxLogin.getWebLoginAsync(mch_id, callback_url,params, key).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -870,7 +887,7 @@ WxLogin.getOauthUrl(url,params).then((response)=>{
 #### 查询授权信息（异步）
 
 ```js
-let result =await WxLogin.getBaseOauthInfoAsync(code);
+let result =await WxLogin.getOauthInfoAsync(mch_id, code, key);
 //获取授权链接结果
 console.log(result);
 ```
@@ -878,7 +895,7 @@ console.log(result);
 #### 查询授权信息（异步）
 
 ```js
-WxLogin.getBaseOauthInfo(code).then((response)=>{
+WxLogin.getOauthInfo(mch_id, code, key).then((response)=>{
     //接口返回结果
     console.log(response);
 });

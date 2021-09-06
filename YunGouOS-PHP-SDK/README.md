@@ -62,7 +62,10 @@ demo文件夹下已经集成了微信扫码支付、微信收银台支付、微�
 		├─util //工具类
 		│      HttpUtil.php //http
 		│      PaySign.php //签名
-		│      
+		│
+        └─wxapi //微信登录相关接口
+        │     		 WxA.php`
+		│
 		└─wxpay //微信支付相关接口
        		 WxPay.php`
 

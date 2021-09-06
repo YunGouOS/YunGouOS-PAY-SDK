@@ -172,6 +172,9 @@ public class WxApi implements Serializable {
 			if (StrUtil.isBlank(code)) {
 				throw new PayException("code为空！");
 			}
+			if (StrUtil.isBlank(key)) {
+				throw new PayException("key不能为空！");
+			}
 			params.put("mch_id", mch_id);
 			params.put("code", code);
 			// 上述必传参数签名

@@ -6,6 +6,7 @@
 //引入支付API
 require_once dirname(dirname(__FILE__)) . '/wxpay/WxPay.php';
 require_once dirname(dirname(__FILE__)) . '/alipay/AliPay.php';
+require_once dirname(dirname(__FILE__)) . '/wxapi/WxApi.php';
 
 //支付接口
 $apitype = trim($_POST['apitype']);
@@ -44,6 +45,8 @@ $wxpay = new WxPay();
 
 $alipay = new AliPay();
 
+$wxapi = new WxApi();
+
 try {
 
     switch ($apitype) {
@@ -75,7 +78,7 @@ try {
                 'notify_url' => $notify_url,
                 'key' => $key
             );
-            $result = $wxpay->getOauthUrl($params, $callback_url);
+            $result =$wxapi->getWxOauthUrl($mch_id,$callback_url,null,$params,$key);
             //此处返回的是微信授权链接，直接重定向
             header("Location: " . $result . "");
             break;

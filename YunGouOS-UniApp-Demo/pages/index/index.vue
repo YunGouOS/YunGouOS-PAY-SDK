@@ -134,12 +134,6 @@
 				});
 			},
 			/**
-			 * 公众号支付
-			 */
-			jsPay: function() {
-
-			},
-			/**
 			 * 微信H5支付 同步
 			 */
 			wapPay: async function() {
@@ -408,12 +402,15 @@
 			 * 公众号支付
 			 */
 			jsPay:async function(){
-				//1、获取授权链接
-				let url="http://localhost.yungouos.com:8080/#/pages/oauth/oauth?a=1";
+				let mch_id = "1529637931";
+				//授权结束后重定向地址
+				let callback_url="http://localhost.yungouos.com:8080/#/pages/oauth/oauth";
+				let type=null;
 				let params={
 					userId:"12345"
 				}
-				let result =await WxLogin.getOauthUrlAsync(url,params);
+				let key="499F61DB734C4BF39792A098C44FA80A";
+				let result =await WxLogin.getOauthUrlAsync(mch_id, callback_url, type, params, key);
 				console.log(result);
 				window.location.href=result;
 			}

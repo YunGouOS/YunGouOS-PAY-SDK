@@ -35,10 +35,6 @@ $apiConfig = array(
     "wxpay_download_bill_url"=>$api_url."/api/pay/wxpay/downloadBill",
     //查询刷卡支付结果
     "wxpay_get_code_pay_result_url"=>$api_url."/api/wxpay/getCodePayResult",
-    //获取微信授权url
-    "wx_get_wx_oauth_url"=>$api_url."/api/wxlogin/getOauthUrl",
-    //查询微信授权信息
-    "wx_get_wx_oauth_info"=>$api_url."/api/wxlogin/getBaseOauthInfo",
     //**************************支付宝相关接口************************************//
     //支付宝扫码支付
     "alipay_native_pay_url"=>$api_url."/api/pay/alipay/nativeApi",
@@ -84,7 +80,14 @@ $apiConfig = array(
     "merge_native_pay_url" => $api_url . "/api/pay/merge/nativePay",
     //**************************支付盾相关接口************************************//
     "pay_black_create_url" => $api_url . "/api/pay/black/create",
-    "pay_black_check_url" => $api_url . "/api/pay/black/check"
+    "pay_black_check_url" => $api_url . "/api/pay/black/check",
+    //**************************微信登录相关接口************************************//
+    //获取微信授权url
+    "wxapi_get_wx_oauth_url"=>$api_url."/api/wx/getOauthUrl",
+    //查询微信授权信息
+    "wxapi_get_wx_oauth_info"=>$api_url."/api/wx/getOauthInfo",
+    //微信扫码登录
+    "wxapi_get_wx_web_login"=>$api_url."/api/wx/getWebLogin"
 );
 
 return $apiConfig;

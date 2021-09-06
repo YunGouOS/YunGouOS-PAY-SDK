@@ -5,6 +5,7 @@
 
 //引入支付API
 require_once dirname(dirname(__FILE__)) . '/wxpay/WxPay.php';
+require_once dirname(dirname(__FILE__)) . '/wxapi/WxApi.php';
 
 
 //接受授权code
@@ -12,17 +13,22 @@ $code = trim($_GET['code']);
 
 $wxpay = new WxPay();
 
+$wxapi = new WxApi();
+
 try {
+    $mch_id = "微信支付商户号";
+    $key = "微信支付商户号对应的支付密钥";
+
     //通过授权code 查询授权信
-    $result = $wxpay->getOauthInfo($code);
+    $result = $wxapi->getWxOauthInfo($mch_id, $code, $key);
 
     //拿到openid
     $openId = $result['openId'];
     //拿到发起授权时候传递的参数
-    $params = @json_decode($result['params']['params'], true);
+    $params = $result['params'];
 
     //发起jsapi支付
-    $jsapi = $wxpay->jsapiPay($params['out_trade_no'], $params['total_fee'], $params['mch_id'], $params['body'], $openId, $params['attach'], $params['notify_url'],null,null,null,null, $params['key']);
+    $jsapi = $wxpay->jsapiPay($params['out_trade_no'], $params['total_fee'], $params['mch_id'], $params['body'], $openId, $params['attach'], $params['notify_url'], null, null, null, null, $params['key']);
 
     //此处为了方便演示，直接输出了html页面
     echo <<<EOT
