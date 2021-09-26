@@ -11,11 +11,18 @@ package com.yungouos.pay.config;
 public class AlipayApiConfig {
 
 	public static String apiUrl = "https://api.pay.yungouos.com";
+	
+	
+	/**
+	 * 付款码支付
+	 */
+	public static String codePayUrl = apiUrl + "/api/pay/alipay/codePay";
+
 
 	/**
 	 * 扫码支付
 	 */
-	public static String nativeApiUrl = apiUrl + "/api/pay/alipay/nativePay";
+	public static String nativePayUrl = apiUrl + "/api/pay/alipay/nativePay";
 
 	/**
 	 * WAP支付

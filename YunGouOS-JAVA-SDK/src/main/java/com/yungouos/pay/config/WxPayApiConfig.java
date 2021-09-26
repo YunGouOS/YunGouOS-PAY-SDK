@@ -11,7 +11,7 @@ package com.yungouos.pay.config;
 public class WxPayApiConfig {
 
 	public static String apiUrl = "https://api.pay.yungouos.com";
-
+	
 	/**
 	 * 付款码支付
 	 */

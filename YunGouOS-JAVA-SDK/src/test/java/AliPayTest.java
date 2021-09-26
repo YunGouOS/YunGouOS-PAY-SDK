@@ -1,4 +1,5 @@
 import com.yungouos.pay.alipay.AliPay;
+import com.yungouos.pay.entity.AliPayCodePayBiz;
 import com.yungouos.pay.entity.AliPayH5Biz;
 import com.yungouos.pay.entity.AliPayJsPayBiz;
 import com.yungouos.pay.entity.HbFqBiz;
@@ -36,6 +37,12 @@ public class AliPayTest {
 			// 花呗分期需要支付金额超过100元，此处方便演示就将该对象置位null，正常使用时候根据自身业务情况设置该对象即可
 			hbFqBiz = null;
 
+			// 付款码
+			String auth_code = "288717351683453412";
+			// 支付宝付款码支付
+			AliPayCodePayBiz aliPayCodePayBiz = AliPay.codePay(System.currentTimeMillis() + "", "0.01", mch_id, "测试", auth_code, null, notify, null, null, null, hbFqBiz, key);
+			System.out.println(aliPayCodePayBiz.toString());
+
 			// 支付宝扫码支付
 			result = AliPay.nativePay(System.currentTimeMillis() + "", "0.01", mch_id, "测试订单", "2", null, notify, null, null, null, hbFqBiz, key);
 			System.out.println("支付宝扫码支付返回结果：" + result);
@@ -52,9 +59,9 @@ public class AliPayTest {
 
 			// 支付宝H5支付
 			AliPayH5Biz aliPayH5Biz = AliPay.h5Pay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试", null, notify, returnUrl, null, null, null, hbFqBiz, key);
-			//form表单需要自行输出跳转
+			// form表单需要自行输出跳转
 			System.out.println("支付宝H5支付返回form表单：" + aliPayH5Biz.getForm());
-			//url直接重定向访问即可
+			// url直接重定向访问即可
 			System.out.println("支付宝H5支付返回url：" + aliPayH5Biz.getUrl());
 
 			// 支付宝appPay支付

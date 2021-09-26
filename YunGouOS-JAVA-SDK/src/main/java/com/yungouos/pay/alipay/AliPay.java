@@ -7,8 +7,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yungouos.pay.common.PayException;
 import com.yungouos.pay.config.AlipayApiConfig;
+import com.yungouos.pay.entity.AliPayCodePayBiz;
 import com.yungouos.pay.entity.AliPayH5Biz;
 import com.yungouos.pay.entity.AliPayJsPayBiz;
+import com.yungouos.pay.entity.CodePayBiz;
 import com.yungouos.pay.entity.HbFqBiz;
 import com.yungouos.pay.entity.RefundOrder;
 import com.yungouos.pay.entity.RefundSearch;
@@ -25,6 +27,104 @@ import cn.hutool.http.HttpRequest;
  *
  */
 public class AliPay {
+
+	/**
+	 * 付款码支付
+	 * 
+	 * @param out_trade_no
+	 *            订单号 不可重复
+	 * @param total_fee
+	 *            支付金额 单位：元 范围：0.01-99999
+	 * @param mch_id
+	 *            支付宝商户号 登录YunGouOS.com-》支付宝-》商户管理 查看商户号
+	 * @param body
+	 *            商品描述
+	 * @param auth_code
+	 *            扫码支付授权码，设备读取用户支付宝中的条码或者二维码信息
+	 * @param attach
+	 *            附加数据 回调时原路返回 可不传
+	 * @param notify_url
+	 *            异步回调地址，不传无回调
+	 * @param config_no
+	 *            分账配置单号。支持多个分账，使用,号分割
+	 * @param auto
+	 *            自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
+	 * @param auto_node
+	 *            执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+	 * @param hbFqBiz
+	 *            花呗分期业务对象
+	 * @param key
+	 *            支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
+	 * @return 支付结果对象 参考：https://open.pay.yungouos.com/#/api/api/pay/alipay/codePay
+	 */
+	public static AliPayCodePayBiz codePay(String out_trade_no, String total_fee, String mch_id, String body, String auth_code, String attach, String notify_url, String config_no, String auto,
+			String auto_node, HbFqBiz hbFqBiz, String key) throws PayException {
+		Map<String, Object> params = new HashMap<String, Object>();
+		AliPayCodePayBiz aliPayCodePayBiz = null;
+		try {
+			if (StrUtil.isBlank(out_trade_no)) {
+				throw new PayException("订单号不能为空！");
+			}
+			if (StrUtil.isBlank(total_fee)) {
+				throw new PayException("付款金额不能为空！");
+			}
+			if (StrUtil.isBlank(mch_id)) {
+				throw new PayException("商户号不能为空！");
+			}
+			if (StrUtil.isBlank(auth_code)) {
+				throw new PayException("授权码不能为空！");
+			}
+			if (StrUtil.isBlank(body)) {
+				throw new PayException("商品描述不能为空！");
+			}
+			if (StrUtil.isBlank(key)) {
+				throw new PayException("商户密钥不能为空！");
+			}
+			params.put("out_trade_no", out_trade_no);
+			params.put("total_fee", total_fee);
+			params.put("mch_id", mch_id);
+			params.put("auth_code", auth_code);
+			params.put("body", body);
+			// 上述必传参数签名
+			String sign = PaySignUtil.createSign(params, key);
+			params.put("attach", attach);
+			params.put("notify_url", notify_url);
+			params.put("config_no", config_no);
+			params.put("auto", auto);
+			params.put("auto_node", auto_node);
+			if (hbFqBiz != null) {
+				JSONObject hbfqJson = (JSONObject) JSON.toJSON(hbFqBiz);
+				if (hbfqJson != null) {
+					params.put("hb_fq", hbfqJson.toJSONString());
+				}
+			}
+			params.put("sign", sign);
+			String result = HttpRequest.post(AlipayApiConfig.codePayUrl).form(params).execute().body();
+			if (StrUtil.isBlank(result)) {
+				throw new PayException("API接口返回为空，请联系客服");
+			}
+			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
+			if (jsonObject == null) {
+				throw new PayException("API结果转换错误");
+			}
+			Integer code = jsonObject.getInteger("code");
+			if (0 != code.intValue()) {
+				throw new PayException(jsonObject.getString("msg"));
+			}
+			JSONObject data = jsonObject.getJSONObject("data");
+			if (data == null) {
+				throw new PayException("API结果为空");
+			}
+			aliPayCodePayBiz = JSONObject.toJavaObject(data, AliPayCodePayBiz.class);
+		} catch (PayException e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
+		}
+		return aliPayCodePayBiz;
+	}
 
 	/**
 	 * 支付宝扫码支付
@@ -97,7 +197,7 @@ public class AliPay {
 				}
 			}
 			params.put("sign", sign);
-			String result = HttpRequest.post(AlipayApiConfig.nativeApiUrl).form(params).execute().body();
+			String result = HttpRequest.post(AlipayApiConfig.nativePayUrl).form(params).execute().body();
 			if (StrUtil.isBlank(result)) {
 				throw new PayException("API接口返回为空，请联系客服");
 			}
