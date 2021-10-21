@@ -35,7 +35,7 @@ class PaySign
     }
 
     //验证签名
-    public function checkSing($arr, $key)
+    public function checkSign($arr, $key)
     {
         //获取签名
         $sing = $this->getSign($arr, $key);

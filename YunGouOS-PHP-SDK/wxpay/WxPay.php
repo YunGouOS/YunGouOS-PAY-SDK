@@ -233,7 +233,7 @@ class WxPay
      * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
-    public function jsapiPay($out_trade_no, $total_fee, $mch_id, $body, $openId, $attach, $notify_url, $config_no, $auto, $auto_node,$biz_params, $key)
+    public function jsapiPay($out_trade_no, $total_fee, $mch_id, $body, $openId, $attach, $notify_url,$return_url, $config_no, $auto, $auto_node,$biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -270,6 +270,9 @@ class WxPay
             }
             if(!empty($notify_url)){
                 $paramsArray['notify_url'] = $notify_url;
+            }
+            if(!empty($return_url)){
+                $paramsArray['return_url'] = $return_url;
             }
             if(!empty($config_no)){
                 $paramsArray['config_no'] = $config_no;

@@ -28,7 +28,7 @@ try {
     $params = $result['params'];
 
     //发起jsapi支付
-    $jsapi = $wxpay->jsapiPay($params['out_trade_no'], $params['total_fee'], $params['mch_id'], $params['body'], $openId, $params['attach'], $params['notify_url'], null, null, null, null, $params['key']);
+    $jsapi = $wxpay->jsapiPay($params['out_trade_no'], $params['total_fee'], $params['mch_id'], $params['body'], $openId, $params['attach'], $params['notify_url'],$params['return_url'], null, null, null, null, $params['key']);
 
     //此处为了方便演示，直接输出了html页面
     echo <<<EOT
