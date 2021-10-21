@@ -227,6 +227,7 @@ class WxPay
      * @param $openId 用户openId 通过授权接口获得
      * @param $attach 附加数据 回调时原路返回 可不传
      * @param $notify_url 异步回调地址，不传无回调
+     * @param $return_url 同步地址。支付完毕后用户浏览器返回到该地址
      * @param $config_no 分账配置单号。支持多个分账，使用,号分割
      * @param $auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】

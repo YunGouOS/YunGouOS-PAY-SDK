@@ -81,7 +81,7 @@ demo文件夹下已经集成了微信扫码支付、微信收银台支付、微�
 
 返回JSSDK需要的支付jspackage
 
-	$jsapi = $wxpay->jsapiPay($out_trade_no, $total_fee, $mch_id, $body, $openId, $attach, $notify_url, $config_no, $auto, $auto_node,$biz_params, $key);
+	$jsapi = $wxpay->jsapiPay($out_trade_no, $total_fee, $mch_id, $body, $openId, $attach, $notify_url,$return_url,$config_no, $auto, $auto_node,$biz_params, $key);
 
 ## 收银台支付
 
