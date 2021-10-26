@@ -579,6 +579,9 @@ class Finance
     }
 
     /**
+     *
+     *  接口升级，该方法已作废，请使用替代方法getInfo
+     *
      * 查询分账支付结果。文档地址：https://api.pay.yungouos.com/api/finance/profitsharing/getPayResult
      * @param $mch_id 分账方支付商户号
      * @param $ps_no 分账单号
@@ -623,6 +626,55 @@ class Finance
         }
         return $result;
     }
+
+
+
+    /**
+     * 查询分账。文档地址：https://api.pay.yungouos.com/api/finance/profitsharing/getInfo
+     * @param $mch_id 分账方支付商户号
+     * @param $ps_no 分账单号
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
+     * @return String 配置单号
+     */
+    public function getInfo($mch_id, $ps_no, $key)
+    {
+        $result = null;
+        $paramsArray = array();
+        try {
+            if (empty($mch_id)) {
+                throw new Exception("商户号不能为空！");
+            }
+            if (empty($ps_no)) {
+                throw new Exception("分账单号不能为空！");
+            }
+            if (empty($key)) {
+                throw new Exception("商户密钥不能为空！");
+            }
+            $paramsArray['mch_id'] = $mch_id;
+            $paramsArray['ps_no'] = $ps_no;
+            // 上述必传参数签名
+            $sign = $this->paySign->getSign($paramsArray, $key);
+            $paramsArray['sign'] = $sign;
+
+            $resp = $this->httpUtil->httpGet($this->apiConfig['finance_get_pay_result_url'] . "?" . http_build_query($paramsArray));
+            if (empty($resp)) {
+                throw new Exception("API接口返回为空");
+            }
+            $ret = @json_decode($resp, true);
+            if (empty($ret)) {
+                throw new Exception("API接口返回为空");
+            }
+            $code = $ret['code'];
+            if ($code != 0) {
+                throw new Exception($ret['msg']);
+            }
+            $result = $ret['data'];
+        } catch (Exception $e) {
+            throw  new Exception($e->getMessage());
+        }
+        return $result;
+    }
+
 
 
     /**

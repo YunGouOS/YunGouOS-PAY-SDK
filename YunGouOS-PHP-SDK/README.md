@@ -159,9 +159,9 @@ demo文件夹下已经集成了微信扫码支付、微信收银台支付、微�
 
 	$result =$finance->sendPay($mch_id, $ps_no, $description, $key);
 
-## 查询分账支付结果
+## 查询分账
 
-	$result =$finance->getPayResult($mch_id, $ps_no, $key);
+	$result =$finance->getInfo($mch_id, $ps_no, $key);
 
 ## 完结分账
 
