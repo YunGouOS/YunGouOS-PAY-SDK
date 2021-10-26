@@ -29,7 +29,7 @@ public class FinanceConfig {
 	/**
 	 * 查询分账支付结果
 	 */
-	public static String getPayResultUrl = apiUrl + "/api/finance/profitsharing/getPayResult";
+	public static String getPayResultUrl = apiUrl + "/api/finance/profitsharing/getInfo";
 
 	/**
 	 * 停止分账

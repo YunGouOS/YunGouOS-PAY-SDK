@@ -10,6 +10,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.yungouos.pay.common.PayException;
 import com.yungouos.pay.config.FinanceConfig;
 import com.yungouos.pay.entity.AllocateResultBiz;
+import com.yungouos.pay.entity.ProfitSharingInfo;
 import com.yungouos.pay.entity.RePayBiz;
 import com.yungouos.pay.util.PaySignUtil;
 
@@ -666,6 +667,64 @@ public class Finance {
 	}
 
 	/**
+	 * 
+	 * 
+	 * 查询分账信息。文档地址：https://api.pay.yungouos.com/api/finance/profitsharing/getInfo
+	 * 
+	 * @param mch_id
+	 *            分账方支付商户号
+	 * @param ps_no
+	 *            分账单号
+	 * @param key
+	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
+	 * @return ProfitSharingInfo 分账对象，文档地址：https://api.pay.yungouos.com/api/finance/profitsharing/getInfo
+	 */
+	public static ProfitSharingInfo getInfo(String mch_id, String ps_no, String key) throws PayException {
+		Map<String, Object> params = new HashMap<String, Object>();
+		ProfitSharingInfo profitSharingInfo = null;
+		try {
+			if (StrUtil.isBlank(mch_id)) {
+				throw new PayException("商户号不能为空！");
+			}
+			if (StrUtil.isBlank(ps_no)) {
+				throw new PayException("分账单号不能为空！");
+			}
+			// 上述参数签名
+			params.put("mch_id", mch_id);
+			params.put("ps_no", ps_no);
+			String sign = PaySignUtil.createSign(params, key);
+			params.put("sign", sign);
+			String result = HttpRequest.get(FinanceConfig.getPayResultUrl).form(params).execute().body();
+			if (StrUtil.isBlank(result)) {
+				throw new PayException("API接口返回为空，请联系客服");
+			}
+			JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
+			if (jsonObject == null) {
+				throw new PayException("API结果转换错误");
+			}
+			Integer code = jsonObject.getInteger("code");
+			if (0 != code.intValue()) {
+				throw new PayException(jsonObject.getString("msg"));
+			}
+			JSONObject json = (JSONObject) jsonObject.get("data");
+			if (json == null) {
+				throw new PayException("查询结果转换失败！");
+			}
+			profitSharingInfo = JSONObject.toJavaObject(json, ProfitSharingInfo.class);
+		} catch (PayException e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new PayException(e.getMessage());
+		}
+		return profitSharingInfo;
+	}
+
+	/**
+	 * 
+	 * 该方法已作废，请使用 getInfo方法
+	 * 
 	 * 查询分账支付结果。文档地址：https://api.pay.yungouos.com/api/finance/profitsharing/getPayResult
 	 * 
 	 * @param mch_id
@@ -676,6 +735,7 @@ public class Finance {
 	 *            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
 	 * @return String 配置单号
 	 */
+	@Deprecated
 	public static AllocateResultBiz getPayResult(String mch_id, String ps_no, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		AllocateResultBiz allocateResultBiz = null;

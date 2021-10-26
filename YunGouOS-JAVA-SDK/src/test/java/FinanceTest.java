@@ -1,6 +1,7 @@
 import java.util.List;
 
 import com.yungouos.pay.entity.AllocateResultBiz;
+import com.yungouos.pay.entity.ProfitSharingInfo;
 import com.yungouos.pay.finance.Finance;
 import com.yungouos.pay.order.SystemOrder;
 
@@ -78,8 +79,8 @@ public class FinanceTest {
 		/**
 		 * 查询分账结果
 		 */
-		AllocateResultBiz allocateResultBiz = Finance.getPayResult(mch_id, psNo, key);
-		System.out.println("查询分账结果：" + allocateResultBiz.toString());
+		ProfitSharingInfo profitSharingInfo = Finance.getInfo(mch_id, psNo, key);
+		System.out.println("查询分账结果：" + profitSharingInfo.toString());
 
 		/**
 		 * 完结分账
