@@ -14,7 +14,7 @@
 
 第一步：下载小程序支付SDK
 
-第二步：在 [http://merchant.yungouos.com](http://merchant.yungouos.com "http://merchant.yungouos.com") 微信支付->我的支付->开通小程序支付权限（如果您还未申请，通过 申请支付菜单在线申请）
+第二步：在 [http://merchant.yungouos.com](http://merchant.yungouos.com "http://merchant.yungouos.com") 微信支付->商户管理->开通小程序支付权限（如果您还未申请，通过 申请支付菜单在线申请）
 
 第三步：修改 project.config.json 文件中的appid改成您自己的小程序
 
@@ -27,7 +27,7 @@
 
 第一步：在你的小程序app.json文件中 添加 “支付收银” 小程序的appid为：wxd9634afb01b983c0
 
-	"navigateToMiniProgramAppIdList": [
+	"embeddedAppIdList": [
         "wxd9634afb01b983c0"
      ]
 
