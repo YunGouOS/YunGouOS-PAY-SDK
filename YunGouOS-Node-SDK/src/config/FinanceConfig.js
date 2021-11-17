@@ -9,8 +9,8 @@ const getCreateBillUrl = apiUrl + "/api/finance/profitsharing/createBill";
 //分账支付
 const getSendPayUrl = apiUrl + "/api/finance/profitsharing/sendPay";
 
-//查询分账支付结果
-const getPayResultUrl = apiUrl + "/api/finance/profitsharing/getPayResult";
+//查询分账
+const getPayResultUrl = apiUrl + "/api/finance/profitsharing/getInfo";
 
 //停止分账
 const getFinishUrl = apiUrl + "/api/finance/profitsharing/finish";
@@ -27,6 +27,7 @@ const getRePayBankUrl = apiUrl + "/api/finance/repay/bank";
 //查询转账详情
 const getRePayInfoUrl = apiUrl + "/api/finance/repay/getRePayInfo";
 
+
 export default {
     "getConfigUrl": getConfigUrl,
     "getCreateBillUrl": getCreateBillUrl,
@@ -35,6 +36,6 @@ export default {
     "getFinishUrl": getFinishUrl,
     "getRePayWxPayUrl": getRePayWxPayUrl,
     "getRePayAliPayUrl": getRePayAliPayUrl,
-    "getRePayInfoUrl":getRePayInfoUrl,
-    "getRePayBankUrl":getRePayBankUrl
+    "getRePayInfoUrl": getRePayInfoUrl,
+    "getRePayBankUrl": getRePayBankUrl
 }

@@ -513,9 +513,6 @@ function config(mch_id, appId, reason, channel, openId, receiver_mch_id, name, r
 
 
 
-
-
-
 /**
  * 生成分账账单（同步）
  * 
@@ -630,10 +627,7 @@ function createBillV2(mch_id, out_trade_no, config_no, rate, money, notify_url, 
 }
 
 
-
-
 /**
- * 
  * 已废弃，建议使用 createBillV2方法
  * 
  * 生成分账账单（同步）
@@ -834,18 +828,18 @@ function sendPay(mch_id, ps_no, description, payKey) {
 
 
 /**
- * 查询分账支付结果（同步）
+ * 查询分账（同步）
  * 
  * 查询分账支付结果
  * 
- * 文档地址：https://api.pay.yungouos.com/api/finance/profitsharing/getPayResult
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/getInfo
  * 
  * @param {*} mch_id 分账方支付商户号
  * @param {*} ps_no 分账单号
  * @param {*} payKey 支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
- * @return {*} 文档地址：https://api.pay.yungouos.com/api/finance/profitsharing/getPayResult
+ * @return {*} 文档地址：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/getInfo
  */
-async function getPayResultAsync(mch_id, ps_no, payKey) {
+async function getPayInfoAsync(mch_id, ps_no, payKey) {
     if (Common.isEmpty(mch_id)) {
         console.error("yungouos sdk error", "商户号不能为空");
         return null;
@@ -884,14 +878,14 @@ async function getPayResultAsync(mch_id, ps_no, payKey) {
  * 
  * 查询分账支付结果
  * 
- * 文档地址：https://api.pay.yungouos.com/api/finance/profitsharing/getPayResult
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/getInfo
  * 
  * @param {*} mch_id 分账方支付商户号
  * @param {*} ps_no 分账单号
  * @param {*} payKey 支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
- * @return {*} 文档地址：https://api.pay.yungouos.com/api/finance/profitsharing/getPayResult
+ * @return {*} 文档地址：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/getInfo
  */
-function getPayResult(mch_id, ps_no, payKey) {
+function getPayInfo(mch_id, ps_no, payKey) {
     if (Common.isEmpty(mch_id)) {
         console.error("yungouos sdk error", "商户号不能为空");
         return null;
@@ -1013,7 +1007,7 @@ function finish(mch_id, out_trade_no, payKey) {
  * @param {*} notify_url 异步回调地址。传递后会将转账结果发送到该地址，不传则无回调。
  * @param {*} key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
  */
-async function rePayWxPayAsync(merchant_id, out_trade_no, account, account_name, money, desc, mch_id,notify_url, key) {
+async function rePayWxPayAsync(merchant_id, out_trade_no, account, account_name, money, desc, mch_id, notify_url, key) {
     if (Common.isEmpty(merchant_id)) {
         console.error("yungouos sdk error", "YunGouOS商户ID不能为空");
         return null;
@@ -1085,7 +1079,7 @@ async function rePayWxPayAsync(merchant_id, out_trade_no, account, account_name,
  * @param {*} notify_url 异步回调地址。传递后会将转账结果发送到该地址，不传则无回调。
  * @param {*} key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
  */
-function rePayWxPay(merchant_id, out_trade_no, account, account_name, money, desc, mch_id,notify_url, key) {
+function rePayWxPay(merchant_id, out_trade_no, account, account_name, money, desc, mch_id, notify_url, key) {
     if (Common.isEmpty(merchant_id)) {
         console.error("yungouos sdk error", "YunGouOS商户ID不能为空");
         return null;
@@ -1149,7 +1143,7 @@ function rePayWxPay(merchant_id, out_trade_no, account, account_name, money, des
  * @param {*} notify_url 异步回调地址。传递后会将转账结果发送到该地址，不传则无回调。
  * @param {*} key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
  */
-async function rePayAliPayAsync(merchant_id, out_trade_no, account, account_name, money, desc, mch_id,notify_url, key) {
+async function rePayAliPayAsync(merchant_id, out_trade_no, account, account_name, money, desc, mch_id, notify_url, key) {
     if (Common.isEmpty(merchant_id)) {
         console.error("yungouos sdk error", "YunGouOS商户ID不能为空");
         return null;
@@ -1225,7 +1219,7 @@ async function rePayAliPayAsync(merchant_id, out_trade_no, account, account_name
  * @param {*} notify_url 异步回调地址。传递后会将转账结果发送到该地址，不传则无回调。
  * @param {*} key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
  */
-function rePayAliPay(merchant_id, out_trade_no, account, account_name, money, desc, mch_id,notify_url,key) {
+function rePayAliPay(merchant_id, out_trade_no, account, account_name, money, desc, mch_id, notify_url, key) {
     if (Common.isEmpty(merchant_id)) {
         console.error("yungouos sdk error", "YunGouOS商户ID不能为空");
         return null;
@@ -1374,7 +1368,7 @@ function getRePayInfo(out_trade_no, merchant_id, key) {
  * @param {*} notify_url 异步回调地址。传递后会将转账结果发送到该地址，不传则无回调。
  * @param {*} key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
  */
-async function rePayBankAsync(merchant_id, out_trade_no, account, account_name, money, desc,bank_type,bank_name,bank_code,mch_id,app_id,notify_url,key) {
+async function rePayBankAsync(merchant_id, out_trade_no, account, account_name, money, desc, bank_type, bank_name, bank_code, mch_id, app_id, notify_url, key) {
     if (Common.isEmpty(merchant_id)) {
         console.error("yungouos sdk error", "YunGouOS商户ID不能为空");
         return null;
@@ -1466,7 +1460,7 @@ async function rePayBankAsync(merchant_id, out_trade_no, account, account_name, 
  * @param {*} notify_url 异步回调地址。传递后会将转账结果发送到该地址，不传则无回调。
  * @param {*} key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
  */
-function rePayBank(merchant_id, out_trade_no, account, account_name, money, desc,bank_type,bank_name,bank_code,mch_id,app_id,notify_url,key) {
+function rePayBank(merchant_id, out_trade_no, account, account_name, money, desc, bank_type, bank_name, bank_code, mch_id, app_id, notify_url, key) {
     if (Common.isEmpty(merchant_id)) {
         console.error("yungouos sdk error", "YunGouOS商户ID不能为空");
         return null;
@@ -1538,8 +1532,8 @@ export default {
     createBillV2,
     sendPayAsync,
     sendPay,
-    getPayResultAsync,
-    getPayResult,
+    getPayInfoAsync,
+    getPayInfo,
     finishAsync,
     finish,
     rePayWxPayAsync,

@@ -828,18 +828,18 @@ function sendPay(mch_id, ps_no, description, payKey) {
 
 
 /**
- * 查询分账支付结果（同步）
+ * 查询分账（同步）
  * 
  * 查询分账支付结果
  * 
- * 文档地址：https://api.pay.yungouos.com/api/finance/profitsharing/getPayResult
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/getInfo
  * 
  * @param {*} mch_id 分账方支付商户号
  * @param {*} ps_no 分账单号
  * @param {*} payKey 支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
- * @return {*} 文档地址：https://api.pay.yungouos.com/api/finance/profitsharing/getPayResult
+ * @return {*} 文档地址：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/getInfo
  */
-async function getPayResultAsync(mch_id, ps_no, payKey) {
+async function getPayInfoAsync(mch_id, ps_no, payKey) {
     if (Common.isEmpty(mch_id)) {
         console.error("yungouos sdk error", "商户号不能为空");
         return null;
@@ -878,14 +878,14 @@ async function getPayResultAsync(mch_id, ps_no, payKey) {
  * 
  * 查询分账支付结果
  * 
- * 文档地址：https://api.pay.yungouos.com/api/finance/profitsharing/getPayResult
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/getInfo
  * 
  * @param {*} mch_id 分账方支付商户号
  * @param {*} ps_no 分账单号
  * @param {*} payKey 支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
- * @return {*} 文档地址：https://api.pay.yungouos.com/api/finance/profitsharing/getPayResult
+ * @return {*} 文档地址：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/getInfo
  */
-function getPayResult(mch_id, ps_no, payKey) {
+function getPayInfo(mch_id, ps_no, payKey) {
     if (Common.isEmpty(mch_id)) {
         console.error("yungouos sdk error", "商户号不能为空");
         return null;
@@ -1532,8 +1532,8 @@ export default {
     createBillV2,
     sendPayAsync,
     sendPay,
-    getPayResultAsync,
-    getPayResult,
+    getPayInfoAsync,
+    getPayInfo,
     finishAsync,
     finish,
     rePayWxPayAsync,

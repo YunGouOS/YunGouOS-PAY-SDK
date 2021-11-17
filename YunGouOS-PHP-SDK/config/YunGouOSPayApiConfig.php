@@ -61,8 +61,8 @@ $apiConfig = array(
     "finance_create_bill_url"=>$api_url."/api/finance/profitsharing/createBill",
     //发起分账
     "finance_send_pay_url"=>$api_url."/api/finance/profitsharing/sendPay",
-    //查询分账结果
-    "finance_get_pay_result_url"=>$api_url."/api/finance/profitsharing/getPayResult",
+    //查询分账
+    "finance_get_pay_result_url"=>$api_url."/api/finance/profitsharing/getInfo",
     //停止分账
     "finance_finish_url"=>$api_url."/api/finance/profitsharing/finish",
 

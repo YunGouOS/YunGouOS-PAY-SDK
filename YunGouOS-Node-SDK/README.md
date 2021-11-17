@@ -123,7 +123,7 @@ WxPay.jsapiPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url
 ```js
 let params = WxPay.minAppPayParams(out_trade_no, total_fee, mch_id, body, attach, title, notify_url, auto, auto_node, config_no, biz_params, payKey);
 
-wx.navigateToMiniProgram({
+wx.openEmbeddedMiniProgram({
         appId: 'wxd9634afb01b983c0',//支付收银小程序的appid 固定值 不可修改
         path: '/pages/pay/pay',//支付页面 固定值 不可修改
         extraData: params,//携带的参数
@@ -518,18 +518,18 @@ Finance.sendPay(mch_id, ps_no, description, payKey).then((response)=>{
 });
 ```
 
-#### 查询分账支付结果（同步）
+#### 查询分账（同步）
 
 ```js
-let result =await Finance.getPayResultAsync(mch_id, ps_no, payKey);
-//查询分账支付结果
+let result =await Finance.getPayInfoAsync(mch_id, ps_no, payKey);
+//查询分账
 console.log(result);
 ```
 
-#### 查询分账支付结果（异步）
+#### 查询分账（异步）
 
 ```js
-Finance.getPayResult(mch_id, ps_no, payKey).then((response)=>{
+Finance.getPayInfo(mch_id, ps_no, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
