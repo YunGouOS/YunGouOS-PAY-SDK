@@ -77,7 +77,8 @@
             "urlCheck" : false
         },
         "usingComponents" : true,
-        "navigateToMiniProgramAppIdList" : [ "wxd9634afb01b983c0" ]
+        "navigateToMiniProgramAppIdList" : [ "wxd9634afb01b983c0" ],
+		"embeddedAppIdList": ["wxd9634afb01b983c0"]
     },
     "mp-alipay" : {
         "usingComponents" : true

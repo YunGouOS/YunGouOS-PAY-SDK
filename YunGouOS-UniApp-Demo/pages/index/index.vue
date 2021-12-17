@@ -179,7 +179,7 @@
 
 				// let params=WxPay.minAppPayParams(out_trade_no, total_fee, mch_id, body, attach, title, notify_url, auto, auto_node, config_no, biz_params, payKey);
 
-				// uni.navigateToMiniProgram({
+				// uni.openEmbeddedMiniProgram({
 				//         appId: 'wxd9634afb01b983c0',//支付收银小程序的appid 固定值 不可修改
 				//         path: '/pages/pay/pay',//支付页面 固定值 不可修改
 				//         extraData: params,//携带的参数 参考API文档
@@ -402,6 +402,7 @@
 			 * 公众号支付
 			 */
 			jsPay:async function(){
+				console.log("测试");
 				let mch_id = "1529637931";
 				//授权结束后重定向地址
 				let callback_url="http://localhost.yungouos.com:8080/#/pages/oauth/oauth";

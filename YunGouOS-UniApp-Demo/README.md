@@ -23,4 +23,6 @@
 
 1、导入HBuilder开发工具
 
+2、根目录执行 npm install
+
 2、运行H5或微信小程序或APP
