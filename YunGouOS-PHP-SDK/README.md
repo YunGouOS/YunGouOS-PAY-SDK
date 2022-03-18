@@ -101,6 +101,13 @@ demo文件夹下已经集成了微信扫码支付、微信收银台支付、微�
 	
 	$result=$wxpay->appPay($app_id, $out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $config_no, $auto, $auto_node,$biz_params, $key);
 
+## QQ小程序支付
+
+QQ小程序中拉起微信支付进行付款
+ 
+ $result=$wxpay->qqPay($app_id,$access_token,$out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $config_no, $auto, $auto_node,$biz_params, $key);
+	
+
 ## 微信付款码支付
 
 线下扫码枪、扫码盒子、收银软件被扫支付，客户主动出示付款码，借助扫码设备完成收款。
@@ -203,6 +210,11 @@ demo文件夹下已经集成了微信扫码支付、微信收银台支付、微�
 ## 微信APP支付
 
 	$wxpay->wapPay(开放平台APPID,订单号, 支付金额, 微信支付商户号, 商品描述, 附加数据, 异步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
+
+## QQ小程序支付
+
+ $wxpay->qqPay(QQ小程序APPID,QQ小程序access_token,订单号, 支付金额, 微信支付商户号, 商品描述, 附加数据, 异步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
+
 
 ## 微信付款码支付
 
