@@ -25,6 +25,8 @@ $apiConfig = array(
     "wxpay_wap_pay_url" => $api_url . "/api/pay/wxpay/wapPay",
     //APP支付
     "wxpay_app_pay_url" => $api_url . "/api/pay/wxpay/appPay",
+     //QQ小程序支付
+    "wxpay_qq_pay_url" => $api_url . "/api/pay/wxpay/qqPay",
     //发起退款
     "wxpay_refund_order_url" => $api_url . "/api/pay/wxpay/refundOrder",
     //查询退款结果
