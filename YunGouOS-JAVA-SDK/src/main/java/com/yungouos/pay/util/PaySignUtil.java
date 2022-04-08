@@ -1,16 +1,15 @@
 package com.yungouos.pay.util;
 
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.SecureUtil;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-
-import javax.servlet.http.HttpServletRequest;
-
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.SecureUtil;
 
 /**
  * 
@@ -85,7 +84,6 @@ public class PaySignUtil {
 	 * @param request
 	 *            回调的request对象
 	 * @return 签名是否正确
-	 * @throws Exception
 	 */
 	public static boolean checkNotifySign(HttpServletRequest request, String partnerKey) throws Exception {
 		try {
@@ -128,7 +126,6 @@ public class PaySignUtil {
 	 * @param request
 	 *            回调的request对象
 	 * @return 签名是否正确
-	 * @throws Exception
 	 */
 	public static boolean checkRefundNotifySign(HttpServletRequest request, String partnerKey) throws Exception {
 		try {

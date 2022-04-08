@@ -11,12 +11,13 @@ import java.io.Serializable;
  */
 public class RefundSearch implements Serializable {
 	
-
-
 	private static final long serialVersionUID = -7274078882883090441L;
 
 	// 退款单号
 	private String refundNo;
+
+	//外部退款单号
+	private String outTradeRefundNo;
 	
 	//系统单号
 	private String orderNo;
@@ -159,17 +160,31 @@ public class RefundSearch implements Serializable {
 		this.payRefundNo = payRefundNo;
 	}
 
-	@Override
-	public String toString() {
-		return "RefundSearch [refundNo=" + refundNo + ", orderNo=" + orderNo + ", outTradeNo=" + outTradeNo + ", payNo=" + payNo + ", payRefundNo=" + payRefundNo + ", refundMoney=" + refundMoney
-				+ ", orderMoney=" + orderMoney + ", refundMchId=" + refundMchId + ", refundPayName=" + refundPayName + ", refundDesc=" + refundDesc + ", refundStatus=" + refundStatus
-				+ ", apiRefundTime=" + apiRefundTime + ", refundTime=" + refundTime + "]";
+	public String getOutTradeRefundNo() {
+		return outTradeRefundNo;
 	}
 
-	
-	
+	public void setOutTradeRefundNo(String outTradeRefundNo) {
+		this.outTradeRefundNo = outTradeRefundNo;
+	}
 
-	
-	
-
+	@Override
+	public String toString() {
+		return "RefundSearch{" +
+				"refundNo='" + refundNo + '\'' +
+				", outTradeRefundNo='" + outTradeRefundNo + '\'' +
+				", orderNo='" + orderNo + '\'' +
+				", outTradeNo='" + outTradeNo + '\'' +
+				", payNo='" + payNo + '\'' +
+				", payRefundNo='" + payRefundNo + '\'' +
+				", refundMoney='" + refundMoney + '\'' +
+				", orderMoney='" + orderMoney + '\'' +
+				", refundMchId='" + refundMchId + '\'' +
+				", refundPayName='" + refundPayName + '\'' +
+				", refundDesc='" + refundDesc + '\'' +
+				", refundStatus=" + refundStatus +
+				", apiRefundTime='" + apiRefundTime + '\'' +
+				", refundTime='" + refundTime + '\'' +
+				'}';
+	}
 }

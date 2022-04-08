@@ -3,121 +3,137 @@ package com.yungouos.pay.entity;
 import java.io.Serializable;
 
 /**
- * 
  * 退款对象
- * 
- * 
+ *
  * @author YunGouOS技术部-029
- *
- *
  */
 public class RefundOrder implements Serializable {
 
-	private static final long serialVersionUID = -6651518662945260698L;
+    private static final long serialVersionUID = -6651518662945260698L;
 
-	// 退款编号
-	private String refundNo;
+    // 退款编号
+    private String refundNo;
 
-	// 业务订单号
-	private String serviceNo;
+    // 商户自己传递的退款单号
+    private String outTradeRefundNo;
 
-	// 用户ID
-	private int userId;
+    // 业务订单号
+    private String serviceNo;
 
-	// 退款商户
-	private String refundMchId;
+    // 用户ID
+    private int userId;
 
-	// 退款商户收款名称
-	private String refundPayName;
+    // 退款商户
+    private String refundMchId;
 
-	// 退款金额
-	private String refundMoney;
+    // 退款商户收款名称
+    private String refundPayName;
 
-	// 退款描述
-	private String refundDesc;
+    // 退款金额
+    private String refundMoney;
 
-	// 退款类型 0 微信退款 1 支付宝退款
-	private int refundType;
+    // 退款描述
+    private String refundDesc;
 
-	// 退款状态 0：待处理 1：已处理
-	private int refundStatus;
+    // 退款类型 0 微信退款 1 支付宝退款
+    private int refundType;
 
-	public void setRefundNo(String refundNo) {
-		this.refundNo = refundNo;
-	}
+    // 退款状态 0：待处理 1：已处理
+    private int refundStatus;
 
-	public String getRefundNo() {
-		return this.refundNo;
-	}
+    public void setRefundNo(String refundNo) {
+        this.refundNo = refundNo;
+    }
 
-	public void setServiceNo(String serviceNo) {
-		this.serviceNo = serviceNo;
-	}
+    public String getRefundNo() {
+        return this.refundNo;
+    }
 
-	public String getServiceNo() {
-		return this.serviceNo;
-	}
+    public void setServiceNo(String serviceNo) {
+        this.serviceNo = serviceNo;
+    }
 
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
+    public String getServiceNo() {
+        return this.serviceNo;
+    }
 
-	public int getUserId() {
-		return this.userId;
-	}
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
-	public void setRefundMchId(String refundMchId) {
-		this.refundMchId = refundMchId;
-	}
+    public int getUserId() {
+        return this.userId;
+    }
 
-	public String getRefundMchId() {
-		return this.refundMchId;
-	}
+    public void setRefundMchId(String refundMchId) {
+        this.refundMchId = refundMchId;
+    }
 
-	public void setRefundPayName(String refundPayName) {
-		this.refundPayName = refundPayName;
-	}
+    public String getRefundMchId() {
+        return this.refundMchId;
+    }
 
-	public String getRefundPayName() {
-		return this.refundPayName;
-	}
+    public void setRefundPayName(String refundPayName) {
+        this.refundPayName = refundPayName;
+    }
 
-	public void setRefundMoney(String refundMoney) {
-		this.refundMoney = refundMoney;
-	}
+    public String getRefundPayName() {
+        return this.refundPayName;
+    }
 
-	public String getRefundMoney() {
-		return this.refundMoney;
-	}
+    public void setRefundMoney(String refundMoney) {
+        this.refundMoney = refundMoney;
+    }
 
-	public void setRefundDesc(String refundDesc) {
-		this.refundDesc = refundDesc;
-	}
+    public String getRefundMoney() {
+        return this.refundMoney;
+    }
 
-	public String getRefundDesc() {
-		return this.refundDesc;
-	}
+    public void setRefundDesc(String refundDesc) {
+        this.refundDesc = refundDesc;
+    }
 
-	public void setRefundType(int refundType) {
-		this.refundType = refundType;
-	}
+    public String getRefundDesc() {
+        return this.refundDesc;
+    }
 
-	public int getRefundType() {
-		return this.refundType;
-	}
+    public void setRefundType(int refundType) {
+        this.refundType = refundType;
+    }
 
-	public void setRefundStatus(int refundStatus) {
-		this.refundStatus = refundStatus;
-	}
+    public int getRefundType() {
+        return this.refundType;
+    }
 
-	public int getRefundStatus() {
-		return this.refundStatus;
-	}
+    public void setRefundStatus(int refundStatus) {
+        this.refundStatus = refundStatus;
+    }
 
-	@Override
-	public String toString() {
-		return "RefundOrder [refundNo=" + refundNo + ", serviceNo=" + serviceNo + ", userId=" + userId + ", refundMchId=" + refundMchId + ", refundPayName=" + refundPayName + ", refundMoney="
-				+ refundMoney + ", refundDesc=" + refundDesc + ", refundType=" + refundType + ", refundStatus=" + refundStatus + "]";
-	}
+    public int getRefundStatus() {
+        return this.refundStatus;
+    }
 
+    public String getOutTradeRefundNo() {
+        return outTradeRefundNo;
+    }
+
+    public void setOutTradeRefundNo(String outTradeRefundNo) {
+        this.outTradeRefundNo = outTradeRefundNo;
+    }
+
+    @Override
+    public String toString() {
+        return "RefundOrder{" +
+                "refundNo='" + refundNo + '\'' +
+                ", outTradeRefundNo='" + outTradeRefundNo + '\'' +
+                ", serviceNo='" + serviceNo + '\'' +
+                ", userId=" + userId +
+                ", refundMchId='" + refundMchId + '\'' +
+                ", refundPayName='" + refundPayName + '\'' +
+                ", refundMoney='" + refundMoney + '\'' +
+                ", refundDesc='" + refundDesc + '\'' +
+                ", refundType=" + refundType +
+                ", refundStatus=" + refundStatus +
+                '}';
+    }
 }

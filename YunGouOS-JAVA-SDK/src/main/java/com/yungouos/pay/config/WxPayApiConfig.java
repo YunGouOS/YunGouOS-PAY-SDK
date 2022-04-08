@@ -43,6 +43,11 @@ public class WxPayApiConfig {
 	public static String facePayUrl = apiUrl + "/api/pay/wxpay/facePay";
 
 	/**
+	 * 微信刷脸支付凭证
+	 */
+	public static String getFacePayAuthInfoUrl = apiUrl + "/api/pay/wxpay/getFacePayAuthInfo";
+
+	/**
 	 * 微信h5支付
 	 */
 	public static String wapPayUrl = apiUrl + "/api/pay/wxpay/wapPay";

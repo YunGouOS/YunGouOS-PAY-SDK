@@ -6,7 +6,7 @@
 <dependency>
     <groupId>com.yungouos.pay</groupId>
     <artifactId>yungouos-pay-sdk</artifactId>
-    <version>2.0.18</version>
+    <version>2.0.19</version>
 </dependency>
 
 ```
@@ -84,6 +84,12 @@
 
 	JSONObject appPayParams = WxPay.appPay(微信开放平台APPID, System.currentTimeMillis() + "", "0.01", mchId, "APP支付测试", null, null, null, null, null,null, key);
 
+## 微信刷脸支付凭证
+
+返回人脸数据凭证参数
+
+	 FacePayAuthInfoBiz facePayAuthInfo = WxPay.getFacePayAuthInfo(mchId, "门店ID", "门店名称", "刷脸支付信息", "设备ID", null, null, key);
+
 ## 查询刷卡支付结果
 
 用于查询刷卡支付结果
@@ -94,7 +100,7 @@
 
 ## 发起退款接口
 
-	RefundOrder refundOrder = WxPay.orderRefund("1556267522899", "1529637931", "0.1","订单退款",null,"6BA371F4CFAB4465AA04DAEADBAC4161");
+	RefundOrder refundOrder = WxPay.orderRefund("1556267522899", "1529637931", "0.1",null,"订单退款",null,"6BA371F4CFAB4465AA04DAEADBAC4161");
 
 返回结果说明：[http://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder](http://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder "http://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder")
 
@@ -217,13 +223,17 @@
 
 	 WxPay.appPay(开放平台APPID,订单号,支付金额,微信支付商户号,商品描述,附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,附加业务参数,商户密钥)
 
+## 刷脸支付凭证
+    
+    FacePayAuthInfoBiz facePayAuthInfo = WxPay.getFacePayAuthInfo(微信支付商户号, 门店ID, 门店名称, 刷脸支付信息, 设备ID, 附加数据,附加业务参数, 商户密钥);
+
 ## 订单查询
 
 	WxPay.getOrderInfoByOutTradeNo(订单号, 微信支付商户号, 商户密钥);
 
 ## 发起退款
 
-	WxPay.orderRefund(订单号, 微信支付商户号, 退款金额,退款描述,异步回调地址,商户密钥);
+	WxPay.orderRefund(订单号, 微信支付商户号,自定义退款单号,退款金额,退款描述,异步回调地址,商户密钥);
 
 ## 查询微信支付退款结果
 
@@ -258,7 +268,7 @@
 
 ## 发起支付宝退款
 
-	AliPay.orderRefund(订单号, 支付宝商户号, 退款金额, 退款描述,商户密钥);
+	AliPay.orderRefund(订单号, 支付宝商户号, 退款金额,自定义退款单号, 退款描述,商户密钥);
 
 ## 查询支付宝退款结果
 

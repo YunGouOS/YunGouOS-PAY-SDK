@@ -4,8 +4,8 @@
   <groupId>com.yungouos.pay</groupId>
   <artifactId>yungouos-pay-sdk</artifactId>
   <name>yungouos-pay-sdk</name>
-  <version>2.0.18</version>
-  <description>YunGouOS官方个人支付接口SDK，提供微信/支付宝官方个人支付接口API</description>
+  <version>2.0.19</version>
+  <description>YunGouOS全能支付接口SDK，提供微信/支付宝官方支付接口API，支持个人、个体户、企业接入使用</description>
   <url>https://github.com/YunGouOS/YunGouOS-PAY-SDK</url>
   <developers>
     <developer>
@@ -74,11 +74,11 @@
   </build>
   <distributionManagement>
     <repository>
-      <id>oss</id>
+      <id>yungouos-pay-sdk-deploy</id>
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
     <snapshotRepository>
-      <id>oss</id>
+      <id>yungouos-pay-sdk-snapshots</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
     </snapshotRepository>
   </distributionManagement>

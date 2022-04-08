@@ -1,23 +1,16 @@
 package com.yungouos.pay.alipay;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HttpRequest;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yungouos.pay.common.PayException;
 import com.yungouos.pay.config.AlipayApiConfig;
-import com.yungouos.pay.entity.AliPayCodePayBiz;
-import com.yungouos.pay.entity.AliPayH5Biz;
-import com.yungouos.pay.entity.AliPayJsPayBiz;
-import com.yungouos.pay.entity.CodePayBiz;
-import com.yungouos.pay.entity.HbFqBiz;
-import com.yungouos.pay.entity.RefundOrder;
-import com.yungouos.pay.entity.RefundSearch;
+import com.yungouos.pay.entity.*;
 import com.yungouos.pay.util.PaySignUtil;
 
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.http.HttpRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 
@@ -601,11 +594,17 @@ public class AliPay {
 	 *            支付宝商户号 登录YunGouOS.com-》支付宝-》商户管理 查看商户号
 	 * @param money
 	 *            退款金额
+	 * @param out_trade_refund_no
+	 *            商户系统内的退款单号（不可重复），传递该参数情况下，查询退款接口可以通过该参数查询
+	 * @param refund_desc
+	 *            退款描述
+	 * @param notify_url
+	 *            退款成功异步回调地址
 	 * @param key
 	 *            支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
 	 * @return refundOrder 退款订单对象 参考文档：http://open.pay.yungouos.com/#/api/api/pay/alipay/refundOrder
 	 */
-	public static RefundOrder orderRefund(String out_trade_no, String mch_id, String money, String refund_desc, String key) throws PayException {
+	public static RefundOrder orderRefund(String out_trade_no, String mch_id, String money,String out_trade_refund_no,String refund_desc,String notify_url, String key) throws PayException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		RefundOrder refundOrder = null;
 		try {
@@ -626,7 +625,15 @@ public class AliPay {
 			params.put("money", money);
 			// 上述必传参数签名
 			String sign = PaySignUtil.createSign(params, key);
-			params.put("refund_desc", refund_desc);
+			if (!StrUtil.isBlank(out_trade_refund_no)) {
+				params.put("out_trade_refund_no", out_trade_refund_no);
+			}
+			if (!StrUtil.isBlank(refund_desc)) {
+				params.put("refund_desc", refund_desc);
+			}
+			if (!StrUtil.isBlank(notify_url)) {
+				params.put("notify_url", notify_url);
+			}
 			params.put("sign", sign);
 			String result = HttpRequest.post(AlipayApiConfig.refundOrderUrl).form(params).execute().body();
 			if (StrUtil.isBlank(result)) {
@@ -645,7 +652,6 @@ public class AliPay {
 				throw new PayException("API结果数据转换错误");
 			}
 			refundOrder = JSONObject.toJavaObject(json, RefundOrder.class);
-
 		} catch (PayException e) {
 			e.printStackTrace();
 			throw new PayException(e.getMessage());
@@ -702,7 +708,6 @@ public class AliPay {
 				throw new PayException("API结果数据转换错误");
 			}
 			refundSearch = JSONObject.toJavaObject(json, RefundSearch.class);
-
 		} catch (PayException e) {
 			e.printStackTrace();
 			throw new PayException(e.getMessage());

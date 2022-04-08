@@ -69,7 +69,7 @@ public class AliPayTest {
 			System.out.println("支付宝APP支付返回结果：" + appPay);
 
 			// 发起退款
-			RefundOrder orderRefund = AliPay.orderRefund("Y194506551713811", mch_id, "0.01", "测试退款", key);
+			RefundOrder orderRefund = AliPay.orderRefund("Y194506551713811", mch_id, "0.01", null,"测试退款",null, key);
 			System.out.println("支付宝发起退款返回结果：" + orderRefund.toString());
 
 			// 退款查询
