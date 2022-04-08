@@ -149,7 +149,7 @@
 
 ## 发起支付宝退款接口
 
-	RefundOrder orderRefund = AliPay.orderRefund("Y194506551713811", mch_id, "0.01", "测试退款", key);
+	RefundOrder orderRefund = AliPay.orderRefund("Y194506551713811", mch_id, "0.01",null,"测试退款",null, key);
 
 返回结果说明：[https://open.pay.yungouos.com/#/api/api/pay/alipay/refundOrder](https://open.pay.yungouos.com/#/api/api/pay/alipay/refundOrder "https://open.pay.yungouos.com/#/api/api/pay/alipay/refundOrder")
 
@@ -268,7 +268,7 @@
 
 ## 发起支付宝退款
 
-	AliPay.orderRefund(订单号, 支付宝商户号, 退款金额,自定义退款单号, 退款描述,商户密钥);
+	AliPay.orderRefund(订单号, 支付宝商户号, 退款金额,自定义退款单号,退款描述,回调地址,商户密钥);
 
 ## 查询支付宝退款结果
 

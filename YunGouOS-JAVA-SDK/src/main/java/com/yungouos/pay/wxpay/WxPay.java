@@ -690,7 +690,7 @@ public class WxPay {
 
 
     /**
-     * 微信刷脸支付
+     * 微信刷脸支付凭证
      *
      * @param mch_id         微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
      * @param store_id       门店编号，由商户定义，各门店唯一。

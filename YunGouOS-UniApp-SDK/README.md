@@ -884,7 +884,7 @@ WxLogin.getWebLoginAsync(mch_id, callback_url,params, key).then((response)=>{
 });
 ```
 
-#### 查询授权信息（异步）
+#### 查询授权信息（同步）
 
 ```js
 let result =await WxLogin.getOauthInfoAsync(mch_id, code, key);
