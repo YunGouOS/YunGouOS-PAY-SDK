@@ -516,7 +516,7 @@ class AliPay
      * @return 退款信息 详情 https://open.pay.yungouos.com/#/api/api/pay/alipay/refundOrder
      * @throws Exception
      */
-    public function orderRefund($out_trade_no, $mch_id, $money, $refund_desc, $key)
+    public function orderRefund($out_trade_no, $mch_id, $money, $out_trade_refund_no,$refund_desc,$notify_url, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -538,7 +538,15 @@ class AliPay
             $paramsArray['money'] = $money;
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
-            $paramsArray['refund_desc'] = $refund_desc;
+            if(!empty($out_trade_refund_no)){
+                $paramsArray['out_trade_refund_no'] = $out_trade_refund_no;
+            }
+            if(!empty($refund_desc)){
+                $paramsArray['refund_desc'] = $refund_desc;
+            }
+            if(!empty($notify_url)){
+                $paramsArray['notify_url'] = $notify_url;
+            }
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpsPost($this->apiConfig['alipay_refund_order_url'], $paramsArray);

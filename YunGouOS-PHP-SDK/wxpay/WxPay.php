@@ -787,6 +787,82 @@ class WxPay
 
 
     /**
+     * 微信刷脸支付凭证
+     *
+     * @param mch_id         微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
+     * @param store_id       门店编号，由商户定义，各门店唯一。
+     * @param store_name     门店名称，由商户定义。（可用于展示）
+     * @param face_auth_info 人脸数据。调用【get_wxpayface_authinfo】接口获取到的结果
+     * @param device_id      终端设备编号，由商户定义。
+     * @param attach         附加数据 回调时原路返回 可不传
+     * @param bizParams      附加业务参数对象，具体参考API文档biz_params参数说明
+     * @param key            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》 支付密钥 查看密钥
+     * @return FacePayAuthInfoBiz 刷脸支付凭证 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/getFacePayAuthInfo
+     */
+    public function getFacePayAuthInfo($mch_id,$store_id,$store_name, $face_auth_info, $device_id,$attach,$biz_params, $key)
+    {
+        $result = null;
+        $paramsArray = array();
+        try {
+            if (empty($mch_id)) {
+                throw new Exception("商户号不能为空！");
+            }
+            if (empty($store_id)) {
+                throw new Exception("门店编号不能为空！");
+            }
+            if (empty($store_name)) {
+                throw new Exception("门店名称不能为空！");
+            }
+            if (empty($face_auth_info)) {
+                throw new Exception("人脸数据不能为空！");
+            }
+            if (empty($key)) {
+                throw new Exception("商户密钥不能为空！");
+            }
+            $paramsArray['mch_id'] = $mch_id;
+            $paramsArray['store_id'] = $store_id;
+            $paramsArray['store_name'] = $store_name;
+            $paramsArray['face_auth_info'] = $face_auth_info;
+            // 上述必传参数签名
+            $sign = $this->paySign->getSign($paramsArray, $key);
+            //下面参数不参与签名，但是接口需要这些参数
+            if(!empty($device_id)){
+                $paramsArray['device_id'] = $device_id;
+            }
+            if(!empty($attach)){
+                $paramsArray['attach'] = $attach;
+            }
+            if(!empty($biz_params)){
+                if(is_array($biz_params)){
+                    throw new Exception("biz_params不是合法的数组");
+                }
+                $biz_paramsJson=json_encode($biz_params);
+                $paramsArray['biz_params'] = $biz_paramsJson;
+            }
+
+            $paramsArray['sign'] = $sign;
+
+            $resp = $this->httpUtil->httpsPost($this->apiConfig['wxpay_face_pay_auth_info_url'], $paramsArray);
+            if (empty($resp)) {
+                throw new Exception("API接口返回为空");
+            }
+            $ret = @json_decode($resp, true);
+            if (empty($ret)) {
+                throw new Exception("API接口返回为空");
+            }
+            $code = $ret['code'];
+            if ($code != 0) {
+                throw new Exception($ret['msg']);
+            }
+            $result = $ret['data'];
+        } catch (Exception $e) {
+            throw  new Exception($e->getMessage());
+        }
+        return $result;
+    }
+
+
+    /**
      * 发起退款
      * @param $out_trade_no 商户订单号
      * @param $mch_id 微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
@@ -797,7 +873,7 @@ class WxPay
      * @return 退款信息 详情 https://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder
      * @throws Exception
      */
-    public function orderRefund($out_trade_no, $mch_id, $money, $refund_desc,$notify_url,$key)
+    public function orderRefund($out_trade_no, $mch_id, $money,$out_trade_refund_no,$refund_desc,$notify_url,$key)
     {
         $result = null;
         $paramsArray = array();
@@ -819,7 +895,12 @@ class WxPay
             $paramsArray['money'] = $money;
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
-            $paramsArray['refund_desc'] = $refund_desc;
+            if(!empty($out_trade_refund_no)){
+                $paramsArray['out_trade_refund_no'] = $out_trade_refund_no;
+            }
+            if(!empty($refund_desc)){
+                $paramsArray['refund_desc'] = $refund_desc;
+            }
             if(!empty($notify_url)){
                 $paramsArray['notify_url'] = $notify_url;
             }
