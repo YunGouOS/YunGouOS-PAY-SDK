@@ -1,11 +1,11 @@
 # YunGouOS-PAY-SDK
 
-![https://yungouos.oss-cn-shanghai.aliyuncs.com/YunGouOS/logo/merchant/logo.png](https://yungouos.oss-cn-shanghai.aliyuncs.com/YunGouOS/logo/merchant/logo.png)
+![https://images.yungouos.com/YunGouOS/logo/merchant/logo.png](https://images.yungouos.com/YunGouOS/logo/merchant/logo.png)
 
 
 # 介绍
 
-YunGouOS微信支付/支付宝官方合作伙伴，YunGouOS-PAY是徐州市云宝网络科技有限公司研发的支付产品。
+YunGouOS微信支付/支付宝官方合作伙伴，YunGouOS-PAY是南京新云宝软件有限公司研发的支付产品。
 
 过去我们只将支付提供给自身系统使用，我们对市面上各种第四方支付深感痛恨 我们深知一些个人用户对支付的渴望。
 
@@ -277,16 +277,46 @@ WxPay.appPay(app_id, out_trade_no, total_fee, mch_id, body, attach, notify_url, 
 });
 ```
 
+#### QQ小程序支付（同步）
+
+```js
+let result =await WxPay.qqPayAsync(app_id,access_token,out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, biz_params,payKey);
+```
+
+#### QQ小程序支付（异步）
+
+```js
+WxPay.qqPay(app_id,access_token,out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, biz_params,payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
+#### 刷脸支付凭证（同步）
+
+```js
+let result =await WxPay.getFacePayAuthInfoAsync(mch_id, store_id, store_name, face_auth_info, device_id, attach, biz_params, payKey);
+```
+
+#### 刷脸支付凭证（异步）
+
+```js
+WxPay.getFacePayAuthInfo(mch_id, store_id, store_name, face_auth_info, device_id, attach, biz_params, payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
 #### 订单退款（同步）
 
 ```js
-let result =await WxPay.refundAsync(out_trade_no, mch_id, money, refund_desc,notify_url, payKey);
+let result =await WxPay.refundAsync(out_trade_no, mch_id, money, out_trade_refund_no,refund_desc,notify_url, payKey);
 ```
 
 #### 订单退款（异步）
 
 ```js
-WxPay.refund(out_trade_no, mch_id, money, refund_desc,notify_url, payKey).then((response)=>{
+WxPay.refund(out_trade_no, mch_id, money,out_trade_refund_no, refund_desc,notify_url, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -418,7 +448,7 @@ AliPay.appPay(out_trade_no, total_fee, mch_id, body, attach, notify_url,hbfq_num
 #### 发起退款（同步）
 
 ```js
-let result =await AliPay.refundAsync(out_trade_no, mch_id, money, refund_desc, payKey);
+let result =await AliPay.refundAsync(out_trade_no, mch_id, money, out_trade_refund_no,refund_desc,notify_url, payKey);
 //发起退款结果
 console.log(result);
 ```
@@ -426,7 +456,7 @@ console.log(result);
 #### 发起退款（异步）
 
 ```js
-AliPay.refund(out_trade_no, mch_id, money, refund_desc, payKey).then((response)=>{
+AliPay.refund(out_trade_no, mch_id, money,out_trade_refund_no, refund_desc,notify_url, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });

@@ -9,6 +9,9 @@ const nativePay = apiUrl + "/api/pay/wxpay/nativePay";
 //公众号支付
 const jsapiPay = apiUrl + "/api/pay/wxpay/jsapi";
 
+//小程序支付
+const minAppPay = apiUrl + "/api/pay/wxpay/minAppPay";
+
 //收银台支付
 const cashierPay = apiUrl + "/api/pay/wxpay/cashierPay";
 
@@ -20,6 +23,12 @@ const wapPay = apiUrl + "/api/pay/wxpay/wapPay";
 
 //APP支付
 const appPay = apiUrl + "/api/pay/wxpay/appPay";
+
+//QQ小程序支付
+const qqPay = apiUrl + "/api/pay/wxpay/qqPay";
+
+//刷脸支付凭证
+const getFacePayAuthInfo = apiUrl + "/api/pay/wxpay/getFacePayAuthInfo";
 
 //订单退款
 const refundOrder = apiUrl + "/api/pay/wxpay/refundOrder";
@@ -47,10 +56,13 @@ export default {
     "codePay": codePay,
     "nativePay": nativePay,
     "jsapiPay": jsapiPay,
+    "minAppPay": minAppPay,
     "cashierPay": cashierPay,
     "facePay": facePay,
     "wapPay": wapPay,
     "appPay": appPay,
+    "qqPay": qqPay,
+    "getFacePayAuthInfo": getFacePayAuthInfo,
     "refundOrder": refundOrder,
     "getRefundResult": getRefundResult,
     "closeOrder": closeOrder,

@@ -794,11 +794,13 @@ function appPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, hbfq_
  * @param {*} out_trade_no 商户订单号
  * @param {*} mch_id 支付宝商户号 登录yungouos.com-》支付宝-》商户管理 支付宝商户号 获取
  * @param {*} money 退款金额
+ * @param {*} out_trade_refund_no 商户自定义退款单号 
  * @param {*} refund_desc 退款描述
+ * @param {*} notify_url 异步回调地址，退款成功后会把退款结果发送到该地址，不填则无回调
  * @param {*} payKey 支付密钥 登录yungouos.com-》支付宝-》商户管理 支付密钥 获取
  * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/alipay/refundOrder
  */
-async function refundAsync(out_trade_no, mch_id, money, refund_desc, payKey) {
+async function refundAsync(out_trade_no, mch_id, money, out_trade_refund_no, refund_desc, notify_url, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -823,8 +825,14 @@ async function refundAsync(out_trade_no, mch_id, money, refund_desc, payKey) {
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
     params.sign = sign;
+    if (!Common.isEmpty(out_trade_refund_no)) {
+        params.out_trade_refund_no = out_trade_refund_no;
+    }
     if (!Common.isEmpty(refund_desc)) {
         params.refund_desc = refund_desc;
+    }
+    if (!Common.isEmpty(notify_url)) {
+        params.notify_url = notify_url;
     }
     let response = await HttpUtil.post(AliPayConfig.refundOrder, params);
     let result = Common.doApiResult(response);
@@ -851,11 +859,13 @@ async function refundAsync(out_trade_no, mch_id, money, refund_desc, payKey) {
  * @param {*} out_trade_no 商户订单号
  * @param {*} mch_id 支付宝商户号 登录yungouos.com-》支付宝-》商户管理 支付宝商户号 获取
  * @param {*} money 退款金额
+ * @param {*} out_trade_refund_no 商户自定义退款单号 
  * @param {*} refund_desc 退款描述
+ * @param {*} notify_url 异步回调地址，退款成功后会把退款结果发送到该地址，不填则无回调
  * @param {*} payKey 支付密钥 登录yungouos.com-》支付宝-》商户管理 支付密钥 获取
  * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/alipay/refundOrder
  */
-function refund(out_trade_no, mch_id, money, refund_desc, payKey) {
+function refund(out_trade_no, mch_id, money, out_trade_refund_no, refund_desc, notify_url, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -880,8 +890,14 @@ function refund(out_trade_no, mch_id, money, refund_desc, payKey) {
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
     params.sign = sign;
+    if (!Common.isEmpty(out_trade_refund_no)) {
+        params.out_trade_refund_no = out_trade_refund_no;
+    }
     if (!Common.isEmpty(refund_desc)) {
         params.refund_desc = refund_desc;
+    }
+    if (!Common.isEmpty(notify_url)) {
+        params.notify_url = notify_url;
     }
     return HttpUtil.post(AliPayConfig.refundOrder, params);
 }
@@ -920,7 +936,7 @@ async function getRefundResultAsync(refund_no, mch_id, payKey) {
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
     params.sign = sign;
-    let response =await HttpUtil.post(AliPayConfig.getRefundResult, params);
+    let response = await HttpUtil.post(AliPayConfig.getRefundResult, params);
     let result = Common.doApiResult(response);
     if (Common.isEmpty(result)) {
         return null;

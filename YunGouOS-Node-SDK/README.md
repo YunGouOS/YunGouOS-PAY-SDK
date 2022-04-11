@@ -1,11 +1,10 @@
-# YunGouOS-PAY-Node-SDK
+# yungouos-pay-node-sdk
 
-![https://yungouos.oss-cn-shanghai.aliyuncs.com/YunGouOS/logo/merchant/logo.png](https://yungouos.oss-cn-shanghai.aliyuncs.com/YunGouOS/logo/merchant/logo.png)
-
+![https://images.yungouos.com/YunGouOS/logo/merchant/logo.png](https://images.yungouos.com/YunGouOS/logo/merchant/logo.png)
 
 # 介绍
 
-YunGouOS微信支付/支付宝官方合作伙伴，YunGouOS-PAY是徐州市云宝网络科技有限公司研发的支付产品。
+YunGouOS微信支付/支付宝官方合作伙伴，YunGouOS-PAY是南京新云宝软件有限公司研发的支付产品。
 
 过去我们只将支付提供给自身系统使用，我们对市面上各种第四方支付深感痛恨 我们深知一些个人用户对支付的渴望。
 
@@ -15,10 +14,15 @@ YunGouOS微信支付/支付宝官方合作伙伴，YunGouOS-PAY是徐州市云�
 
 基于微信/支付宝官方授权的服务商模式为中小商家提供便捷的支付接入服务。
 
-
 # 如何使用
 
+## 无微信/支付宝商户
+
 在官网提交资料，由微信/支付宝审核，审核通过后下发商户号，对接使用。
+
+## 已有微信商户
+
+登录YunGouOS官网->微信支付->商户接入
 
 # 相关地址
 
@@ -72,7 +76,7 @@ import {WxPay} from 'yungouos-pay-node-sdk'
 #### 扫码支付（同步）
 
 ```js
-let result =await WxPay.nativePayAsync(out_trade_no, total_fee, mch_id, body, type, attach, notify_url, auto, auto_node, config_no,biz_params,payKey);
+let result = await WxPay.nativePayAsync(out_trade_no, total_fee, mch_id, body, type, attach, notify_url, auto, auto_node, config_no,biz_params,payKey);
 //二维码链接地址
 console.log(result);
 ```
@@ -110,13 +114,11 @@ let result =await WxPay.jsapiPayAsync(out_trade_no, total_fee, mch_id, body, ope
 #### 公众号支付/JSAPI（异步）
 
 ```js
-WxPay.jsapiPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url,return_url, auto, auto_node, config_no,biz_params, payKey).then((response)=>{
+WxPay.jsapiPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url,return_url, auto, auto_node, config_no, biz_params,payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
 ```
-
-
 
 #### 小程序支付【个人】（同步）
 
@@ -135,7 +137,6 @@ wx.openEmbeddedMiniProgram({
 });
 
 ```
-
 
 #### 小程序支付【个体户/企业】（同步）
 
@@ -214,7 +215,7 @@ WxPay.minAppPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_ur
 #### 收银台支付（同步）
 
 ```js
-let result =await WxPay.cashierPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no,biz_params, payKey);
+let result =await WxPay.cashierPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, biz_params,payKey);
 ```
 
 #### 收银台支付（异步）
@@ -244,13 +245,13 @@ WxPay.facePay(out_trade_no, total_fee, mch_id, body, openId, face_code, attach, 
 #### H5支付（同步）
 
 ```js
-let result =await WxPay.wapPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no,biz_params, payKey);
+let result =await WxPay.wapPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, biz_params,payKey);
 ```
 
 #### H5支付（异步）
 
 ```js
-WxPay.wapPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no,biz_params, payKey).then((response)=>{
+WxPay.wapPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, biz_params,payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -271,16 +272,46 @@ WxPay.appPay(app_id, out_trade_no, total_fee, mch_id, body, attach, notify_url, 
 });
 ```
 
+#### QQ小程序支付（同步）
+
+```js
+let result =await WxPay.qqPayAsync(app_id,access_token,out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, biz_params,payKey);
+```
+
+#### QQ小程序支付（异步）
+
+```js
+WxPay.qqPay(app_id,access_token,out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, biz_params,payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
+#### 刷脸支付凭证（同步）
+
+```js
+let result =await WxPay.getFacePayAuthInfoAsync(mch_id, store_id, store_name, face_auth_info, device_id, attach, biz_params, payKey);
+```
+
+#### 刷脸支付凭证（异步）
+
+```js
+WxPay.getFacePayAuthInfo(mch_id, store_id, store_name, face_auth_info, device_id, attach, biz_params, payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
 #### 订单退款（同步）
 
 ```js
-let result =await WxPay.refundAsync(out_trade_no, mch_id, money, refund_desc,notify_url, payKey);
+let result =await WxPay.refundAsync(out_trade_no, mch_id, money, out_trade_refund_no,refund_desc,notify_url, payKey);
 ```
 
 #### 订单退款（异步）
 
 ```js
-WxPay.refund(out_trade_no, mch_id, money, refund_desc,notify_url, payKey).then((response)=>{
+WxPay.refund(out_trade_no, mch_id, money,out_trade_refund_no, refund_desc,notify_url, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -310,7 +341,7 @@ let result =await WxPay.downloadBillAsync(mch_id, date,end_date,device_info, pay
 #### 下载对账单（异步）
 
 ```js
-WxPay.downloadBill(mch_id, date,end_date,device_info, payKey).then((response)=>{
+WxPay.downloadBill(mch_id, date,end_date,device_info,payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -411,7 +442,7 @@ AliPay.appPay(out_trade_no, total_fee, mch_id, body, attach, notify_url,hbfq_num
 #### 发起退款（同步）
 
 ```js
-let result =await AliPay.refundAsync(out_trade_no, mch_id, money, refund_desc, payKey);
+let result =await AliPay.refundAsync(out_trade_no, mch_id, money, out_trade_refund_no,refund_desc,notify_url, payKey);
 //发起退款结果
 console.log(result);
 ```
@@ -419,7 +450,7 @@ console.log(result);
 #### 发起退款（异步）
 
 ```js
-AliPay.refund(out_trade_no, mch_id, money, refund_desc, payKey).then((response)=>{
+AliPay.refund(out_trade_no, mch_id, money,out_trade_refund_no, refund_desc,notify_url, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -465,7 +496,6 @@ Finance.wxPayConfig(mch_id, appId, reason,openId, receiver_mch_id, name, rate, m
     console.log(response);
 });
 ```
-
 
 #### 支付宝配置分账账户（同步）
 
@@ -576,7 +606,6 @@ Finance.rePayWxPay(merchant_id, out_trade_no, account, account_name, money, desc
 });
 ```
 
-
 #### 转账到支付宝（同步）
 
 ```js
@@ -593,6 +622,7 @@ Finance.rePayAliPay(merchant_id, out_trade_no, account, account_name, money, des
     console.log(response);
 });
 ```
+
 #### 转账到银行卡（同步）
 
 ```js
@@ -617,6 +647,7 @@ let result =await Finance.getRePayInfoAsync(out_trade_no, merchant_id, key);
 //转账详情
 console.log(result);
 ```
+
 #### 查询转账详情（异步）
 
 ```js
@@ -625,7 +656,6 @@ Finance.getRePayInfoAsync(out_trade_no, merchant_id, key).then((response)=>{
     console.log(response);
 });
 ```
-
 
 ### 5、订单查询
 
@@ -651,7 +681,6 @@ Order.getOrderInfo(out_trade_no,mch_id,payKey).then((response)=>{
 });
 ```
 
-
 ### 6、微信登录
 
 ```js
@@ -675,6 +704,7 @@ WxLogin.getOauthUrl(mch_id, callback_url, type, params, key).then((response)=>{
     console.log(response);
 });
 ```
+
 #### 微信PC扫码登录（同步）
 
 ```js
@@ -709,13 +739,13 @@ WxLogin.getOauthInfo(mch_id, code, key).then((response)=>{
 });
 ```
 
-
 ### 7、支付盾
 
 ```js
 //导入支付盾对象
 import {PayBlack} from 'yungouos-pay-node-sdk'
 ```
+
 #### 添加黑名单（同步）
 
 ```js
@@ -749,7 +779,6 @@ PayBlack.check(mch_id, account, payKey).then((response)=>{
     console.log(response);
 });
 ```
-
 
 ### 8、签名工具
 

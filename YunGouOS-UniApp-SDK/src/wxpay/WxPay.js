@@ -378,7 +378,7 @@ function nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_u
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} JSSDK支付需要的jspackage
  */
-async function jsapiPayAsync(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url,return_url, auto, auto_node, config_no, biz_params, payKey) {
+async function jsapiPayAsync(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, return_url, auto, auto_node, config_no, biz_params, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -475,7 +475,7 @@ async function jsapiPayAsync(out_trade_no, total_fee, mch_id, body, openId, atta
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
 * @return {*} JSSDK支付需要的jspackage
  */
-function jsapiPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url,return_url, auto, auto_node, config_no, biz_params, payKey) {
+function jsapiPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, return_url, auto, auto_node, config_no, biz_params, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -536,6 +536,263 @@ function jsapiPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_
         params.biz_params = JSON.stringify(biz_params);
     }
     return HttpUtil.post(WxPayConfig.jsapiPay, params);
+}
+
+
+
+
+/**
+ * 微信小程序支付（个人）
+ * 
+ * 微信小程序支付，获取小程序支付所需参数，需自行通过小程序跳转API发起支付
+ * 
+ * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/minPay
+ * 
+* @param {*} out_trade_no 商户订单号
+ * @param {*} total_fee 支付金额  单位:元
+ * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
+ * @param {*} body 商品描述
+ * @param {*} attach 附加数据，回调时候原路返回
+ * @param {*} title 支付收银小程序页面顶部的title 可自定义品牌名称 不传默认为 “收银台” 如传递参数 “海底捞” 页面则显示 “海底捞-收银台”
+ * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
+ * @param {*} auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0
+ * @param {*} auto_node 执行自动分账动作的节点，枚举值【pay、callback】分别表示【付款成功后分账、回调成功后分账】
+ * @param {*} config_no 分账配置单号。支持多个分账，使用,号分割
+ * @param {*} biz_params 附加业务参数。json对象，具体参考API文档
+ * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
+ * @return {*} 返回跳转“支付收银”小程序所需的参数
+ */
+function minAppPayParams(out_trade_no, total_fee, mch_id, body, attach, title, notify_url, auto, auto_node, config_no, biz_params, payKey) {
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户订单号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(total_fee)) {
+        console.error("yungouos sdk error", "支付金额不能为空");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(body)) {
+        console.error("yungouos sdk error", "商品名称不能为空");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+    let params = {
+        out_trade_no: out_trade_no,
+        total_fee: total_fee,
+        mch_id: mch_id,
+        body: body,
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    if (!Common.isEmpty(attach)) {
+        params.attach = attach;
+    }
+    if (!Common.isEmpty(notify_url)) {
+        params.notify_url = notify_url;
+    }
+    if (!Common.isEmpty(title)) {
+        params.title = title;
+    }
+    if (!Common.isEmpty(auto)) {
+        params.auto = auto;
+    }
+    if (!Common.isEmpty(auto_node)) {
+        params.auto_node = auto_node;
+    }
+    if (!Common.isEmpty(config_no)) {
+        params.config_no = config_no;
+    }
+    if (!Common.isEmpty(biz_params)) {
+        if (!Common.isObject(biz_params)) {
+            console.error("yungouos sdk error", "biz_params不是合法的json");
+            return null;
+        }
+        params.biz_params = JSON.stringify(biz_params);
+    }
+    return params;
+}
+
+
+/**
+ * 微信小程序支付（个体户、企业）
+ *
+ * 微信小程序支付，获取小程序支付所需参数，需自行通过小程序wx.requestPayment拉起支付
+ *
+ * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/minPay
+ *
+* @param {*} out_trade_no 商户订单号
+ * @param {*} total_fee 支付金额  单位:元
+ * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
+ * @param {*} body 商品描述
+ * @param {*} openId 用户openId（调用小程序wx.login接口获取）
+ * @param {*} attach 附加数据，回调时候原路返回
+ * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
+ * @param {*} auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0
+ * @param {*} auto_node 执行自动分账动作的节点，枚举值【pay、callback】分别表示【付款成功后分账、回调成功后分账】
+ * @param {*} config_no 分账配置单号。支持多个分账，使用,号分割
+ * @param {*} biz_params 附加业务参数。json对象，具体参考API文档
+ * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
+ * @return {*} 返回小程序API wx.requestPayment所需的支付参数
+ */
+function minAppPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户订单号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(total_fee)) {
+        console.error("yungouos sdk error", "支付金额不能为空");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(body)) {
+        console.error("yungouos sdk error", "商品名称不能为空");
+        return null;
+    }
+    if (Common.isEmpty(openId)) {
+        console.error("yungouos sdk error", "openId不能为空");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+    let params = {
+        out_trade_no: out_trade_no,
+        total_fee: total_fee,
+        mch_id: mch_id,
+        body: body
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    params.openId = openId;
+    if (!Common.isEmpty(attach)) {
+        params.attach = attach;
+    }
+    if (!Common.isEmpty(notify_url)) {
+        params.notify_url = notify_url;
+    }
+    if (!Common.isEmpty(auto)) {
+        params.auto = auto;
+    }
+    if (!Common.isEmpty(auto_node)) {
+        params.auto_node = auto_node;
+    }
+    if (!Common.isEmpty(config_no)) {
+        params.config_no = config_no;
+    }
+    if (!Common.isEmpty(biz_params)) {
+        if (!Common.isObject(biz_params)) {
+            console.error("yungouos sdk error", "biz_params不是合法的json");
+            return null;
+        }
+        params.biz_params = JSON.stringify(biz_params);
+    }
+    return HttpUtil.post(WxPayConfig.minAppPay, params);
+}
+
+
+
+/**
+ * 微信小程序支付同步（个体户、企业）
+ *
+ * 微信小程序支付，获取小程序支付所需参数，需自行通过小程序wx.requestPayment拉起支付
+ *
+ * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/minPay
+ *
+* @param {*} out_trade_no 商户订单号
+ * @param {*} total_fee 支付金额  单位:元
+ * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
+ * @param {*} body 商品描述
+ * @param {*} openId 用户openId（调用小程序wx.login接口获取）
+ * @param {*} attach 附加数据，回调时候原路返回
+ * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
+ * @param {*} auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0
+ * @param {*} auto_node 执行自动分账动作的节点，枚举值【pay、callback】分别表示【付款成功后分账、回调成功后分账】
+ * @param {*} config_no 分账配置单号。支持多个分账，使用,号分割
+ * @param {*} biz_params 附加业务参数。json对象，具体参考API文档
+ * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
+ * @return {*} 返回小程序API wx.requestPayment所需的支付参数
+ */
+async function minAppPayAsync(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户订单号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(total_fee)) {
+        console.error("yungouos sdk error", "支付金额不能为空");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(body)) {
+        console.error("yungouos sdk error", "商品名称不能为空");
+        return null;
+    }
+    if (Common.isEmpty(openId)) {
+        console.error("yungouos sdk error", "openId不能为空");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+    let params = {
+        out_trade_no: out_trade_no,
+        total_fee: total_fee,
+        mch_id: mch_id,
+        body: body
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    params.openId = openId;
+    if (!Common.isEmpty(attach)) {
+        params.attach = attach;
+    }
+    if (!Common.isEmpty(notify_url)) {
+        params.notify_url = notify_url;
+    }
+    if (!Common.isEmpty(auto)) {
+        params.auto = auto;
+    }
+    if (!Common.isEmpty(auto_node)) {
+        params.auto_node = auto_node;
+    }
+    if (!Common.isEmpty(config_no)) {
+        params.config_no = config_no;
+    }
+    if (!Common.isEmpty(biz_params)) {
+        if (!Common.isObject(biz_params)) {
+            console.error("yungouos sdk error", "biz_params不是合法的json");
+            return null;
+        }
+        params.biz_params = JSON.stringify(biz_params);
+    }
+    let response = await HttpUtil.post(WxPayConfig.minAppPay, params);
+    let result = Common.doApiResult(response);
+    if (Common.isEmpty(result)) {
+        return null;
+    }
+    let data = result.data;
+    if (Common.isEmpty(data)) {
+        console.error("yungouos sdk error", "API无返回结果");
+        return null;
+    }
+    return data;
 }
 
 
@@ -709,351 +966,6 @@ function cashierPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, r
         params.biz_params = JSON.stringify(biz_params);
     }
     return HttpUtil.post(WxPayConfig.cashierPay, params);
-}
-
-
-
-/**
- * 小程序支付（个人）
- *
- * 微信小程序支付，拉起支付收银小程序进行支付
- *
- * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/minPay
- *
- * @param {*} out_trade_no 商户订单号
- * @param {*} total_fee 支付金额  单位:元
- * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
- * @param {*} body 商品描述
- * @param {*} attach 附加数据，回调时候原路返回
- * @param {*} title 支付收银小程序页面顶部的title 可自定义品牌名称 不传默认为 “收银台” 如传递参数 “海底捞” 页面则显示 “海底捞-收银台”
- * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
- * @param {*} auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0
- * @param {*} auto_node 执行自动分账动作的节点，枚举值【pay、callback】分别表示【付款成功后分账、回调成功后分账】
- * @param {*} config_no 分账配置单号。支持多个分账，使用,号分割
- * @param {*} biz_params 附加业务参数。json对象，具体参考API文档
- * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
- * @return {*} 拉起“支付收银小程序”
- */
-function minAppPay(out_trade_no, total_fee, mch_id, body, attach, title, notify_url, auto, auto_node, config_no, biz_params, payKey) {
-    if (Common.isEmpty(out_trade_no)) {
-        console.error("yungouos sdk error", "商户订单号不能为空");
-        return null;
-    }
-    if (Common.isEmpty(total_fee)) {
-        console.error("yungouos sdk error", "支付金额不能为空");
-        return null;
-    }
-    if (Common.isEmpty(mch_id)) {
-        console.error("yungouos sdk error", "商户号不能为空");
-        return null;
-    }
-    if (Common.isEmpty(body)) {
-        console.error("yungouos sdk error", "商品名称不能为空");
-        return null;
-    }
-    if (Common.isEmpty(payKey)) {
-        console.error("yungouos sdk error", "支付密钥不能为空");
-        return null;
-    }
-    let params = {
-        out_trade_no: out_trade_no,
-        total_fee: total_fee,
-        mch_id: mch_id,
-        body: body,
-    }
-    //上述参数参与签名
-    let sign = PaySignUtil.paySign(params, payKey);
-    params.sign = sign;
-    if (!Common.isEmpty(attach)) {
-        params.attach = attach;
-    }
-    if (!Common.isEmpty(notify_url)) {
-        params.notify_url = notify_url;
-    }
-    if (!Common.isEmpty(title)) {
-        params.title = title;
-    }
-    if (!Common.isEmpty(auto)) {
-        params.auto = auto;
-    }
-    if (!Common.isEmpty(auto_node)) {
-        params.auto_node = auto_node;
-    }
-    if (!Common.isEmpty(config_no)) {
-        params.config_no = config_no;
-    }
-    if (!Common.isEmpty(biz_params)) {
-        if (!Common.isObject(biz_params)) {
-            console.error("yungouos sdk error", "biz_params不是合法的json");
-            return null;
-        }
-        params.biz_params = JSON.stringify(biz_params);
-    }
-    uni.openEmbeddedMiniProgram({
-        appId: 'wxd9634afb01b983c0',//支付收银小程序的appid 固定值 不可修改
-        path: '/pages/pay/pay',//支付页面 固定值 不可修改
-        extraData: params,//携带的参数 参考API文档
-        success(res) {
-            console.log("小程序拉起成功");
-        }
-    })
-}
-
-
-/**
- * 小程序支付（个人）
- *
- * 微信小程序支付，获取小程序支付所需参数，需自行通过小程序跳转API发起支付
- *
- * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/minPay
- *
- * @param {*} out_trade_no 商户订单号
- * @param {*} total_fee 支付金额  单位:元
- * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
- * @param {*} body 商品描述
- * @param {*} attach 附加数据，回调时候原路返回
- * @param {*} title 支付收银小程序页面顶部的title 可自定义品牌名称 不传默认为 “收银台” 如传递参数 “海底捞” 页面则显示 “海底捞-收银台”
- * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
- * @param {*} auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0
- * @param {*} auto_node 执行自动分账动作的节点，枚举值【pay、callback】分别表示【付款成功后分账、回调成功后分账】
- * @param {*} config_no 分账配置单号。支持多个分账，使用,号分割
- * @param {*} biz_params 附加业务参数。json对象，具体参考API文档
- * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
- * @return {*} 小程序支付参数
- */
-function minAppPayParams(out_trade_no, total_fee, mch_id, body, attach, title, notify_url, auto, auto_node, config_no, biz_params, payKey) {
-    if (Common.isEmpty(out_trade_no)) {
-        console.error("yungouos sdk error", "商户订单号不能为空");
-        return null;
-    }
-    if (Common.isEmpty(total_fee)) {
-        console.error("yungouos sdk error", "支付金额不能为空");
-        return null;
-    }
-    if (Common.isEmpty(mch_id)) {
-        console.error("yungouos sdk error", "商户号不能为空");
-        return null;
-    }
-    if (Common.isEmpty(body)) {
-        console.error("yungouos sdk error", "商品名称不能为空");
-        return null;
-    }
-    if (Common.isEmpty(payKey)) {
-        console.error("yungouos sdk error", "支付密钥不能为空");
-        return null;
-    }
-    let params = {
-        out_trade_no: out_trade_no,
-        total_fee: total_fee,
-        mch_id: mch_id,
-        body: body,
-    }
-    //上述参数参与签名
-    let sign = PaySignUtil.paySign(params, payKey);
-    params.sign = sign;
-    if (!Common.isEmpty(attach)) {
-        params.attach = attach;
-    }
-    if (!Common.isEmpty(notify_url)) {
-        params.notify_url = notify_url;
-    }
-    if (!Common.isEmpty(title)) {
-        params.title = title;
-    }
-    if (!Common.isEmpty(auto)) {
-        params.auto = auto;
-    }
-    if (!Common.isEmpty(auto_node)) {
-        params.auto_node = auto_node;
-    }
-    if (!Common.isEmpty(config_no)) {
-        params.config_no = config_no;
-    }
-    if (!Common.isEmpty(biz_params)) {
-        if (!Common.isObject(biz_params)) {
-            console.error("yungouos sdk error", "biz_params不是合法的json");
-            return null;
-        }
-        params.biz_params = JSON.stringify(biz_params);
-    }
-    return params;
-}
-
-
-
-
-/**
- * 微信小程序支付（个体户、企业）
- *
- * 微信小程序支付，获取小程序支付所需参数，需自行通过小程序uni.requestPayment拉起支付
- *
- * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/minPay
- *
-* @param {*} out_trade_no 商户订单号
- * @param {*} total_fee 支付金额  单位:元
- * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
- * @param {*} body 商品描述
- * @param {*} openId 用户openId（调用小程序uni.login接口获取）
- * @param {*} attach 附加数据，回调时候原路返回
- * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
- * @param {*} auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0
- * @param {*} auto_node 执行自动分账动作的节点，枚举值【pay、callback】分别表示【付款成功后分账、回调成功后分账】
- * @param {*} config_no 分账配置单号。支持多个分账，使用,号分割
- * @param {*} biz_params 附加业务参数。json对象，具体参考API文档
- * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
- * @return {*} 返回小程序API uni.requestPayment所需的支付参数
- */
-function minAppPayBusiness(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
-    if (Common.isEmpty(out_trade_no)) {
-        console.error("yungouos sdk error", "商户订单号不能为空");
-        return null;
-    }
-    if (Common.isEmpty(total_fee)) {
-        console.error("yungouos sdk error", "支付金额不能为空");
-        return null;
-    }
-    if (Common.isEmpty(mch_id)) {
-        console.error("yungouos sdk error", "商户号不能为空");
-        return null;
-    }
-    if (Common.isEmpty(body)) {
-        console.error("yungouos sdk error", "商品名称不能为空");
-        return null;
-    }
-    if (Common.isEmpty(openId)) {
-        console.error("yungouos sdk error", "openId不能为空");
-        return null;
-    }
-    if (Common.isEmpty(payKey)) {
-        console.error("yungouos sdk error", "支付密钥不能为空");
-        return null;
-    }
-    let params = {
-        out_trade_no: out_trade_no,
-        total_fee: total_fee,
-        mch_id: mch_id,
-        body: body
-    }
-    //上述参数参与签名
-    let sign = PaySignUtil.paySign(params, payKey);
-    params.sign = sign;
-    params.openId = openId;
-    if (!Common.isEmpty(attach)) {
-        params.attach = attach;
-    }
-    if (!Common.isEmpty(notify_url)) {
-        params.notify_url = notify_url;
-    }
-    if (!Common.isEmpty(auto)) {
-        params.auto = auto;
-    }
-    if (!Common.isEmpty(auto_node)) {
-        params.auto_node = auto_node;
-    }
-    if (!Common.isEmpty(config_no)) {
-        params.config_no = config_no;
-    }
-    if (!Common.isEmpty(biz_params)) {
-        if (!Common.isObject(biz_params)) {
-            console.error("yungouos sdk error", "biz_params不是合法的json");
-            return null;
-        }
-        params.biz_params = JSON.stringify(biz_params);
-    }
-    return HttpUtil.post(WxPayConfig.minAppPay, params);
-}
-
-
-
-/**
- * 微信小程序支付同步（个体户、企业）
- *
- * 微信小程序支付，获取小程序支付所需参数，需自行通过小程序uni.requestPayment拉起支付
- *
- * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/minPay
- *
-* @param {*} out_trade_no 商户订单号
- * @param {*} total_fee 支付金额  单位:元
- * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
- * @param {*} body 商品描述
- * @param {*} openId 用户openId（调用小程序uni.login接口获取）
- * @param {*} attach 附加数据，回调时候原路返回
- * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
- * @param {*} auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0
- * @param {*} auto_node 执行自动分账动作的节点，枚举值【pay、callback】分别表示【付款成功后分账、回调成功后分账】
- * @param {*} config_no 分账配置单号。支持多个分账，使用,号分割
- * @param {*} biz_params 附加业务参数。json对象，具体参考API文档
- * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
- * @return {*} 返回小程序API uni.requestPayment所需的支付参数
- */
-async function minAppPayBusinessAsync(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
-    if (Common.isEmpty(out_trade_no)) {
-        console.error("yungouos sdk error", "商户订单号不能为空");
-        return null;
-    }
-    if (Common.isEmpty(total_fee)) {
-        console.error("yungouos sdk error", "支付金额不能为空");
-        return null;
-    }
-    if (Common.isEmpty(mch_id)) {
-        console.error("yungouos sdk error", "商户号不能为空");
-        return null;
-    }
-    if (Common.isEmpty(body)) {
-        console.error("yungouos sdk error", "商品名称不能为空");
-        return null;
-    }
-    if (Common.isEmpty(openId)) {
-        console.error("yungouos sdk error", "openId不能为空");
-        return null;
-    }
-    if (Common.isEmpty(payKey)) {
-        console.error("yungouos sdk error", "支付密钥不能为空");
-        return null;
-    }
-    let params = {
-        out_trade_no: out_trade_no,
-        total_fee: total_fee,
-        mch_id: mch_id,
-        body: body
-    }
-    //上述参数参与签名
-    let sign = PaySignUtil.paySign(params, payKey);
-    params.sign = sign;
-    params.openId = openId;
-    if (!Common.isEmpty(attach)) {
-        params.attach = attach;
-    }
-    if (!Common.isEmpty(notify_url)) {
-        params.notify_url = notify_url;
-    }
-    if (!Common.isEmpty(auto)) {
-        params.auto = auto;
-    }
-    if (!Common.isEmpty(auto_node)) {
-        params.auto_node = auto_node;
-    }
-    if (!Common.isEmpty(config_no)) {
-        params.config_no = config_no;
-    }
-    if (!Common.isEmpty(biz_params)) {
-        if (!Common.isObject(biz_params)) {
-            console.error("yungouos sdk error", "biz_params不是合法的json");
-            return null;
-        }
-        params.biz_params = JSON.stringify(biz_params);
-    }
-    let response = await HttpUtil.post(WxPayConfig.minAppPay, params);
-    let result = Common.doApiResult(response);
-    if (Common.isEmpty(result)) {
-        return null;
-    }
-    let data = result.data;
-    if (Common.isEmpty(data)) {
-        console.error("yungouos sdk error", "API无返回结果");
-        return null;
-    }
-    return data;
 }
 
 
@@ -1246,6 +1158,145 @@ function facePay(out_trade_no, total_fee, mch_id, body, openId, face_code, attac
 }
 
 
+/**
+ * 刷脸支付凭证（异步）
+ * 
+ * 微信刷脸支付SDK模式，适用于自研安卓、windows应用在微信刷脸设备上使用微信刷脸SDK接入刷脸支付。等同于微信刷脸流程中的【获取调用凭证】步骤
+ * 
+ * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/getFacePayAuthInfo
+ * 
+ * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
+ * @param {*} store_id 门店编号，由商户定义，各门店唯一。
+ * @param {*} store_name 门店名称，由商户定义。（可用于展示）
+ * @param {*} face_auth_info 人脸数据。调用【get_wxpayface_authinfo】接口获取到的结果
+ * @param {*} device_id 终端设备编号，由商户定义。
+ * @param {*} attach 附加数据，需要JSON字符串格式
+ * @param {*} biz_params 附加业务参数。json对象，具体参考API文档
+ * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
+ * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/getFacePayAuthInfo
+ */
+function getFacePayAuthInfo(mch_id, store_id, store_name, face_auth_info, device_id, attach, biz_params, payKey) {
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(store_id)) {
+        console.error("yungouos sdk error", "门店编号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(store_name)) {
+        console.error("yungouos sdk error", "门店名称不能为空");
+        return null;
+    }
+    if (Common.isEmpty(face_auth_info)) {
+        console.error("yungouos sdk error", "人脸数据不能为空");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+    let params = {
+        mch_id: mch_id,
+        store_id: store_id,
+        store_name: store_name,
+        face_auth_info: face_auth_info
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    if (!Common.isEmpty(device_id)) {
+        params.device_id = device_id;
+    }
+    if (!Common.isEmpty(attach)) {
+        params.attach = attach;
+    }
+    if (!Common.isEmpty(biz_params)) {
+        if (!Common.isObject(biz_params)) {
+            console.error("yungouos sdk error", "biz_params不是合法的json");
+            return null;
+        }
+        params.biz_params = JSON.stringify(biz_params);
+    }
+    return HttpUtil.post(WxPayConfig.getFacePayAuthInfo, params);
+}
+
+
+
+/**
+ * 刷脸支付凭证（同步）
+ * 
+ * 微信刷脸支付SDK模式，适用于自研安卓、windows应用在微信刷脸设备上使用微信刷脸SDK接入刷脸支付。等同于微信刷脸流程中的【获取调用凭证】步骤
+ * 
+ * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/getFacePayAuthInfo
+ * 
+ * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
+ * @param {*} store_id 门店编号，由商户定义，各门店唯一。
+ * @param {*} store_name 门店名称，由商户定义。（可用于展示）
+ * @param {*} face_auth_info 人脸数据。调用【get_wxpayface_authinfo】接口获取到的结果
+ * @param {*} device_id 终端设备编号，由商户定义。
+ * @param {*} attach 附加数据，需要JSON字符串格式
+ * @param {*} biz_params 附加业务参数。json对象，具体参考API文档
+ * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
+ * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/getFacePayAuthInfo
+ */
+async function getFacePayAuthInfoAsync(mch_id, store_id, store_name, face_auth_info, device_id, attach, biz_params, payKey) {
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(store_id)) {
+        console.error("yungouos sdk error", "门店编号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(store_name)) {
+        console.error("yungouos sdk error", "门店名称不能为空");
+        return null;
+    }
+    if (Common.isEmpty(face_auth_info)) {
+        console.error("yungouos sdk error", "人脸数据不能为空");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+    let params = {
+        mch_id: mch_id,
+        store_id: store_id,
+        store_name: store_name,
+        face_auth_info: face_auth_info
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    if (!Common.isEmpty(device_id)) {
+        params.device_id = device_id;
+    }
+    if (!Common.isEmpty(attach)) {
+        params.attach = attach;
+    }
+    if (!Common.isEmpty(biz_params)) {
+        if (!Common.isObject(biz_params)) {
+            console.error("yungouos sdk error", "biz_params不是合法的json");
+            return null;
+        }
+        params.biz_params = JSON.stringify(biz_params);
+    }
+    let response = await HttpUtil.post(WxPayConfig.getFacePayAuthInfo, params);
+    let result = Common.doApiResult(response);
+    if (Common.isEmpty(result)) {
+        return null;
+    }
+    let data = result.data;
+    if (Common.isEmpty(data)) {
+        console.error("yungouos sdk error", "API无返回结果");
+        return null;
+    }
+    return data;
+}
+
+
 
 
 /**
@@ -1416,6 +1467,203 @@ function wapPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, retur
         params.biz_params = JSON.stringify(biz_params);
     }
     return HttpUtil.post(WxPayConfig.wapPay, params);
+}
+
+
+
+
+/**
+ * QQ小程序支付（同步）
+ * 
+ * QQ小程序内使用微信支付进行付款，返回拉起微信支付的URL。
+ * 
+ * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/qqPay
+ * 
+ * @param {*} app_id QQ小程序APPID
+ * @param {*} access_token QQ小程序的access_token
+ * @param {*} out_trade_no 商户订单号
+ * @param {*} total_fee 支付金额  单位:元
+ * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
+ * @param {*} body 商品描述
+ * @param {*} attach 附加数据，回调时候原路返回 
+ * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
+ * @param {*} return_url 同步回调地址，用户支付成功后从微信APP跳转回该地址。调转不会携带任何参数，如需携带参数请自行拼接
+ * @param {*} auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0
+ * @param {*} auto_node 执行自动分账动作的节点，枚举值【pay、callback】分别表示【付款成功后分账、回调成功后分账】
+ * @param {*} config_no 分账配置单号。支持多个分账，使用,号分割
+ * @param {*} biz_params 附加业务参数。json对象，具体参考API文档
+ * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
+ * @return {*} 返回拉起微信支付的URL。
+ */
+async function qqPayAsync(app_id, access_token, out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, biz_params, payKey) {
+    if (Common.isEmpty(app_id)) {
+        console.error("yungouos sdk error", "QQ小程序APPID不能为空");
+        return null;
+    }
+    if (Common.isEmpty(access_token)) {
+        console.error("yungouos sdk error", "QQ小程序access_token不能为空");
+        return null;
+    }
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户订单号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(total_fee)) {
+        console.error("yungouos sdk error", "支付金额不能为空");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(body)) {
+        console.error("yungouos sdk error", "商品名称不能为空");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+    let params = {
+        app_id: app_id,
+        access_token: access_token,
+        out_trade_no: out_trade_no,
+        total_fee: total_fee,
+        mch_id: mch_id,
+        body: body
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    if (!Common.isEmpty(attach)) {
+        params.attach = attach;
+    }
+    if (!Common.isEmpty(notify_url)) {
+        params.notify_url = notify_url;
+    }
+    if (!Common.isEmpty(return_url)) {
+        params.return_url = return_url;
+    }
+    if (!Common.isEmpty(auto)) {
+        params.auto = auto;
+    }
+    if (!Common.isEmpty(auto_node)) {
+        params.auto_node = auto_node;
+    }
+    if (!Common.isEmpty(config_no)) {
+        params.config_no = config_no;
+    }
+    if (!Common.isEmpty(biz_params)) {
+        if (!Common.isObject(biz_params)) {
+            console.error("yungouos sdk error", "biz_params不是合法的json");
+            return null;
+        }
+        params.biz_params = JSON.stringify(biz_params);
+    }
+    let response = await HttpUtil.post(WxPayConfig.qqPay, params);
+    let result = Common.doApiResult(response);
+    if (Common.isEmpty(result)) {
+        return null;
+    }
+    let data = result.data;
+    if (Common.isEmpty(data)) {
+        console.error("yungouos sdk error", "API无返回结果");
+        return null;
+    }
+    return data;
+}
+
+
+
+/**
+ * QQ小程序支付（异步）
+ * 
+ * QQ小程序内使用微信支付进行付款，返回拉起微信支付的URL。
+ * 
+ * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/qqPay
+ * 
+ * @param {*} app_id QQ小程序APPID
+ * @param {*} access_token QQ小程序的access_token
+ * @param {*} out_trade_no 商户订单号
+ * @param {*} total_fee 支付金额  单位:元
+ * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
+ * @param {*} body 商品描述
+ * @param {*} attach 附加数据，回调时候原路返回 
+ * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
+ * @param {*} return_url 同步回调地址，用户支付成功后从微信APP跳转回该地址。调转不会携带任何参数，如需携带参数请自行拼接
+ * @param {*} auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0
+ * @param {*} auto_node 执行自动分账动作的节点，枚举值【pay、callback】分别表示【付款成功后分账、回调成功后分账】
+ * @param {*} config_no 分账配置单号。支持多个分账，使用,号分割
+ * @param {*} biz_params 附加业务参数。json对象，具体参考API文档
+ * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
+ * @return {*} 返回拉起微信支付的URL。
+ */
+function qqPay(app_id, access_token, out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, biz_params, payKey) {
+    if (Common.isEmpty(app_id)) {
+        console.error("yungouos sdk error", "QQ小程序APPID不能为空");
+        return null;
+    }
+    if (Common.isEmpty(access_token)) {
+        console.error("yungouos sdk error", "QQ小程序access_token不能为空");
+        return null;
+    }
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户订单号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(total_fee)) {
+        console.error("yungouos sdk error", "支付金额不能为空");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(body)) {
+        console.error("yungouos sdk error", "商品名称不能为空");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+    let params = {
+        app_id: app_id,
+        access_token: access_token,
+        out_trade_no: out_trade_no,
+        total_fee: total_fee,
+        mch_id: mch_id,
+        body: body
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    if (!Common.isEmpty(attach)) {
+        params.attach = attach;
+    }
+    if (!Common.isEmpty(notify_url)) {
+        params.notify_url = notify_url;
+    }
+    if (!Common.isEmpty(return_url)) {
+        params.return_url = return_url;
+    }
+    if (!Common.isEmpty(auto)) {
+        params.auto = auto;
+    }
+    if (!Common.isEmpty(auto_node)) {
+        params.auto_node = auto_node;
+    }
+    if (!Common.isEmpty(config_no)) {
+        params.config_no = config_no;
+    }
+    if (!Common.isEmpty(biz_params)) {
+        if (!Common.isObject(biz_params)) {
+            console.error("yungouos sdk error", "biz_params不是合法的json");
+            return null;
+        }
+        params.biz_params = JSON.stringify(biz_params);
+    }
+    return HttpUtil.post(WxPayConfig.qqPay, params);
 }
 
 
@@ -1607,12 +1855,13 @@ function appPay(app_id, out_trade_no, total_fee, mch_id, body, attach, notify_ur
  * @param {*} out_trade_no 商户订单号
  * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
  * @param {*} money 退款金额
+ * @param {*} out_trade_refund_no 商户自定义退款单号
  * @param {*} refund_desc 退款描述
  * @param {*} notify_url 异步回调地址，退款成功后会把退款结果发送到该地址，不填则无回调
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder
  */
-async function refundAsync(out_trade_no, mch_id, money, refund_desc, notify_url, payKey) {
+async function refundAsync(out_trade_no, mch_id, money, out_trade_refund_no, refund_desc, notify_url, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -1636,6 +1885,9 @@ async function refundAsync(out_trade_no, mch_id, money, refund_desc, notify_url,
     }
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
+    if (!Common.isEmpty(out_trade_refund_no)) {
+        params.out_trade_refund_no = out_trade_refund_no;
+    }
     if (!Common.isEmpty(refund_desc)) {
         params.refund_desc = refund_desc;
     }
@@ -1668,12 +1920,13 @@ async function refundAsync(out_trade_no, mch_id, money, refund_desc, notify_url,
  * @param {*} out_trade_no 商户订单号
  * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
  * @param {*} money 退款金额
+ * @param {*} out_trade_refund_no 商户自定义退款单号
  * @param {*} refund_desc 退款描述
  * @param {*} notify_url 异步回调地址，退款成功后会把退款结果发送到该地址，不填则无回调
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder
  */
-function refund(out_trade_no, mch_id, money, refund_desc, notify_url, payKey) {
+function refund(out_trade_no, mch_id, money, out_trade_refund_no, refund_desc, notify_url, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -1697,6 +1950,10 @@ function refund(out_trade_no, mch_id, money, refund_desc, notify_url, payKey) {
     }
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
+
+    if (!Common.isEmpty(out_trade_refund_no)) {
+        params.out_trade_refund_no = out_trade_refund_no;
+    }
 
     if (!Common.isEmpty(refund_desc)) {
         params.refund_desc = refund_desc;
@@ -1899,18 +2156,21 @@ export default {
     nativePay,
     jsapiPayAsync,
     jsapiPay,
+    minAppPayParams,
+    minAppPay,
+    minAppPayAsync,
     cashierPayAsync,
     cashierPay,
-    minAppPay,
-    minAppPayParams,
-    minAppPayBusiness,
-    minAppPayBusinessAsync,
     facePayAsync,
     facePay,
     wapPayAsync,
     wapPay,
     appPayAsync,
     appPay,
+    qqPayAsync,
+    qqPay,
+    getFacePayAuthInfoAsync,
+    getFacePayAuthInfo,
     refundAsync,
     refund,
     getRefundResultAsync,

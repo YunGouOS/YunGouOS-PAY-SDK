@@ -24,6 +24,12 @@ const wapPay = apiUrl + "/api/pay/wxpay/wapPay";
 //APP支付
 const appPay = apiUrl + "/api/pay/wxpay/appPay";
 
+//QQ小程序支付
+const qqPay = apiUrl + "/api/pay/wxpay/qqPay";
+
+//刷脸支付凭证
+const getFacePayAuthInfo = apiUrl + "/api/pay/wxpay/getFacePayAuthInfo";
+
 //订单退款
 const refundOrder = apiUrl + "/api/pay/wxpay/refundOrder";
 
@@ -55,6 +61,8 @@ export default {
     "facePay": facePay,
     "wapPay": wapPay,
     "appPay": appPay,
+    "qqPay": qqPay,
+    "getFacePayAuthInfo": getFacePayAuthInfo,
     "refundOrder": refundOrder,
     "getRefundResult": getRefundResult,
     "closeOrder": closeOrder,
