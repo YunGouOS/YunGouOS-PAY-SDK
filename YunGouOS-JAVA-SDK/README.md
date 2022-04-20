@@ -186,7 +186,7 @@
 	JSONObject params=new JSONObject();
 	params.put("key", "123456");
 	String key="商户密钥";
-
+	
 	String oauthUrl = WxApi.getWxOauthUrl(mch_id, callback_url, type, params, key);
 
 ## 查询微信授权信息
@@ -195,7 +195,7 @@
 	String code="授权回调返回的code";
 	String key="商户密钥";	
 	WxOauthInfo wxOauthInfo = WxApi.getWxOauthInfo(mch_id, code, key);
-	
+
 
 # 方法说明
 
@@ -224,12 +224,12 @@
 	 WxPay.appPay(开放平台APPID,订单号,支付金额,微信支付商户号,商品描述,附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,附加业务参数,商户密钥)
 
 ## 刷脸支付凭证
-    
+
     FacePayAuthInfoBiz facePayAuthInfo = WxPay.getFacePayAuthInfo(微信支付商户号, 门店ID, 门店名称, 刷脸支付信息, 设备ID, 附加数据,附加业务参数, 商户密钥);
 
 ## 订单查询
 
-	WxPay.getOrderInfoByOutTradeNo(订单号, 微信支付商户号, 商户密钥);
+	SystemOrder.getOrderInfoByOutTradeNo(订单号, 微信支付商户号, 商户密钥);
 
 ## 发起退款
 
