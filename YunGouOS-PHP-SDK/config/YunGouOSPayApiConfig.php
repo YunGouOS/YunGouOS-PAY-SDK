@@ -16,7 +16,7 @@ $apiConfig = array(
     //公众号支付
     "wxpay_jsapi_pay_url" => $api_url . "/api/pay/wxpay/jsapi",
     //小程序支付
-    "wxpay_minapp_pay_url" => $api_url . "/api/pay/wxpay/minAppApi",
+    "wxpay_minapp_pay_url" => $api_url . "/api/pay/wxpay/minAppPay",
     //收银台支付
     "wxpay_cashier_pay_url" => $api_url . "/api/pay/wxpay/cashierPay",
     //刷脸支付
