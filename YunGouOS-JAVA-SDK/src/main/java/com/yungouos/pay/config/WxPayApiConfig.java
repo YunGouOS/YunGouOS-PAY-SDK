@@ -58,6 +58,11 @@ public class WxPayApiConfig {
 	public static String appPayUrl = apiUrl + "/api/pay/wxpay/appPay";
 
 	/**
+	 * QQ小程序支付
+	 */
+	public static String qqPayUrl = apiUrl + "/api/pay/wxpay/qqPay";
+
+	/**
 	 * 查询刷卡支付结果
 	 */
 	public static String getCodePayResultUrl = apiUrl + "/api/pay/wxpay/getCodePayResult";

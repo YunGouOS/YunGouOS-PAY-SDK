@@ -1,5 +1,6 @@
 import com.alibaba.fastjson.JSONObject;
 import com.yungouos.pay.entity.*;
+import com.yungouos.pay.entity.qqpay.QqPayBiz;
 import com.yungouos.pay.wxpay.WxPay;
 
 /**
@@ -78,12 +79,18 @@ public class WxPayTest {
             JSONObject appPayParams = WxPay.appPay("wx465856913462378a", System.currentTimeMillis() + "", "0.01", mchId, "APP支付测试，仅限企业", null, null, null, null, null, null, key);
             System.out.println("微信APP支付结果：" + appPayParams.toJSONString());
 
+            /**
+             * QQ小程序支付，不是真正的下单，组装参数。拿到参数后使用小程序的前端将参数传递给支付收银小程序
+             */
+            JSONObject qqPayParams = WxPay.qqPayParams(System.currentTimeMillis() + "", "0.01", mchId, "QQ小程序支付测试", null, null, null, null, null, null, null, null, key);
+            System.out.println("QQ小程序支付结果：" + qqPayParams.toJSONString());
+
 
             /**
-             * QQ小程序支付
+             * QQ小程序支付，真正的下单，返回小程序支付所需参数
              */
-            String url = WxPay.qqPay("appId", "accessToken", System.currentTimeMillis() + "", "0.01", mchId, "H5支付测试，仅限企业", null, null, null, null, null, null, null, key);
-            System.out.println("QQ小程序支付结果：" + url);
+            QqPayBiz qqPayBiz = WxPay.qqPay("appId", "accessToken", System.currentTimeMillis() + "", "0.01", mchId, "QQ小程序支付测试", null, null, null, null, null, null, null, key);
+            System.out.println("QQ小程序支付结果：" + qqPayBiz.toString());
 
             /**
              * 查询刷卡支付结果
