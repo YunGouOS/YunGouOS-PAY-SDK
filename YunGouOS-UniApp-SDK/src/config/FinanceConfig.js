@@ -1,7 +1,7 @@
 const apiUrl = "https://api.pay.yungouos.com";
 
 //分账配置
-const getConfigUrl = getConfigUrl + "/api/finance/profitsharing/config";
+const getConfigUrl = apiUrl + "/api/finance/profitsharing/config";
 
 //生成分账账单
 const getCreateBillUrl = apiUrl + "/api/finance/profitsharing/createBill";
