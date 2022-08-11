@@ -39,6 +39,10 @@ $apiConfig = array(
     "wxpay_download_bill_url"=>$api_url."/api/pay/wxpay/downloadBill",
     //查询刷卡支付结果
     "wxpay_get_code_pay_result_url"=>$api_url."/api/wxpay/getCodePayResult",
+    //关闭订单
+    "wxpay_close_order_url"=>$api_url."/api/pay/wxpay/closeOrder",
+    //撤销订单
+    "wxpay_reverse_order_url"=>$api_url."/api/pay/wxpay/reverseOrder",
     //**************************支付宝相关接口************************************//
     //支付宝扫码支付
     "alipay_native_pay_url"=>$api_url."/api/pay/alipay/nativeApi",
@@ -50,10 +54,16 @@ $apiConfig = array(
     "alipay_mobile_pay_url"=>$api_url."/api/pay/alipay/mobilePay",
     //支付宝APP支付
     "alipay_app_pay_url"=>$api_url."/api/pay/alipay/appPay",
+    //电脑网站支付
+    "alipay_web_pay_url"=>$api_url."/api/pay/alipay/webPay",
     //支付宝发起退款
     "alipay_refund_order_url"=>$api_url."/api/pay/alipay/refundOrder",
     //支付宝查询退款结果
     "alipay_refund_result_url"=>$api_url."/api/pay/alipay/getRefundResult",
+    //关闭订单
+    "alipay_close_order_url"=>$api_url."/api/pay/alipay/closeOrder",
+    //撤销订单
+    "alipay_reverse_order_url"=>$api_url."/api/pay/alipay/reverseOrder",
     //**************************订单相关接口************************************//
     //查询订单
     "serarch_order_url" => $api_url . "/api/pay/wxpay/getWxPayOrderInfo",

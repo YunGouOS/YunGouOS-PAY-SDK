@@ -506,6 +506,103 @@ class AliPay
         return $result;
     }
 
+
+    /**
+     *  支付宝电脑网站支付，适合PC端使用，返回PC端跳转表单字符串和跳转url
+     * @param $out_trade_no 订单号不可重复
+     * @param $total_fee 支付金额 单位元 范围 0.01-99999
+     * @param $mch_id 支付宝商户号 登录YunGouOS.com-》支付宝-》我的支付 查看商户号
+     * @param $body  商品描述
+     * @param $attach 附加数据 回调时原路返回 可不传
+     * @param $notify_url 异步回调地址，不传无回调
+     * @param $return_url 同步回调地址，用户支付成功后或取消支付都会跳转回到该地址
+     * @param $config_no 分账配置单号。支持多个分账，使用,号分割
+     * @param $auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
+     * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+     * @param $hbfq_num 花呗分期期数，枚举值【3、6、12】分别表示 【3期、6期、12期】
+     * @param $hbfq_percent 花呗分期商户承担手续费比例，枚举值【0、100】分别表示 【商户不承担手续费、商户承担全部手续费】
+     * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付-》支付密钥 查看密钥
+     */
+    public function webPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url,$return_url, $config_no, $auto, $auto_node, $hbfq_num, $hbfq_percent, $key)
+    {
+        $result = null;
+        $paramsArray = array();
+        try {
+            if (empty($out_trade_no)) {
+                throw new Exception("订单号不能为空！");
+            }
+            if (empty($total_fee)) {
+                throw new Exception("付款金额不能为空！");
+            }
+            if (empty($mch_id)) {
+                throw new Exception("商户号不能为空！");
+            }
+            if (empty($body)) {
+                throw new Exception("商品描述不能为空！");
+            }
+            if (empty($key)) {
+                throw new Exception("商户密钥不能为空！");
+            }
+            $paramsArray['out_trade_no'] = $out_trade_no;
+            $paramsArray['total_fee'] = $total_fee;
+            $paramsArray['mch_id'] = $mch_id;
+            $paramsArray['body'] = $body;
+            // 上述必传参数签名
+            $sign = $this->paySign->getSign($paramsArray, $key);
+            //下面参数不参与签名，但是接口需要这些参数
+
+            if (!empty($attach)) {
+                $paramsArray['attach'] = $attach;
+            }
+            if (!empty($notify_url)) {
+                $paramsArray['notify_url'] = $notify_url;
+            }
+            if (!empty($return_url)) {
+                $paramsArray['return_url'] = $return_url;
+            }
+            if (!empty($config_no)) {
+                $paramsArray['config_no'] = $config_no;
+            }
+            if (!empty($auto)) {
+                $paramsArray['auto'] = $auto;
+            }
+            if (!empty($auto_node)) {
+                $paramsArray['auto_node'] = $auto_node;
+            }
+
+            $hbfqBiz = array();
+            if (!empty($hbfq_num)) {
+                $hbfqBiz['num'] = $hbfq_num;
+            }
+            if (!empty($hbfq_percent)) {
+                $hbfqBiz['percent'] = $hbfq_percent;
+            }
+            if (!empty($hbfqBiz) && count($hbfqBiz) > 0) {
+                $paramsArray['hb_fq'] = json_encode($hbfqBiz);
+            }
+
+            $paramsArray['sign'] = $sign;
+
+            $resp = $this->httpUtil->httpsPost($this->apiConfig['alipay_web_pay_url'], $paramsArray);
+            if (empty($resp)) {
+                throw new Exception("API接口返回为空");
+            }
+            $ret = @json_decode($resp, true);
+            if (empty($ret)) {
+                throw new Exception("API接口返回为空");
+            }
+            $code = $ret['code'];
+            if ($code != 0) {
+                throw new Exception($ret['msg']);
+            }
+            $result = $ret['data'];
+        } catch (Exception $e) {
+            throw  new Exception($e->getMessage());
+        }
+        return $result;
+    }
+
+
     /**
      * 发起退款
      * @param $out_trade_no 商户订单号
@@ -614,5 +711,101 @@ class AliPay
         }
         return $result;
     }
+
+
+    /**
+     * 关闭订单
+     * @param $out_trade_no 商户单号
+     * @param $mch_id 支付宝商户号 登录YunGouOS.com-》支付宝-》商户管理 查看商户号
+     * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
+     * @return 商户单号
+     * @throws Exception
+     */
+    public function closeOrder($out_trade_no, $mch_id, $key)
+    {
+        $result = null;
+        $paramsArray = array();
+        try {
+            if (empty($out_trade_no)) {
+                throw new Exception("商户单号不能为空！");
+            }
+            if (empty($mch_id)) {
+                throw new Exception("商户号不能为空！");
+            }
+            if (empty($key)) {
+                throw new Exception("商户密钥不能为空！");
+            }
+            $paramsArray['out_trade_no'] = $out_trade_no;
+            $paramsArray['mch_id'] = $mch_id;
+            // 上述必传参数签名
+            $sign = $this->paySign->getSign($paramsArray, $key);
+            $paramsArray['sign'] = $sign;
+
+            $resp = $this->httpUtil->httpsPost($this->apiConfig['alipay_close_order_url'], $paramsArray);
+            if (empty($resp)) {
+                throw new Exception("API接口返回为空");
+            }
+            $ret = @json_decode($resp, true);
+            if (empty($ret)) {
+                throw new Exception("API接口返回为空");
+            }
+            $code = $ret['code'];
+            if ($code != 0) {
+                throw new Exception($ret['msg']);
+            }
+            $result = $ret['data'];
+        } catch (Exception $e) {
+            throw  new Exception($e->getMessage());
+        }
+        return $result;
+    }
+
+    /**
+     * 撤销订单
+     * @param $out_trade_no 商户单号
+     * @param $mch_id 支付宝商户号 登录YunGouOS.com-》支付宝-》商户管理 查看商户号
+     * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
+     * @return 撤销订单对象，参考文档：https://open.pay.yungouos.com/#/api/api/pay/alipay/reverseOrder
+     * @throws Exception
+     */
+    public function reverseOrder($out_trade_no, $mch_id, $key)
+    {
+        $result = null;
+        $paramsArray = array();
+        try {
+            if (empty($out_trade_no)) {
+                throw new Exception("商户单号不能为空！");
+            }
+            if (empty($mch_id)) {
+                throw new Exception("商户号不能为空！");
+            }
+            if (empty($key)) {
+                throw new Exception("商户密钥不能为空！");
+            }
+            $paramsArray['out_trade_no'] = $out_trade_no;
+            $paramsArray['mch_id'] = $mch_id;
+            // 上述必传参数签名
+            $sign = $this->paySign->getSign($paramsArray, $key);
+            $paramsArray['sign'] = $sign;
+
+            $resp = $this->httpUtil->httpsPost($this->apiConfig['alipay_reverse_order_url'], $paramsArray);
+            if (empty($resp)) {
+                throw new Exception("API接口返回为空");
+            }
+            $ret = @json_decode($resp, true);
+            if (empty($ret)) {
+                throw new Exception("API接口返回为空");
+            }
+            $code = $ret['code'];
+            if ($code != 0) {
+                throw new Exception($ret['msg']);
+            }
+            $result = $ret['data'];
+        } catch (Exception $e) {
+            throw  new Exception($e->getMessage());
+        }
+        return $result;
+    }
+
 }
 

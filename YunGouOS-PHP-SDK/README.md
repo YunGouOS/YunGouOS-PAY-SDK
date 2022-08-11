@@ -171,6 +171,24 @@ $result=$wxpay->facePay($out_trade_no, $total_fee, $mch_id, $body, $openId, $fac
 ```
 
 
+## 关闭订单
+
+对已经发起的订单进行关闭，订单如果已支付不能关闭。已支付订单需要关闭请使用撤销订单接口
+
+```php
+$result=$wxpay->closeOrder($out_trade_no, $mch_id,$key);
+```
+
+
+## 撤销订单
+
+支付交易返回失败或支付系统超时，调用该接口撤销交易。如果此订单用户支付失败，微信支付系统会将此订单关闭；如果用户支付成功，微信支付系统会将此订单资金退还给用户。
+
+```php
+$result=$wxpay->reverseOrder($out_trade_no, $mch_id,$key);
+```
+
+
 # 支付宝
 
 ## 支付宝扫码支付
@@ -201,6 +219,12 @@ $result = $alipay->h5Pay($out_trade_no, $total_fee, $mch_id, $body,$attach, $not
 
 ```php
 $result = $alipay->appPay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url,$config_no, $auto, $auto_node, $key);
+```
+
+## 支付宝电脑网站支付
+
+```php
+$result = $alipay->webPay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url,$return_url,$config_no, $auto, $auto_node, $key);
 ```
 
 ## 支付宝发起退款
@@ -366,6 +390,18 @@ $wxpay->sendWxPayCash(微信支付商户号,结算日期,商户密钥);
 $wxpay->downloadBill(微信支付商户号,对账单日期,对账单结束日期,设备/门店,商户密钥);
 ```
 
+## 关闭订单
+
+```php
+$wxpay->closeOrder(商户单号,微信支付商户号,商户密钥);
+```
+
+## 撤销订单
+
+```php
+$wxpay->reverseOrder(商户单号,微信支付商户号,商户密钥);
+```
+
 
 # 支付宝支付方法说明
 
@@ -399,6 +435,12 @@ $alipay->h5Pay(订单号,支付金额,支付宝商户号,商品描述，附加�
 $alipay->appPay(订单号,支付金额,支付宝商户号,商品描述，附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
 ```
 
+## 支付宝APP支付
+
+```php
+$alipay->webPay(订单号,支付金额,支付宝商户号,商品描述，附加数据，异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
+```
+
 ## 发起退款
 
 ```php
@@ -410,6 +452,19 @@ $alipay->orderRefund(订单号,支付宝商户号,退款金额,退款单号,退�
 ```php
 $alipay->getRefundResult(退款单号,支付宝商户号,商户密钥);
 ```
+
+## 关闭订单
+
+```php
+$alipay->closeOrder(商户单号,支付宝商户号,商户密钥);
+```
+
+## 撤销订单
+
+```php
+$alipay->reverseOrder(商户单号,支付宝商户号,商户密钥);
+```
+
 
 # 资金分账方法说明	
 
