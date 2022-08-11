@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.yungouos.pay.common.PayException;
+import com.yungouos.pay.config.AlipayApiConfig;
 import com.yungouos.pay.config.WxPayApiConfig;
 import com.yungouos.pay.entity.*;
 import com.yungouos.pay.entity.qqpay.QqPayBiz;
@@ -1500,6 +1501,106 @@ public class WxPay {
             e.printStackTrace();
             throw new PayException(e.getMessage());
         }
+    }
+
+
+    /**
+     * 关闭订单
+     *
+     * @param out_trade_no 订单号 不可重复
+     * @param mch_id       微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
+     * @param key          支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
+     * @return 商户单号
+     */
+    public static String closeOrder(String out_trade_no, String mch_id, String key) throws PayException {
+        Map<String, Object> params = new HashMap<String, Object>();
+        String closeResult = null;
+        try {
+            if (StrUtil.isBlank(out_trade_no)) {
+                throw new PayException("订单号不能为空！");
+            }
+            if (StrUtil.isBlank(mch_id)) {
+                throw new PayException("商户号不能为空！");
+            }
+            if (StrUtil.isBlank(key)) {
+                throw new PayException("商户密钥不能为空！");
+            }
+            params.put("out_trade_no", out_trade_no);
+            params.put("mch_id", mch_id);
+            // 上述必传参数签名
+            String sign = PaySignUtil.createSign(params, key);
+            params.put("sign", sign);
+            String result = HttpRequest.post(WxPayApiConfig.closeOrderUrl).form(params).execute().body();
+            if (StrUtil.isBlank(result)) {
+                throw new PayException("API接口返回为空，请联系客服");
+            }
+            JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
+            if (jsonObject == null) {
+                throw new PayException("API结果转换错误");
+            }
+            Integer code = jsonObject.getInteger("code");
+            if (0 != code.intValue()) {
+                throw new PayException(jsonObject.getString("msg"));
+            }
+            closeResult = jsonObject.getString("data");
+        } catch (PayException e) {
+            e.printStackTrace();
+            throw new PayException(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new PayException(e.getMessage());
+        }
+        return closeResult;
+    }
+
+
+    /**
+     * 撤销订单
+     *
+     * @param out_trade_no 订单号 不可重复
+     * @param mch_id       微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
+     * @param key          支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
+     * @return 商户单号
+     */
+    public static String reverseOrder(String out_trade_no, String mch_id, String key) throws PayException {
+        Map<String, Object> params = new HashMap<String, Object>();
+        String reverseResult = null;
+        try {
+            if (StrUtil.isBlank(out_trade_no)) {
+                throw new PayException("订单号不能为空！");
+            }
+            if (StrUtil.isBlank(mch_id)) {
+                throw new PayException("商户号不能为空！");
+            }
+            if (StrUtil.isBlank(key)) {
+                throw new PayException("商户密钥不能为空！");
+            }
+            params.put("out_trade_no", out_trade_no);
+            params.put("mch_id", mch_id);
+            // 上述必传参数签名
+            String sign = PaySignUtil.createSign(params, key);
+            params.put("sign", sign);
+            String result = HttpRequest.post(WxPayApiConfig.reverseOrderUrl).form(params).execute().body();
+            if (StrUtil.isBlank(result)) {
+                throw new PayException("API接口返回为空，请联系客服");
+            }
+            JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
+            if (jsonObject == null) {
+                throw new PayException("API结果转换错误");
+            }
+            Integer code = jsonObject.getInteger("code");
+            if (0 != code.intValue()) {
+                throw new PayException(jsonObject.getString("msg"));
+            }
+            reverseResult = jsonObject.getString("data");
+        } catch (PayException e) {
+            e.printStackTrace();
+            throw new PayException(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new PayException(e.getMessage());
+        }
+        return reverseResult;
     }
 
 }

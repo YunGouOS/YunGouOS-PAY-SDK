@@ -46,6 +46,23 @@ public class AlipayApiConfig {
 	 */
 	public static String appPayUrl = apiUrl + "/api/pay/alipay/appPay";
 
+
+	/**
+	 * 电脑网站支付
+	 */
+	public static String webPayUrl = apiUrl + "/api/pay/alipay/webPay";
+
+
+	/**
+	 * 关闭订单
+	 */
+	public static String closeOrderUrl = apiUrl + "/api/pay/alipay/closeOrder";
+
+	/**
+	 * 撤销订单
+	 */
+	public static String reverseOrderUrl = apiUrl + "/api/pay/alipay/reverseOrder";
+
 	/**
 	 * 订单退款
 	 */

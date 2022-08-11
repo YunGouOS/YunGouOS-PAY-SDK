@@ -106,4 +106,15 @@ public class WxPayApiConfig {
 	 * 微信扫码登录
 	 */
 	public static String getWebLoginUrl = apiUrl + "/api/wx/getWebLogin";
+
+
+	/**
+	 * 关闭订单
+	 */
+	public static String closeOrderUrl = apiUrl + "/api/pay/wxpay/closeOrder";
+
+	/**
+	 * 撤销订单
+	 */
+	public static String reverseOrderUrl = apiUrl + "/api/pay/wxpay/reverseOrder";
 }

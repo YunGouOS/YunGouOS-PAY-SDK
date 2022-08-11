@@ -18,9 +18,9 @@ public class FinanceTest {
 	public static void main(String[] args) {
 
 		// 商户号
-		String mch_id = "1529637931";
+		String mch_id = "商户号";
 		// 商户密钥
-		String key = "499F61DB734C4BF39792A098C44FA80A";
+		String key = "支付密钥";
 
 		/**
 		 * 

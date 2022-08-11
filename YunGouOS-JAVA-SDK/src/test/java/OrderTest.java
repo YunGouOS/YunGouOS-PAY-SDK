@@ -13,9 +13,9 @@ public class OrderTest {
 	public static void main(String[] args) {
 
 		// 商户号可以是支付宝也可以是微信
-		String mch_id = "2088802674000755";
+		String mch_id = "商户号";
 		// 商户密钥
-		String key = "6BA371F4CFAB4465AA04DAEADBAC4161";
+		String key = "支付密钥";
 
 		/**
 		 * 查询订单

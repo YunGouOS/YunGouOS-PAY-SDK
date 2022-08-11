@@ -13,8 +13,8 @@ import com.yungouos.pay.wxapi.WxApi;
 public class WxApiTest {
 
 	public static void main(String[] args) {
-		String mch_id = "1529637931";
-		String key = "499F61DB734C4BF39792A098C44FA80A";
+		String mch_id = "微信支付商户号";
+		String key = "微信支付支付密钥";
 		String callback_url = "http://www.baidu.com";
 		JSONObject params = new JSONObject();
 		params.put("desc", "附加数据，授权结束后可以返回");

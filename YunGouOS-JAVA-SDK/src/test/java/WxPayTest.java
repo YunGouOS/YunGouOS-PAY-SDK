@@ -13,8 +13,8 @@ public class WxPayTest {
     public static void main(String[] args) {
 
         String result;
-        String mchId = "1529637931";
-        String key = "499F61DB734C4BF39792A098C44FA80A";
+        String mchId = "微信支付商户号";
+        String key = "微信支付支付密钥";
         // 收银台支付结束后返回地址
         String returnUrl = "http://www.baidu.com";
         try {
@@ -109,6 +109,18 @@ public class WxPayTest {
              */
             RefundSearch refundSearch = WxPay.getRefundResult("R17200911248111", mchId, key);
             System.out.println("查询退款结果：" + refundSearch.toString());
+
+            /**
+             * 关闭订单
+             */
+            String closeOrder = WxPay.closeOrder("R17200911248111", mchId, key);
+            System.out.println("关闭订单结果：" + closeOrder);
+
+            /**
+             * 撤销订单
+             */
+            String reverseOrder = WxPay.reverseOrder("R17200911248111", mchId, key);
+            System.out.println("撤销订单结果：" + closeOrder);
 
             /**
              * 下载对账单 正常直接通过getUrl获取到excel地址到浏览器访问下载即可 也可以通过getList获取到对账单的数据流集成到业务系统中
