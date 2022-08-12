@@ -783,6 +783,165 @@ function appPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, hbfq_
 
 
 
+/**
+ * 电脑网站支付（同步）
+ *
+ * 支付宝电脑网站支付，适合PC端使用，返回PC端跳转表单字符串和跳转url
+ *
+ * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/alipay/webPay
+ * 
+ * @param {*} out_trade_no 商户订单号
+ * @param {*} total_fee 支付金额  单位:元
+ * @param {*} mch_id 支付宝商户号 登录yungouos.com-》支付宝-》商户管理 支付宝商户号 获取
+ * @param {*} body 商品描述
+ * @param {*} attach 附加数据，回调时候原路返回 
+ * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
+ * @param {*} return_url 同步回调地址，用户支付成功后或取消支付都会跳转回到该地址
+ * @param {*} hbfq_num 花呗分期期数。只支持3、6、12（仅限渠道商户使用）
+ * @param {*} hbfq_percent 花呗分期商户承担手续费比例。只支持0、100（仅限渠道商户使用）
+ * @param {*} payKey 支付密钥 登录yungouos.com-》支付宝-》商户管理 支付密钥 获取
+ * @return {*} 返回PC端跳转表单字符串和跳转url
+ */
+async function webPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, hbfq_num, hbfq_percent, payKey) {
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户订单号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(total_fee)) {
+        console.error("yungouos sdk error", "支付金额不能为空");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(body)) {
+        console.error("yungouos sdk error", "商品名称不能为空");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+    let params = {
+        out_trade_no: out_trade_no,
+        total_fee: total_fee,
+        mch_id: mch_id,
+        body: body,
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    if (!Common.isEmpty(attach)) {
+        params.attach = attach;
+    }
+    if (!Common.isEmpty(notify_url)) {
+        params.notify_url = notify_url;
+    }
+    if (!Common.isEmpty(return_url)) {
+        params.return_url = return_url;
+    }
+    //花呗分期业务
+    let hbfqBiz = {};
+    if (!Common.isEmpty(hbfq_num)) {
+        hbfqBiz.hbfq_num = hbfq_num;
+    }
+    if (!Common.isEmpty(hbfq_percent)) {
+        hbfqBiz.hbfq_percent = hbfq_percent;
+    }
+    if (!Common.isEmpty(hbfqBiz)) {
+        params.hb_fq = JSON.stringify(hbfqBiz);
+    }
+    let response = await HttpUtil.post(AliPayConfig.webPay, params);
+    let result = Common.doApiResult(response);
+    if (Common.isEmpty(result)) {
+        return null;
+    }
+    let data = result.data;
+    if (Common.isEmpty(data)) {
+        console.error("yungouos sdk error", "API无返回结果");
+        return null;
+    }
+    return data;
+}
+
+
+
+/**
+ * 电脑网站支付（同步）
+ *
+ * 支付宝电脑网站支付，适合PC端使用，返回PC端跳转表单字符串和跳转url
+ *
+ * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/alipay/webPay
+ * 
+ * @param {*} out_trade_no 商户订单号
+ * @param {*} total_fee 支付金额  单位:元
+ * @param {*} mch_id 支付宝商户号 登录yungouos.com-》支付宝-》商户管理 支付宝商户号 获取
+ * @param {*} body 商品描述
+ * @param {*} attach 附加数据，回调时候原路返回 
+ * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
+ * @param {*} return_url 同步回调地址，用户支付成功后或取消支付都会跳转回到该地址
+ * @param {*} hbfq_num 花呗分期期数。只支持3、6、12（仅限渠道商户使用）
+ * @param {*} hbfq_percent 花呗分期商户承担手续费比例。只支持0、100（仅限渠道商户使用）
+ * @param {*} payKey 支付密钥 登录yungouos.com-》支付宝-》商户管理 支付密钥 获取
+ * @return {*} 返回PC端跳转表单字符串和跳转url
+ */
+function webPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, hbfq_num, hbfq_percent, payKey) {
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户订单号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(total_fee)) {
+        console.error("yungouos sdk error", "支付金额不能为空");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(body)) {
+        console.error("yungouos sdk error", "商品名称不能为空");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+    let params = {
+        out_trade_no: out_trade_no,
+        total_fee: total_fee,
+        mch_id: mch_id,
+        body: body,
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    if (!Common.isEmpty(attach)) {
+        params.attach = attach;
+    }
+    if (!Common.isEmpty(notify_url)) {
+        params.notify_url = notify_url;
+    }
+    if (!Common.isEmpty(return_url)) {
+        params.return_url = return_url;
+    }
+    //花呗分期业务
+    let hbfqBiz = {};
+    if (!Common.isEmpty(hbfq_num)) {
+        hbfqBiz.hbfq_num = hbfq_num;
+    }
+    if (!Common.isEmpty(hbfq_percent)) {
+        hbfqBiz.hbfq_percent = hbfq_percent;
+    }
+    if (!Common.isEmpty(hbfqBiz)) {
+        params.hb_fq = JSON.stringify(hbfqBiz);
+    }
+    return HttpUtil.post(AliPayConfig.webPay, params);
+}
+
+
+
+
 
 /**
  * 发起退款（同步）
@@ -907,7 +1066,7 @@ function refund(out_trade_no, mch_id, money, out_trade_refund_no, refund_desc, n
 /**
  * 查询退款结果（同步）
  * 
- * 对已发起退款申请的订单查询微信支付的退款结果
+ * 对已发起退款申请的订单查询支付宝的退款结果
  * 
  * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/alipay/getRefundResult
  * 
@@ -954,7 +1113,7 @@ async function getRefundResultAsync(refund_no, mch_id, payKey) {
 /**
  * 查询退款结果（异步）
  *
- * 对已发起退款申请的订单查询微信支付的退款结果
+ * 对已发起退款申请的订单查询支付宝的退款结果
  *
  * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/alipay/getRefundResult
  *
@@ -987,6 +1146,174 @@ function getRefundResult(refund_no, mch_id, payKey) {
 }
 
 
+/**
+ * 关闭订单（同步）
+ * 
+ * 用于交易创建后，用户在一定时间内未进行支付，可调用该接口直接将未付款的交易进行关闭。订单如果已支付不能关闭，已支付订单需要关闭请使用撤销订单接口。
+ * 
+ * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/alipay/closeOrder
+ * 
+ * @param {*} out_trade_no 商户单号
+ * @param {*} mch_id 支付宝商户号 登录yungouos.com-》支付宝-》商户管理 支付宝商户号 获取
+ * @param {*} payKey 支付密钥 登录yungouos.com-》支付宝-》商户管理 支付密钥 获取
+ * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/alipay/closeOrder
+ */
+async function closeOrderAsync(out_trade_no, mch_id, payKey) {
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户单号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+    let params = {
+        mch_id: mch_id,
+        out_trade_no: out_trade_no
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    let response = await HttpUtil.post(AliPayConfig.closeOrder, params);
+    let result = Common.doApiResult(response);
+    if (Common.isEmpty(result)) {
+        return null;
+    }
+    let data = result.data;
+    if (Common.isEmpty(data)) {
+        console.error("yungouos sdk error", "API无返回结果");
+        return null;
+    }
+    return data;
+}
+
+
+
+/**
+ * 关闭订单（异步）
+ * 
+ * 对已经发起的订单进行关闭，订单如果已支付不能关闭。已支付订单需要关闭请使用撤销订单接口
+ * 
+ * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/alipay/closeOrder
+ * 
+ * @param {*} out_trade_no 商户单号
+ * @param {*} mch_id 支付宝商户号 登录yungouos.com-》支付宝-》商户管理 支付宝 获取
+ * @param {*} payKey 支付密钥 登录yungouos.com-》支付宝-》商户管理 支付密钥 获取
+ * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/alipay/closeOrder
+ */
+function closeOrder(out_trade_no, mch_id, payKey) {
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户单号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+    let params = {
+        mch_id: mch_id,
+        out_trade_no: out_trade_no
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    return HttpUtil.post(AliPayConfig.closeOrder, params);
+}
+
+
+
+/**
+ * 撤销订单（同步）
+ * 
+ * 支付交易返回失败或支付系统超时，调用该接口撤销交易。
+ * 
+ * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/alipay/reverseOrder
+ * 
+ * @param {*} out_trade_no 商户单号
+ * @param {*} mch_id 支付宝商户号 登录yungouos.com-》支付宝-》商户管理 支付宝 获取
+ * @param {*} payKey 支付密钥 登录yungouos.com-》支付宝-》商户管理 支付密钥 获取
+ * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/alipay/reverseOrder
+ */
+async function reverseOrderAsync(out_trade_no, mch_id, payKey) {
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户单号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+    let params = {
+        mch_id: mch_id,
+        out_trade_no: out_trade_no
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    let response = await HttpUtil.post(AliPayConfig.reverseOrder, params);
+    let result = Common.doApiResult(response);
+    if (Common.isEmpty(result)) {
+        return null;
+    }
+    let data = result.data;
+    if (Common.isEmpty(data)) {
+        console.error("yungouos sdk error", "API无返回结果");
+        return null;
+    }
+    return data;
+}
+
+
+
+/**
+ * 撤销订单（异步）
+ * 
+ * 支付交易返回失败或支付系统超时，调用该接口撤销交易。
+ * 
+ * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/alipay/reverseOrder
+ * 
+ * @param {*} out_trade_no 商户单号
+ * @param {*} mch_id 支付宝商户号 登录yungouos.com-》支付宝-》商户管理 支付宝 获取
+ * @param {*} payKey 支付密钥 登录yungouos.com-》支付宝-》商户管理 支付密钥 获取
+ * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/alipay/reverseOrder
+ */
+function reverseOrder(out_trade_no, mch_id, payKey) {
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户单号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+    let params = {
+        mch_id: mch_id,
+        out_trade_no: out_trade_no
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    return HttpUtil.post(AliPayConfig.reverseOrder, params);
+}
+
+
+
 export default {
     nativePayAsync,
     nativePay,
@@ -998,8 +1325,14 @@ export default {
     h5Pay,
     appPayAsync,
     appPay,
+    webPayAsync,
+    webPay,
     refundAsync,
     refund,
     getRefundResultAsync,
-    getRefundResult
+    getRefundResult,
+    closeOrderAsync,
+    closeOrder,
+    reverseOrderAsync,
+    reverseOrder
 }

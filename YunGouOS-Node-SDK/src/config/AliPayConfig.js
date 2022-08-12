@@ -15,12 +15,20 @@ const mobilePay = apiUrl + "/api/pay/alipay/mobilePay";
 //APP支付
 const appPay = apiUrl + "/api/pay/alipay/appPay";
 
+//电脑网站支付
+const webPay = apiUrl + "/api/pay/alipay/webPay";
+
 //订单退款
 const refundOrder = apiUrl + "/api/pay/alipay/refundOrder";
 
 //查询退款结果
 const getRefundResult = apiUrl + "/api/pay/alipay/getRefundResult";
 
+//关闭订单
+const closeOrder = apiUrl + "/api/pay/alipay/closeOrder";
+
+//撤销订单
+const reverseOrder = apiUrl + "/api/pay/alipay/reverseOrder";
 
 export default {
     "nativePay": nativePay,
@@ -28,6 +36,9 @@ export default {
     "jsPay": jsPay,
     "mobilePay": mobilePay,
     "appPay": appPay,
+    "webPay": webPay,
     "refundOrder": refundOrder,
-    "getRefundResult": getRefundResult
+    "getRefundResult": getRefundResult,
+    "closeOrder": closeOrder,
+    "reverseOrder": reverseOrder
 }

@@ -2232,6 +2232,176 @@ function downloadBill(mch_id, date, end_date, device_info, payKey) {
 }
 
 
+
+
+/**
+ * 关闭订单（同步）
+ * 
+ * 对已经发起的订单进行关闭，订单如果已支付不能关闭。已支付订单需要关闭请使用撤销订单接口
+ * 
+ * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/closeOrder
+ * 
+ * @param {*} out_trade_no 商户单号
+ * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
+ * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
+ * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/closeOrder
+ */
+async function closeOrderAsync(out_trade_no, mch_id, payKey) {
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户单号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+    let params = {
+        mch_id: mch_id,
+        out_trade_no: out_trade_no
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    let response = await HttpUtil.post(WxPayConfig.closeOrder, params);
+    let result = Common.doApiResult(response);
+    if (Common.isEmpty(result)) {
+        return null;
+    }
+    let data = result.data;
+    if (Common.isEmpty(data)) {
+        console.error("yungouos sdk error", "API无返回结果");
+        return null;
+    }
+    return data;
+}
+
+
+
+/**
+ * 关闭订单（异步）
+ * 
+ * 对已经发起的订单进行关闭，订单如果已支付不能关闭。已支付订单需要关闭请使用撤销订单接口
+ * 
+ * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/closeOrder
+ * 
+ * @param {*} out_trade_no 商户单号
+ * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
+ * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
+ * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/closeOrder
+ */
+function closeOrder(out_trade_no, mch_id, payKey) {
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户单号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+    let params = {
+        mch_id: mch_id,
+        out_trade_no: out_trade_no
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    return HttpUtil.post(WxPayConfig.closeOrder, params);
+}
+
+
+
+/**
+ * 撤销订单（同步）
+ * 
+ * 支付交易返回失败或支付系统超时，调用该接口撤销交易。如果此订单用户支付失败，微信支付系统会将此订单关闭；如果用户支付成功，微信支付系统会将此订单资金退还给用户。
+ * 
+ * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/reverseOrder
+ * 
+ * @param {*} out_trade_no 商户单号
+ * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
+ * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
+ * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/reverseOrder
+ */
+async function reverseOrderAsync(out_trade_no, mch_id, payKey) {
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户单号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+    let params = {
+        mch_id: mch_id,
+        out_trade_no: out_trade_no
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    let response = await HttpUtil.post(WxPayConfig.reverseOrder, params);
+    let result = Common.doApiResult(response);
+    if (Common.isEmpty(result)) {
+        return null;
+    }
+    let data = result.data;
+    if (Common.isEmpty(data)) {
+        console.error("yungouos sdk error", "API无返回结果");
+        return null;
+    }
+    return data;
+}
+
+
+
+/**
+ * 撤销订单（异步）
+ * 
+ * 支付交易返回失败或支付系统超时，调用该接口撤销交易。如果此订单用户支付失败，微信支付系统会将此订单关闭；如果用户支付成功，微信支付系统会将此订单资金退还给用户。
+ * 
+ * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/reverseOrder
+ * 
+ * @param {*} out_trade_no 商户单号
+ * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
+ * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
+ * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/reverseOrder
+ */
+function reverseOrder(out_trade_no, mch_id, payKey) {
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户单号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空");
+        return null;
+    }
+    if (Common.isEmpty(payKey)) {
+        console.error("yungouos sdk error", "支付密钥不能为空");
+        return null;
+    }
+    let params = {
+        mch_id: mch_id,
+        out_trade_no: out_trade_no
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, payKey);
+    params.sign = sign;
+    return HttpUtil.post(WxPayConfig.reverseOrder, params);
+}
+
+
+
 export default {
     codePayAsync,
     codePay,
@@ -2260,5 +2430,9 @@ export default {
     getRefundResultAsync,
     getRefundResult,
     downloadBillAsync,
-    downloadBill
+    downloadBill,
+    closeOrderAsync,
+    closeOrder,
+    reverseOrderAsync,
+    reverseOrder
 }

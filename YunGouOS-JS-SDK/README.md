@@ -427,6 +427,37 @@ WxPay.downloadBill(mch_id, date,end_date,device_info,payKey).then((response)=>{
 });
 ```
 
+#### 关闭订单（同步）
+
+```js
+let result =await WxPay.closeOrderAsync(out_trade_no, mch_id, payKey);
+```
+
+#### 关闭订单（异步）
+
+```js
+WxPay.closeOrder(out_trade_no, mch_id, payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
+#### 撤销订单（同步）
+
+```js
+let result =await WxPay.reverseOrderAsync(out_trade_no, mch_id, payKey);
+```
+
+#### 撤销订单（异步）
+
+```js
+WxPay.reverseOrder(out_trade_no, mch_id, payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
+
 ### 2、支付宝
 
 ```js
@@ -519,6 +550,20 @@ AliPay.appPay(out_trade_no, total_fee, mch_id, body, attach, notify_url,hbfq_num
 });
 ```
 
+#### 电脑网站支付（同步）
+
+```js
+let result =await AliPay.webPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, hbfq_num, hbfq_percent, payKey);
+```
+
+#### 电脑网站支付（异步）
+
+```js
+AliPay.webPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, hbfq_num, hbfq_percent, payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
 
 #### 发起退款（同步）
 
@@ -550,6 +595,37 @@ console.log(result);
 
 ```js
 AliPay.getRefundResult(out_trade_no, mch_id, money, refund_desc, payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
+
+#### 关闭订单（同步）
+
+```js
+let result =await AliPay.closeOrderAsync(out_trade_no, mch_id, payKey);
+```
+
+#### 关闭订单（异步）
+
+```js
+AliPay.closeOrder(out_trade_no, mch_id, payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
+#### 撤销订单（同步）
+
+```js
+let result =await AliPay.reverseOrderAsync(out_trade_no, mch_id, payKey);
+```
+
+#### 撤销订单（异步）
+
+```js
+AliPay.reverseOrder(out_trade_no, mch_id, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
