@@ -89,6 +89,15 @@ $apiConfig = array(
     "repay_bank_url" => $api_url . "/api/finance/repay/bank",
     //查询转账结果
     "repay_get_repay_info_url" => $api_url . "/api/finance/repay/getRePayInfo",
+    //**************************批量转账相关接口************************************//
+    //发起批量转账
+    "repay_get_repay_batch_pay_create_url" => $api_url . "/api/finance/repay/batch/create",
+    //确认批量转账
+    "repay_get_repay_batch_pay_send_url" => $api_url . "/api/finance/repay/batch/sendPay",
+    //查询批量转账
+    "repay_get_repay_batch_pay_info_url" => $api_url . "/api/finance/repay/batch/getBatchPayInfo",
+    //关闭批量转账
+    "repay_get_repay_batch_pay_close_url" => $api_url . "/api/finance/repay/batch/close",
     //**************************聚合支付相关接口************************************//
     //一码付
     "merge_native_pay_url" => $api_url . "/api/pay/merge/nativePay",

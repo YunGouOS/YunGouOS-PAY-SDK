@@ -43,7 +43,7 @@ class Finance
      * @param $rate 分账比例。如：10 则代表分账比例是订单金额的10% 优先级高于money参数
      * @param $money 固定分账金额。每笔订单固定分账金额，优先级次于rate参数
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
-     * @return String 配置单号
+     * @return $配置单号
      */
     public function wxPayConfig($mch_id,$appId, $reason,$openId,$receiver_mch_id, $name, $rate, $money, $key)
     {
@@ -136,7 +136,7 @@ class Finance
      * @param $rate 分账比例。如：10 则代表分账比例是订单金额的10% 优先级高于money参数
      * @param $money 固定分账金额。每笔订单固定分账金额，优先级次于rate参数
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
-     * @return String 配置单号
+     * @return $配置单号
      */
     public function aliPayConfig($mch_id,$reason,$account, $name, $rate, $money, $key)
     {
@@ -222,7 +222,7 @@ class Finance
      * @param $rate 分账比例。如：10 则代表分账比例是订单金额的10% 优先级高于money参数
      * @param $money 固定分账金额。每笔订单固定分账金额，优先级次于rate参数
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
-     * @return String 配置单号
+     * @return $配置单号
      */
     public function configV2($mch_id,$appId, $reason, $channel, $openId,$receiver_mch_id, $name, $rate, $money, $key)
     {
@@ -327,7 +327,7 @@ class Finance
      * @param $rate 分账比例。如：10 则代表分账比例是订单金额的10% 优先级高于money参数
      * @param $money 固定分账金额。每笔订单固定分账金额，优先级次于rate参数
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
-     * @return String 配置单号
+     * @return $配置单号
      */
     public function config($mch_id, $reason, $channel, $openId, $account, $receiver_mch_id, $name, $rate, $money, $key)
     {
@@ -433,7 +433,7 @@ class Finance
      * @param $out_trade_no 商户单号 （需要分账的订单号）
      * @param $config_no 配置单号（分账收款人配置单号，支持多个 使用,号分割）
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
-     * @return String 配置单号
+     * @return $配置单号
      */
     public function createBillV2($mch_id, $out_trade_no, $config_no,$rate,$money,$notify_url, $key)
     {
@@ -490,7 +490,7 @@ class Finance
      * @param $out_trade_no 商户单号 （需要分账的订单号）
      * @param $config_no 配置单号（分账收款人配置单号，支持多个 使用,号分割）
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
-     * @return String 配置单号
+     * @return $配置单号
      */
     public function createBill($mch_id, $out_trade_no, $config_no, $key)
     {
@@ -536,7 +536,7 @@ class Finance
      * @param $ps_no 分账单号
      * @param $description 分账描述
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
-     * @return String 配置单号
+     * @return $配置单号
      */
     public function sendPay($mch_id, $ps_no, $description, $key)
     {
@@ -586,7 +586,7 @@ class Finance
      * @param $mch_id 分账方支付商户号
      * @param $ps_no 分账单号
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
-     * @return String 配置单号
+     * @return $配置单号
      */
     public function getPayResult($mch_id, $ps_no, $key)
     {
@@ -634,7 +634,7 @@ class Finance
      * @param $mch_id 分账方支付商户号
      * @param $ps_no 分账单号
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
-     * @return String 配置单号
+     * @return $配置单号
      */
     public function getInfo($mch_id, $ps_no, $key)
     {
@@ -685,7 +685,7 @@ class Finance
      * @param $mch_id 分账方支付商户号
      * @param $out_trade_no 商户单号
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
-     * @return String 配置单号
+     * @return $配置单号
      */
     public function finish($mch_id, $out_trade_no, $key)
     {
@@ -1012,5 +1012,257 @@ class Finance
         }
         return $result;
     }
+
+
+    /**
+     * 发起批量转账
+     * <p>
+     * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/create
+     *
+     * @param $out_trade_no     商户单号
+     * @param $mch_id           批量转账商户号 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约中查看
+     * @param $repay_order_list 收款方列表
+     * @param $pay_type         转账方式。固定值：alipay目前只支持支付宝转账
+     * @param $order_title      支付宝收银台页面账单标题
+     * @param $time_expire      转账超时时间。格式yyyy-MM-dd HH:mm:ss
+     * @param $description      批量转账描述
+     * @param $notify_url       异步回调地址。如传递该参数，转账成功后系统将会把转账结果发送到该地址
+     * @param $return_url       同步回调地址。如传递该参数，转账成功后浏览器会跳转到该地址
+     * @param $key              商户密钥 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约 商户密钥
+     * @return BatchPayBiz 参考文档：https://open.pay.yungouos.com/#/api/api/finance/repay/create
+     */
+    public function  batchPayCreate($out_trade_no, $mch_id, $repay_order_list, $pay_type, $order_title, $time_expire, $description, $notify_url, $return_url, $key)
+    {
+        $result = null;
+        $paramsArray = array();
+        try {
+            if (empty($out_trade_no)) {
+                throw new Exception("商户单号不能为空！");
+            }
+            if (empty($mch_id)) {
+                throw new Exception("批量转账商户号不能为空！");
+            }
+            if (empty($repay_order_list)|| count($repay_order_list) <= 0) {
+                throw new Exception("收款方不能为空！");
+            }
+            if (empty($pay_type)) {
+                throw new Exception("转账方式不能为空！");
+            }
+            if (empty($order_title)) {
+                throw new Exception("账单标题不能为空！");
+            }
+            if (empty($key)) {
+                throw new Exception("商户密钥不能为空！");
+            }
+            $paramsArray['out_trade_no'] = $out_trade_no;
+            $paramsArray['mch_id'] = $mch_id;
+            $paramsArray['repay_order_list'] = json_encode($repay_order_list);
+            $paramsArray['pay_type'] = $pay_type;
+            $paramsArray['order_title'] = $order_title;
+            // 上述必传参数签名
+            $sign = $this->paySign->getSign($paramsArray, $key);
+            $paramsArray['sign'] = $sign;
+            if (!empty($time_expire)) {
+                $paramsArray['time_expire'] = $time_expire;
+            }
+            if (!empty($description)) {
+                $paramsArray['description'] = $description;
+            }
+            if (!empty($notify_url)) {
+                $paramsArray['notify_url'] = $notify_url;
+            }
+            if (!empty($return_url)) {
+                $paramsArray['return_url'] = $return_url;
+            }
+            $resp = $this->httpUtil->httpsPost($this->apiConfig['repay_get_repay_batch_pay_create_url'], $paramsArray);
+            if (empty($resp)) {
+                throw new Exception("API接口返回为空");
+            }
+            $ret = @json_decode($resp, true);
+            if (empty($ret)) {
+                throw new Exception("API接口返回为空");
+            }
+            $code = $ret['code'];
+            if ($code != 0) {
+                throw new Exception($ret['msg']);
+            }
+            $result = $ret['data'];
+        } catch (Exception $e) {
+            throw  new Exception($e->getMessage());
+        }
+        return $result;
+    }
+
+
+    /**
+     * 确认批量转账
+     * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/sendPay
+     *
+     * @param $out_trade_no 商户单号。与batch_no参数不能同时为空
+     * @param $batch_no     批次单号。与out_trade_no参数不能同时为空
+     * @param $mch_id       批量转账商户号 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约中查看
+     * @param $type         转账类型【web、app】分别表示【PC端确认付款、APP端确认付款】
+     * @param $app_code     是否转换为二维码【true、false】。当type为app时传递有效，可将返回的付款链接生成二维码。
+     * @param $key          商户密钥 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约 商户密钥
+     * @return $确认转账的url
+     */
+    public function  batchPaySendPay($out_trade_no, $batch_no,$mch_id, $type, $app_code, $key)
+    {
+        $result = null;
+        $paramsArray = array();
+        try {
+            if (empty($out_trade_no) && empty($batch_no)) {
+                throw new Exception("商户单号和批次单号不能同时为空！");
+            }
+            if (empty($mch_id)) {
+                throw new Exception("批量转账商户号不能为空！");
+            }
+            if (empty($type)) {
+                throw new Exception("转账类型不能为空！");
+            }
+            if (empty($key)) {
+                throw new Exception("商户密钥不能为空！");
+            }
+
+            if (!empty($out_trade_no)) {
+                $paramsArray['out_trade_no'] = $out_trade_no;
+            }
+            if (!empty($batch_no)) {
+                $paramsArray['batch_no'] = $batch_no;
+            }
+            $paramsArray['mch_id'] = $mch_id;
+            $paramsArray['type'] = $type;
+            // 上述必传参数签名
+            $sign = $this->paySign->getSign($paramsArray, $key);
+            $paramsArray['sign'] = $sign;
+            if (!empty($app_code)) {
+                $paramsArray['app_code'] = $app_code;
+            }
+            $resp = $this->httpUtil->httpsPost($this->apiConfig['repay_get_repay_batch_pay_send_url'], $paramsArray);
+            if (empty($resp)) {
+                throw new Exception("API接口返回为空");
+            }
+            $ret = @json_decode($resp, true);
+            if (empty($ret)) {
+                throw new Exception("API接口返回为空");
+            }
+            $code = $ret['code'];
+            if ($code != 0) {
+                throw new Exception($ret['msg']);
+            }
+            $result = $ret['data'];
+        } catch (Exception $e) {
+            throw  new Exception($e->getMessage());
+        }
+        return $result;
+    }
+
+
+    /**
+     * 查询批量转账
+     * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/getBatchPayInfo
+     *
+     * @param $out_trade_no 商户单号。与batch_no参数不能同时为空
+     * @param $batch_no     批次单号。与out_trade_no参数不能同时为空
+     * @param $mch_id       批量转账商户号 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约中查看
+     * @param $key          商户密钥 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约 商户密钥
+     * @return BatchPayInfoBiz 转账详情对象，参考文档：https://open.pay.yungouos.com/#/api/api/finance/repay/getBatchPayInfo
+     */
+    public function  getBatchPayInfo($out_trade_no, $batch_no, $mch_id, $key)
+    {
+        $result = null;
+        $paramsArray = array();
+        try {
+            if (empty($out_trade_no) && empty($batch_no)) {
+                throw new Exception("商户单号和批次单号不能同时为空！");
+            }
+            if (empty($mch_id)) {
+                throw new Exception("批量转账商户号不能为空！");
+            }
+            if (empty($key)) {
+                throw new Exception("商户密钥不能为空！");
+            }
+            if(!empty($out_trade_no)){
+                $paramsArray['out_trade_no'] = $out_trade_no;
+            }
+            if(!empty($batch_no)){
+                $paramsArray['batch_no'] = $batch_no;
+            }
+            $paramsArray['mch_id'] = $mch_id;
+            // 上述必传参数签名
+            $sign = $this->paySign->getSign($paramsArray, $key);
+            $paramsArray['sign'] = $sign;
+            $resp = $this->httpUtil->httpGet($this->apiConfig['repay_get_repay_batch_pay_info_url'] . "?" . http_build_query($paramsArray));
+            if (empty($resp)) {
+                throw new Exception("API接口返回为空");
+            }
+            $ret = @json_decode($resp, true);
+            if (empty($ret)) {
+                throw new Exception("API接口返回为空");
+            }
+            $code = $ret['code'];
+            if ($code != 0) {
+                throw new Exception($ret['msg']);
+            }
+            $result = $ret['data'];
+        } catch (Exception $e) {
+            throw  new Exception($e->getMessage());
+        }
+        return $result;
+    }
+
+
+    /**
+     * 关闭批量转账
+     * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/close
+     *
+     * @param $out_trade_no 商户单号。与batch_no参数不能同时为空
+     * @param $batch_no     批次单号。与out_trade_no参数不能同时为空
+     * @param $mch_id       批量转账商户号 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约中查看
+     * @param $key          商户密钥 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约 商户密钥
+     */
+    public function  batchPayClose($out_trade_no, $batch_no,$mch_id,$key)
+    {
+        $result = null;
+        $paramsArray = array();
+        try {
+            if (empty($out_trade_no) && empty($batch_no)) {
+                throw new Exception("商户单号和批次单号不能同时为空！");
+            }
+            if (empty($mch_id)) {
+                throw new Exception("批量转账商户号不能为空！");
+            }
+            if (empty($key)) {
+                throw new Exception("商户密钥不能为空！");
+            }
+            if (!empty($out_trade_no)) {
+                $paramsArray['out_trade_no'] = $out_trade_no;
+            }
+            if (!empty($batch_no)) {
+                $paramsArray['batch_no'] = $batch_no;
+            }
+            $paramsArray['mch_id'] = $mch_id;
+            // 上述必传参数签名
+            $sign = $this->paySign->getSign($paramsArray, $key);
+            $paramsArray['sign'] = $sign;
+            $resp = $this->httpUtil->httpsPost($this->apiConfig['repay_get_repay_batch_pay_close_url'], $paramsArray);
+            if (empty($resp)) {
+                throw new Exception("API接口返回为空");
+            }
+            $ret = @json_decode($resp, true);
+            if (empty($ret)) {
+                throw new Exception("API接口返回为空");
+            }
+            $code = $ret['code'];
+            if ($code != 0) {
+                throw new Exception($ret['msg']);
+            }
+            $result = $ret['data'];
+        } catch (Exception $e) {
+            throw  new Exception($e->getMessage());
+        }
+        return $result;
+    }
+
 }
 

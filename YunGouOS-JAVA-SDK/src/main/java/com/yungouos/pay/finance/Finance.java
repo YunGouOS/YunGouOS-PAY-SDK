@@ -469,6 +469,9 @@ public class Finance {
             if (StrUtil.isBlank(out_trade_no)) {
                 throw new PayException("商户单号不能为空！");
             }
+            if (StrUtil.isBlank(key)) {
+                throw new PayException("商户密钥不能为空！");
+            }
             // 上述参数签名
             params.put("mch_id", mch_id);
             params.put("out_trade_no", out_trade_no);
@@ -531,6 +534,9 @@ public class Finance {
             if (StrUtil.isBlank(out_trade_no)) {
                 throw new PayException("商户单号不能为空！");
             }
+            if (StrUtil.isBlank(key)) {
+                throw new PayException("商户密钥不能为空！");
+            }
             // 上述参数签名
             params.put("mch_id", mch_id);
             params.put("out_trade_no", out_trade_no);
@@ -585,6 +591,9 @@ public class Finance {
             if (StrUtil.isBlank(description)) {
                 throw new PayException("分账描述不能为空！");
             }
+            if (StrUtil.isBlank(key)) {
+                throw new PayException("商户密钥不能为空！");
+            }
             // 上述参数签名
             params.put("mch_id", mch_id);
             params.put("ps_no", ps_no);
@@ -631,6 +640,9 @@ public class Finance {
             }
             if (StrUtil.isBlank(ps_no)) {
                 throw new PayException("分账单号不能为空！");
+            }
+            if (StrUtil.isBlank(key)) {
+                throw new PayException("商户密钥不能为空！");
             }
             // 上述参数签名
             params.put("mch_id", mch_id);
@@ -685,6 +697,9 @@ public class Finance {
             if (StrUtil.isBlank(ps_no)) {
                 throw new PayException("分账单号不能为空！");
             }
+            if (StrUtil.isBlank(key)) {
+                throw new PayException("商户密钥不能为空！");
+            }
             // 上述参数签名
             params.put("mch_id", mch_id);
             params.put("ps_no", ps_no);
@@ -736,6 +751,9 @@ public class Finance {
             }
             if (StrUtil.isBlank(out_trade_no)) {
                 throw new PayException("商户单号不能为空！");
+            }
+            if (StrUtil.isBlank(key)) {
+                throw new PayException("商户密钥不能为空！");
             }
             // 上述参数签名
             params.put("mch_id", mch_id);
@@ -800,6 +818,9 @@ public class Finance {
             }
             if (StrUtil.isBlank(desc)) {
                 throw new PayException("付款描述不能为空！");
+            }
+            if (StrUtil.isBlank(key)) {
+                throw new PayException("商户密钥不能为空！");
             }
             // 上述参数签名
             params.put("merchant_id", merchant_id);
@@ -884,6 +905,9 @@ public class Finance {
             }
             if (StrUtil.isBlank(desc)) {
                 throw new PayException("付款描述不能为空！");
+            }
+            if (StrUtil.isBlank(key)) {
+                throw new PayException("商户密钥不能为空！");
             }
             // 上述参数签名
             params.put("merchant_id", merchant_id);
@@ -971,6 +995,9 @@ public class Finance {
             if (StrUtil.isBlank(desc)) {
                 throw new PayException("付款描述不能为空！");
             }
+            if (StrUtil.isBlank(key)) {
+                throw new PayException("商户密钥不能为空！");
+            }
             // 上述参数签名
             params.put("merchant_id", merchant_id);
             params.put("out_trade_no", out_trade_no);
@@ -1046,6 +1073,9 @@ public class Finance {
             if (StrUtil.isBlank(merchant_id)) {
                 throw new PayException("YunGouOS商户ID不能为空！");
             }
+            if (StrUtil.isBlank(key)) {
+                throw new PayException("商户密钥不能为空！");
+            }
             // 上述参数签名
             params.put("out_trade_no", out_trade_no);
             params.put("merchant_id", merchant_id);
@@ -1114,6 +1144,9 @@ public class Finance {
             }
             if (StrUtil.isBlank(order_title)) {
                 throw new PayException("账单标题不能为空！");
+            }
+            if (StrUtil.isBlank(key)) {
+                throw new PayException("商户密钥不能为空！");
             }
             // 上述参数签名
             params.put("out_trade_no", out_trade_no);
@@ -1189,6 +1222,9 @@ public class Finance {
             if (StrUtil.isBlank(type)) {
                 throw new PayException("转账类型不能为空！");
             }
+            if (StrUtil.isBlank(key)) {
+                throw new PayException("商户密钥不能为空！");
+            }
             // 上述参数签名
             if (!StrUtil.isBlank(out_trade_no)) {
                 params.put("out_trade_no", out_trade_no);
@@ -1244,6 +1280,9 @@ public class Finance {
             }
             if (StrUtil.isBlank(mch_id)) {
                 throw new PayException("批量转账商户号不能为空！");
+            }
+            if (StrUtil.isBlank(key)) {
+                throw new PayException("商户密钥不能为空！");
             }
             // 上述参数签名
             if (!StrUtil.isBlank(out_trade_no)) {
@@ -1301,6 +1340,9 @@ public class Finance {
             if (StrUtil.isBlank(mch_id)) {
                 throw new PayException("批量转账商户号不能为空！");
             }
+            if (StrUtil.isBlank(key)) {
+                throw new PayException("商户密钥不能为空！");
+            }
             // 上述参数签名
             if (!StrUtil.isBlank(out_trade_no)) {
                 params.put("out_trade_no", out_trade_no);
@@ -1312,7 +1354,7 @@ public class Finance {
             String sign = PaySignUtil.createSign(params, key);
             params.put("sign", sign);
             // 不需要参与签名的参数
-            String result = HttpRequest.get(FinanceConfig.getCloseBatchPayUrl).form(params).execute().body();
+            String result = HttpRequest.post(FinanceConfig.getCloseBatchPayUrl).form(params).execute().body();
             if (StrUtil.isBlank(result)) {
                 throw new PayException("API接口返回为空，请联系客服");
             }
