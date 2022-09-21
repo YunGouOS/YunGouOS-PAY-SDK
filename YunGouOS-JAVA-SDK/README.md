@@ -6,7 +6,7 @@
 <dependency>
 <groupId>com.yungouos.pay</groupId>
 <artifactId>yungouos-pay-sdk</artifactId>
-<version>2.0.26</version>
+<version>2.0.27</version>
 </dependency>
 
 ```
@@ -27,7 +27,9 @@
 
 [7、订单接口调用示例](https://gitee.com/YunGouOS/YunGouOS-PAY-SDK/blob/master/YunGouOS-JAVA-SDK/src/test/java/OrderTest.java)  
 
-[8、微信登录调用示例](https://gitee.com/YunGouOS/YunGouOS-PAY-SDK/blob/master/YunGouOS-JAVA-SDK/src/test/java/WxApiTest.java)  
+[8、微信登录调用示例](https://gitee.com/YunGouOS/YunGouOS-PAY-SDK/blob/master/YunGouOS-JAVA-SDK/src/test/java/WxApiTest.java)
+
+[9、批量转账调用示例](https://gitee.com/YunGouOS/YunGouOS-PAY-SDK/blob/master/YunGouOS-JAVA-SDK/src/test/java/BatchPayTest.java)
 
 # 微信支付--示例代码
 
@@ -204,14 +206,6 @@ AliPayReverseOrderBiz aliPayReverseOrderBiz = AliPay.reverseOrder("Y194506551713
 
 没错就是这么简单，就可以快速的接入支付宝官方支付。
 
-# 签名工具
-
-  //参数签名
-  PaySignUtil.createSign([类型Map]签名参数,商户密钥)；
- 
-  //回调签名验证
-  PaySignUtil.checkNotifySign(回调的request对象,商户密钥)；
-
 # 其他接口
 
 ## 订单查询接口
@@ -327,3 +321,23 @@ AliPayReverseOrderBiz aliPayReverseOrderBiz = AliPay.reverseOrder("Y194506551713
 ## 查询支付宝退款结果
 
  WxPay.getRefundResult(退款单号（发起退款接口返回）,支付宝商户号, 商户密钥);
+
+# 签名工具
+
+//参数签名
+PaySignUtil.createSign([类型Map]签名参数,商户密钥)；
+
+//支付回调签名验证
+PaySignUtil.checkNotifySign(回调的request对象,商户密钥)；
+
+//退款回调签名验证
+PaySignUtil.checkRefundNotifySign(回调的request对象,商户密钥)；
+
+//转账代付回调签名验证
+PaySignUtil.checkRePayNotifySign(回调的request对象,商户密钥)；
+
+//分账回调签名验证
+PaySignUtil.checkShareMoneyNotifySign(回调的request对象,商户密钥)；
+
+//批量转账回调签名验证
+PaySignUtil.checkBatchPayNotifySign(回调的request对象,商户密钥)；
