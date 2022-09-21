@@ -811,11 +811,80 @@ let result =await Finance.getRePayInfoAsync(out_trade_no, merchant_id, key);
 //转账详情
 console.log(result);
 ```
+
 #### 查询转账详情（异步）
 
 ```js
-Finance.getRePayInfoAsync(out_trade_no, merchant_id, key).then((response)=>{
+Finance.getRePayInfo(out_trade_no, merchant_id, key).then((response)=>{
     //转账详情
+    console.log(response);
+});
+```
+
+#### 发起批量转账（同步）
+
+```js
+let result =await Finance.batchPayCreateAsync(out_trade_no, mch_id, repay_order_list, pay_type, order_title, time_expire, description, notify_url, return_url, key);
+//发起批量转账结果
+console.log(result);
+```
+
+#### 发起批量转账（异步）
+
+```js
+Finance.batchPayCreate(out_trade_no, mch_id, repay_order_list, pay_type, order_title, time_expire, description, notify_url, return_url, key).then((response)=>{
+    //发起批量转账结果
+    console.log(response);
+});
+```
+
+#### 确认批量转账（同步）
+
+```js
+let result =await Finance.batchPaySendPayAsync(out_trade_no, batch_no, mch_id, type,app_code, key);
+//确认批量转账结果
+console.log(result);
+```
+
+#### 确认批量转账（异步）
+
+```js
+Finance.batchPaySendPay(out_trade_no, batch_no, mch_id, type,app_code, key).then((response)=>{
+    //确认批量转账结果
+    console.log(response);
+});
+```
+
+#### 查询批量转账（同步）
+
+```js
+let result =await Finance.getBatchPayInfoAsync(out_trade_no, batch_no, mch_id, key);
+//查询批量转账结果
+console.log(result);
+```
+
+#### 查询批量转账（异步）
+
+```js
+Finance.getBatchPayInfo(out_trade_no, batch_no, mch_id, key).then((response)=>{
+    //查询批量转账结果
+    console.log(response);
+});
+```
+
+#### 关闭批量转账（同步）
+
+```js
+let result =await Finance.batchPayCloseAsync(out_trade_no, batch_no, mch_id, key);
+//关闭批量转账结果
+console.log(result);
+```
+
+#### 关闭批量转账（异步）
+
+```js
+Finance..batchPayClose(out_trade_no, batch_no, mch_id, key).then((response)=>{
+    //关闭批量转账结果
     console.log(response);
 });
 ```

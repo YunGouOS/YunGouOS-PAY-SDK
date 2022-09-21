@@ -55,12 +55,12 @@ public class FinanceConfig {
     public static String getRePayInfoUrl = apiUrl + "/api/finance/repay/getRePayInfo";
 
     /**
-     * 批量转账
+     * 发起批量转账
      */
     public static String getBatchPayCreateUrl = apiUrl + "/api/finance/repay/batch/create";
 
     /**
-     * 发起批量转账
+     * 确认批量转账
      */
     public static String getBatchPaySendPayUrl = apiUrl + "/api/finance/repay/batch/sendPay";
 

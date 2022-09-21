@@ -27,6 +27,17 @@ const getRePayBankUrl = apiUrl + "/api/finance/repay/bank";
 //查询转账详情
 const getRePayInfoUrl = apiUrl + "/api/finance/repay/getRePayInfo";
 
+//发起批量转账
+const getBatchPayCreateUrl = apiUrl + "/api/finance/repay/batch/create";
+
+//确认批量转账
+const getBatchPaySendPayUrl = apiUrl + "/api/finance/repay/batch/sendPay";
+
+//查询批量转账
+const getBatchPayInfoUrl = apiUrl + "/api/finance/repay/batch/getBatchPayInfo";
+
+//关闭批量转账
+const getCloseBatchPayUrl = apiUrl + "/api/finance/repay/batch/close";
 
 export default {
     "getConfigUrl": getConfigUrl,
@@ -37,5 +48,9 @@ export default {
     "getRePayWxPayUrl": getRePayWxPayUrl,
     "getRePayAliPayUrl": getRePayAliPayUrl,
     "getRePayInfoUrl": getRePayInfoUrl,
-    "getRePayBankUrl": getRePayBankUrl
+    "getRePayBankUrl": getRePayBankUrl,
+    "getBatchPayCreateUrl": getBatchPayCreateUrl,
+    "getBatchPaySendPayUrl": getBatchPaySendPayUrl,
+    "getBatchPayInfoUrl": getBatchPayInfoUrl,
+    "getCloseBatchPayUrl": getCloseBatchPayUrl
 }

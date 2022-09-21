@@ -1523,6 +1523,443 @@ function rePayBank(merchant_id, out_trade_no, account, account_name, money, desc
 
 
 
+/**
+ * 发起批量转账（同步）
+ * 
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/create
+ *
+ * @param {*} out_trade_no     商户单号
+ * @param {*} mch_id           批量转账商户号 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约中查看
+ * @param {*} repay_order_list 收款方列表
+ * @param {*} pay_type         转账方式。固定值：alipay目前只支持支付宝转账
+ * @param {*} order_title      支付宝收银台页面账单标题
+ * @param {*} time_expire      转账超时时间。格式yyyy-MM-dd HH:mm:ss
+ * @param {*} description      批量转账描述
+ * @param {*} notify_url       异步回调地址。如传递该参数，转账成功后系统将会把转账结果发送到该地址
+ * @param {*} return_url       同步回调地址。如传递该参数，转账成功后浏览器会跳转到该地址
+ * @param {*} key              商户密钥 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约 商户密钥
+ */
+async function batchPayCreateAsync(out_trade_no, mch_id, repay_order_list, pay_type, order_title, time_expire, description, notify_url, return_url, key) {
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户单号不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "批量转账商户号不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(repay_order_list) || repay_order_list.length <= 0) {
+        console.error("yungouos sdk error", "收款方不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(pay_type)) {
+        console.error("yungouos sdk error", "转账方式不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(order_title)) {
+        console.error("yungouos sdk error", "账单标题不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(key)) {
+        console.error("yungouos sdk error", "商户密钥不能为空！");
+        return null;
+    }
+    let params = {
+        out_trade_no: out_trade_no,
+        mch_id: mch_id,
+        repay_order_list: JSON.stringify(repay_order_list),
+        pay_type: pay_type,
+        order_title: order_title
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, key);
+    params.sign = sign;
+    if (!Common.isEmpty(time_expire)) {
+        params.time_expire = time_expire;
+    }
+    if (!Common.isEmpty(description)) {
+        params.description = description;
+    }
+    if (!Common.isEmpty(notify_url)) {
+        params.notify_url = notify_url;
+    }
+    if (!Common.isEmpty(return_url)) {
+        params.return_url = return_url;
+    }
+    let response = await HttpUtil.post(FinanceConfig.getBatchPayCreateUrl, params);
+    let result = Common.doApiResult(response);
+    if (Common.isEmpty(result)) {
+        return null;
+    }
+    let data = result.data;
+    if (Common.isEmpty(data)) {
+        console.error("yungouos sdk error", "API无返回结果");
+        return null;
+    }
+    return data;
+}
+
+
+
+/**
+ * 发起批量转账（异步）
+ * 
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/create
+ *
+ * @param {*} out_trade_no     商户单号
+ * @param {*} mch_id           批量转账商户号 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约中查看
+ * @param {*} repay_order_list 收款方列表
+ * @param {*} pay_type         转账方式。固定值：alipay目前只支持支付宝转账
+ * @param {*} order_title      支付宝收银台页面账单标题
+ * @param {*} time_expire      转账超时时间。格式yyyy-MM-dd HH:mm:ss
+ * @param {*} description      批量转账描述
+ * @param {*} notify_url       异步回调地址。如传递该参数，转账成功后系统将会把转账结果发送到该地址
+ * @param {*} return_url       同步回调地址。如传递该参数，转账成功后浏览器会跳转到该地址
+ * @param {*} key              商户密钥 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约 商户密钥
+ */
+function batchPayCreate(out_trade_no, mch_id, repay_order_list, pay_type, order_title, time_expire, description, notify_url, return_url, key) {
+    if (Common.isEmpty(out_trade_no)) {
+        console.error("yungouos sdk error", "商户单号不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "批量转账商户号不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(repay_order_list) || repay_order_list.length <= 0) {
+        console.error("yungouos sdk error", "收款方不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(pay_type)) {
+        console.error("yungouos sdk error", "转账方式不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(order_title)) {
+        console.error("yungouos sdk error", "账单标题不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(key)) {
+        console.error("yungouos sdk error", "商户密钥不能为空！");
+        return null;
+    }
+    let params = {
+        out_trade_no: out_trade_no,
+        mch_id: mch_id,
+        repay_order_list: JSON.stringify(repay_order_list),
+        pay_type: pay_type,
+        order_title: order_title
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, key);
+    params.sign = sign;
+    if (!Common.isEmpty(time_expire)) {
+        params.time_expire = time_expire;
+    }
+    if (!Common.isEmpty(description)) {
+        params.description = description;
+    }
+    if (!Common.isEmpty(notify_url)) {
+        params.notify_url = notify_url;
+    }
+    if (!Common.isEmpty(return_url)) {
+        params.return_url = return_url;
+    }
+    return HttpUtil.post(FinanceConfig.getBatchPayCreateUrl, params);
+}
+
+
+
+/**
+ * 确认批量转账（同步）
+ * 
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/sendPay
+ *
+ * @param {*} out_trade_no 商户单号。与batch_no参数不能同时为空
+ * @param {*} batch_no     批次单号。与out_trade_no参数不能同时为空
+ * @param {*} mch_id       批量转账商户号 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约中查看
+ * @param {*} type         转账类型【web、app】分别表示【PC端确认付款、APP端确认付款】
+ * @param {*} app_code     是否转换为二维码【true、false】。当type为app时传递有效，可将返回的付款链接生成二维码。
+ * @param {*} key          商户密钥 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约 商户密钥
+ */
+async function batchPaySendPayAsync(out_trade_no, batch_no, mch_id, type,app_code, key) {
+    if (Common.isEmpty(out_trade_no) && Common.isEmpty(batch_no)) {
+        console.error("yungouos sdk error", "商户单号和批次单号不能同时为空！");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "批量转账商户号不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(type)) {
+        console.error("yungouos sdk error", "转账类型不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(key)) {
+        console.error("yungouos sdk error", "商户密钥不能为空！");
+        return null;
+    }
+    let params = {
+        mch_id: mch_id,
+        type: type
+    }
+    if (!Common.isEmpty(out_trade_no)) {
+        params.out_trade_no = out_trade_no;
+    }
+    if (!Common.isEmpty(batch_no)) {
+        params.batch_no = batch_no;
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, key);
+    params.sign = sign;
+    if (!Common.isEmpty(app_code)) {
+        params.app_code = app_code;
+    }
+    let response = await HttpUtil.post(FinanceConfig.getBatchPaySendPayUrl, params);
+    let result = Common.doApiResult(response);
+    if (Common.isEmpty(result)) {
+        return null;
+    }
+    let data = result.data;
+    if (Common.isEmpty(data)) {
+        console.error("yungouos sdk error", "API无返回结果");
+        return null;
+    }
+    return data;
+}
+
+
+
+/**
+ * 确认批量转账（异步）
+ * 
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/sendPay
+ *
+ * @param {*} out_trade_no 商户单号。与batch_no参数不能同时为空
+ * @param {*} batch_no     批次单号。与out_trade_no参数不能同时为空
+ * @param {*} mch_id       批量转账商户号 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约中查看
+ * @param {*} type         转账类型【web、app】分别表示【PC端确认付款、APP端确认付款】
+ * @param {*} app_code     是否转换为二维码【true、false】。当type为app时传递有效，可将返回的付款链接生成二维码。
+ * @param {*} key          商户密钥 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约 商户密钥
+ */
+function batchPaySendPay(out_trade_no, batch_no, mch_id, type, app_code, key) {
+    if (Common.isEmpty(out_trade_no) && Common.isEmpty(batch_no)) {
+        console.error("yungouos sdk error", "商户单号和批次单号不能同时为空！");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "批量转账商户号不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(type)) {
+        console.error("yungouos sdk error", "转账类型不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(key)) {
+        console.error("yungouos sdk error", "商户密钥不能为空！");
+        return null;
+    }
+    let params = {
+        mch_id: mch_id,
+        type: type
+    }
+    if (!Common.isEmpty(out_trade_no)) {
+        params.out_trade_no = out_trade_no;
+    }
+    if (!Common.isEmpty(batch_no)) {
+        params.batch_no = batch_no;
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, key);
+    params.sign = sign;
+    if (!Common.isEmpty(app_code)) {
+        params.app_code = app_code;
+    }
+    return HttpUtil.post(FinanceConfig.getBatchPaySendPayUrl, params);
+}
+
+
+
+
+/**
+ * 查询批量转账（同步）
+ * 
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/getBatchPayInfo
+ *
+ * @param {*} out_trade_no 商户单号。与batch_no参数不能同时为空
+ * @param {*} batch_no     批次单号。与out_trade_no参数不能同时为空
+ * @param {*} mch_id       批量转账商户号 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约中查看
+ * @param {*} key          商户密钥 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约 商户密钥
+ */
+async function getBatchPayInfoAsync(out_trade_no, batch_no, mch_id, key) {
+    if (Common.isEmpty(out_trade_no) && Common.isEmpty(batch_no)) {
+        console.error("yungouos sdk error", "商户单号和批次单号不能同时为空！");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "批量转账商户号不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(key)) {
+        console.error("yungouos sdk error", "商户密钥不能为空！");
+        return null;
+    }
+    let params = {
+        mch_id: mch_id
+    }
+    if (!Common.isEmpty(out_trade_no)) {
+        params.out_trade_no = out_trade_no;
+    }
+    if (!Common.isEmpty(batch_no)) {
+        params.batch_no = batch_no;
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, key);
+    params.sign = sign;
+    let response = await HttpUtil.get(FinanceConfig.getBatchPayInfoUrl, params);
+    let result = Common.doApiResult(response);
+    if (Common.isEmpty(result)) {
+        return null;
+    }
+    let data = result.data;
+    if (Common.isEmpty(data)) {
+        console.error("yungouos sdk error", "API无返回结果");
+        return null;
+    }
+    return data;
+}
+
+
+
+/**
+ * 查询批量转账（异步）
+ * 
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/getBatchPayInfo
+ *
+ * @param {*} out_trade_no 商户单号。与batch_no参数不能同时为空
+ * @param {*} batch_no     批次单号。与out_trade_no参数不能同时为空
+ * @param {*} mch_id       批量转账商户号 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约中查看
+ * @param {*} key          商户密钥 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约 商户密钥
+ */
+function getBatchPayInfo(out_trade_no, batch_no, mch_id, key) {
+    if (Common.isEmpty(out_trade_no) && Common.isEmpty(batch_no)) {
+        console.error("yungouos sdk error", "商户单号和批次单号不能同时为空！");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "批量转账商户号不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(key)) {
+        console.error("yungouos sdk error", "商户密钥不能为空！");
+        return null;
+    }
+    let params = {
+        mch_id: mch_id
+    }
+    if (!Common.isEmpty(out_trade_no)) {
+        params.out_trade_no = out_trade_no;
+    }
+    if (!Common.isEmpty(batch_no)) {
+        params.batch_no = batch_no;
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, key);
+    params.sign = sign;
+    return HttpUtil.get(FinanceConfig.getBatchPayInfoUrl, params);
+}
+
+
+
+/**
+ * 关闭批量转账（同步）
+ * 
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/close
+ *
+ * @param {*} out_trade_no 商户单号。与batch_no参数不能同时为空
+ * @param {*} batch_no     批次单号。与out_trade_no参数不能同时为空
+ * @param {*} mch_id       批量转账商户号 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约中查看
+ * @param {*} key          商户密钥 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约 商户密钥
+ */
+async function batchPayCloseAsync(out_trade_no, batch_no, mch_id, key) {
+    if (Common.isEmpty(out_trade_no) && Common.isEmpty(batch_no)) {
+        console.error("yungouos sdk error", "商户单号和批次单号不能同时为空！");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "批量转账商户号不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(key)) {
+        console.error("yungouos sdk error", "商户密钥不能为空！");
+        return null;
+    }
+    let params = {
+        mch_id: mch_id
+    }
+    if (!Common.isEmpty(out_trade_no)) {
+        params.out_trade_no = out_trade_no;
+    }
+    if (!Common.isEmpty(batch_no)) {
+        params.batch_no = batch_no;
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, key);
+    params.sign = sign;
+    let response = await HttpUtil.post(FinanceConfig.getCloseBatchPayUrl, params);
+    let result = Common.doApiResult(response);
+    if (Common.isEmpty(result)) {
+        return null;
+    }
+    let data = result.data;
+    if (Common.isEmpty(data)) {
+        console.error("yungouos sdk error", "API无返回结果");
+        return null;
+    }
+    return data;
+}
+
+
+
+/**
+ * 关闭批量转账（异步）
+ * 
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/repay/close
+ *
+ * @param {*} out_trade_no 商户单号。与batch_no参数不能同时为空
+ * @param {*} batch_no     批次单号。与out_trade_no参数不能同时为空
+ * @param {*} mch_id       批量转账商户号 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约中查看
+ * @param {*} key          商户密钥 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约 商户密钥
+ */
+function batchPayClose(out_trade_no, batch_no, mch_id, key) {
+    if (Common.isEmpty(out_trade_no) && Common.isEmpty(batch_no)) {
+        console.error("yungouos sdk error", "商户单号和批次单号不能同时为空！");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "批量转账商户号不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(key)) {
+        console.error("yungouos sdk error", "商户密钥不能为空！");
+        return null;
+    }
+    let params = {
+        mch_id: mch_id
+    }
+    if (!Common.isEmpty(out_trade_no)) {
+        params.out_trade_no = out_trade_no;
+    }
+    if (!Common.isEmpty(batch_no)) {
+        params.batch_no = batch_no;
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, key);
+    params.sign = sign;
+    return HttpUtil.post(FinanceConfig.getCloseBatchPayUrl, params);
+}
+
+
+
 export default {
     configAsync,
     config,
@@ -1547,5 +1984,13 @@ export default {
     getRePayInfoAsync,
     getRePayInfo,
     rePayBankAsync,
-    rePayBank
+    rePayBank,
+    batchPayCreateAsync,
+    batchPayCreate,
+    batchPaySendPayAsync,
+    batchPaySendPay,
+    getBatchPayInfoAsync,
+    getBatchPayInfo,
+    batchPayCloseAsync,
+    batchPayClose
 }
