@@ -1,5 +1,4 @@
 import wxPayUtil from "../../wxpay/wxPayUtil";
-import config from "../../wxpay/config";
 
 //index.js
 //获取应用实例
@@ -7,38 +6,10 @@ const app = getApp()
 
 Page({
   data: {
-    userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    openId:null
   },
   onLoad: function () {
-     //获取用户信息的 跟支付无关
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse){
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
-      })
-    }
+    
   },
   onShow:function(){
      //支付完成返回，开始处理数据
@@ -55,20 +26,22 @@ Page({
           duration: 2000
         })
       }
-      
+    }
+    //授权
+    if (app.globalData.oauthData != null && app.globalData.oauthData != undefined) {
+      let dataInfo = app.globalData.oauthData;
+      if (dataInfo.openId != null && dataInfo.openId != undefined) {
+        this.setData({
+          openId: dataInfo.openId
+        })
+        wx.showToast({
+          title: '授权成功',
+          icon: 'success',
+          duration: 2000
+        })
+      }
     }
   },
-  getUserInfo: function(e) {
-    //获取用户信息的 跟支付无关
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
-    })
-  },
-
-
-  //上述是小程序创建默认代码
 
   //************以下展示我们的支付能力*************** */
 
@@ -92,8 +65,37 @@ Page({
       console.log(response);
     });
     
-  }
+  },
 
+  /**
+   * 小程序授权方式获取openid
+   * 文档地址：https://open.pay.yungouos.com/#/api/api/wx/oauth
+   */
+  toOauth: function () {
+    //附加参数，授权后原路返回，可随便写
+    let params = {
+      type:"oauth"
+    };
+    //跳转到支付收银小程序的参数
+    let data = {
+      merchant_id: '商户号',
+    }
+
+    let sign = wxPayUtil.wxPaySign(data, "商户密钥");
+    data.params = params;
+    data.sign = sign;
+
+    wx.openEmbeddedMiniProgram({
+      appId: 'wxd9634afb01b983c0',//支付收银小程序的appid 固定值 不可修改
+      path: '/pages/oauth/oauth',//授权页面 固定值 不可修改
+      extraData: data,//携带的参数 参考API文档
+      success(res) {
+        console.log(res);
+      }, fail(res) {
+        console.log(res);
+      }
+    });
+  }
 
 
 
