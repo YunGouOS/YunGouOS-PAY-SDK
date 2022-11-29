@@ -27,6 +27,7 @@ public class AliPay {
      * @param mch_id       支付宝商户号 登录YunGouOS.com-》支付宝-》商户管理 查看商户号
      * @param body         商品描述
      * @param auth_code    扫码支付授权码，设备读取用户支付宝中的条码或者二维码信息
+     * @param app_id       在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
      * @param attach       附加数据 回调时原路返回 可不传
      * @param notify_url   异步回调地址，不传无回调
      * @param config_no    分账配置单号。支持多个分账，使用,号分割
@@ -36,7 +37,7 @@ public class AliPay {
      * @param key          支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
      * @return 支付结果对象 参考：https://open.pay.yungouos.com/#/api/api/pay/alipay/codePay
      */
-    public static AliPayCodePayBiz codePay(String out_trade_no, String total_fee, String mch_id, String body, String auth_code, String attach, String notify_url, String config_no, String auto,
+    public static AliPayCodePayBiz codePay(String out_trade_no, String total_fee, String mch_id, String body, String auth_code,String app_id,String attach, String notify_url, String config_no, String auto,
                                            String auto_node, HbFqBiz hbFqBiz, String key) throws PayException {
         Map<String, Object> params = new HashMap<String, Object>();
         AliPayCodePayBiz aliPayCodePayBiz = null;
@@ -66,11 +67,24 @@ public class AliPay {
             params.put("body", body);
             // 上述必传参数签名
             String sign = PaySignUtil.createSign(params, key);
-            params.put("attach", attach);
-            params.put("notify_url", notify_url);
-            params.put("config_no", config_no);
-            params.put("auto", auto);
-            params.put("auto_node", auto_node);
+            if(!StrUtil.isBlank(app_id)){
+                params.put("app_id", app_id);
+            }
+            if(!StrUtil.isBlank(attach)){
+                params.put("attach", attach);
+            }
+            if(!StrUtil.isBlank(notify_url)){
+                params.put("notify_url", notify_url);
+            }
+            if(!StrUtil.isBlank(config_no)){
+                params.put("config_no", config_no);
+            }
+            if(!StrUtil.isBlank(auto)){
+                params.put("auto", auto);
+            }
+            if(!StrUtil.isBlank(auto_node)){
+                params.put("auto_node", auto_node);
+            }
             if (hbFqBiz != null) {
                 JSONObject hbfqJson = (JSONObject) JSON.toJSON(hbFqBiz);
                 if (hbfqJson != null) {
@@ -113,6 +127,7 @@ public class AliPay {
      * @param mch_id       支付宝商户号 登录YunGouOS.com-》支付宝-》商户管理 查看商户号
      * @param body         商品描述
      * @param type         返回类型（1、返回支付宝原生的支付连接需要自行生成二维码；2、直接返回付款二维码地址，页面上展示即可。不填默认1 ）
+     * @param app_id       在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
      * @param attach       附加数据 回调时原路返回 可不传
      * @param notify_url   异步回调地址，不传无回调
      * @param config_no    分账配置单号。支持多个分账，使用,号分割
@@ -122,7 +137,7 @@ public class AliPay {
      * @param key          支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
      * @return 支付二维码连接
      */
-    public static String nativePay(String out_trade_no, String total_fee, String mch_id, String body, String type, String attach, String notify_url, String config_no, String auto, String auto_node,
+    public static String nativePay(String out_trade_no, String total_fee, String mch_id, String body, String type, String app_id,String attach, String notify_url, String config_no, String auto, String auto_node,
                                    HbFqBiz hbFqBiz, String key) throws PayException {
         Map<String, Object> params = new HashMap<String, Object>();
         String resultUrl = null;
@@ -152,11 +167,25 @@ public class AliPay {
                 type = "2";
             }
             params.put("type", type);
-            params.put("attach", attach);
-            params.put("notify_url", notify_url);
-            params.put("config_no", config_no);
-            params.put("auto", auto);
-            params.put("auto_node", auto_node);
+
+            if(!StrUtil.isBlank(app_id)){
+                params.put("app_id", app_id);
+            }
+            if(!StrUtil.isBlank(attach)){
+                params.put("attach", attach);
+            }
+            if(!StrUtil.isBlank(notify_url)){
+                params.put("notify_url", notify_url);
+            }
+            if(!StrUtil.isBlank(config_no)){
+                params.put("config_no", config_no);
+            }
+            if(!StrUtil.isBlank(auto)){
+                params.put("auto", auto);
+            }
+            if(!StrUtil.isBlank(auto_node)){
+                params.put("auto_node", auto_node);
+            }
             if (hbFqBiz != null) {
                 JSONObject hbfqJson = (JSONObject) JSON.toJSON(hbFqBiz);
                 if (hbfqJson != null) {
@@ -194,6 +223,7 @@ public class AliPay {
      * @param total_fee    支付金额 单位：元 范围：0.01-99999
      * @param mch_id       支付宝商户号 登录YunGouOS.com-》支付宝-》商户管理 查看商户号
      * @param body         商品描述
+     * @param app_id       在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
      * @param attach       附加数据 回调时原路返回 可不传
      * @param notify_url   异步回调地址，不传无回调
      * @param config_no    分账配置单号。支持多个分账，使用,号分割
@@ -203,7 +233,7 @@ public class AliPay {
      * @param key          支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
      * @return wap支付连接，重定向到该地址自动打开支付APP付款
      */
-    public static String wapPay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String config_no, String auto, String auto_node, HbFqBiz hbFqBiz,
+    public static String wapPay(String out_trade_no, String total_fee, String mch_id, String body, String app_id,String attach, String notify_url, String config_no, String auto, String auto_node, HbFqBiz hbFqBiz,
                                 String key) throws PayException {
         Map<String, Object> params = new HashMap<String, Object>();
         String resultUrl = null;
@@ -229,11 +259,24 @@ public class AliPay {
             params.put("body", body);
             // 上述必传参数签名
             String sign = PaySignUtil.createSign(params, key);
-            params.put("attach", attach);
-            params.put("notify_url", notify_url);
-            params.put("config_no", config_no);
-            params.put("auto", auto);
-            params.put("auto_node", auto_node);
+            if(!StrUtil.isBlank(app_id)){
+                params.put("app_id", app_id);
+            }
+            if(!StrUtil.isBlank(attach)){
+                params.put("attach", attach);
+            }
+            if(!StrUtil.isBlank(notify_url)){
+                params.put("notify_url", notify_url);
+            }
+            if(!StrUtil.isBlank(config_no)){
+                params.put("config_no", config_no);
+            }
+            if(!StrUtil.isBlank(auto)){
+                params.put("auto", auto);
+            }
+            if(!StrUtil.isBlank(auto_node)){
+                params.put("auto_node", auto_node);
+            }
             if (hbFqBiz != null) {
                 JSONObject hbfqJson = (JSONObject) JSON.toJSON(hbFqBiz);
                 if (hbfqJson != null) {
@@ -272,6 +315,7 @@ public class AliPay {
      * @param mch_id       支付宝商户号 登录YunGouOS.com-》支付宝-》商户管理 查看商户号
      * @param buyer_id     买家的支付宝唯一用户号（2088开头的16位纯数字）
      * @param body         商品描述
+     * @param app_id       在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
      * @param attach       附加数据 回调时原路返回 可不传
      * @param notify_url   异步回调地址，不传无回调
      * @param config_no    分账配置单号。支持多个分账，使用,号分割
@@ -281,7 +325,7 @@ public class AliPay {
      * @param key          支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
      * @return 支付宝JSSDK所需的对象数据 参考：https://open.pay.yungouos.com/#/api/api/pay/alipay/jsPay
      */
-    public static AliPayJsPayBiz jsPay(String out_trade_no, String total_fee, String mch_id, String buyer_id, String body, String attach, String notify_url, String config_no, String auto,
+    public static AliPayJsPayBiz jsPay(String out_trade_no, String total_fee, String mch_id, String buyer_id, String body, String app_id,String attach, String notify_url, String config_no, String auto,
                                        String auto_node, HbFqBiz hbFqBiz, String key) throws PayException {
         Map<String, Object> params = new HashMap<String, Object>();
         AliPayJsPayBiz aliPayJsPayBiz = null;
@@ -311,11 +355,25 @@ public class AliPay {
             params.put("body", body);
             // 上述必传参数签名
             String sign = PaySignUtil.createSign(params, key);
-            params.put("attach", attach);
-            params.put("notify_url", notify_url);
-            params.put("config_no", config_no);
-            params.put("auto", auto);
-            params.put("auto_node", auto_node);
+
+            if(!StrUtil.isBlank(app_id)){
+                params.put("app_id", app_id);
+            }
+            if(!StrUtil.isBlank(attach)){
+                params.put("attach", attach);
+            }
+            if(!StrUtil.isBlank(notify_url)){
+                params.put("notify_url", notify_url);
+            }
+            if(!StrUtil.isBlank(config_no)){
+                params.put("config_no", config_no);
+            }
+            if(!StrUtil.isBlank(auto)){
+                params.put("auto", auto);
+            }
+            if(!StrUtil.isBlank(auto_node)){
+                params.put("auto_node", auto_node);
+            }
             if (hbFqBiz != null) {
                 JSONObject hbfqJson = (JSONObject) JSON.toJSON(hbFqBiz);
                 if (hbfqJson != null) {
@@ -357,6 +415,7 @@ public class AliPay {
      * @param total_fee    支付金额 单位：元 范围：0.01-99999
      * @param mch_id       支付宝商户号 登录YunGouOS.com-》支付宝-》商户管理 查看商户号
      * @param body         商品描述
+     * @param app_id       在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
      * @param attach       附加数据 回调时原路返回 可不传
      * @param notify_url   异步回调地址，不传无回调
      * @param return_url   同步回调地址，用户支付成功后或取消支付都会跳转回到该地址
@@ -367,7 +426,7 @@ public class AliPay {
      * @param key          支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
      * @return 拉起H5页面的form表单
      */
-    public static AliPayH5Biz h5Pay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String return_url, String config_no, String auto,
+    public static AliPayH5Biz h5Pay(String out_trade_no, String total_fee, String mch_id, String body, String app_id,String attach, String notify_url, String return_url, String config_no, String auto,
                                     String auto_node, HbFqBiz hbFqBiz, String key) throws PayException {
         Map<String, Object> params = new HashMap<String, Object>();
         AliPayH5Biz aliPayH5Biz = null;
@@ -393,12 +452,29 @@ public class AliPay {
             params.put("body", body);
             // 上述必传参数签名
             String sign = PaySignUtil.createSign(params, key);
-            params.put("attach", attach);
-            params.put("notify_url", notify_url);
-            params.put("return_url", return_url);
-            params.put("config_no", config_no);
-            params.put("auto", auto);
-            params.put("auto_node", auto_node);
+
+            if(!StrUtil.isBlank(app_id)){
+                params.put("app_id", app_id);
+            }
+            if(!StrUtil.isBlank(attach)){
+                params.put("attach", attach);
+            }
+            if(!StrUtil.isBlank(notify_url)){
+                params.put("notify_url", notify_url);
+            }
+            if(!StrUtil.isBlank(return_url)){
+                params.put("return_url", return_url);
+            }
+            if(!StrUtil.isBlank(config_no)){
+                params.put("config_no", config_no);
+            }
+            if(!StrUtil.isBlank(auto)){
+                params.put("auto", auto);
+            }
+            if(!StrUtil.isBlank(auto_node)){
+                params.put("auto_node", auto_node);
+            }
+
             if (hbFqBiz != null) {
                 JSONObject hbfqJson = (JSONObject) JSON.toJSON(hbFqBiz);
                 if (hbfqJson != null) {
@@ -440,6 +516,7 @@ public class AliPay {
      * @param total_fee    支付金额 单位：元 范围：0.01-99999
      * @param mch_id       支付宝商户号 登录YunGouOS.com-》支付宝-》商户管理 查看商户号
      * @param body         商品描述
+     * @param app_id       在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
      * @param attach       附加数据 回调时原路返回 可不传
      * @param notify_url   异步回调地址，不传无回调
      * @param config_no    分账配置单号。支持多个分账，使用,号分割
@@ -449,7 +526,7 @@ public class AliPay {
      * @param key          支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
      * @return APP支付所需的参数
      */
-    public static String appPay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String config_no, String auto, String auto_node, HbFqBiz hbFqBiz,
+    public static String appPay(String out_trade_no, String total_fee, String mch_id, String body, String app_id,String attach, String notify_url, String config_no, String auto, String auto_node, HbFqBiz hbFqBiz,
                                 String key) throws PayException {
         Map<String, Object> params = new HashMap<String, Object>();
         String appParams = null;
@@ -475,11 +552,24 @@ public class AliPay {
             params.put("body", body);
             // 上述必传参数签名
             String sign = PaySignUtil.createSign(params, key);
-            params.put("attach", attach);
-            params.put("notify_url", notify_url);
-            params.put("config_no", config_no);
-            params.put("auto", auto);
-            params.put("auto_node", auto_node);
+            if(!StrUtil.isBlank(app_id)){
+                params.put("app_id", app_id);
+            }
+            if(!StrUtil.isBlank(attach)){
+                params.put("attach", attach);
+            }
+            if(!StrUtil.isBlank(notify_url)){
+                params.put("notify_url", notify_url);
+            }
+            if(!StrUtil.isBlank(config_no)){
+                params.put("config_no", config_no);
+            }
+            if(!StrUtil.isBlank(auto)){
+                params.put("auto", auto);
+            }
+            if(!StrUtil.isBlank(auto_node)){
+                params.put("auto_node", auto_node);
+            }
             if (hbFqBiz != null) {
                 JSONObject hbfqJson = (JSONObject) JSON.toJSON(hbFqBiz);
                 if (hbfqJson != null) {
@@ -521,6 +611,7 @@ public class AliPay {
      * @param total_fee    支付金额 单位：元 范围：0.01-99999
      * @param mch_id       支付宝商户号 登录YunGouOS.com-》支付宝-》商户管理 查看商户号
      * @param body         商品描述
+     * @param app_id       在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
      * @param attach       附加数据 回调时原路返回 可不传
      * @param notify_url   异步回调地址，不传无回调
      * @param return_url   同步回调地址，用户支付成功后或取消支付都会跳转回到该地址
@@ -531,7 +622,7 @@ public class AliPay {
      * @param key          支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
      * @return 电脑网站支付对象，文档地址：https://open.pay.yungouos.com/#/api/api/pay/alipay/webPay
      */
-    public static AliPayWebPayBiz webPay(String out_trade_no, String total_fee, String mch_id, String body, String attach, String notify_url, String return_url, String config_no, String auto, String auto_node, HbFqBiz hbFqBiz,
+    public static AliPayWebPayBiz webPay(String out_trade_no, String total_fee, String mch_id, String body, String app_id,String attach, String notify_url, String return_url, String config_no, String auto, String auto_node, HbFqBiz hbFqBiz,
                                          String key) throws PayException {
         Map<String, Object> params = new HashMap<String, Object>();
         AliPayWebPayBiz aliPayWebPayBiz = null;
@@ -557,12 +648,27 @@ public class AliPay {
             params.put("body", body);
             // 上述必传参数签名
             String sign = PaySignUtil.createSign(params, key);
-            params.put("attach", attach);
-            params.put("notify_url", notify_url);
-            params.put("return_url", return_url);
-            params.put("config_no", config_no);
-            params.put("auto", auto);
-            params.put("auto_node", auto_node);
+            if(!StrUtil.isBlank(app_id)){
+                params.put("app_id", app_id);
+            }
+            if(!StrUtil.isBlank(attach)){
+                params.put("attach", attach);
+            }
+            if(!StrUtil.isBlank(notify_url)){
+                params.put("notify_url", notify_url);
+            }
+            if(!StrUtil.isBlank(return_url)){
+                params.put("return_url", return_url);
+            }
+            if(!StrUtil.isBlank(config_no)){
+                params.put("config_no", config_no);
+            }
+            if(!StrUtil.isBlank(auto)){
+                params.put("auto", auto);
+            }
+            if(!StrUtil.isBlank(auto_node)){
+                params.put("auto_node", auto_node);
+            }
             if (hbFqBiz != null) {
                 JSONObject hbfqJson = (JSONObject) JSON.toJSON(hbFqBiz);
                 if (hbfqJson != null) {
