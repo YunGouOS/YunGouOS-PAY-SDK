@@ -39,6 +39,7 @@ class WxPay
      * @param $mch_id 微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
      * @param $body  商品描述
      * @param $auth_code  扫码支付授权码，设备读取用户微信中的条码或者二维码信息（注：用户付款码条形码规则：18位纯数字，以10、11、12、13、14、15开头）
+     * @param $app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
      * @param $attach 附加数据 回调时原路返回 可不传
      * @param $receipt 是否开具电子发票 0：否 1：是 默认0
      * @param $notify_url 异步回调地址，不传无回调
@@ -48,7 +49,7 @@ class WxPay
      * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
-    public function codePay($out_trade_no, $total_fee, $mch_id, $body, $auth_code, $attach, $receipt, $notify_url, $config_no, $auto, $auto_node,$biz_params,$key)
+    public function codePay($out_trade_no, $total_fee, $mch_id, $body, $auth_code, $app_id, $attach, $receipt, $notify_url, $config_no, $auto, $auto_node, $biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -79,29 +80,32 @@ class WxPay
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
             //下面参数不参与签名，但是接口需要这些参数
-            if(!empty($receipt)){
+            if (!empty($receipt)) {
                 $paramsArray['receipt'] = $receipt;
             }
-            if(!empty($attach)){
+            if (!empty($app_id)) {
+                $paramsArray['app_id'] = $app_id;
+            }
+            if (!empty($attach)) {
                 $paramsArray['attach'] = $attach;
             }
-            if(!empty($notify_url)){
+            if (!empty($notify_url)) {
                 $paramsArray['notify_url'] = $notify_url;
             }
-            if(!empty($config_no)){
+            if (!empty($config_no)) {
                 $paramsArray['config_no'] = $config_no;
             }
-            if(!empty($auto)){
+            if (!empty($auto)) {
                 $paramsArray['auto'] = $auto;
             }
-            if(!empty($auto_node)){
+            if (!empty($auto_node)) {
                 $paramsArray['auto_node'] = $auto_node;
             }
-            if(!empty($biz_params)){
-                if(is_array($biz_params)){
+            if (!empty($biz_params)) {
+                if (is_array($biz_params)) {
                     throw new Exception("biz_params不是合法的数组");
                 }
-                $biz_paramsJson=json_encode($biz_params);
+                $biz_paramsJson = json_encode($biz_params);
                 $paramsArray['biz_params'] = $biz_paramsJson;
             }
 
@@ -134,6 +138,7 @@ class WxPay
      * @param $mch_id 微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
      * @param $body  商品描述
      * @param $type 返回类型（1、返回微信原生的支付连接需要自行生成二维码；2、直接返回付款二维码地址，页面上展示即可。不填默认1 ）
+     * @param $app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
      * @param $attach 附加数据 回调时原路返回 可不传
      * @param $notify_url 异步回调地址，不传无回调
      * @param $config_no 分账配置单号。支持多个分账，使用,号分割
@@ -142,7 +147,7 @@ class WxPay
      * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
-    public function nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url, $config_no, $auto, $auto_node,$biz_params, $key)
+    public function nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $app_id, $attach, $notify_url, $config_no, $auto, $auto_node, $biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -173,27 +178,30 @@ class WxPay
             }
             //下面参数不参与签名，但是接口需要这些参数
             $paramsArray['type'] = $type;
-            if(!empty($attach)){
+            if (!empty($app_id)) {
+                $paramsArray['app_id'] = $app_id;
+            }
+            if (!empty($attach)) {
                 $paramsArray['attach'] = $attach;
             }
-            if(!empty($notify_url)){
+            if (!empty($notify_url)) {
                 $paramsArray['notify_url'] = $notify_url;
             }
-            if(!empty($config_no)){
+            if (!empty($config_no)) {
                 $paramsArray['config_no'] = $config_no;
             }
-            if(!empty($auto)){
+            if (!empty($auto)) {
                 $paramsArray['auto'] = $auto;
             }
-            if(!empty($auto_node)){
+            if (!empty($auto_node)) {
                 $paramsArray['auto_node'] = $auto_node;
             }
 
-            if(!empty($biz_params)){
-                if(is_array($biz_params)){
+            if (!empty($biz_params)) {
+                if (is_array($biz_params)) {
                     throw new Exception("biz_params不是合法的数组");
                 }
-                $biz_paramsJson=json_encode($biz_params);
+                $biz_paramsJson = json_encode($biz_params);
                 $paramsArray['biz_params'] = $biz_paramsJson;
             }
 
@@ -225,6 +233,7 @@ class WxPay
      * @param $mch_id 微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
      * @param $body  商品描述
      * @param $openId 用户openId 通过授权接口获得
+     * @param $app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
      * @param $attach 附加数据 回调时原路返回 可不传
      * @param $notify_url 异步回调地址，不传无回调
      * @param $return_url 同步地址。支付完毕后用户浏览器返回到该地址
@@ -234,7 +243,7 @@ class WxPay
      * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
-    public function jsapiPay($out_trade_no, $total_fee, $mch_id, $body, $openId, $attach, $notify_url,$return_url, $config_no, $auto, $auto_node,$biz_params, $key)
+    public function jsapiPay($out_trade_no, $total_fee, $mch_id, $body, $openId, $app_id, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node, $biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -266,30 +275,33 @@ class WxPay
             $sign = $this->paySign->getSign($paramsArray, $key);
 
             //下面参数不参与签名，但是接口需要这些参数
-            if(!empty($attach)){
+            if (!empty($app_id)) {
+                $paramsArray['app_id'] = $app_id;
+            }
+            if (!empty($attach)) {
                 $paramsArray['attach'] = $attach;
             }
-            if(!empty($notify_url)){
+            if (!empty($notify_url)) {
                 $paramsArray['notify_url'] = $notify_url;
             }
-            if(!empty($return_url)){
+            if (!empty($return_url)) {
                 $paramsArray['return_url'] = $return_url;
             }
-            if(!empty($config_no)){
+            if (!empty($config_no)) {
                 $paramsArray['config_no'] = $config_no;
             }
-            if(!empty($auto)){
+            if (!empty($auto)) {
                 $paramsArray['auto'] = $auto;
             }
-            if(!empty($auto_node)){
+            if (!empty($auto_node)) {
                 $paramsArray['auto_node'] = $auto_node;
             }
 
-            if(!empty($biz_params)){
-                if(is_array($biz_params)){
+            if (!empty($biz_params)) {
+                if (is_array($biz_params)) {
                     throw new Exception("biz_params不是合法的数组");
                 }
-                $biz_paramsJson=json_encode($biz_params);
+                $biz_paramsJson = json_encode($biz_params);
                 $paramsArray['biz_params'] = $biz_paramsJson;
             }
 
@@ -321,6 +333,7 @@ class WxPay
      * @param $total_fee 支付金额 单位元 范围 0.01-99999
      * @param $mch_id 微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
      * @param $body  商品描述
+     * @param $app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
      * @param $attach 附加数据 回调时原路返回 可不传
      * @param $notify_url 异步回调地址，不传无回调
      * @param $return_url 同步回调地址 不传支付后关闭页面
@@ -330,7 +343,7 @@ class WxPay
      * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
-    public function cashierPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node,$biz_params, $key)
+    public function cashierPay($out_trade_no, $total_fee, $mch_id, $body, $app_id, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node, $biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -357,29 +370,32 @@ class WxPay
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
             //下面参数不参与签名，但是接口需要这些参数
-            if(!empty($attach)){
+            if (!empty($app_id)) {
+                $paramsArray['app_id'] = $app_id;
+            }
+            if (!empty($attach)) {
                 $paramsArray['attach'] = $attach;
             }
-            if(!empty($notify_url)){
+            if (!empty($notify_url)) {
                 $paramsArray['notify_url'] = $notify_url;
             }
-            if(!empty($return_url)){
+            if (!empty($return_url)) {
                 $paramsArray['return_url'] = $return_url;
             }
-            if(!empty($config_no)){
+            if (!empty($config_no)) {
                 $paramsArray['config_no'] = $config_no;
             }
-            if(!empty($auto)){
+            if (!empty($auto)) {
                 $paramsArray['auto'] = $auto;
             }
-            if(!empty($auto_node)){
+            if (!empty($auto_node)) {
                 $paramsArray['auto_node'] = $auto_node;
             }
-            if(!empty($biz_params)){
-                if(is_array($biz_params)){
+            if (!empty($biz_params)) {
+                if (is_array($biz_params)) {
                     throw new Exception("biz_params不是合法的数组");
                 }
-                $biz_paramsJson=json_encode($biz_params);
+                $biz_paramsJson = json_encode($biz_params);
                 $paramsArray['biz_params'] = $biz_paramsJson;
             }
 
@@ -414,6 +430,7 @@ class WxPay
      * @param $mch_id 微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
      * @param $body 商品描述
      * @param $openId 用户openId（调用小程序wx.login接口获取）
+     * @param $app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
      * @param $attach 附加数据，回调时候原路返回
      * @param $notify_url 异步回调地址，不传无回调
      * @param $config_no 分账配置单号。支持多个分账，使用,号分割
@@ -422,7 +439,7 @@ class WxPay
      * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
-    public function minAppPay($out_trade_no, $total_fee, $mch_id, $body,$openId,$attach, $notify_url,$config_no, $auto, $auto_node,$biz_params, $key)
+    public function minAppPay($out_trade_no, $total_fee, $mch_id, $body, $openId, $app_id, $attach, $notify_url, $config_no, $auto, $auto_node, $biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -452,28 +469,31 @@ class WxPay
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
             $paramsArray['openId'] = $openId;
+            if (!empty($app_id)) {
+                $paramsArray['app_id'] = $app_id;
+            }
             //下面参数不参与签名，但是接口需要这些参数
-            if(!empty($attach)){
+            if (!empty($attach)) {
                 $paramsArray['attach'] = $attach;
             }
-            if(!empty($notify_url)){
+            if (!empty($notify_url)) {
                 $paramsArray['notify_url'] = $notify_url;
             }
-            if(!empty($config_no)){
+            if (!empty($config_no)) {
                 $paramsArray['config_no'] = $config_no;
             }
-            if(!empty($auto)){
+            if (!empty($auto)) {
                 $paramsArray['auto'] = $auto;
             }
-            if(!empty($auto_node)){
+            if (!empty($auto_node)) {
                 $paramsArray['auto_node'] = $auto_node;
             }
 
-            if(!empty($biz_params)){
-                if(is_array($biz_params)){
+            if (!empty($biz_params)) {
+                if (is_array($biz_params)) {
                     throw new Exception("biz_params不是合法的数组");
                 }
-                $biz_paramsJson=json_encode($biz_params);
+                $biz_paramsJson = json_encode($biz_params);
                 $paramsArray['biz_params'] = $biz_paramsJson;
             }
 
@@ -499,7 +519,6 @@ class WxPay
     }
 
 
-
     /**
      *
      * 微信小程序支付，返回跳转“支付收银”小程序所需的参数。适合个人商户。
@@ -509,6 +528,7 @@ class WxPay
      * @param $mch_id 微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
      * @param $body 商品描述
      * @param $title 支付收银小程序页面顶部的title 可自定义品牌名称 不传默认为 “收银台” 如传递参数 “海底捞” 页面则显示 “海底捞-收银台”
+     * @param $app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
      * @param $attach 附加数据，回调时候原路返回
      * @param $notify_url 异步回调地址，不传无回调
      * @param $config_no 分账配置单号。支持多个分账，使用,号分割
@@ -517,7 +537,7 @@ class WxPay
      * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
-    public function minAppPayParams($out_trade_no, $total_fee, $mch_id, $body,$title,$attach, $notify_url,$config_no, $auto, $auto_node,$biz_params, $key)
+    public function minAppPayParams($out_trade_no, $total_fee, $mch_id, $body, $title, $app_id, $attach, $notify_url, $config_no, $auto, $auto_node, $biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -545,27 +565,30 @@ class WxPay
             $sign = $this->paySign->getSign($paramsArray, $key);
             $paramsArray['title'] = $title;
             //下面参数不参与签名，但是接口需要这些参数
-            if(!empty($attach)){
+            if (!empty($app_id)) {
+                $paramsArray['app_id'] = $app_id;
+            }
+            if (!empty($attach)) {
                 $paramsArray['attach'] = $attach;
             }
-            if(!empty($notify_url)){
+            if (!empty($notify_url)) {
                 $paramsArray['notify_url'] = $notify_url;
             }
-            if(!empty($config_no)){
+            if (!empty($config_no)) {
                 $paramsArray['config_no'] = $config_no;
             }
-            if(!empty($auto)){
+            if (!empty($auto)) {
                 $paramsArray['auto'] = $auto;
             }
-            if(!empty($auto_node)){
+            if (!empty($auto_node)) {
                 $paramsArray['auto_node'] = $auto_node;
             }
 
-            if(!empty($biz_params)){
-                if(is_array($biz_params)){
+            if (!empty($biz_params)) {
+                if (is_array($biz_params)) {
                     throw new Exception("biz_params不是合法的数组");
                 }
-                $biz_paramsJson=json_encode($biz_params);
+                $biz_paramsJson = json_encode($biz_params);
                 $paramsArray['biz_params'] = $biz_paramsJson;
             }
             $paramsArray['sign'] = $sign;
@@ -576,7 +599,6 @@ class WxPay
     }
 
 
-
     /**
      *  微信刷脸支付，通过微信刷脸SDK或青蛙APP调用摄像头获取到扫描人脸获取到人脸数据后，发起刷脸支付请求，进行支付扣款。
      * @param $out_trade_no 订单号不可重复
@@ -585,6 +607,7 @@ class WxPay
      * @param $body  商品描述
      * @param $openId 用户openId（调用授权接口获取）
      * @param $face_code 人脸凭证，通过摄像头配合微信刷脸SDK获得
+     * @param $app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
      * @param $attach 附加数据 回调时原路返回 可不传
      * @param $notify_url 异步回调地址，不传无回调
      * @param $config_no 分账配置单号。支持多个分账，使用,号分割
@@ -593,7 +616,7 @@ class WxPay
      * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
-    public function facePay($out_trade_no, $total_fee, $mch_id, $body, $openId, $face_code, $attach, $notify_url, $config_no, $auto, $auto_node,$biz_params, $key)
+    public function facePay($out_trade_no, $total_fee, $mch_id, $body, $openId, $face_code, $app_id, $attach, $notify_url, $config_no, $auto, $auto_node, $biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -627,29 +650,32 @@ class WxPay
             $paramsArray['auth_code'] = $face_code;
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
+            if (!empty($app_id)) {
+                $paramsArray['app_id'] = $app_id;
+            }
             //下面参数不参与签名，但是接口需要这些参数
 
-            if(!empty($attach)){
+            if (!empty($attach)) {
                 $paramsArray['attach'] = $attach;
             }
-            if(!empty($notify_url)){
+            if (!empty($notify_url)) {
                 $paramsArray['notify_url'] = $notify_url;
             }
-            if(!empty($config_no)){
+            if (!empty($config_no)) {
                 $paramsArray['config_no'] = $config_no;
             }
-            if(!empty($auto)){
+            if (!empty($auto)) {
                 $paramsArray['auto'] = $auto;
             }
-            if(!empty($auto_node)){
+            if (!empty($auto_node)) {
                 $paramsArray['auto_node'] = $auto_node;
             }
 
-            if(!empty($biz_params)){
-                if(is_array($biz_params)){
+            if (!empty($biz_params)) {
+                if (is_array($biz_params)) {
                     throw new Exception("biz_params不是合法的数组");
                 }
-                $biz_paramsJson=json_encode($biz_params);
+                $biz_paramsJson = json_encode($biz_params);
                 $paramsArray['biz_params'] = $biz_paramsJson;
             }
 
@@ -681,6 +707,7 @@ class WxPay
      * @param $total_fee 支付金额 单位元 范围 0.01-99999
      * @param $mch_id 微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
      * @param $body  商品描述
+     * @param $app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
      * @param $attach 附加数据 回调时原路返回 可不传
      * @param $notify_url 异步回调地址，不传无回调
      * @param $return_url 同步回调地址，用户支付成功后从微信APP跳转回该地址。调转不会携带任何参数，如需携带参数请自行拼接
@@ -690,7 +717,7 @@ class WxPay
      * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
-    public function wapPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node,$biz_params, $key)
+    public function wapPay($out_trade_no, $total_fee, $mch_id, $body, $app_id, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node, $biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -717,30 +744,33 @@ class WxPay
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
             //下面参数不参与签名，但是接口需要这些参数
-            if(!empty($attach)){
+            if (!empty($app_id)) {
+                $paramsArray['app_id'] = $app_id;
+            }
+            if (!empty($attach)) {
                 $paramsArray['attach'] = $attach;
             }
-            if(!empty($notify_url)){
+            if (!empty($notify_url)) {
                 $paramsArray['notify_url'] = $notify_url;
             }
-            if(!empty($return_url)){
+            if (!empty($return_url)) {
                 $paramsArray['return_url'] = $return_url;
             }
-            if(!empty($config_no)){
+            if (!empty($config_no)) {
                 $paramsArray['config_no'] = $config_no;
             }
-            if(!empty($auto)){
+            if (!empty($auto)) {
                 $paramsArray['auto'] = $auto;
             }
-            if(!empty($auto_node)){
+            if (!empty($auto_node)) {
                 $paramsArray['auto_node'] = $auto_node;
             }
 
-            if(!empty($biz_params)){
-                if(is_array($biz_params)){
+            if (!empty($biz_params)) {
+                if (is_array($biz_params)) {
                     throw new Exception("biz_params不是合法的数组");
                 }
-                $biz_paramsJson=json_encode($biz_params);
+                $biz_paramsJson = json_encode($biz_params);
                 $paramsArray['biz_params'] = $biz_paramsJson;
             }
 
@@ -780,7 +810,7 @@ class WxPay
      * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
-    public function appPay($app_id, $out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $config_no, $auto, $auto_node,$biz_params,$key)
+    public function appPay($app_id, $out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $config_no, $auto, $auto_node, $biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -811,27 +841,27 @@ class WxPay
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
             //下面参数不参与签名，但是接口需要这些参数
-            if(!empty($attach)){
+            if (!empty($attach)) {
                 $paramsArray['attach'] = $attach;
             }
-            if(!empty($notify_url)){
+            if (!empty($notify_url)) {
                 $paramsArray['notify_url'] = $notify_url;
             }
-            if(!empty($config_no)){
+            if (!empty($config_no)) {
                 $paramsArray['config_no'] = $config_no;
             }
-            if(!empty($auto)){
+            if (!empty($auto)) {
                 $paramsArray['auto'] = $auto;
             }
-            if(!empty($auto_node)){
+            if (!empty($auto_node)) {
                 $paramsArray['auto_node'] = $auto_node;
             }
 
-            if(!empty($biz_params)){
-                if(is_array($biz_params)){
+            if (!empty($biz_params)) {
+                if (is_array($biz_params)) {
                     throw new Exception("biz_params不是合法的数组");
                 }
-                $biz_paramsJson=json_encode($biz_params);
+                $biz_paramsJson = json_encode($biz_params);
                 $paramsArray['biz_params'] = $biz_paramsJson;
             }
 
@@ -874,7 +904,7 @@ class WxPay
      * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
-    public function qqPay($app_id,$access_token,$out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node,$biz_params, $key)
+    public function qqPay($app_id, $access_token, $out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node, $biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -909,30 +939,30 @@ class WxPay
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
             //下面参数不参与签名，但是接口需要这些参数
-            if(!empty($attach)){
+            if (!empty($attach)) {
                 $paramsArray['attach'] = $attach;
             }
-            if(!empty($notify_url)){
+            if (!empty($notify_url)) {
                 $paramsArray['notify_url'] = $notify_url;
             }
-            if(!empty($return_url)){
+            if (!empty($return_url)) {
                 $paramsArray['return_url'] = $return_url;
             }
-            if(!empty($config_no)){
+            if (!empty($config_no)) {
                 $paramsArray['config_no'] = $config_no;
             }
-            if(!empty($auto)){
+            if (!empty($auto)) {
                 $paramsArray['auto'] = $auto;
             }
-            if(!empty($auto_node)){
+            if (!empty($auto_node)) {
                 $paramsArray['auto_node'] = $auto_node;
             }
 
-            if(!empty($biz_params)){
-                if(is_array($biz_params)){
+            if (!empty($biz_params)) {
+                if (is_array($biz_params)) {
                     throw new Exception("biz_params不是合法的数组");
                 }
-                $biz_paramsJson=json_encode($biz_params);
+                $biz_paramsJson = json_encode($biz_params);
                 $paramsArray['biz_params'] = $biz_paramsJson;
             }
 
@@ -965,6 +995,7 @@ class WxPay
      * @param $mch_id 微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
      * @param $body  商品描述
      * @param $title 收银台标题
+     * @param $app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
      * @param $attach 附加数据 回调时原路返回 可不传
      * @param $notify_url 异步回调地址，不传无回调
      * @param $return_url 同步回调地址，用户支付成功后从微信APP跳转回该地址。调转不会携带任何参数，如需携带参数请自行拼接
@@ -974,7 +1005,7 @@ class WxPay
      * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
      */
-    public function qqPayParams($out_trade_no, $total_fee, $mch_id, $body, $title,$attach, $notify_url, $return_url, $config_no, $auto, $auto_node,$biz_params, $key)
+    public function qqPayParams($out_trade_no, $total_fee, $mch_id, $body, $title, $app_id, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node, $biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -1001,33 +1032,36 @@ class WxPay
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
             //下面参数不参与签名，但是接口需要这些参数
-            if(!empty($title)){
+            if (!empty($app_id)) {
+                $paramsArray['app_id'] = $app_id;
+            }
+            if (!empty($title)) {
                 $paramsArray['title'] = $title;
             }
-            if(!empty($attach)){
+            if (!empty($attach)) {
                 $paramsArray['attach'] = $attach;
             }
-            if(!empty($notify_url)){
+            if (!empty($notify_url)) {
                 $paramsArray['notify_url'] = $notify_url;
             }
-            if(!empty($return_url)){
+            if (!empty($return_url)) {
                 $paramsArray['return_url'] = $return_url;
             }
-            if(!empty($config_no)){
+            if (!empty($config_no)) {
                 $paramsArray['config_no'] = $config_no;
             }
-            if(!empty($auto)){
+            if (!empty($auto)) {
                 $paramsArray['auto'] = $auto;
             }
-            if(!empty($auto_node)){
+            if (!empty($auto_node)) {
                 $paramsArray['auto_node'] = $auto_node;
             }
 
-            if(!empty($biz_params)){
-                if(is_array($biz_params)){
+            if (!empty($biz_params)) {
+                if (is_array($biz_params)) {
                     throw new Exception("biz_params不是合法的数组");
                 }
-                $biz_paramsJson=json_encode($biz_params);
+                $biz_paramsJson = json_encode($biz_params);
                 $paramsArray['biz_params'] = $biz_paramsJson;
             }
             $paramsArray['sign'] = $sign;
@@ -1046,12 +1080,13 @@ class WxPay
      * @param store_name     门店名称，由商户定义。（可用于展示）
      * @param face_auth_info 人脸数据。调用【get_wxpayface_authinfo】接口获取到的结果
      * @param device_id      终端设备编号，由商户定义。
+     * @param $app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
      * @param attach         附加数据 回调时原路返回 可不传
      * @param bizParams      附加业务参数对象，具体参考API文档biz_params参数说明
      * @param key            支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》 支付密钥 查看密钥
      * @return FacePayAuthInfoBiz 刷脸支付凭证 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/getFacePayAuthInfo
      */
-    public function getFacePayAuthInfo($mch_id,$store_id,$store_name, $face_auth_info, $device_id,$attach,$biz_params, $key)
+    public function getFacePayAuthInfo($mch_id, $store_id, $store_name, $face_auth_info, $device_id, $app_id, $attach, $biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -1078,17 +1113,20 @@ class WxPay
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
             //下面参数不参与签名，但是接口需要这些参数
-            if(!empty($device_id)){
+            if (!empty($app_id)) {
+                $paramsArray['app_id'] = $app_id;
+            }
+            if (!empty($device_id)) {
                 $paramsArray['device_id'] = $device_id;
             }
-            if(!empty($attach)){
+            if (!empty($attach)) {
                 $paramsArray['attach'] = $attach;
             }
-            if(!empty($biz_params)){
-                if(is_array($biz_params)){
+            if (!empty($biz_params)) {
+                if (is_array($biz_params)) {
                     throw new Exception("biz_params不是合法的数组");
                 }
-                $biz_paramsJson=json_encode($biz_params);
+                $biz_paramsJson = json_encode($biz_params);
                 $paramsArray['biz_params'] = $biz_paramsJson;
             }
 
@@ -1125,7 +1163,7 @@ class WxPay
      * @return 退款信息 详情 https://open.pay.yungouos.com/#/api/api/pay/wxpay/refundOrder
      * @throws Exception
      */
-    public function orderRefund($out_trade_no, $mch_id, $money,$out_trade_refund_no,$refund_desc,$notify_url,$key)
+    public function orderRefund($out_trade_no, $mch_id, $money, $out_trade_refund_no, $refund_desc, $notify_url, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -1147,13 +1185,13 @@ class WxPay
             $paramsArray['money'] = $money;
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
-            if(!empty($out_trade_refund_no)){
+            if (!empty($out_trade_refund_no)) {
                 $paramsArray['out_trade_refund_no'] = $out_trade_refund_no;
             }
-            if(!empty($refund_desc)){
+            if (!empty($refund_desc)) {
                 $paramsArray['refund_desc'] = $refund_desc;
             }
-            if(!empty($notify_url)){
+            if (!empty($notify_url)) {
                 $paramsArray['notify_url'] = $notify_url;
             }
             $paramsArray['sign'] = $sign;
@@ -1235,7 +1273,7 @@ class WxPay
      * @return 对账单信息 包括对账单数据，excel下载地址，汇总数据 文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/downloadBill
      * @throws Exception
      */
-    public function downloadBill($mch_id, $date,$end_date,$device_info, $key)
+    public function downloadBill($mch_id, $date, $end_date, $device_info, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -1253,10 +1291,10 @@ class WxPay
             $paramsArray['date'] = $date;
             // 上述必传参数签名
             $sign = $this->paySign->getSign($paramsArray, $key);
-            if(!empty($end_date)){
+            if (!empty($end_date)) {
                 $paramsArray['end_date'] = $end_date;
             }
-            if(!empty($device_info)){
+            if (!empty($device_info)) {
                 $paramsArray['device_info'] = $device_info;
             }
             $paramsArray['sign'] = $sign;

@@ -44,8 +44,10 @@ $apiConfig = array(
     //撤销订单
     "wxpay_reverse_order_url"=>$api_url."/api/pay/wxpay/reverseOrder",
     //**************************支付宝相关接口************************************//
+    //支付宝条码支付
+    "alipay_code_pay_url"=>$api_url."/api/pay/alipay/codePay",
     //支付宝扫码支付
-    "alipay_native_pay_url"=>$api_url."/api/pay/alipay/nativeApi",
+    "alipay_native_pay_url"=>$api_url."/api/pay/alipay/nativePay",
     //支付宝WAP支付
     "alipay_wap_pay_url"=>$api_url."/api/pay/alipay/wapPay",
     //支付宝JS支付

@@ -76,7 +76,7 @@ demo文件夹下已经集成了微信扫码支付、微信收银台支付、微�
 返回二维码地址或微信支付二维码连接（需自行生成二维码）
 
 ```php
-$result = $wxpay->nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url,$config_no, $auto, $auto_node,$biz_params, $key);
+$result = $wxpay->nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $app_id,$attach, $notify_url,$config_no, $auto, $auto_node,$biz_params, $key);
 ```
 
 ## 微信公众号支付
@@ -84,7 +84,7 @@ $result = $wxpay->nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $a
 返回JSSDK需要的支付jspackage
 
 ```php
-$jsapi = $wxpay->jsapiPay($out_trade_no, $total_fee, $mch_id, $body, $openId, $attach, $notify_url,$return_url,$config_no, $auto, $auto_node,$biz_params, $key);
+$jsapi = $wxpay->jsapiPay($out_trade_no, $total_fee, $mch_id, $body, $openId, $app_id,$attach, $notify_url,$return_url,$config_no, $auto, $auto_node,$biz_params, $key);
 ```
 
 ## 收银台支付
@@ -92,7 +92,7 @@ $jsapi = $wxpay->jsapiPay($out_trade_no, $total_fee, $mch_id, $body, $openId, $a
 返回收银台支付地址，跳转到该地址即可。收银台可根据用户设备自动决定扫码支付还是JSAPI支付
 	
 ```php
-$result=$wxpay->cashierPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node,$biz_params, $key);
+$result=$wxpay->cashierPay($out_trade_no, $total_fee, $mch_id, $body, $app_id,$attach, $notify_url, $return_url, $config_no, $auto, $auto_node,$biz_params, $key);
 ```
 
 ## 微信小程序支付（个体户/企业）
@@ -100,7 +100,7 @@ $result=$wxpay->cashierPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $
 返回小程序支付所需的参数，前端按照小程序API拉起支付界面
 
 ```php
-$result=$wxpay->minAppPay($out_trade_no, $total_fee, $mch_id, $body,$openId,$attach, $notify_url,$config_no, $auto, $auto_node,$biz_params, $key);
+$result=$wxpay->minAppPay($out_trade_no, $total_fee, $mch_id, $body,$openId,$app_id,$attach, $notify_url,$config_no, $auto, $auto_node,$biz_params, $key);
 ```
 
 ## 微信小程序支付（个人）
@@ -108,7 +108,7 @@ $result=$wxpay->minAppPay($out_trade_no, $total_fee, $mch_id, $body,$openId,$att
 返回跳转“支付收银”小程序所需的参数
 
 ```php
-$result=$wxpay->minAppPayParams($out_trade_no, $total_fee, $mch_id, $body,$title, $attach, $notify_url, $config_no, $auto, $auto_node,$biz_params, $key);
+$result=$wxpay->minAppPayParams($out_trade_no, $total_fee, $mch_id, $body,$title, $app_id,$attach, $notify_url, $config_no, $auto, $auto_node,$biz_params, $key);
 
 wx.openEmbeddedMiniProgram({
         appId: 'wxd9634afb01b983c0',//支付收银小程序的appid 固定值 不可修改
@@ -127,7 +127,7 @@ wx.openEmbeddedMiniProgram({
 第三方浏览器外部拉起微信客户端进行支付，返回H5页面拉起微信APP的链接地址
 	
 ```php
-$result=$wxpay->wapPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node,$biz_params, $key);
+$result=$wxpay->wapPay($out_trade_no, $total_fee, $mch_id, $body, $app_id,$attach, $notify_url, $return_url, $config_no, $auto, $auto_node,$biz_params, $key);
 ```
 
 ## 微信APP支付
@@ -135,7 +135,7 @@ $result=$wxpay->wapPay($out_trade_no, $total_fee, $mch_id, $body, $attach, $noti
 第三方APP拉起微信APP进行支付，返回微信APP端SDK所需的支付参数，客户端需要按照微信官方SDK拉起方法，自行拉起。
 	
 ```php
-$result=$wxpay->appPay($app_id, $out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $config_no, $auto, $auto_node,$biz_params, $key);
+$result=$wxpay->appPay($app_id, $out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url, $config_no, $auto, $auto_node,$biz_params, $key);
 ```
 
 ## QQ小程序支付(个体户/企业)
@@ -143,7 +143,7 @@ $result=$wxpay->appPay($app_id, $out_trade_no, $total_fee, $mch_id, $body, $atta
 返回QQ小程序支付所需的参数。
 
 ```php
-$result=$wxpay->qqPay($app_id,$access_token,$out_trade_no, $total_fee, $mch_id, $body, $attach, $notify_url, $config_no, $auto, $auto_node,$biz_params, $key);
+$result=$wxpay->qqPay($app_id,$access_token,$out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url, $config_no, $auto, $auto_node,$biz_params, $key);
 ```
 
 ## QQ小程序支付(个人)
@@ -151,7 +151,7 @@ $result=$wxpay->qqPay($app_id,$access_token,$out_trade_no, $total_fee, $mch_id, 
 返回跳转“支付收银”小程序所需的参数
 
 ```php
-$result=$wxpay->qqPayParams($out_trade_no, $total_fee, $mch_id, $body,$title,$attach, $notify_url, $config_no, $auto, $auto_node,$biz_params, $key);
+$result=$wxpay->qqPayParams($out_trade_no, $total_fee, $mch_id, $body,$title,$app_id,$attach, $notify_url, $config_no, $auto, $auto_node,$biz_params, $key);
 ```
 
 ## 微信付款码支付
@@ -159,7 +159,7 @@ $result=$wxpay->qqPayParams($out_trade_no, $total_fee, $mch_id, $body,$title,$at
 线下扫码枪、扫码盒子、收银软件被扫支付，客户主动出示付款码，借助扫码设备完成收款。
 	
 ```php
-$result=$wxpay->codePay($out_trade_no, $total_fee, $mch_id, $body, $auth_code, $attach, $receipt, $notify_url, $config_no, $auto, $auto_node, $biz_params,$key);
+$result=$wxpay->codePay($out_trade_no, $total_fee, $mch_id, $body, $auth_code, $app_id,$attach, $receipt, $notify_url, $config_no, $auto, $auto_node, $biz_params,$key);
 ```
 
 ## 微信刷脸支付
@@ -167,7 +167,7 @@ $result=$wxpay->codePay($out_trade_no, $total_fee, $mch_id, $body, $auth_code, $
 配合微信刷脸设备，如青蛙Pro、或其他支持微信刷脸的摄像头读取用户faceid后调用该接口完成扣款。
 	
 ```php
-$result=$wxpay->facePay($out_trade_no, $total_fee, $mch_id, $body, $openId, $face_code, $attach, $notify_url, $config_no, $auto, $auto_node,$biz_params, $key);
+$result=$wxpay->facePay($out_trade_no, $total_fee, $mch_id, $body, $openId, $face_code, $app_id,$attach, $notify_url, $config_no, $auto, $auto_node,$biz_params, $key);
 ```
 
 
@@ -194,37 +194,37 @@ $result=$wxpay->reverseOrder($out_trade_no, $mch_id,$key);
 ## 支付宝扫码支付
 
 ```php
-$result = $alipay->nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url,$config_no, $auto, $auto_node, $key);
+$result = $alipay->nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $app_id,$attach, $notify_url,$config_no, $auto, $auto_node, $key);
 ```
 
 ## 支付宝WAP支付
 
 ```php
-$result = $alipay->wapPay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url,$config_no, $auto, $auto_node, $key);
+$result = $alipay->wapPay($out_trade_no, $total_fee, $mch_id, $body,$app_id,$attach, $notify_url,$config_no, $auto, $auto_node, $key);
 ```
 
 ## 支付宝JS支付
 
 ```php
-$result = $alipay->jsPay($out_trade_no, $total_fee, $mch_id,$buyer_id,$body,$attach, $notify_url,$config_no, $auto, $auto_node, $key);
+$result = $alipay->jsPay($out_trade_no, $total_fee, $mch_id,$buyer_id,$body,$app_id,$attach, $notify_url,$config_no, $auto, $auto_node, $key);
 ```
 
 ## 支付宝H5支付
 
 ```php
-$result = $alipay->h5Pay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url,$return_url,$config_no, $auto, $auto_node,$key);
+$result = $alipay->h5Pay($out_trade_no, $total_fee, $mch_id, $body,$app_id,$attach, $notify_url,$return_url,$config_no, $auto, $auto_node,$key);
 ```
 
 ## 支付宝APP支付
 
 ```php
-$result = $alipay->appPay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url,$config_no, $auto, $auto_node, $key);
+$result = $alipay->appPay($out_trade_no, $total_fee, $mch_id, $body,$app_id,$attach, $notify_url,$config_no, $auto, $auto_node, $key);
 ```
 
 ## 支付宝电脑网站支付
 
 ```php
-$result = $alipay->webPay($out_trade_no, $total_fee, $mch_id, $body,$attach, $notify_url,$return_url,$config_no, $auto, $auto_node, $key);
+$result = $alipay->webPay($out_trade_no, $total_fee, $mch_id, $body,$app_id,$attach, $notify_url,$return_url,$config_no, $auto, $auto_node, $key);
 ```
 
 ## 支付宝发起退款
@@ -296,37 +296,37 @@ $result =$finance->rePayAliPay($merchant_id, $out_trade_no,$account,$account_nam
 ## 微信扫码支付
 
 ```php
-$wxpay->nativePay(订单号,支付金额,微信支付商户号,商品描述,返回类型,附加数据,异步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
+$wxpay->nativePay(订单号,支付金额,微信支付商户号,商品描述,返回类型,应用app_id,附加数据,异步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
 ```
 
 ## 微信公众号支付
 
 ```php
- $wxpay->jsapiPay(订单号,支付金额,微信支付商户号,商品描述,用户openid,附加数据,异步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
+ $wxpay->jsapiPay(订单号,支付金额,微信支付商户号,商品描述,用户openid,应用app_id,附加数据,异步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
 ```
 
 ## 微信收银台支付
 
 ```php
- $wxpay->cashierPay(订单号,支付金额,微信支付商户号,商品描述,附加数据,异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
+ $wxpay->cashierPay(订单号,支付金额,微信支付商户号,商品描述,应用app_id,附加数据,异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
 ```
 
 ## 微信小程序支付 （个体户/企业）
 
 ```php
- $wxpay->minAppPay(订单号,支付金额,微信支付商户号,商品描述,用户openId,附加数据,异步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
+ $wxpay->minAppPay(订单号,支付金额,微信支付商户号,商品描述,用户openId,应用app_id,附加数据,异步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
 ```
 
 ## 微信小程序支付 （个人）
 
 ```php
- 	 $wxpay->minAppPayParams(订单号,支付金额,微信支付商户号,商品描述,收银台标题,附加数据,异步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
+ 	 $wxpay->minAppPayParams(订单号,支付金额,微信支付商户号,商品描述,收银台标题,应用app_id,附加数据,异步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
 ```
 
 ## 微信H5支付
 
 ```php
-$wxpay->wapPay(订单号, 支付金额, 微信支付商户号, 商品描述, 附加数据, 异步回调地址, 同步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
+$wxpay->wapPay(订单号, 支付金额, 微信支付商户号, 商品描述,应用app_id, 附加数据, 异步回调地址, 同步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
 ```
 
 ## 微信APP支付
@@ -344,20 +344,20 @@ $wxpay->qqPay(QQ小程序APPID,QQ小程序access_token,订单号, 支付金额, 
 ## QQ小程序支付（个人）
 
 ```php
-$wxpay->qqPayParams(订单号, 支付金额, 微信支付商户号, 商品描述,收银台标题, 附加数据, 异步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
+$wxpay->qqPayParams(订单号, 支付金额, 微信支付商户号, 商品描述,收银台标题,应用app_id, 附加数据, 异步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
 ```
 
 
 ## 微信付款码支付
 
 ```php
-$wxpay->codePay(订单号, 支付金额, 微信支付商户号, 商品描述, 付款码, 附加数据, 是否需要发票,异步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
+$wxpay->codePay(订单号, 支付金额, 微信支付商户号, 商品描述, 付款码,应用app_id, 附加数据, 是否需要发票,异步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
 ```
 
 ## 微信刷脸支付
 
 ```php
-$wxpay->facePay(订单号, 支付金额, 微信支付商户号, 商品描述,用户openid,人脸凭证, 附加数据, 异步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
+$wxpay->facePay(订单号, 支付金额, 微信支付商户号, 商品描述,用户openid,人脸凭证,应用app_id, 附加数据, 异步回调地址,分账配置单号,是否自动分账,自动分账节点,支付业务附加参数,商户密钥);
 ```
 
 ## 发起退款
@@ -405,40 +405,46 @@ $wxpay->reverseOrder(商户单号,微信支付商户号,商户密钥);
 
 # 支付宝支付方法说明
 
+## 支付宝条码支付
+
+```php
+$alipay->codePay(订单号,支付金额,支付宝商户号,商品描述,条码支付授权码，应用app_id,附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,花呗分期期数，花呗分期手续费商户承担比例，商户密钥);
+```
+
 ## 支付宝扫码支付
 
 ```php
-$alipay->nativePay(订单号,支付金额,支付宝商户号,商品描述,返回类型，附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
+$alipay->nativePay(订单号,支付金额,支付宝商户号,商品描述,返回类型，应用app_id,附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,花呗分期期数，花呗分期手续费商户承担比例，商户密钥);
 ```
 
 ## 支付宝WAP支付
 
 ```php
-$alipay->wapPay(订单号,支付金额,支付宝商户号,商品描述，附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
+$alipay->wapPay(订单号,支付金额,支付宝商户号,商品描述，应用app_id,附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,花呗分期期数，花呗分期手续费商户承担比例，商户密钥);
 ```
 
 ## 支付宝JS支付
 
 ```php
-$alipay->jsPay(订单号,支付金额,支付宝商户号,买家支付宝ID,商品描述，附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
+$alipay->jsPay(订单号,支付金额,支付宝商户号,买家支付宝ID,商品描述，应用app_id,附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,花呗分期期数，花呗分期手续费商户承担比例，商户密钥);
 ```
 
 ## 支付宝H5支付
 
 ```php
-$alipay->h5Pay(订单号,支付金额,支付宝商户号,商品描述，附加数据，异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
+$alipay->h5Pay(订单号,支付金额,支付宝商户号,商品描述，应用app_id,附加数据，异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,花呗分期期数，花呗分期手续费商户承担比例，商户密钥);
 ```
 
 ## 支付宝APP支付
 
 ```php
-$alipay->appPay(订单号,支付金额,支付宝商户号,商品描述，附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
+$alipay->appPay(订单号,支付金额,支付宝商户号,商品描述，应用app_id,附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,花呗分期期数，花呗分期手续费商户承担比例，商户密钥);
 ```
 
 ## 支付宝APP支付
 
 ```php
-$alipay->webPay(订单号,支付金额,支付宝商户号,商品描述，附加数据，异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥);
+$alipay->webPay(订单号,支付金额,支付宝商户号,商品描述，应用app_id,附加数据，异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,花呗分期期数，花呗分期手续费商户承担比例，商户密钥);
 ```
 
 ## 发起退款

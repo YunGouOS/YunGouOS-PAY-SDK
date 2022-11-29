@@ -1022,7 +1022,7 @@ class Finance
      * @param $out_trade_no     商户单号
      * @param $mch_id           批量转账商户号 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约中查看
      * @param $repay_order_list 收款方列表
-     * @param $pay_type         转账方式。固定值：alipay目前只支持支付宝转账
+     * @param $pay_type         转账方式。固定值：alipay或wxpay
      * @param $order_title      支付宝收银台页面账单标题
      * @param $time_expire      转账超时时间。格式yyyy-MM-dd HH:mm:ss
      * @param $description      批量转账描述
