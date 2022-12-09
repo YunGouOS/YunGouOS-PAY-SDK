@@ -16,6 +16,7 @@ import PaySignUtil from '../util/PaySignUtil';
  * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
  * @param {*} body 商品描述
  * @param {*} auth_code 返回类型（1、返回微信原生的支付连接需要自行生成二维码；2、直接返回付款二维码地址，页面上展示即可。不填默认1 ）
+ * @param {*} app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
  * @param {*} attach 附加数据，回调时候原路返回 
  * @param {*} receipt 是否开具电子发票 0：否 1：是 默认0
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
@@ -26,7 +27,7 @@ import PaySignUtil from '../util/PaySignUtil';
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
 * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/codePay
  */
-async function codePayAsync(out_trade_no, total_fee, mch_id, body, auth_code, attach, receipt, notify_url, auto, auto_node, config_no, biz_params, payKey) {
+async function codePayAsync(out_trade_no, total_fee, mch_id, body, auth_code, app_id, attach, receipt, notify_url, auto, auto_node, config_no, biz_params, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -61,6 +62,9 @@ async function codePayAsync(out_trade_no, total_fee, mch_id, body, auth_code, at
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
     params.sign = sign;
+    if (!Common.isEmpty(app_id)) {
+        params.app_id = app_id;
+    }
     if (!Common.isEmpty(attach)) {
         params.attach = attach;
     }
@@ -112,6 +116,7 @@ async function codePayAsync(out_trade_no, total_fee, mch_id, body, auth_code, at
  * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
  * @param {*} body 商品描述
  * @param {*} auth_code 返回类型（1、返回微信原生的支付连接需要自行生成二维码；2、直接返回付款二维码地址，页面上展示即可。不填默认1 ）
+ * @param {*} app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
  * @param {*} attach 附加数据，回调时候原路返回 
  * @param {*} receipt 是否开具电子发票 0：否 1：是 默认0
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
@@ -122,7 +127,7 @@ async function codePayAsync(out_trade_no, total_fee, mch_id, body, auth_code, at
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
 * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/codePay
  */
-function codePay(out_trade_no, total_fee, mch_id, body, auth_code, attach, receipt, notify_url, auto, auto_node, config_no, biz_params, payKey) {
+function codePay(out_trade_no, total_fee, mch_id, body, auth_code, app_id, attach, receipt, notify_url, auto, auto_node, config_no, biz_params, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -157,6 +162,9 @@ function codePay(out_trade_no, total_fee, mch_id, body, auth_code, attach, recei
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
     params.sign = sign;
+    if (!Common.isEmpty(app_id)) {
+        params.app_id = app_id;
+    }
     if (!Common.isEmpty(attach)) {
         params.attach = attach;
     }
@@ -198,6 +206,7 @@ function codePay(out_trade_no, total_fee, mch_id, body, auth_code, attach, recei
  * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
  * @param {*} body 商品描述
  * @param {*} type 返回类型（1、返回微信原生的支付连接需要自行生成二维码；2、直接返回付款二维码地址，页面上展示即可。不填默认1 ）
+ * @param {*} app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
  * @param {*} attach 附加数据，回调时候原路返回 
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
  * @param {*} auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0
@@ -207,7 +216,7 @@ function codePay(out_trade_no, total_fee, mch_id, body, auth_code, attach, recei
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} 返回二维码支付链接地址或原生支付链接
  */
-async function nativePayAsync(out_trade_no, total_fee, mch_id, body, type, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
+async function nativePayAsync(out_trade_no, total_fee, mch_id, body, type, app_id, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -239,6 +248,9 @@ async function nativePayAsync(out_trade_no, total_fee, mch_id, body, type, attac
     params.sign = sign;
     if (!Common.isEmpty(type)) {
         params.type = type;
+    }
+    if (!Common.isEmpty(app_id)) {
+        params.app_id = app_id;
     }
     if (!Common.isEmpty(attach)) {
         params.attach = attach;
@@ -287,6 +299,7 @@ async function nativePayAsync(out_trade_no, total_fee, mch_id, body, type, attac
  * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
  * @param {*} body 商品描述
  * @param {*} type 返回类型（1、返回微信原生的支付连接需要自行生成二维码；2、直接返回付款二维码地址，页面上展示即可。不填默认1 ）
+ * @param {*} app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
  * @param {*} attach 附加数据，回调时候原路返回
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
  * @param {*} auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0
@@ -296,7 +309,7 @@ async function nativePayAsync(out_trade_no, total_fee, mch_id, body, type, attac
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} 返回Promise化结果，需要自行处理返回结果
  */
-function nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
+function nativePay(out_trade_no, total_fee, mch_id, body, type, app_id, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -328,6 +341,9 @@ function nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_u
     params.sign = sign;
     if (!Common.isEmpty(type)) {
         params.type = type;
+    }
+    if (!Common.isEmpty(app_id)) {
+        params.app_id = app_id;
     }
     if (!Common.isEmpty(attach)) {
         params.attach = attach;
@@ -368,6 +384,7 @@ function nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_u
  * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
  * @param {*} body 商品描述
  * @param {*} openId 用户openId 通过授权接口获得
+ * @param {*} app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
  * @param {*} attach 附加数据，回调时候原路返回 
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
  * @param {*} return_url 同步地址。支付完毕后用户浏览器返回到该地址
@@ -378,7 +395,7 @@ function nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_u
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} JSSDK支付需要的jspackage
  */
-async function jsapiPayAsync(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, return_url, auto, auto_node, config_no, biz_params, payKey) {
+async function jsapiPayAsync(out_trade_no, total_fee, mch_id, body, openId, app_id, attach, notify_url, return_url, auto, auto_node, config_no, biz_params, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -413,6 +430,9 @@ async function jsapiPayAsync(out_trade_no, total_fee, mch_id, body, openId, atta
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
     params.sign = sign;
+    if (!Common.isEmpty(app_id)) {
+        params.app_id = app_id;
+    }
     if (!Common.isEmpty(attach)) {
         params.attach = attach;
     }
@@ -465,6 +485,7 @@ async function jsapiPayAsync(out_trade_no, total_fee, mch_id, body, openId, atta
  * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
  * @param {*} body 商品描述
  * @param {*} openId 用户openId 通过授权接口获得
+ * @param {*} app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
  * @param {*} attach 附加数据，回调时候原路返回 
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
  * @param {*} return_url 同步地址。支付完毕后用户浏览器返回到该地址
@@ -475,7 +496,7 @@ async function jsapiPayAsync(out_trade_no, total_fee, mch_id, body, openId, atta
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
 * @return {*} JSSDK支付需要的jspackage
  */
-function jsapiPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, return_url, auto, auto_node, config_no, biz_params, payKey) {
+function jsapiPay(out_trade_no, total_fee, mch_id, body, openId, app_id, attach, notify_url, return_url, auto, auto_node, config_no, biz_params, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -510,6 +531,9 @@ function jsapiPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
     params.sign = sign;
+    if (!Common.isEmpty(app_id)) {
+        params.app_id = app_id;
+    }
     if (!Common.isEmpty(attach)) {
         params.attach = attach;
     }
@@ -552,6 +576,7 @@ function jsapiPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_
  * @param {*} total_fee 支付金额  单位:元
  * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
  * @param {*} body 商品描述
+ * @param {*} app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
  * @param {*} attach 附加数据，回调时候原路返回
  * @param {*} title 支付收银小程序页面顶部的title 可自定义品牌名称 不传默认为 “收银台” 如传递参数 “海底捞” 页面则显示 “海底捞-收银台”
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
@@ -562,7 +587,7 @@ function jsapiPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} 返回跳转“支付收银”小程序所需的参数
  */
-function minAppPayParams(out_trade_no, total_fee, mch_id, body, attach, title, notify_url, auto, auto_node, config_no, biz_params, payKey) {
+function minAppPayParams(out_trade_no, total_fee, mch_id, body, app_id, attach, title, notify_url, auto, auto_node, config_no, biz_params, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -592,6 +617,9 @@ function minAppPayParams(out_trade_no, total_fee, mch_id, body, attach, title, n
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
     params.sign = sign;
+    if (!Common.isEmpty(app_id)) {
+        params.app_id = app_id;
+    }
     if (!Common.isEmpty(attach)) {
         params.attach = attach;
     }
@@ -633,6 +661,7 @@ function minAppPayParams(out_trade_no, total_fee, mch_id, body, attach, title, n
  * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
  * @param {*} body 商品描述
  * @param {*} openId 用户openId（调用小程序wx.login接口获取）
+ * @param {*} app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
  * @param {*} attach 附加数据，回调时候原路返回
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
  * @param {*} auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0
@@ -642,7 +671,7 @@ function minAppPayParams(out_trade_no, total_fee, mch_id, body, attach, title, n
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} 返回小程序API wx.requestPayment所需的支付参数
  */
-function minAppPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
+function minAppPay(out_trade_no, total_fee, mch_id, body, openId, app_id, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -677,6 +706,9 @@ function minAppPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify
     let sign = PaySignUtil.paySign(params, payKey);
     params.sign = sign;
     params.openId = openId;
+    if (!Common.isEmpty(app_id)) {
+        params.app_id = app_id;
+    }
     if (!Common.isEmpty(attach)) {
         params.attach = attach;
     }
@@ -716,6 +748,7 @@ function minAppPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify
  * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
  * @param {*} body 商品描述
  * @param {*} openId 用户openId（调用小程序wx.login接口获取）
+ * @param {*} app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
  * @param {*} attach 附加数据，回调时候原路返回
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
  * @param {*} auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0
@@ -725,7 +758,7 @@ function minAppPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} 返回小程序API wx.requestPayment所需的支付参数
  */
-async function minAppPayAsync(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
+async function minAppPayAsync(out_trade_no, total_fee, mch_id, body, openId, app_id, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -760,6 +793,9 @@ async function minAppPayAsync(out_trade_no, total_fee, mch_id, body, openId, att
     let sign = PaySignUtil.paySign(params, payKey);
     params.sign = sign;
     params.openId = openId;
+    if (!Common.isEmpty(app_id)) {
+        params.app_id = app_id;
+    }
     if (!Common.isEmpty(attach)) {
         params.attach = attach;
     }
@@ -809,6 +845,7 @@ async function minAppPayAsync(out_trade_no, total_fee, mch_id, body, openId, att
  * @param {*} total_fee 支付金额  单位:元
  * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
  * @param {*} body 商品描述
+ * @param {*} app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
  * @param {*} attach 附加数据，回调时候原路返回 
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
  * @param {*} return_url 同步回调地址，不传支付后关闭页面
@@ -819,7 +856,7 @@ async function minAppPayAsync(out_trade_no, total_fee, mch_id, body, openId, att
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} 收银台支付链接地址
  */
-async function cashierPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, biz_params, payKey) {
+async function cashierPayAsync(out_trade_no, total_fee, mch_id, body, app_id, attach, notify_url, return_url, auto, auto_node, config_no, biz_params, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -849,6 +886,9 @@ async function cashierPayAsync(out_trade_no, total_fee, mch_id, body, attach, no
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
     params.sign = sign;
+    if (!Common.isEmpty(app_id)) {
+        params.app_id = app_id;
+    }
     if (!Common.isEmpty(attach)) {
         params.attach = attach;
     }
@@ -900,6 +940,7 @@ async function cashierPayAsync(out_trade_no, total_fee, mch_id, body, attach, no
  * @param {*} total_fee 支付金额  单位:元
  * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
  * @param {*} body 商品描述
+ * @param {*} app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
  * @param {*} attach 附加数据，回调时候原路返回 
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
  * @param {*} return_url 同步回调地址，不传支付后关闭页面
@@ -910,7 +951,7 @@ async function cashierPayAsync(out_trade_no, total_fee, mch_id, body, attach, no
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} 收银台支付链接地址
  */
-function cashierPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, biz_params, payKey) {
+function cashierPay(out_trade_no, total_fee, mch_id, body, app_id, attach, notify_url, return_url, auto, auto_node, config_no, biz_params, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -940,6 +981,9 @@ function cashierPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, r
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
     params.sign = sign;
+    if (!Common.isEmpty(app_id)) {
+        params.app_id = app_id;
+    }
     if (!Common.isEmpty(attach)) {
         params.attach = attach;
     }
@@ -984,6 +1028,7 @@ function cashierPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, r
  * @param {*} body 商品描述
  * @param {*} openId 用户openId（调用授权接口获取）
  * @param {*} face_code 人脸凭证，通过摄像头配合微信刷脸SDK获得
+ * @param {*} app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
  * @param {*} attach 附加数据，回调时候原路返回 
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
  * @param {*} auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0
@@ -993,7 +1038,7 @@ function cashierPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, r
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/facePay
  */
-async function facePayAsync(out_trade_no, total_fee, mch_id, body, openId, face_code, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
+async function facePayAsync(out_trade_no, total_fee, mch_id, body, openId, face_code, app_id, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -1033,6 +1078,9 @@ async function facePayAsync(out_trade_no, total_fee, mch_id, body, openId, face_
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
     params.sign = sign;
+    if (!Common.isEmpty(app_id)) {
+        params.app_id = app_id;
+    }
     if (!Common.isEmpty(attach)) {
         params.attach = attach;
     }
@@ -1083,6 +1131,7 @@ async function facePayAsync(out_trade_no, total_fee, mch_id, body, openId, face_
  * @param {*} body 商品描述
  * @param {*} openId 用户openId（调用授权接口获取）
  * @param {*} face_code 人脸凭证，通过摄像头配合微信刷脸SDK获得
+ * @param {*} app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
  * @param {*} attach 附加数据，回调时候原路返回 
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
  * @param {*} auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0
@@ -1092,7 +1141,7 @@ async function facePayAsync(out_trade_no, total_fee, mch_id, body, openId, face_
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/facePay
  */
-function facePay(out_trade_no, total_fee, mch_id, body, openId, face_code, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
+function facePay(out_trade_no, total_fee, mch_id, body, openId, face_code, app_id, attach, notify_url, auto, auto_node, config_no, biz_params, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -1132,6 +1181,9 @@ function facePay(out_trade_no, total_fee, mch_id, body, openId, face_code, attac
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
     params.sign = sign;
+    if (!Common.isEmpty(app_id)) {
+        params.app_id = app_id;
+    }
     if (!Common.isEmpty(attach)) {
         params.attach = attach;
     }
@@ -1170,12 +1222,13 @@ function facePay(out_trade_no, total_fee, mch_id, body, openId, face_code, attac
  * @param {*} store_name 门店名称，由商户定义。（可用于展示）
  * @param {*} face_auth_info 人脸数据。调用【get_wxpayface_authinfo】接口获取到的结果
  * @param {*} device_id 终端设备编号，由商户定义。
+ * @param {*} app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
  * @param {*} attach 附加数据，需要JSON字符串格式
  * @param {*} biz_params 附加业务参数。json对象，具体参考API文档
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/getFacePayAuthInfo
  */
-function getFacePayAuthInfo(mch_id, store_id, store_name, face_auth_info, device_id, attach, biz_params, payKey) {
+function getFacePayAuthInfo(mch_id, store_id, store_name, face_auth_info, device_id, app_id, attach, biz_params, payKey) {
     if (Common.isEmpty(mch_id)) {
         console.error("yungouos sdk error", "商户号不能为空");
         return null;
@@ -1207,6 +1260,9 @@ function getFacePayAuthInfo(mch_id, store_id, store_name, face_auth_info, device
     params.sign = sign;
     if (!Common.isEmpty(device_id)) {
         params.device_id = device_id;
+    }
+    if (!Common.isEmpty(app_id)) {
+        params.app_id = app_id;
     }
     if (!Common.isEmpty(attach)) {
         params.attach = attach;
@@ -1235,12 +1291,13 @@ function getFacePayAuthInfo(mch_id, store_id, store_name, face_auth_info, device
  * @param {*} store_name 门店名称，由商户定义。（可用于展示）
  * @param {*} face_auth_info 人脸数据。调用【get_wxpayface_authinfo】接口获取到的结果
  * @param {*} device_id 终端设备编号，由商户定义。
+ * @param {*} app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
  * @param {*} attach 附加数据，需要JSON字符串格式
  * @param {*} biz_params 附加业务参数。json对象，具体参考API文档
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} 参考文档：https://open.pay.yungouos.com/#/api/api/pay/wxpay/getFacePayAuthInfo
  */
-async function getFacePayAuthInfoAsync(mch_id, store_id, store_name, face_auth_info, device_id, attach, biz_params, payKey) {
+async function getFacePayAuthInfoAsync(mch_id, store_id, store_name, face_auth_info, device_id, app_id, attach, biz_params, payKey) {
     if (Common.isEmpty(mch_id)) {
         console.error("yungouos sdk error", "商户号不能为空");
         return null;
@@ -1272,6 +1329,9 @@ async function getFacePayAuthInfoAsync(mch_id, store_id, store_name, face_auth_i
     params.sign = sign;
     if (!Common.isEmpty(device_id)) {
         params.device_id = device_id;
+    }
+    if (!Common.isEmpty(app_id)) {
+        params.app_id = app_id;
     }
     if (!Common.isEmpty(attach)) {
         params.attach = attach;
@@ -1310,6 +1370,7 @@ async function getFacePayAuthInfoAsync(mch_id, store_id, store_name, face_auth_i
  * @param {*} total_fee 支付金额  单位:元
  * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
  * @param {*} body 商品描述
+ * @param {*} app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
  * @param {*} attach 附加数据，回调时候原路返回 
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
  * @param {*} return_url 同步回调地址，用户支付成功后从微信APP跳转回该地址。调转不会携带任何参数，如需携带参数请自行拼接
@@ -1320,7 +1381,7 @@ async function getFacePayAuthInfoAsync(mch_id, store_id, store_name, face_auth_i
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} 返回拉起微信支付的URL。
  */
-async function wapPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, biz_params, payKey) {
+async function wapPayAsync(out_trade_no, total_fee, mch_id, body, app_id, attach, notify_url, return_url, auto, auto_node, config_no, biz_params, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -1350,6 +1411,9 @@ async function wapPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
     params.sign = sign;
+    if (!Common.isEmpty(app_id)) {
+        params.app_id = app_id;
+    }
     if (!Common.isEmpty(attach)) {
         params.attach = attach;
     }
@@ -1401,6 +1465,7 @@ async function wapPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify
  * @param {*} total_fee 支付金额  单位:元
  * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
  * @param {*} body 商品描述
+ * @param {*} app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
  * @param {*} attach 附加数据，回调时候原路返回 
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
  * @param {*} return_url 同步回调地址，用户支付成功后从微信APP跳转回该地址。调转不会携带任何参数，如需携带参数请自行拼接
@@ -1411,7 +1476,7 @@ async function wapPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} 返回拉起微信支付的URL。
  */
-function wapPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, biz_params, payKey) {
+function wapPay(out_trade_no, total_fee, mch_id, body, app_id, attach, notify_url, return_url, auto, auto_node, config_no, biz_params, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -1441,6 +1506,9 @@ function wapPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, retur
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
     params.sign = sign;
+    if (!Common.isEmpty(app_id)) {
+        params.app_id = app_id;
+    }
     if (!Common.isEmpty(attach)) {
         params.attach = attach;
     }
@@ -1676,10 +1744,11 @@ function qqPay(app_id, access_token, out_trade_no, total_fee, mch_id, body, atta
  * 
  * API文档地址：https://open.pay.yungouos.com/#/api/api/pay/wxpay/qqPay
  * 
-* @param {*} out_trade_no 商户订单号
+* @param {*}  out_trade_no 商户订单号
  * @param {*} total_fee 支付金额  单位:元
  * @param {*} mch_id 微信支付商户号 登录yungouos.com-》微信支付-》商户管理 微信支付商户号 获取
  * @param {*} body 商品描述
+ * @param {*} app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
  * @param {*} attach 附加数据，回调时候原路返回
  * @param {*} title 支付收银小程序页面顶部的title 可自定义品牌名称 不传默认为 “收银台” 如传递参数 “海底捞” 页面则显示 “海底捞-收银台”
  * @param {*} notify_url 异步回调地址，用户支付成功后系统将会把支付结果发送到该地址，不填则无回调
@@ -1690,7 +1759,7 @@ function qqPay(app_id, access_token, out_trade_no, total_fee, mch_id, body, atta
  * @param {*} payKey 支付密钥 登录yungouos.com-》微信支付-》商户管理 支付密钥 获取
  * @return {*} 返回跳转“支付收银”小程序所需的参数
  */
-function qqPayParams(out_trade_no, total_fee, mch_id, body, attach, title, notify_url, auto, auto_node, config_no, biz_params, payKey) {
+function qqPayParams(out_trade_no, total_fee, mch_id, body, app_id, attach, title, notify_url, auto, auto_node, config_no, biz_params, payKey) {
     if (Common.isEmpty(out_trade_no)) {
         console.error("yungouos sdk error", "商户订单号不能为空");
         return null;
@@ -1720,6 +1789,9 @@ function qqPayParams(out_trade_no, total_fee, mch_id, body, attach, title, notif
     //上述参数参与签名
     let sign = PaySignUtil.paySign(params, payKey);
     params.sign = sign;
+    if (!Common.isEmpty(app_id)) {
+        params.app_id = app_id;
+    }
     if (!Common.isEmpty(attach)) {
         params.attach = attach;
     }

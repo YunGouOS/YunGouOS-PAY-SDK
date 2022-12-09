@@ -94,13 +94,14 @@
 				let mch_id = "1529637931";
 				let body = "扫码支付测试";
 				let type = "2";
+				let app_id=null;
 				let attach = null;
 				let notify_url = null;
 				let auto = null;
 				let auto_node = null;
 				let config_no = null;
 				let payKey = "499F61DB734C4BF39792A098C44FA80A";
-				let result = await WxPay.nativePayAsync(out_trade_no, total_fee, mch_id, body, type, attach,
+				let result = await WxPay.nativePayAsync(out_trade_no, total_fee, mch_id, body, type,app_id,attach,
 					notify_url, auto, auto_node, config_no, null, payKey);
 				this.payCode = result;
 			},
@@ -113,13 +114,14 @@
 				let mch_id = "1529637931";
 				let body = "扫码支付测试";
 				let type = "2";
+				let app_id=null;
 				let attach = null;
 				let notify_url = null;
 				let auto = null;
 				let auto_node = null;
 				let config_no = null;
 				let payKey = "499F61DB734C4BF39792A098C44FA80A";
-				WxPay.nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_url, auto, auto_node,
+				WxPay.nativePay(out_trade_no, total_fee, mch_id, body, type,app_id,attach, notify_url, auto, auto_node,
 					config_no, null, payKey).then((response) => {
 					//接口返回结果
 					console.log(response);
@@ -141,6 +143,7 @@
 				let total_fee = "0.01";
 				let mch_id = "1602333609";
 				let body = "扫码支付测试";
+				let app_id=null;
 				let attach = null;
 				let notify_url = null;
 				let return_url = null;
@@ -148,7 +151,7 @@
 				let auto_node = null;
 				let config_no = null;
 				let payKey = "D29ADE73DC084C5EB434302014687FAF";
-				let result = await WxPay.wapPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url,
+				let result = await WxPay.wapPayAsync(out_trade_no, total_fee, mch_id, body,app_id, attach, notify_url,
 					return_url, auto, auto_node, config_no, null, payKey);
 
 				var referLink = document.createElement('a');
@@ -164,6 +167,7 @@
 				let total_fee = "0.01";
 				let mch_id = "1529637931";
 				let body = "小程序支付演示";
+				let app_id=null;
 				let attach = null;
 				let title = "海底捞";
 				let notify_url = "http://api.merchant.yungouos.com/api/system/demo/callback";
@@ -173,11 +177,11 @@
 				let biz_params = null;
 				let payKey = "499F61DB734C4BF39792A098C44FA80A";
 
-				WxPay.minAppPay(out_trade_no, total_fee, mch_id, body, attach, title, notify_url, auto, auto_node,
+				WxPay.minAppPay(out_trade_no, total_fee, mch_id, body, app_id,attach, title, notify_url, auto, auto_node,
 					config_no, biz_params, payKey);
 
 
-				// let params=WxPay.minAppPayParams(out_trade_no, total_fee, mch_id, body, attach, title, notify_url, auto, auto_node, config_no, biz_params, payKey);
+				// let params=WxPay.minAppPayParams(out_trade_no, total_fee, mch_id, body,app_id, attach, title, notify_url, auto, auto_node, config_no, biz_params, payKey);
 
 				// uni.openEmbeddedMiniProgram({
 				//         appId: 'wxd9634afb01b983c0',//支付收银小程序的appid 固定值 不可修改
@@ -215,6 +219,7 @@
 						this.orderNo=out_trade_no;
 						
 						let mch_id = "1602333609";
+						let app_id=null;
 						let attach = null;
 						let notify_url = "http://yungouos.wicp.net/api/callback/notify";
 						let return_url = "http://www.yungouos.com";
@@ -224,7 +229,7 @@
 						let biz_params = null;
 						let payKey = "D29ADE73DC084C5EB434302014687FAF";
 						
-						let result = await WxPay.wapPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url,return_url, auto, auto_node, config_no, biz_params, payKey);
+						let result = await WxPay.wapPayAsync(out_trade_no, total_fee, mch_id, body,app_id, attach, notify_url,return_url, auto, auto_node, config_no, biz_params, payKey);
 						
 						let wv = plus.webview.create("", "pay-webview", {
 							plusrequire: "none",
@@ -253,6 +258,7 @@
 				let total_fee="0.01";
 				let mch_id = "1602333609";
 				let body="微信APP支付原生方式演示";
+				let app_id=null;
 				let attach = null;
 				let notify_url = "http://yungouos.wicp.net/api/callback/notify";
 				let auto = null;
@@ -261,7 +267,7 @@
 				let biz_params = null;
 				let payKey = "D29ADE73DC084C5EB434302014687FAF";
 				
-				let result = await WxPay.appPayAsync(app_id, out_trade_no, total_fee, mch_id, body, attach, notify_url, auto, auto_node, config_no,biz_params, payKey);
+				let result = await WxPay.appPayAsync(app_id, out_trade_no, total_fee, mch_id, body,app_id, attach, notify_url, auto, auto_node, config_no,biz_params, payKey);
 				
 				if(result==null||result==''||result==undefined){
 				    console.log("支付失败");
@@ -310,12 +316,13 @@
 				let total_fee="0.01";
 				let mch_id = "2088110007357703";
 				let body="支付宝原生APP支付演示";
+				let app_id=null;
 				let attach = null;
 				let notify_url = "http://yungouos.wicp.net/api/callback/notify";
 				let hbfq_num=null;
 				let hbfq_percent=null;
-				let payKey = "A01D612DA7F94211B55B594C36B825E7";
-				let result = await AliPay.appPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url,hbfq_num,hbfq_percent, payKey);
+				let payKey = "99AC832E8210432AB3B4489579CC9119";
+				let result = await AliPay.appPayAsync(out_trade_no, total_fee, mch_id, body,app_id,attach, notify_url,hbfq_num,hbfq_percent, payKey);
 				
 				let appPayParam={};
 				
@@ -383,6 +390,7 @@
 				let total_fee = "0.01";
 				let mch_id = "1529637931";
 				let body = "收银台支付接口演示";
+				let app_id=null;
 				let attach = null;
 				let notify_url = "http://api.merchant.yungouos.com/api/system/demo/callback";
 				let return_url="http://localhost.yungouos.com:8080/#/pages/index/index";
@@ -391,7 +399,7 @@
 				let config_no = null;
 				let biz_params = null;
 				let payKey = "499F61DB734C4BF39792A098C44FA80A";
-				let result =await WxPay.cashierPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no,biz_params, payKey);
+				let result =await WxPay.cashierPayAsync(out_trade_no, total_fee, mch_id, body,app_id, attach, notify_url, return_url, auto, auto_node, config_no,biz_params, payKey);
 				console.log(result);
 				window.location.href=result;
 				

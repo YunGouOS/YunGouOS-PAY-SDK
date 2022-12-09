@@ -4,7 +4,7 @@
   <groupId>com.yungouos.pay</groupId>
   <artifactId>yungouos-pay-sdk</artifactId>
   <name>yungouos-pay-sdk</name>
-  <version>2.0.28</version>
+  <version>2.0.29</version>
   <description>YunGouOS全能支付接口SDK，提供微信/支付宝官方支付接口API，支持个人、个体户、企业接入使用</description>
   <url>https://github.com/YunGouOS/YunGouOS-PAY-SDK</url>
   <developers>

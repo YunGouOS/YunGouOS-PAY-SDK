@@ -1,5 +1,9 @@
 const apiUrl = "https://api.pay.yungouos.com";
 
+
+//条码支付
+const codePay = apiUrl + "/api/pay/alipay/codePay";
+
 //扫码支付
 const nativePay = apiUrl + "/api/pay/alipay/nativePay";
 
@@ -31,6 +35,7 @@ const closeOrder = apiUrl + "/api/pay/alipay/closeOrder";
 const reverseOrder = apiUrl + "/api/pay/alipay/reverseOrder";
 
 export default {
+    "codePay": codePay,
     "nativePay": nativePay,
     "wapPay": wapPay,
     "jsPay": jsPay,

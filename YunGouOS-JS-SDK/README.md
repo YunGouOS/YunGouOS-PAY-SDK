@@ -78,7 +78,7 @@ import {WxPay} from 'yungouos-pay-sdk'
 #### 扫码支付（同步）
 
 ```js
-let result = await WxPay.nativePayAsync(out_trade_no, total_fee, mch_id, body, type, attach, notify_url, auto, auto_node, config_no,biz_params,payKey);
+let result = await WxPay.nativePayAsync(out_trade_no, total_fee, mch_id, body, type,app_id, attach, notify_url, auto, auto_node, config_no,biz_params,payKey);
 //二维码链接地址
 console.log(result);
 ```
@@ -86,7 +86,7 @@ console.log(result);
 #### 扫码支付（异步）
 
 ```js
-WxPay.nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_url, auto, auto_node, config_no,biz_params, payKey).then((response)=>{
+WxPay.nativePay(out_trade_no, total_fee, mch_id, body, type,app_id, attach, notify_url, auto, auto_node, config_no,biz_params, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -95,13 +95,13 @@ WxPay.nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_url,
 #### 刷卡支付（同步）
 
 ```js
-let result =await WxPay.codePayAsync(out_trade_no, total_fee, mch_id, body, auth_code, attach,receipt,notify_url, auto, auto_node, config_no,biz_params, payKey);
+let result =await WxPay.codePayAsync(out_trade_no, total_fee, mch_id, body, auth_code,app_id, attach,receipt,notify_url, auto, auto_node, config_no,biz_params, payKey);
 ```
 
 #### 刷卡支付（异步）
 
 ```js
-WxPay.codePay(out_trade_no, total_fee, mch_id, body, auth_code, attach,receipt,notify_url, auto, auto_node, config_no,biz_params, payKey).then((response)=>{
+WxPay.codePay(out_trade_no, total_fee, mch_id, body, auth_code,app_id, attach,receipt,notify_url, auto, auto_node, config_no,biz_params, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -110,13 +110,13 @@ WxPay.codePay(out_trade_no, total_fee, mch_id, body, auth_code, attach,receipt,n
 #### 公众号支付/JSAPI（同步）
 
 ```js
-let result =await WxPay.jsapiPayAsync(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url,return_url, auto, auto_node, config_no,biz_params, payKey);
+let result =await WxPay.jsapiPayAsync(out_trade_no, total_fee, mch_id, body, openId,app_id, attach, notify_url,return_url, auto, auto_node, config_no,biz_params, payKey);
 ```
 
 #### 公众号支付/JSAPI（异步）
 
 ```js
-WxPay.jsapiPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url,return_url, auto, auto_node, config_no, biz_params,payKey).then((response)=>{
+WxPay.jsapiPay(out_trade_no, total_fee, mch_id, body, openId,app_id, attach, notify_url,return_url, auto, auto_node, config_no, biz_params,payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -126,7 +126,7 @@ WxPay.jsapiPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url
 #### 小程序支付【个人】（同步）
 
 ```js
-let params = WxPay.minAppPayParams(out_trade_no, total_fee, mch_id, body, attach, title, notify_url, auto, auto_node, config_no, biz_params, payKey);
+let params = WxPay.minAppPayParams(out_trade_no, total_fee, mch_id, body,app_id, attach, title, notify_url, auto, auto_node, config_no, biz_params, payKey);
 
 wx.openEmbeddedMiniProgram({
         appId: 'wxd9634afb01b983c0',//支付收银小程序的appid 固定值 不可修改
@@ -145,7 +145,7 @@ wx.openEmbeddedMiniProgram({
 #### 小程序支付【个体户/企业】（同步）
 
 ```js
-let result =await WxPay.minAppPayAsync(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no, biz_params, payKey);
+let result =await WxPay.minAppPayAsync(out_trade_no, total_fee, mch_id, body, openId,app_id, attach, notify_url, auto, auto_node, config_no, biz_params, payKey);
 
 let data=result.minPayParam;
 
@@ -178,7 +178,7 @@ wx.requestPayment(minPayParam);
 #### 小程序支付【个体户/企业】（异步）
 
 ```js
-WxPay.minAppPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_url, auto, auto_node, config_no, biz_params, payKey).then((response)=>{
+WxPay.minAppPay(out_trade_no, total_fee, mch_id, body, openId,app_id, attach, notify_url, auto, auto_node, config_no, biz_params, payKey).then((response)=>{
     //接口返回结果
     if(response.code!=0||response.data==null){
         console.log("支付失败");
@@ -220,13 +220,13 @@ WxPay.minAppPay(out_trade_no, total_fee, mch_id, body, openId, attach, notify_ur
 #### 收银台支付（同步）
 
 ```js
-let result =await WxPay.cashierPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, biz_params,payKey);
+let result =await WxPay.cashierPayAsync(out_trade_no, total_fee, mch_id, body,app_id, attach, notify_url, return_url, auto, auto_node, config_no, biz_params,payKey);
 ```
 
 #### 收银台支付（异步）
 
 ```js
-WxPay.cashierPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no,biz_params, payKey).then((response)=>{
+WxPay.cashierPay(out_trade_no, total_fee, mch_id, body,app_id, attach, notify_url, return_url, auto, auto_node, config_no,biz_params, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -235,13 +235,13 @@ WxPay.cashierPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, retu
 #### 刷脸支付（同步）
 
 ```js
-let result =await WxPay.facePayAsync(out_trade_no, total_fee, mch_id, body, openId, face_code, attach, notify_url, auto, auto_node, config_no,biz_params, payKey);
+let result =await WxPay.facePayAsync(out_trade_no, total_fee, mch_id, body, openId, face_code,app_id, attach, notify_url, auto, auto_node, config_no,biz_params, payKey);
 ```
 
 #### 刷脸支付（异步）
 
 ```js
-WxPay.facePay(out_trade_no, total_fee, mch_id, body, openId, face_code, attach, notify_url, auto, auto_node, config_no,biz_params, payKey).then((response)=>{
+WxPay.facePay(out_trade_no, total_fee, mch_id, body, openId, face_code,app_id, attach, notify_url, auto, auto_node, config_no,biz_params, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -250,13 +250,13 @@ WxPay.facePay(out_trade_no, total_fee, mch_id, body, openId, face_code, attach, 
 #### H5支付（同步）
 
 ```js
-let result =await WxPay.wapPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, biz_params,payKey);
+let result =await WxPay.wapPayAsync(out_trade_no, total_fee, mch_id, body,app_id, attach, notify_url, return_url, auto, auto_node, config_no, biz_params,payKey);
 ```
 
 #### H5支付（异步）
 
 ```js
-WxPay.wapPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, biz_params,payKey).then((response)=>{
+WxPay.wapPay(out_trade_no, total_fee, mch_id, body,app_id, attach, notify_url, return_url, auto, auto_node, config_no, biz_params,payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -265,13 +265,13 @@ WxPay.wapPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_u
 #### APP支付（同步）
 
 ```js
-let result =await WxPay.appPayAsync(app_id, out_trade_no, total_fee, mch_id, body, attach, notify_url, auto, auto_node, config_no,biz_params, payKey);
+let result =await WxPay.appPayAsync(app_id, out_trade_no, total_fee, mch_id, body,attach, notify_url, auto, auto_node, config_no,biz_params, payKey);
 ```
 
 #### APP支付（异步）
 
 ```js
-WxPay.appPay(app_id, out_trade_no, total_fee, mch_id, body, attach, notify_url, auto, auto_node, config_no,biz_params, payKey).then((response)=>{
+WxPay.appPay(app_id, out_trade_no, total_fee, mch_id, body,attach, notify_url, auto, auto_node, config_no,biz_params, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -280,7 +280,7 @@ WxPay.appPay(app_id, out_trade_no, total_fee, mch_id, body, attach, notify_url, 
 #### QQ小程序支付【个人】（同步）
 
 ```js
-let params = WxPay.qqPayParams(out_trade_no, total_fee, mch_id, body, attach, title, notify_url, auto, auto_node, config_no, biz_params, payKey);
+let params = WxPay.qqPayParams(out_trade_no, total_fee, mch_id, body,app_id, attach, title, notify_url, auto, auto_node, config_no, biz_params, payKey);
 
 qq.navigateToMiniProgram({
         appId: '1112112167',//支付收银小程序的appid 固定值 不可修改
@@ -298,7 +298,7 @@ qq.navigateToMiniProgram({
 #### QQ小程序支付【个体户/企业】（同步）
 
 ```js
-let result =await WxPay.qqPayAsync(app_id,access_token,out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, biz_params,payKey);
+let result =await WxPay.qqPayAsync(app_id,access_token,out_trade_no, total_fee, mch_id, body,attach, notify_url, return_url, auto, auto_node, config_no, biz_params,payKey);
 
 
 let minPayParam=result.minPayParam;
@@ -330,7 +330,7 @@ qq.requestWxPayment(minPayParam);
 #### QQ小程序支付【个体户/企业】（异步）
 
 ```js
-WxPay.qqPay(app_id,access_token,out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, auto, auto_node, config_no, biz_params,payKey).then((response)=>{
+WxPay.qqPay(app_id,access_token,out_trade_no, total_fee, mch_id, body,attach, notify_url, return_url, auto, auto_node, config_no, biz_params,payKey).then((response)=>{
     //接口返回结果
     if(response.code!=0||response.data==null){
         console.log("支付失败");
@@ -370,13 +370,13 @@ WxPay.qqPay(app_id,access_token,out_trade_no, total_fee, mch_id, body, attach, n
 #### 刷脸支付凭证（同步）
 
 ```js
-let result =await WxPay.getFacePayAuthInfoAsync(mch_id, store_id, store_name, face_auth_info, device_id, attach, biz_params, payKey);
+let result =await WxPay.getFacePayAuthInfoAsync(mch_id, store_id, store_name, face_auth_info, device_id,app_id, attach, biz_params, payKey);
 ```
 
 #### 刷脸支付凭证（异步）
 
 ```js
-WxPay.getFacePayAuthInfo(mch_id, store_id, store_name, face_auth_info, device_id, attach, biz_params, payKey).then((response)=>{
+WxPay.getFacePayAuthInfo(mch_id, store_id, store_name, face_auth_info, device_id,app_id, attach, biz_params, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -465,10 +465,27 @@ WxPay.reverseOrder(out_trade_no, mch_id, payKey).then((response)=>{
 import {AliPay} from 'yungouos-pay-sdk'
 ```
 
+#### 条码支付（同步）
+
+```js
+let result =await AliPay.codePayAsync(out_trade_no, total_fee, mch_id, body, auth_code, app_id, attach, notify_url, hbfq_num, hbfq_percent, payKey);
+//二维码链接地址
+console.log(result);
+```
+
+#### 条码支付（异步）
+
+```js
+AliPay.codePay(out_trade_no, total_fee, mch_id, body, auth_code, app_id, attach, notify_url, hbfq_num, hbfq_percent, payKey).then((response)=>{
+    //接口返回结果
+    console.log(response);
+});
+```
+
 #### 扫码支付（同步）
 
 ```js
-let result =await AliPay.nativePayAsync(out_trade_no, total_fee, mch_id, body, type, attach, notify_url,hbfq_num,hbfq_percent,payKey);
+let result =await AliPay.nativePayAsync(out_trade_no, total_fee, mch_id, body, type,app_id, attach, notify_url,hbfq_num,hbfq_percent,payKey);
 //二维码链接地址
 console.log(result);
 ```
@@ -476,7 +493,7 @@ console.log(result);
 #### 扫码支付（异步）
 
 ```js
-AliPay.nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_url,hbfq_num,hbfq_percent, payKey).then((response)=>{
+AliPay.nativePay(out_trade_no, total_fee, mch_id, body, type,app_id, attach, notify_url,hbfq_num,hbfq_percent, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -485,7 +502,7 @@ AliPay.nativePay(out_trade_no, total_fee, mch_id, body, type, attach, notify_url
 #### wap支付（同步）
 
 ```js
-let result =await AliPay.wapPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url,hbfq_num,hbfq_percent, payKey);
+let result =await AliPay.wapPayAsync(out_trade_no, total_fee, mch_id, body,app_id, attach, notify_url,hbfq_num,hbfq_percent, payKey);
 //wap支付链接地址
 console.log(result);
 ```
@@ -493,7 +510,7 @@ console.log(result);
 #### wap支付（异步）
 
 ```js
-AliPay.wapPay(out_trade_no, total_fee, mch_id, body, attach, notify_url,hbfq_num,hbfq_percent, payKey).then((response)=>{
+AliPay.wapPay(out_trade_no, total_fee, mch_id, body,app_id, attach, notify_url,hbfq_num,hbfq_percent, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -502,7 +519,7 @@ AliPay.wapPay(out_trade_no, total_fee, mch_id, body, attach, notify_url,hbfq_num
 #### js支付（同步）
 
 ```js
-let result =await AliPay.jsPayAsync(out_trade_no, total_fee, mch_id,buyer_id,body, attach, notify_url,hbfq_num,hbfq_percent, payKey);
+let result =await AliPay.jsPayAsync(out_trade_no, total_fee, mch_id,buyer_id,body,app_id, attach, notify_url,hbfq_num,hbfq_percent, payKey);
 //支付宝JSSDK所需的参数
 console.log(result);
 ```
@@ -510,7 +527,7 @@ console.log(result);
 #### js支付（异步）
 
 ```js
-AliPay.jsPay(out_trade_no, total_fee, mch_id,buyer_id,body, attach, notify_url,hbfq_num,hbfq_percent, payKey).then((response)=>{
+AliPay.jsPay(out_trade_no, total_fee, mch_id,buyer_id,body,app_id, attach, notify_url,hbfq_num,hbfq_percent, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -519,7 +536,7 @@ AliPay.jsPay(out_trade_no, total_fee, mch_id,buyer_id,body, attach, notify_url,h
 #### H5支付（同步）
 
 ```js
-let result =await AliPay.h5PayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url,hbfq_num,hbfq_percent, payKey);
+let result =await AliPay.h5PayAsync(out_trade_no, total_fee, mch_id, body,app_id, attach, notify_url, return_url,hbfq_num,hbfq_percent, payKey);
 //H5支付表单
 console.log(result);
 ```
@@ -527,7 +544,7 @@ console.log(result);
 #### H5支付（异步）
 
 ```js
-AliPay.h5Pay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url,hbfq_num,hbfq_percent, payKey).then((response)=>{
+AliPay.h5Pay(out_trade_no, total_fee, mch_id, body,app_id, attach, notify_url, return_url,hbfq_num,hbfq_percent, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -536,7 +553,7 @@ AliPay.h5Pay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_u
 #### app支付（同步）
 
 ```js
-let result =await AliPay.appPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url,hbfq_num,hbfq_percent, payKey);
+let result =await AliPay.appPayAsync(out_trade_no, total_fee, mch_id, body,app_id, attach, notify_url,hbfq_num,hbfq_percent, payKey);
 //APP支付所需的参数
 console.log(result);
 ```
@@ -544,7 +561,7 @@ console.log(result);
 #### app支付（异步）
 
 ```js
-AliPay.appPay(out_trade_no, total_fee, mch_id, body, attach, notify_url,hbfq_num,hbfq_percent, payKey).then((response)=>{
+AliPay.appPay(out_trade_no, total_fee, mch_id, body,app_id, attach, notify_url,hbfq_num,hbfq_percent, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
@@ -553,13 +570,13 @@ AliPay.appPay(out_trade_no, total_fee, mch_id, body, attach, notify_url,hbfq_num
 #### 电脑网站支付（同步）
 
 ```js
-let result =await AliPay.webPayAsync(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, hbfq_num, hbfq_percent, payKey);
+let result =await AliPay.webPayAsync(out_trade_no, total_fee, mch_id, body,app_id, attach, notify_url, return_url, hbfq_num, hbfq_percent, payKey);
 ```
 
 #### 电脑网站支付（异步）
 
 ```js
-AliPay.webPay(out_trade_no, total_fee, mch_id, body, attach, notify_url, return_url, hbfq_num, hbfq_percent, payKey).then((response)=>{
+AliPay.webPay(out_trade_no, total_fee, mch_id, body,app_id, attach, notify_url, return_url, hbfq_num, hbfq_percent, payKey).then((response)=>{
     //接口返回结果
     console.log(response);
 });
