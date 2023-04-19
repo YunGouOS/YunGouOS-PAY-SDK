@@ -35,8 +35,8 @@
 			 */
 			getOauthInfo: async function() {
 				let code = this.code;
-				let mch_id = "1529637931";
-				let key="499F61DB734C4BF39792A098C44FA80A";
+				let mch_id = "微信支付商户号";
+				let key="微信支付密钥";
 				let result =await WxLogin.getOauthInfoAsync(mch_id, code, key);
 				if (result == null || result == undefined || result == "") {
 					return;
@@ -54,9 +54,10 @@
 			jsPay: async function() {
 				let out_trade_no = new Date().getTime();
 				let total_fee = "0.01";
-				let mch_id = "1529637931";
+				let mch_id = "微信支付商户号";
 				let body = "微信支付JSAPI测试";
 				let openId = this.openId;
+				let app_id = null;
 				let attach = null;
 				let notify_url = "http://api.merchant.yungouos.com/api/system/demo/callback";
 				let return_url="http://localhost.yungouos.com:8080/#/pages/index/index";
@@ -64,8 +65,8 @@
 				let auto_node = null;
 				let config_no = null;
 				let biz_params = null;
-				let payKey = "499F61DB734C4BF39792A098C44FA80A";
-				let result = await WxPay.jsapiPayAsync(out_trade_no, total_fee, mch_id, body, openId, attach,notify_url,return_url,auto, auto_node, config_no, biz_params, payKey);
+				let payKey = "微信支付密钥";
+				let result = await WxPay.jsapiPayAsync(out_trade_no, total_fee, mch_id, body, openId, app_id, attach,notify_url,return_url,auto, auto_node, config_no, biz_params, payKey);
 				console.log("调用微信JSAPI支付结果："+result);
 				this.jsPayParams=JSON.parse(result);
 				this.callpay();
