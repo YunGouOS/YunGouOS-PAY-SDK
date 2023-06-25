@@ -890,11 +890,47 @@ console.log(result);
 #### 关闭批量转账（异步）
 
 ```js
-Finance..batchPayClose(out_trade_no, batch_no, mch_id, key).then((response)=>{
+Finance.batchPayClose(out_trade_no, batch_no, mch_id, key).then((response)=>{
     //关闭批量转账结果
     console.log(response);
 });
 ```
+
+
+#### 发起分账回退（同步）
+
+```js
+let result =await Finance.shareReturnAsync(out_return_no, ps_no, mch_id, money, reason, notify_url, key);
+//发起分账回退结果
+console.log(result);
+```
+
+#### 发起分账回退（异步）
+
+```js
+Finance.shareReturn(out_return_no, ps_no, mch_id, money, reason, notify_url, key).then((response)=>{
+    //发起分账回退结果
+    console.log(response);
+});
+```
+
+#### 查询分账回退（同步）
+
+```js
+let result =await Finance.getShareReturnInfoAsync(out_return_no, return_no, mch_id, key);
+//查询分账回退结果
+console.log(result);
+```
+
+#### 查询分账回退（异步）
+
+```js
+Finance.getShareReturnInfo(out_return_no, return_no, mch_id, key).then((response)=>{
+    //查询分账回退结果
+    console.log(response);
+});
+```
+
 
 ### 5、订单查询
 

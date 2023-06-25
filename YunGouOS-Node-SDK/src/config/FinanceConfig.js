@@ -39,6 +39,12 @@ const getBatchPayInfoUrl = apiUrl + "/api/finance/repay/batch/getBatchPayInfo";
 //关闭批量转账
 const getCloseBatchPayUrl = apiUrl + "/api/finance/repay/batch/close";
 
+//发起分账回退
+const getShareReturnUrl = apiUrl + "/api/finance/profitsharing/refund";
+
+//查询分账回退
+const getShareReturnInfoUrl = apiUrl + "/api/finance/profitsharing/getShareReturnInfo";
+
 export default {
     "getConfigUrl": getConfigUrl,
     "getCreateBillUrl": getCreateBillUrl,
@@ -52,5 +58,7 @@ export default {
     "getBatchPayCreateUrl": getBatchPayCreateUrl,
     "getBatchPaySendPayUrl": getBatchPaySendPayUrl,
     "getBatchPayInfoUrl": getBatchPayInfoUrl,
-    "getCloseBatchPayUrl": getCloseBatchPayUrl
+    "getCloseBatchPayUrl": getCloseBatchPayUrl,
+    "getShareReturnUrl": getShareReturnUrl,
+    "getShareReturnInfoUrl": getShareReturnInfoUrl
 }

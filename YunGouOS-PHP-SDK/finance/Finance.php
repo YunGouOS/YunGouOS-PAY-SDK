@@ -1270,7 +1270,7 @@ class Finance
      * @param $key           支付密钥 登录YunGouOS.com-》微信支付/支付宝-》商户管理-》支付密钥 查看密钥
      * @return  回退单详情对象，参考文档：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/refund
      */
-    public function shareRefund($out_return_no, $ps_no, $mch_id, $money, $reason, $notify_url, $key)
+    public function shareReturn($out_return_no, $ps_no, $mch_id, $money, $reason, $notify_url, $key)
     {
         $result = null;
         $paramsArray = array();

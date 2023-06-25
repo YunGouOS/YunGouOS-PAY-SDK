@@ -551,7 +551,7 @@ $result =$finance->getBatchPayInfo(商户单号, 批次单号, 批量转账商�
 ## 分账回退
 
 ```php
-$result =$finance->shareRefund(商户回退单号, 分账单号, 商户号, 退回金额,回退原因, 异步回调地址, 商户密钥);
+$result =$finance->shareReturn(商户回退单号, 分账单号, 商户号, 退回金额,回退原因, 异步回调地址, 商户密钥);
 ```
 
 ## 查询分账回退

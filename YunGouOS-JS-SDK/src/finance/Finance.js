@@ -526,7 +526,7 @@ function config(mch_id, appId, reason, channel, openId, receiver_mch_id, name, r
  * @param {*} payKey 支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
  * @return {*} 配置单号
  */
-async function createBillV2Async(mch_id, out_trade_no, config_no,rate,money,notify_url,payKey) {
+async function createBillV2Async(mch_id, out_trade_no, config_no, rate, money, notify_url, payKey) {
     if (Common.isEmpty(mch_id)) {
         console.error("yungouos sdk error", "商户号不能为空");
         return null;
@@ -1007,7 +1007,7 @@ function finish(mch_id, out_trade_no, payKey) {
  * @param {*} notify_url 异步回调地址。传递后会将转账结果发送到该地址，不传则无回调。
  * @param {*} key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
  */
-async function rePayWxPayAsync(merchant_id, out_trade_no, account, account_name, money, desc, mch_id,notify_url, key) {
+async function rePayWxPayAsync(merchant_id, out_trade_no, account, account_name, money, desc, mch_id, notify_url, key) {
     if (Common.isEmpty(merchant_id)) {
         console.error("yungouos sdk error", "YunGouOS商户ID不能为空");
         return null;
@@ -1079,7 +1079,7 @@ async function rePayWxPayAsync(merchant_id, out_trade_no, account, account_name,
  * @param {*} notify_url 异步回调地址。传递后会将转账结果发送到该地址，不传则无回调。
  * @param {*} key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
  */
-function rePayWxPay(merchant_id, out_trade_no, account, account_name, money, desc, mch_id,notify_url, key) {
+function rePayWxPay(merchant_id, out_trade_no, account, account_name, money, desc, mch_id, notify_url, key) {
     if (Common.isEmpty(merchant_id)) {
         console.error("yungouos sdk error", "YunGouOS商户ID不能为空");
         return null;
@@ -1143,7 +1143,7 @@ function rePayWxPay(merchant_id, out_trade_no, account, account_name, money, des
  * @param {*} notify_url 异步回调地址。传递后会将转账结果发送到该地址，不传则无回调。
  * @param {*} key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
  */
-async function rePayAliPayAsync(merchant_id, out_trade_no, account, account_name, money, desc, mch_id,notify_url, key) {
+async function rePayAliPayAsync(merchant_id, out_trade_no, account, account_name, money, desc, mch_id, notify_url, key) {
     if (Common.isEmpty(merchant_id)) {
         console.error("yungouos sdk error", "YunGouOS商户ID不能为空");
         return null;
@@ -1219,7 +1219,7 @@ async function rePayAliPayAsync(merchant_id, out_trade_no, account, account_name
  * @param {*} notify_url 异步回调地址。传递后会将转账结果发送到该地址，不传则无回调。
  * @param {*} key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
  */
-function rePayAliPay(merchant_id, out_trade_no, account, account_name, money, desc, mch_id,notify_url,key) {
+function rePayAliPay(merchant_id, out_trade_no, account, account_name, money, desc, mch_id, notify_url, key) {
     if (Common.isEmpty(merchant_id)) {
         console.error("yungouos sdk error", "YunGouOS商户ID不能为空");
         return null;
@@ -1368,7 +1368,7 @@ function getRePayInfo(out_trade_no, merchant_id, key) {
  * @param {*} notify_url 异步回调地址。传递后会将转账结果发送到该地址，不传则无回调。
  * @param {*} key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
  */
-async function rePayBankAsync(merchant_id, out_trade_no, account, account_name, money, desc,bank_type,bank_name,bank_code,mch_id,app_id,notify_url,key) {
+async function rePayBankAsync(merchant_id, out_trade_no, account, account_name, money, desc, bank_type, bank_name, bank_code, mch_id, app_id, notify_url, key) {
     if (Common.isEmpty(merchant_id)) {
         console.error("yungouos sdk error", "YunGouOS商户ID不能为空");
         return null;
@@ -1460,7 +1460,7 @@ async function rePayBankAsync(merchant_id, out_trade_no, account, account_name, 
  * @param {*} notify_url 异步回调地址。传递后会将转账结果发送到该地址，不传则无回调。
  * @param {*} key 商户密钥  登录YunGouOS.com-》账户设置-》开发者身份-》账户商户号 商户密钥
  */
-function rePayBank(merchant_id, out_trade_no, account, account_name, money, desc,bank_type,bank_name,bank_code,mch_id,app_id,notify_url,key) {
+function rePayBank(merchant_id, out_trade_no, account, account_name, money, desc, bank_type, bank_name, bank_code, mch_id, app_id, notify_url, key) {
     if (Common.isEmpty(merchant_id)) {
         console.error("yungouos sdk error", "YunGouOS商户ID不能为空");
         return null;
@@ -1681,7 +1681,7 @@ function batchPayCreate(out_trade_no, mch_id, repay_order_list, pay_type, order_
  * @param {*} app_code     是否转换为二维码【true、false】。当type为app时传递有效，可将返回的付款链接生成二维码。
  * @param {*} key          商户密钥 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约 商户密钥
  */
-async function batchPaySendPayAsync(out_trade_no, batch_no, mch_id, type,app_code, key) {
+async function batchPaySendPayAsync(out_trade_no, batch_no, mch_id, type, app_code, key) {
     if (Common.isEmpty(out_trade_no) && Common.isEmpty(batch_no)) {
         console.error("yungouos sdk error", "商户单号和批次单号不能同时为空！");
         return null;
@@ -1960,6 +1960,223 @@ function batchPayClose(out_trade_no, batch_no, mch_id, key) {
 
 
 
+/**
+ * 发起分账回退（同步）
+ * 
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/refund
+ *
+ * @param {*} out_return_no 分账回退单号。商户系统自行生成，需保证唯一
+ * @param {*} ps_no     分账单号
+ * @param {*} mch_id       支付商户号 登录YunGouOS.com-》微信支付/支付宝-》商户管理-》查看
+ * @param {*} money     回退金额。单位：元
+ * @param {*} reason     回退原因
+ * @param {*} notify_url     异步回调地址，分账回退完成后将分账回退结果发送到该地址，不填则无回调。
+ * @param {*} key          商户密钥 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约 商户密钥
+ */
+async function shareReturnAsync(out_return_no, ps_no, mch_id, money, reason, notify_url, key) {
+
+    if (Common.isEmpty(out_return_no)) {
+        console.error("yungouos sdk error", "回退单号不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(ps_no)) {
+        console.error("yungouos sdk error", "分账单号不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(money)) {
+        console.error("yungouos sdk error", "回退金额不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(reason)) {
+        console.error("yungouos sdk error", "回退原因不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(key)) {
+        console.error("yungouos sdk error", "商户密钥不能为空！");
+        return null;
+    }
+    let params = {
+        out_return_no: out_return_no,
+        ps_no: ps_no,
+        mch_id: mch_id,
+        money: money,
+        reason: reason,
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, key);
+    params.sign = sign;
+    if (!Common.isEmpty(notify_url)) {
+        params.notify_url = notify_url;
+    }
+    let response = await HttpUtil.post(FinanceConfig.getShareReturnUrl, params);
+    let result = Common.doApiResult(response);
+    if (Common.isEmpty(result)) {
+        return null;
+    }
+    let data = result.data;
+    if (Common.isEmpty(data)) {
+        console.error("yungouos sdk error", "API无返回结果");
+        return null;
+    }
+    return data;
+}
+
+
+
+
+/**
+ * 发起分账回退
+ * 
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/refund
+ *
+ * @param {*} out_return_no 分账回退单号。商户系统自行生成，需保证唯一
+ * @param {*} ps_no     分账单号
+ * @param {*} mch_id       支付商户号 登录YunGouOS.com-》微信支付/支付宝-》商户管理-》查看
+ * @param {*} money     回退金额。单位：元
+ * @param {*} reason     回退原因
+ * @param {*} notify_url     异步回调地址，分账回退完成后将分账回退结果发送到该地址，不填则无回调。
+ * @param {*} key          商户密钥 登录YunGouOS.com-》开放市场-》应用市场-》批量转账-》账户签约 商户密钥
+ */
+function shareReturn(out_return_no, ps_no, mch_id, money, reason, notify_url, key) {
+
+    if (Common.isEmpty(out_return_no)) {
+        console.error("yungouos sdk error", "回退单号不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(ps_no)) {
+        console.error("yungouos sdk error", "分账单号不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(money)) {
+        console.error("yungouos sdk error", "回退金额不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(reason)) {
+        console.error("yungouos sdk error", "回退原因不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(key)) {
+        console.error("yungouos sdk error", "商户密钥不能为空！");
+        return null;
+    }
+    let params = {
+        out_return_no: out_return_no,
+        ps_no: ps_no,
+        mch_id: mch_id,
+        money: money,
+        reason: reason,
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, key);
+    params.sign = sign;
+    if (!Common.isEmpty(notify_url)) {
+        params.notify_url = notify_url;
+    }
+    return HttpUtil.post(FinanceConfig.getShareReturnUrl, params);
+}
+
+
+
+/**
+ * 查询分账回调（同步）
+ * 
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/getShareReturnInfo
+ *
+ * @param {*} out_return_no 商户分账回退单号。（与系统回退单号二选一）
+ * @param {*} return_no     系统回退单号。（与分账回退单号二选一）
+ * @param {*} mch_id       批量转账商户号 登录YunGouOS.com-》微信支付/支付宝-》商户管理 查看
+ * @param {*} key          商户密钥 登录YunGouOS.com-》微信支付/支付宝-》商户管理 商户密钥
+ */
+async function getShareReturnInfoAsync(out_return_no, return_no, mch_id, key) {
+    if (Common.isEmpty(out_return_no) && Common.isEmpty(return_no)) {
+        console.error("yungouos sdk error", "商户回退单号和系统回退单号不能同时为空");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(key)) {
+        console.error("yungouos sdk error", "商户密钥不能为空！");
+        return null;
+    }
+    let params = {
+        mch_id: mch_id
+    }
+    if (!Common.isEmpty(out_return_no)) {
+        params.out_return_no = out_return_no;
+    }
+    if (!Common.isEmpty(return_no)) {
+        params.return_no = return_no;
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, key);
+    params.sign = sign;
+    let response = await HttpUtil.get(FinanceConfig.getShareReturnInfoUrl, params);
+    let result = Common.doApiResult(response);
+    if (Common.isEmpty(result)) {
+        return null;
+    }
+    let data = result.data;
+    if (Common.isEmpty(data)) {
+        console.error("yungouos sdk error", "API无返回结果");
+        return null;
+    }
+    return data;
+}
+
+
+
+/**
+ * 查询分账回调（同步）
+ * 
+ * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/getShareReturnInfo
+ *
+ * @param {*} out_return_no 商户分账回退单号。（与系统回退单号二选一）
+ * @param {*} return_no     系统回退单号。（与分账回退单号二选一）
+ * @param {*} mch_id       批量转账商户号 登录YunGouOS.com-》微信支付/支付宝-》商户管理 查看
+ * @param {*} key          商户密钥 登录YunGouOS.com-》微信支付/支付宝-》商户管理 商户密钥
+ */
+function getShareReturnInfo(out_return_no, return_no, mch_id, key) {
+    if (Common.isEmpty(out_return_no) && Common.isEmpty(return_no)) {
+        console.error("yungouos sdk error", "商户回退单号和系统回退单号不能同时为空");
+        return null;
+    }
+    if (Common.isEmpty(mch_id)) {
+        console.error("yungouos sdk error", "商户号不能为空！");
+        return null;
+    }
+    if (Common.isEmpty(key)) {
+        console.error("yungouos sdk error", "商户密钥不能为空！");
+        return null;
+    }
+    let params = {
+        mch_id: mch_id
+    }
+    if (!Common.isEmpty(out_return_no)) {
+        params.out_return_no = out_return_no;
+    }
+    if (!Common.isEmpty(return_no)) {
+        params.return_no = return_no;
+    }
+    //上述参数参与签名
+    let sign = PaySignUtil.paySign(params, key);
+    params.sign = sign;
+    return HttpUtil.get(FinanceConfig.getShareReturnInfoUrl, params);
+}
+
+
+
+
+
 export default {
     configAsync,
     config,
@@ -1992,5 +2209,9 @@ export default {
     getBatchPayInfoAsync,
     getBatchPayInfo,
     batchPayCloseAsync,
-    batchPayClose
+    batchPayClose,
+    shareReturnAsync,
+    shareReturn,
+    getShareReturnInfoAsync,
+    getShareReturnInfo
 }
