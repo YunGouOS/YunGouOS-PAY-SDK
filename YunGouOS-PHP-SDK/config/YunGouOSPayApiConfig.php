@@ -81,6 +81,10 @@ $apiConfig = array(
     "finance_get_pay_result_url"=>$api_url."/api/finance/profitsharing/getInfo",
     //停止分账
     "finance_finish_url"=>$api_url."/api/finance/profitsharing/finish",
+    //分账回退
+    "finance_share_refund_url"=>$api_url."/api/finance/profitsharing/refund",
+    //查询分账回退
+    "finance_get_share_refund_result_url"=>$api_url."/api/finance/profitsharing/getShareReturnInfo",
 
     //**************************转账付款相关接口************************************//
     //转账到微信零钱

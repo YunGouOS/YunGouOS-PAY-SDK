@@ -1387,7 +1387,7 @@ public class Finance {
      * @param reason        回退原因
      * @param notify_url    异步回调地址
      * @param key           支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
-     * @return boolean 是否成功
+     * @return ShareReturnOrderBiz 回退单详情对象，参考文档：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/refund
      */
     public static ShareReturnOrderBiz shareRefund(String out_return_no, String ps_no, String mch_id, String money, String reason, String notify_url, String key) throws PayException {
         Map<String, Object> params = new HashMap<String, Object>();

@@ -504,27 +504,99 @@ $result =$finance->getInfo(分账方支付商户号, 分账单号, 商户密钥)
 $result =$finance->finish(分账方支付商户号, 商户单号, 商户密钥);
 ```
 
-# 资金转账方法说明	
+# 资金转账方法说明
 
 ## 转账到微信零钱
 
 ```php
-$result =$finance->rePayWxPay(YunGouOS商户ID, 商户单号,收款账户openid,收款方真实姓名,付款金额,付款描述,付款商户号, 商户密钥);
+$result =$finance->rePayWxPay(YunGouOS商户ID, 商户单号,收款账户openid,收款方真实姓名,付款金额,付款描述,付款商户号,回调通知, 商户密钥);
 ```
 
 ## 转账到支付宝
 
 ```php
-$result =$finance->rePayAliPay(YunGouOS商户ID, 商户单号,收款支付宝账户,收款方真实姓名,付款金额,付款描述,付款商户号, 商户密钥)
+$result =$finance->rePayAliPay(YunGouOS商户ID, 商户单号,收款支付宝账户,收款方真实姓名,付款金额,付款描述,付款商户号,回调通知, 商户密钥)
 ```
 
+## 转账到银行卡
+
+```php
+$result =$finance->rePayBank(YunGouOS商户ID, 商户单号, 收款银行卡号, 收款方真实姓名, 付款金额, 付款描述, 银行卡类型, 银行名称, 银行编码,付款商户号 , 关联APPID,回调通知, 商户密钥);
+```
+
+## 查询转账结果
+
+```php
+$result =$finance-> getRePayInfo(商户单号, YunGouOS商户ID, 商户密钥);
+```
+
+## 发起批量转账
+
+```php
+$result =$finance->batchPayCreate(商户单号, 批量转账商户号, 收款方列表, 转账方式, 支付宝收银台页面账单标题, 转账超时时间, 批量转账描述, 异步回调地址, 同步回调地址, 商户密钥);
+```
+
+## 确认批量转账
+
+```php
+$result =$finance->batchPaySendPay(商户单号, 批次单号, 批量转账商户号, 转账类型, 是否转换为二维码, 商户密钥);
+```
+
+## 查询批量转账
+
+```php
+$result =$finance->getBatchPayInfo(商户单号, 批次单号, 批量转账商户号, 商户密钥);
+```
+
+## 分账回退
+
+```php
+$result =$finance->shareRefund(商户回退单号, 分账单号, 商户号, 退回金额,回退原因, 异步回调地址, 商户密钥);
+```
+
+## 查询分账回退
+
+```php
+$result =$finance->getShareReturnInfo(商户回退单号, 系统回退单号, 商户号, 商户密钥);
+```
+
+
 # 签名工具
+
+## 参数签名
 ```php
  $paySign->getSign(需要加密的array,商户密钥);
 
- $paySign->checkNotifySign(post对象,商户密钥)
 ```
 
+## 支付回调签名验证
+```php
+  $paySign->checkNotifySign(post对象,商户密钥)
+```
 
+## 退款回调签名验证
+```php
+  $paySign->checkRefundNotifySign(post对象,商户密钥)
+```
+
+## 转账回调签名验证
+```php
+  $paySign->checkRePayNotifySign(post对象,商户密钥)
+```
+
+## 分账回调签名验证
+```php
+  $paySign->checkShareMoneyNotifySign(post对象,商户密钥)
+```
+
+## 批量转账回调签名验证
+```php
+  $paySign->checkBatchPayNotifySign(post对象,商户密钥)
+```
+
+## 分账回退回调签名验证
+```php
+  $paySign->checkShareReturnNotifySign(post对象,商户密钥)
+```
 ​	
 ​	
