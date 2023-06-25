@@ -320,4 +320,54 @@ public class PaySignUtil {
         }
         return false;
     }
+
+
+    /**
+     * 验证分账回退回调签名是否正确
+     *
+     * @param request 回调的request对象
+     * @return 签名是否正确
+     */
+    public static boolean checkShareReturnNotifySign(HttpServletRequest request, String partnerKey) throws Exception {
+        try {
+            if (request == null) {
+                throw new Exception("request对象不能为空");
+            }
+            String sign = request.getParameter("sign");
+            if (StrUtil.isBlank(sign)) {
+                throw new Exception("request中未获取到sign");
+            }
+            Map<String, Object> params = new HashMap<String, Object>();
+            String code = request.getParameter("code");
+            String return_no = request.getParameter("return_no");
+            String out_return_no = request.getParameter("out_return_no");
+            String order_no = request.getParameter("order_no");
+            String out_trade_no = request.getParameter("out_trade_no");
+            String pay_no = request.getParameter("pay_no");
+            String ps_no = request.getParameter("ps_no");
+            String mch_id = request.getParameter("mch_id");
+            String money = request.getParameter("money");
+            String channel = request.getParameter("channel");
+            String desc = request.getParameter("desc");
+            params.put("code", code);
+            params.put("return_no", return_no);
+            params.put("out_return_no", out_return_no);
+            params.put("order_no", order_no);
+            params.put("out_trade_no", out_trade_no);
+            params.put("pay_no", pay_no);
+            params.put("ps_no", ps_no);
+            params.put("mch_id", mch_id);
+            params.put("money", money);
+            params.put("channel", channel);
+            params.put("desc", desc);
+            String reSign = PaySignUtil.createSign(params, partnerKey);
+            if (sign.equals(reSign)) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception(e.getMessage());
+        }
+        return false;
+    }
 }

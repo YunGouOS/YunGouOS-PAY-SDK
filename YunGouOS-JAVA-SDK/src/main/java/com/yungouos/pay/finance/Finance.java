@@ -14,6 +14,7 @@ import com.yungouos.pay.entity.RePayBiz;
 import com.yungouos.pay.entity.batchpay.AccountBiz;
 import com.yungouos.pay.entity.batchpay.BatchPayBiz;
 import com.yungouos.pay.entity.batchpay.BatchPayInfoBiz;
+import com.yungouos.pay.entity.share.ShareReturnOrderBiz;
 import com.yungouos.pay.util.PaySignUtil;
 
 import java.util.ArrayList;
@@ -1373,5 +1374,140 @@ public class Finance {
             e.printStackTrace();
             throw new PayException(e.getMessage());
         }
+    }
+
+
+    /**
+     * 对已经分账成功的分账账单进行分账回退，调用该接口将会退回分账金额。文档地址：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/refund
+     *
+     * @param out_return_no 商户回退单号
+     * @param ps_no         分账单号
+     * @param mch_id        支付商户号
+     * @param money         回退金额。单位：元
+     * @param reason        回退原因
+     * @param notify_url    异步回调地址
+     * @param key           支付密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
+     * @return boolean 是否成功
+     */
+    public static ShareReturnOrderBiz shareRefund(String out_return_no, String ps_no, String mch_id, String money, String reason, String notify_url, String key) throws PayException {
+        Map<String, Object> params = new HashMap<String, Object>();
+        ShareReturnOrderBiz shareReturnOrderBiz = null;
+        try {
+            if (StrUtil.isBlank(out_return_no)) {
+                throw new PayException("商户回退单号不能为空！");
+            }
+            if (StrUtil.isBlank(ps_no)) {
+                throw new PayException("分账单号不能为空！");
+            }
+            if (StrUtil.isBlank(mch_id)) {
+                throw new PayException("商户号不能为空！");
+            }
+            if (StrUtil.isBlank(money)) {
+                throw new PayException("回退金额不能为空！");
+            }
+            if (StrUtil.isBlank(reason)) {
+                throw new PayException("回退原因不能为空！");
+            }
+            if (StrUtil.isBlank(key)) {
+                throw new PayException("商户密钥不能为空！");
+            }
+            // 上述参数签名
+            params.put("out_return_no", out_return_no);
+            params.put("ps_no", ps_no);
+            params.put("mch_id", mch_id);
+            params.put("money", money);
+            params.put("reason", reason);
+            String sign = PaySignUtil.createSign(params, key);
+            params.put("sign", sign);
+            if (!StrUtil.isBlank(notify_url)) {
+                params.put("notify_url", notify_url);
+            }
+            String result = HttpRequest.post(FinanceConfig.getShareReturnUrl).form(params).execute().body();
+            if (StrUtil.isBlank(result)) {
+                throw new PayException("API接口返回为空，请联系客服");
+            }
+            JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
+            if (jsonObject == null) {
+                throw new PayException("API结果转换错误");
+            }
+            Integer code = jsonObject.getInteger("code");
+            if (0 != code.intValue()) {
+                throw new PayException(jsonObject.getString("msg"));
+            }
+            JSONObject json = jsonObject.getJSONObject("data");
+            if (json == null) {
+                throw new PayException("查询结果转换失败！");
+            }
+            shareReturnOrderBiz = JSONObject.toJavaObject(json, ShareReturnOrderBiz.class);
+        } catch (PayException e) {
+            e.printStackTrace();
+            throw new PayException(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new PayException(e.getMessage());
+        }
+        return shareReturnOrderBiz;
+    }
+
+
+    /**
+     * 查询分账回退
+     * 文档地址：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/getShareReturnInfo
+     *
+     * @param out_return_no 商户分账回退单号。（与系统回退单号二选一）
+     * @param return_no     系统回退单号。（与分账回退单号二选一）
+     * @param mch_id        支付商户号 登录YunGouOS.com-》微信支付/支付宝-》商户管理 商户号
+     * @param key           商户密钥 登录YunGouOS.com-》微信支付/支付宝-》商户管理 商户密钥
+     * @return ShareReturnOrderBiz 回退单详情对象，参考文档：https://open.pay.yungouos.com/#/api/api/finance/profitsharing/getShareReturnInfo
+     */
+    public static ShareReturnOrderBiz getShareReturnInfo(String out_return_no, String return_no, String mch_id, String key) throws PayException {
+        Map<String, Object> params = new HashMap<String, Object>();
+        ShareReturnOrderBiz shareReturnOrderBiz = null;
+        try {
+            if (StrUtil.isBlank(out_return_no) && StrUtil.isBlank(return_no)) {
+                throw new PayException("商户回退单号和系统回退单号不能同时为空！");
+            }
+            if (StrUtil.isBlank(mch_id)) {
+                throw new PayException("商户号不能为空！");
+            }
+            if (StrUtil.isBlank(key)) {
+                throw new PayException("商户密钥不能为空！");
+            }
+            // 上述参数签名
+            if (!StrUtil.isBlank(out_return_no)) {
+                params.put("out_return_no", out_return_no);
+            }
+            if (!StrUtil.isBlank(return_no)) {
+                params.put("return_no", return_no);
+            }
+            params.put("mch_id", mch_id);
+            String sign = PaySignUtil.createSign(params, key);
+            params.put("sign", sign);
+            // 不需要参与签名的参数
+            String result = HttpRequest.get(FinanceConfig.getShareReturnInfoUrl).form(params).execute().body();
+            if (StrUtil.isBlank(result)) {
+                throw new PayException("API接口返回为空，请联系客服");
+            }
+            JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
+            if (jsonObject == null) {
+                throw new PayException("API结果转换错误");
+            }
+            Integer code = jsonObject.getInteger("code");
+            if (code == null || 0 != code.intValue()) {
+                throw new PayException(jsonObject.getString("msg"));
+            }
+            JSONObject json = jsonObject.getJSONObject("data");
+            if (json == null) {
+                throw new PayException("查询结果转换失败！");
+            }
+            shareReturnOrderBiz = JSONObject.toJavaObject(json, ShareReturnOrderBiz.class);
+        } catch (PayException e) {
+            e.printStackTrace();
+            throw new PayException(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new PayException(e.getMessage());
+        }
+        return shareReturnOrderBiz;
     }
 }

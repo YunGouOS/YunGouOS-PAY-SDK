@@ -35,6 +35,16 @@ public class FinanceConfig {
     public static String getFinishUrl = apiUrl + "/api/finance/profitsharing/finish";
 
     /**
+     * 分账回退
+     */
+    public static String getShareReturnUrl = apiUrl + "/api/finance/profitsharing/refund";
+
+    /**
+     * 查询回退详情
+     */
+    public static String getShareReturnInfoUrl = apiUrl + "/api/finance/profitsharing/getShareReturnInfo";
+
+    /**
      * 微信转账
      */
     public static String getRePayWxPayUrl = apiUrl + "/api/finance/repay/wxpay";
