@@ -421,7 +421,109 @@ class WxPay
     }
 
 
+
     /**
+     *
+     * 微信小程序支付（原生），返回小程序支付所需的参数，前端按照小程序API拉起支付界面。 适合个人/个体户/企业
+     *
+     * @param $out_trade_no 订单号不可重复
+     * @param $total_fee 支付金额 单位元 范围 0.01-99999
+     * @param $mch_id 微信支付商户号 登录YunGouOS.com-》微信支付-》商户管理 查看商户号
+     * @param $body 商品描述
+     * @param $open_id 用户openId（调用小程序wx.login接口获取）
+     * @param $app_id 在YunGouOS平台报备的app_id，不传则按照商户号开户时的场景发起。
+     * @param $attach 附加数据，回调时候原路返回
+     * @param $notify_url 异步回调地址，不传无回调
+     * @param $config_no 分账配置单号。支持多个分账，使用,号分割
+     * @param $auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
+     * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+     * @param $biz_params 支付附加业务参数数组，具体参考API文档
+     * @param $key 商户密钥 登录YunGouOS.com-》微信支付-》商户管理-》支付密钥 查看密钥
+     */
+    public function minAppPayV3($out_trade_no, $total_fee, $mch_id, $body, $open_id, $app_id, $attach, $notify_url, $config_no, $auto, $auto_node, $biz_params, $key)
+    {
+        $result = null;
+        $paramsArray = array();
+        try {
+            if (empty($out_trade_no)) {
+                throw new Exception("订单号不能为空！");
+            }
+            if (empty($total_fee)) {
+                throw new Exception("付款金额不能为空！");
+            }
+            if (empty($mch_id)) {
+                throw new Exception("商户号不能为空！");
+            }
+            if (empty($body)) {
+                throw new Exception("商品描述不能为空！");
+            }
+            if (empty($open_id)) {
+                throw new Exception("open_id不能为空！");
+            }
+            if (empty($app_id)) {
+                throw new Exception("app_id不能为空！");
+            }
+            if (empty($key)) {
+                throw new Exception("商户密钥不能为空！");
+            }
+            $paramsArray['out_trade_no'] = $out_trade_no;
+            $paramsArray['total_fee'] = $total_fee;
+            $paramsArray['mch_id'] = $mch_id;
+            $paramsArray['body'] = $body;
+            $paramsArray['open_id'] = $open_id;
+            $paramsArray['app_id'] = $app_id;
+            // 上述必传参数签名
+            $sign = $this->paySign->getSign($paramsArray, $key);
+            //下面参数不参与签名，但是接口需要这些参数
+            if (!empty($attach)) {
+                $paramsArray['attach'] = $attach;
+            }
+            if (!empty($notify_url)) {
+                $paramsArray['notify_url'] = $notify_url;
+            }
+            if (!empty($config_no)) {
+                $paramsArray['config_no'] = $config_no;
+            }
+            if (!empty($auto)) {
+                $paramsArray['auto'] = $auto;
+            }
+            if (!empty($auto_node)) {
+                $paramsArray['auto_node'] = $auto_node;
+            }
+
+            if (!empty($biz_params)) {
+                if (is_array($biz_params)) {
+                    throw new Exception("biz_params不是合法的数组");
+                }
+                $biz_paramsJson = json_encode($biz_params);
+                $paramsArray['biz_params'] = $biz_paramsJson;
+            }
+
+            $paramsArray['sign'] = $sign;
+
+            $resp = $this->httpUtil->httpsPost($this->apiConfig['wxpay_minapp_pay_v3_url'], $paramsArray);
+            if (empty($resp)) {
+                throw new Exception("API接口返回为空");
+            }
+            $ret = @json_decode($resp, true);
+            if (empty($ret)) {
+                throw new Exception("API接口返回为空");
+            }
+            $code = $ret['code'];
+            if ($code != 0) {
+                throw new Exception($ret['msg']);
+            }
+            $result = $ret['data'];
+        } catch (Exception $e) {
+            throw  new Exception($e->getMessage());
+        }
+        return $result;
+    }
+
+
+    /**
+     *
+     * 废弃，建议使用minAppPayV3
      *
      * 微信小程序支付，返回小程序支付所需的参数，前端按照小程序API拉起支付界面。 适合个体户/企业
      *
@@ -520,8 +622,8 @@ class WxPay
 
 
     /**
-     *
-     * 微信小程序支付，返回跳转“支付收银”小程序所需的参数。适合个人商户。
+     * 建议使用minAppPayV3
+     * 微信小程序支付（跳转），返回跳转“支付收银”小程序所需的参数。
      *
      * @param $out_trade_no 订单号不可重复
      * @param $total_fee 支付金额 单位元 范围 0.01-99999

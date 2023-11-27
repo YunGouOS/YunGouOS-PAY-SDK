@@ -120,7 +120,84 @@ WxPay.jsapiPay(out_trade_no, total_fee, mch_id, body, openId, app_id, attach, no
 });
 ```
 
-#### 小程序支付【个人】（同步）
+
+#### 小程序支付原生【个人/个体户/企业】（同步）
+
+```js
+let result =await WxPay.minAppPayV3Async(out_trade_no, total_fee, mch_id, body, open_id,app_id, attach, notify_url, auto, auto_node, config_no, biz_params, payKey);
+
+let data=result.minPayParam;
+
+if(data==null||data==''||data==undefined){
+    console.log("支付失败");
+    return;
+}
+
+let minPayParam = data;
+
+//构建支付成功方法
+minPayParam.success = (response) => {
+    if (response.errMsg == 'requestPayment:ok') {
+        //支付成功
+        console.log("小程序支付成功");
+    }
+}
+//构建支付失败方法
+minPayParam.fail = (response) => {
+    if (response.errMsg == 'requestPayment:fail cancel') {
+        //取消支付
+        console.log("取消支付");
+    }
+}
+//拉起小程序支付界面
+wx.requestPayment(minPayParam);
+
+```
+
+#### 小程序支付原生【个人/个体户/企业】（异步）
+
+```js
+WxPay.minAppPayV3(out_trade_no, total_fee, mch_id, body, open_id,app_id, attach, notify_url, auto, auto_node, config_no, biz_params, payKey).then((response)=>{
+    //接口返回结果
+    if(response.code!=0||response.data==null){
+        console.log("支付失败");
+        return;
+    }
+
+    let result=response.data;
+
+    let data=result.minPayParam;
+    
+    if(data==null||data==''||data==undefined){
+        console.log("支付失败");
+        return;
+    }
+
+    let minPayParam = data;
+
+    //构建支付成功方法
+    minPayParam.success = (response) => {
+        if (response.errMsg == 'requestPayment:ok') {
+            //支付成功
+            console.log("小程序支付成功");
+        }
+    }
+    //构建支付失败方法
+    minPayParam.fail = (response) => {
+        if (response.errMsg == 'requestPayment:fail cancel') {
+            //取消支付
+            console.log("取消支付");
+        }
+    }
+    //拉起小程序支付界面
+    wx.requestPayment(minPayParam);
+
+});
+```
+
+
+
+#### 小程序支付（跳转/半屏）【个人】（同步）
 
 ```js
 let params = WxPay.minAppPayParams(out_trade_no, total_fee, mch_id, body, app_id, attach, title, notify_url, auto, auto_node, config_no, biz_params, payKey);
@@ -138,7 +215,7 @@ wx.openEmbeddedMiniProgram({
 
 ```
 
-#### 小程序支付【个体户/企业】（同步）
+#### 【废弃，推荐使用原生】小程序支付【个体户/企业】（同步）
 
 ```js
 let result =await WxPay.minAppPayAsync(out_trade_no, total_fee, mch_id, body, openId, app_id, attach, notify_url, auto, auto_node, config_no, biz_params, payKey);
@@ -171,7 +248,7 @@ wx.requestPayment(minPayParam);
 
 ```
 
-#### 小程序支付【个体户/企业】（异步）
+#### 【废弃，推荐使用原生】小程序支付【个体户/企业】（异步）
 
 ```js
 WxPay.minAppPay(out_trade_no, total_fee, mch_id, body, openId, app_id, attach, notify_url, auto, auto_node, config_no, biz_params, payKey).then((response)=>{

@@ -28,6 +28,11 @@ public class WxPayApiConfig {
 	public static String minAppPayUrl = apiUrl + "/api/pay/wxpay/minAppApi";
 
 	/**
+	 * 小程序支付（原生）
+	 */
+	public static String minAppPayV3Url = apiUrl + "/api/pay/wxpay/v3/minAppPay";
+
+	/**
 	 * 公众号支付
 	 */
 	public static String jsapiUrl = apiUrl + "/api/pay/wxpay/jsapi";

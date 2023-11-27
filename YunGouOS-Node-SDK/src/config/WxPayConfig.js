@@ -9,8 +9,11 @@ const nativePay = apiUrl + "/api/pay/wxpay/nativePay";
 //公众号支付
 const jsapiPay = apiUrl + "/api/pay/wxpay/jsapi";
 
-//小程序支付
+//小程序支付(跳转)
 const minAppPay = apiUrl + "/api/pay/wxpay/minAppPay";
+
+//小程序支付（原生）
+const minAppPayV3 = apiUrl + "/api/pay/wxpay/v3/minAppPay";
 
 //收银台支付
 const cashierPay = apiUrl + "/api/pay/wxpay/cashierPay";
@@ -57,6 +60,7 @@ export default {
     "nativePay": nativePay,
     "jsapiPay": jsapiPay,
     "minAppPay": minAppPay,
+    "minAppPayV3": minAppPayV3,
     "cashierPay": cashierPay,
     "facePay": facePay,
     "wapPay": wapPay,

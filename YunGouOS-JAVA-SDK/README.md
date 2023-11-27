@@ -55,13 +55,21 @@
 ```java
  String cashierPayUrl=WxPay.cashierPay(System.currentTimeMillis() + "", "1", mchId, "测试收银台支付",null, null, null, null,null,null,null,null, key);
 ```
-## 小程序支付（个人）
+
+## 小程序支付（原生【个人、个体户、企业】
+
+返回小程序支付所需的参数，小程序端使用wx.requestPayment进行支付
+```java
+ JSONObject minAppPay = WxPay.minAppPayV3(System.currentTimeMillis()+"", "0.01", mchId, "小程序支付演示", "o-_-itxeWVTRnl-iGT_JJ-t3kpxU",“wxa1445dsad1wr54ca”,null, null,null,null,null,null,key);
+```
+
+## 小程序支付（跳转）（个人）
 
 返回小程序支付所需的参数，需要使用小程序段端通过携带返回的参数跳转到支付收银小程序发起支付
 ```java
  JSONObject minAppPay = WxPay.minAppPay(System.currentTimeMillis()+"", "0.01", mchId, "小程序支付演示", "海底捞",null, null, null,null,null,null,null,key);
 ```
-## 小程序支付（个体户/企业）
+## 小程序支付（废弃）（个体户/企业）
 
 返回小程序支付所需的参数，需要使用小程序段端通过携带返回的参数跳转到支付收银小程序发起支付
 ```java
