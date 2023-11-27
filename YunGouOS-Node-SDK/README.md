@@ -126,14 +126,12 @@ WxPay.jsapiPay(out_trade_no, total_fee, mch_id, body, openId, app_id, attach, no
 ```js
 let result =await WxPay.minAppPayV3Async(out_trade_no, total_fee, mch_id, body, open_id,app_id, attach, notify_url, auto, auto_node, config_no, biz_params, payKey);
 
-let data=result.minPayParam;
+let minPayParam=response.data;
 
-if(data==null||data==''||data==undefined){
+if(minPayParam==null||minPayParam==''||minPayParam==undefined){
     console.log("支付失败");
     return;
 }
-
-let minPayParam = data;
 
 //构建支付成功方法
 minPayParam.success = (response) => {
@@ -164,16 +162,12 @@ WxPay.minAppPayV3(out_trade_no, total_fee, mch_id, body, open_id,app_id, attach,
         return;
     }
 
-    let result=response.data;
+    let minPayParam=response.data;
 
-    let data=result.minPayParam;
-    
-    if(data==null||data==''||data==undefined){
+    if(minPayParam==null||minPayParam==''||minPayParam==undefined){
         console.log("支付失败");
         return;
     }
-
-    let minPayParam = data;
 
     //构建支付成功方法
     minPayParam.success = (response) => {

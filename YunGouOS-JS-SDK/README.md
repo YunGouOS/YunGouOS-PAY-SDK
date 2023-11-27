@@ -2,7 +2,6 @@
 
 ![https://images.yungouos.com/YunGouOS/logo/merchant/logo.png](https://images.yungouos.com/YunGouOS/logo/merchant/logo.png)
 
-
 # 介绍
 
 YunGouOS微信支付/支付宝官方合作伙伴，YunGouOS-PAY是南京新云宝软件有限公司研发的支付产品。
@@ -14,7 +13,6 @@ YunGouOS微信支付/支付宝官方合作伙伴，YunGouOS-PAY是南京新云�
 我们使命是为更多开发者、个体户、个人创业者、小微企业提供正规的官方支付接口。
 
 基于微信/支付宝官方授权的服务商模式为中小商家提供便捷的支付接入服务。
-
 
 # 如何使用
 
@@ -122,20 +120,17 @@ WxPay.jsapiPay(out_trade_no, total_fee, mch_id, body, openId,app_id, attach, not
 });
 ```
 
-
 #### 小程序支付原生【个人/个体户/企业】（同步）
 
 ```js
 let result =await WxPay.minAppPayV3Async(out_trade_no, total_fee, mch_id, body, open_id,app_id, attach, notify_url, auto, auto_node, config_no, biz_params, payKey);
 
-let data=result.minPayParam;
+let minPayParam=response.data;
 
-if(data==null||data==''||data==undefined){
+if(minPayParam==null||minPayParam==''||minPayParam==undefined){
     console.log("支付失败");
     return;
 }
-
-let minPayParam = data;
 
 //构建支付成功方法
 minPayParam.success = (response) => {
@@ -166,16 +161,12 @@ WxPay.minAppPayV3(out_trade_no, total_fee, mch_id, body, open_id,app_id, attach,
         return;
     }
 
-    let result=response.data;
+    let minPayParam=response.data;
 
-    let data=result.minPayParam;
-    
-    if(data==null||data==''||data==undefined){
+    if(minPayParam==null||minPayParam==''||minPayParam==undefined){
         console.log("支付失败");
         return;
     }
-
-    let minPayParam = data;
 
     //构建支付成功方法
     minPayParam.success = (response) => {
@@ -197,8 +188,6 @@ WxPay.minAppPayV3(out_trade_no, total_fee, mch_id, body, open_id,app_id, attach,
 });
 ```
 
-
-
 #### 小程序支付（跳转/半屏）【个人】（同步）
 
 ```js
@@ -216,7 +205,6 @@ wx.openEmbeddedMiniProgram({
 });
 
 ```
-
 
 #### 【废弃，推荐使用原生】小程序支付【个体户/企业】（同步）
 
@@ -291,7 +279,6 @@ WxPay.minAppPay(out_trade_no, total_fee, mch_id, body, openId,app_id, attach, no
 
 });
 ```
-
 
 #### 收银台支付（同步）
 
@@ -442,7 +429,6 @@ WxPay.qqPay(app_id,access_token,out_trade_no, total_fee, mch_id, body,attach, no
 });
 ```
 
-
 #### 刷脸支付凭证（同步）
 
 ```js
@@ -532,7 +518,6 @@ WxPay.reverseOrder(out_trade_no, mch_id, payKey).then((response)=>{
     console.log(response);
 });
 ```
-
 
 ### 2、支付宝
 
@@ -675,7 +660,6 @@ AliPay.refund(out_trade_no, mch_id, money,out_trade_refund_no, refund_desc,notif
 });
 ```
 
-
 #### 查询退款结果（同步）
 
 ```js
@@ -692,7 +676,6 @@ AliPay.getRefundResult(out_trade_no, mch_id, money, refund_desc, payKey).then((r
     console.log(response);
 });
 ```
-
 
 #### 关闭订单（同步）
 
@@ -731,7 +714,6 @@ AliPay.reverseOrder(out_trade_no, mch_id, payKey).then((response)=>{
 import {Finance} from 'yungouos-pay-sdk'
 ```
 
-
 #### 微信支付配置分账账户（同步）
 
 ```js
@@ -748,7 +730,6 @@ Finance.wxPayConfig(mch_id, appId, reason,openId, receiver_mch_id, name, rate, m
     console.log(response);
 });
 ```
-
 
 #### 支付宝配置分账账户（同步）
 
@@ -767,8 +748,6 @@ Finance.aliPayConfig(mch_id, reason,account, name, rate, money, payKey).then((re
 });
 ```
 
-
-
 #### 生成分账账单（同步）
 
 ```js
@@ -785,7 +764,6 @@ Finance.createBillV2(mch_id, out_trade_no, config_no,rate,money,notify_url, payK
     console.log(response);
 });
 ```
-
 
 #### 发起分账支付（同步）
 
@@ -844,7 +822,6 @@ Finance.finish(mch_id, out_trade_no, payKey).then((response)=>{
 //导入转账对象
 import {Finance} from 'yungouos-pay-sdk'
 ```
-
 
 #### 转账到微信零钱（同步）
 
@@ -1016,14 +993,12 @@ Finance.getShareReturnInfo(out_return_no, return_no, mch_id, key).then((response
 });
 ```
 
-
 ### 5、订单查询
 
 ```js
 //导入订单对象
 import {Order} from 'yungouos-pay-sdk'
 ```
-
 
 #### 查询订单（同步）
 
@@ -1042,13 +1017,13 @@ Order.getOrderInfo(out_trade_no,mch_id,payKey).then((response)=>{
 });
 ```
 
-
 ### 6、微信登录
 
 ```js
 //导入微信登录对象
 import {WxLogin} from 'yungouos-pay-sdk'
 ```
+
 #### 获取授权链接（同步）
 
 ```js
@@ -1065,6 +1040,7 @@ WxLogin.getOauthUrl(mch_id, callback_url, type, params, key).then((response)=>{
     console.log(response);
 });
 ```
+
 #### 微信PC扫码登录（同步）
 
 ```js
@@ -1099,13 +1075,13 @@ WxLogin.getOauthInfo(mch_id, code, key).then((response)=>{
 });
 ```
 
-
 ### 7、支付盾
 
 ```js
 //导入支付盾对象
 import {PayBlack} from 'yungouos-pay-sdk'
 ```
+
 #### 添加黑名单（同步）
 
 ```js
