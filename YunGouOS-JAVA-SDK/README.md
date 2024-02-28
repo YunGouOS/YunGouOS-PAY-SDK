@@ -157,37 +157,37 @@ String closeOrder = WxPay.reverseOrder("R17200911248111", mchId, key);
 
 返回二维码地址或微信支付二维码连接（需自行生成二维码）
 ```java
-    String result = AliPay.nativePay(System.currentTimeMillis() + "", "0.01", mch_id, "测试订单", "2", null, null, null, null, null,null,key);
+    String result = AliPay.nativePay(System.currentTimeMillis() + "", "0.01", mch_id, "测试订单", "2", null, null, null, null, null,null,null,key);
 ```
 ## 支付宝WAP支付
 
 返回支付宝跳转连接，手机端重定向自动打开支付宝APP付款
 ```java
- String result = AliPay.wapPay(System.currentTimeMillis() + "", "0.01", mch_id, "支付测试",null, null, null, null, null, null,null,key);
+ String result = AliPay.wapPay(System.currentTimeMillis() + "", "0.01", mch_id, "支付测试",null, null, null, null, null, null,null,null,key);
 ```
 ## 支付宝JS支付
 
 返回支付宝JSSDK所需的参数
 ```java
- AliPayJsPayBiz aliPayJsPayBiz = AliPay.jsPay(System.currentTimeMillis() + "", "0.01", mch_id, buyer_id, "支付测试", null,null, null, null, null, null,null,key);
+ AliPayJsPayBiz aliPayJsPayBiz = AliPay.jsPay(System.currentTimeMillis() + "", "0.01", mch_id, buyer_id, "支付测试", null,null, null, null, null, null,null,null,key);
 ```
 ## 支付宝H5支付
 
 返回支付宝H5支付跳转的form表单和跳转url，客户端可输出表单或直接重定向url
 ```java
- AliPayH5Biz aliPayH5Biz = AliPay.h5Pay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试",null, null, null, null, null, null, null,null,key);
+ AliPayH5Biz aliPayH5Biz = AliPay.h5Pay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试",null, null, null, null, null, null, null,null,null,key);
 ```
 ## 支付宝APP支付
 
 返回支付宝APP支付所需的参数，客户端按照支付宝官方APP支付SDK拉起支付宝即可
 ```java
- String result = AliPay.appPay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试",null, null, null, null, null, null, null,key);
+ String result = AliPay.appPay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试",null, null, null, null, null, null, null,null,key);
 ```
 ## 支付宝电脑网站支付
 
 支付宝电脑网站支付，适合PC端使用，返回PC端跳转表单字符串和跳转url
 ```java
-AliPayWebPayBiz aliPayWebPayBiz = AliPay.webPay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试",null, null, null, null, null, null, null, hbFqBiz, key);
+AliPayWebPayBiz aliPayWebPayBiz = AliPay.webPay(System.currentTimeMillis() + "", "0.01", mch_id, "接口测试",null, null, null, null, null, null, null, null,null, key);
 ```
 
 ## 关闭订单
@@ -307,23 +307,23 @@ AliPayReverseOrderBiz aliPayReverseOrderBiz = AliPay.reverseOrder("Y194506551713
 ```
 ## 支付宝扫码支付
 ```java
- AliPay.nativePay(订单号,支付金额,支付宝商户号,商品描述,返回类型，应用app_id，附加数据，异步回调地址,同步回调地址,,分账配置单号,是否自动分账,自动分账节点,花呗分期业务,商户密钥);
+ AliPay.nativePay(订单号,支付金额,支付宝商户号,商品描述,返回类型，应用app_id，附加数据，异步回调地址,同步回调地址,,分账配置单号,是否自动分账,自动分账节点,花呗分期业务,附加业务参数,商户密钥);
 ```
 ## 支付宝WAP支付
 ```java
- AliPay.wapPay(订单号,支付金额,支付宝商户号,商品描述,应用app_id，附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,花呗分期业务,商户密钥);
+ AliPay.wapPay(订单号,支付金额,支付宝商户号,商品描述,应用app_id，附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,花呗分期业务,附加业务参数,商户密钥);
 ```
 ## 支付宝JS支付
 ```java
- AliPay.jsPay(订单号,支付金额,支付宝商户号,买家的支付宝唯一用户号,商品描述,应用app_id，附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,花呗分期业务,商户密钥);
+ AliPay.jsPay(订单号,支付金额,支付宝商户号,买家的支付宝唯一用户号,商品描述,应用app_id，附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,花呗分期业务,附加业务参数,商户密钥);
 ```
 ## 支付宝H5支付
 ```java
- AliPay.h5Pay(订单号,支付金额,支付宝商户号,商品描述,应用app_id，附加数据，异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,花呗分期业务,商户密钥);
+ AliPay.h5Pay(订单号,支付金额,支付宝商户号,商品描述,应用app_id，附加数据，异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,花呗分期业务,附加业务参数,商户密钥);
 ```
 ## 支付宝APP支付
 ```java
- AliPay.appPay(订单号,支付金额,支付宝商户号,商品描述,应用app_id，附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,花呗分期业务,商户密钥);
+ AliPay.appPay(订单号,支付金额,支付宝商户号,商品描述,应用app_id，附加数据，异步回调地址,分账配置单号,是否自动分账,自动分账节点,花呗分期业务,附加业务参数,商户密钥);
 ```
 ## 发起支付宝退款
 ```java

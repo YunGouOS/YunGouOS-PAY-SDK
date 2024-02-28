@@ -115,5 +115,95 @@ class Order
         }
         return $result;
     }
+
+
+
+        /**
+        * 一码收
+        * 文档地址：https://open.pay.yungouos.com/#/api/api/pay/merge/codePay
+        *
+        * @param out_trade_no 订单号 不可重复
+        * @param total_fee    支付金额 单位：元 范围：0.01-99999
+        * @param mch_id       一码付商户号 登录YunGouOS.com-》聚合支付-》商户管理  查看商户号
+        * @param body         商品描述
+        * @param app_id       YunGouOS平台报备的app_id。
+        * @param auth_code    支付授权码，通过设备读取用户微信、支付宝中的条码信息。
+        * @param receipt      是否开具电子发票 0：否 1：是 默认0
+        * @param attach       附加数据 回调时原路返回 可不传
+        * @param notify_url   异步回调地址，不传无回调
+        * @param biz_params    附加业务参数【数组】
+        * @param key          支付密钥 登录YunGouOS.com-》聚合支付-》商户管理-》 支付密钥 查看密钥
+        */
+        public function codePay($out_trade_no, $total_fee, $mch_id, $body, $app_id, $auth_code, $receipt, $attach, $notify_url, $biz_params, $key)
+        {
+            $result = null;
+            $paramsArray = array();
+            try {
+                if (empty($out_trade_no)) {
+                    throw new Exception("订单号不能为空！");
+                }
+                if (empty($total_fee)) {
+                    throw new Exception("付款金额不能为空！");
+                }
+                if (empty($mch_id)) {
+                    throw new Exception("商户号不能为空！");
+                }
+                if (empty($body)) {
+                    throw new Exception("商品描述不能为空！");
+                }
+                if (empty($app_id)) {
+                    throw new Exception("app_id不能为空！");
+                }
+                if (empty($auth_code)) {
+                    throw new Exception("auth_code不能为空！");
+                }
+                if (empty($key)) {
+                    throw new Exception("商户密钥不能为空！");
+                }
+                $paramsArray['out_trade_no'] = $out_trade_no;
+                $paramsArray['total_fee'] = $total_fee;
+                $paramsArray['mch_id'] = $mch_id;
+                $paramsArray['body'] = $body;
+                $paramsArray['app_id'] = $app_id;
+                $paramsArray['auth_code'] = $auth_code;
+                // 上述必传参数签名
+                $sign = $this->paySign->getSign($paramsArray, $key);
+                //下面参数不参与签名，但是接口需要这些参数
+                if(!empty($attach)){
+                    $paramsArray['receipt'] = $receipt;
+                }
+                if(!empty($attach)){
+                    $paramsArray['attach'] = $attach;
+                }
+                if(!empty($notify_url)){
+                    $paramsArray['notify_url'] = $notify_url;
+                }
+                if (!empty($biz_params)) {
+                    if (is_array($biz_params)) {
+                        throw new Exception("biz_params不是合法的数组");
+                    }
+                    $biz_paramsJson = json_encode($biz_params);
+                    $paramsArray['biz_params'] = $biz_paramsJson;
+                }
+                $paramsArray['sign'] = $sign;
+
+                $resp = $this->httpUtil->httpsPost($this->apiConfig['merge_code_pay_url'], $paramsArray);
+                if (empty($resp)) {
+                    throw new Exception("API接口返回为空");
+                }
+                $ret = @json_decode($resp, true);
+                if (empty($ret)) {
+                    throw new Exception("API接口返回为空");
+                }
+                $code = $ret['code'];
+                if ($code != 0) {
+                    throw new Exception($ret['msg']);
+                }
+                $result = $ret['data'];
+            } catch (Exception $e) {
+                throw  new Exception($e->getMessage());
+            }
+            return $result;
+        }
 }
 

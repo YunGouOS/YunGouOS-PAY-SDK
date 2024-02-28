@@ -109,6 +109,8 @@ $apiConfig = array(
     //**************************聚合支付相关接口************************************//
     //一码付
     "merge_native_pay_url" => $api_url . "/api/pay/merge/nativePay",
+    //一码收
+    "merge_code_pay_url" => $api_url . "/api/pay/merge/codePay",
     //**************************支付盾相关接口************************************//
     "pay_black_create_url" => $api_url . "/api/pay/black/create",
     "pay_black_check_url" => $api_url . "/api/pay/black/check",

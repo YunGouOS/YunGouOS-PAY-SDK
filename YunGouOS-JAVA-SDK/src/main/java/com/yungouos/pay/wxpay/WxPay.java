@@ -449,7 +449,7 @@ public class WxPay {
      * @return 返回小程序支付所需的参数，拿到参数后由小程序端使用wx.requestPayment进行支付
      */
     public static JSONObject minAppPayV3(String out_trade_no, String total_fee, String mch_id, String body, String open_id, String app_id, String attach, String notify_url, String config_no, String auto,
-                                       String auto_node, BizParams bizParams, String key) throws PayException {
+                                         String auto_node, BizParams bizParams, String key) throws PayException {
         Map<String, Object> params = new HashMap<String, Object>();
         JSONObject json = null;
         try {

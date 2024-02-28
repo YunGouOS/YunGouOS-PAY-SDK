@@ -46,9 +46,10 @@ class AliPay
      * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
      * @param $hbfq_num 花呗分期期数，枚举值【3、6、12】分别表示 【3期、6期、12期】
      * @param $hbfq_percent 花呗分期商户承担手续费比例，枚举值【0、100】分别表示 【商户不承担手续费、商户承担全部手续费】
+     * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付-》支付密钥 查看密钥
      */
-    public function codePay($out_trade_no, $total_fee, $mch_id, $body, $auth_code, $app_id, $attach, $notify_url, $config_no, $auto, $auto_node,$hbfq_num, $hbfq_percent, $key)
+    public function codePay($out_trade_no, $total_fee, $mch_id, $body, $auth_code, $app_id, $attach, $notify_url, $config_no, $auto, $auto_node,$hbfq_num, $hbfq_percent,$biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -108,6 +109,13 @@ class AliPay
             if (!empty($hbfqBiz) && count($hbfqBiz) > 0) {
                 $paramsArray['hb_fq'] = json_encode($hbfqBiz);
             }
+            if (!empty($biz_params)) {
+                if (is_array($biz_params)) {
+                    throw new Exception("biz_params不是合法的数组");
+                }
+                $biz_paramsJson = json_encode($biz_params);
+                $paramsArray['biz_params'] = $biz_paramsJson;
+            }
 
             $paramsArray['sign'] = $sign;
             $resp = $this->httpUtil->httpsPost($this->apiConfig['alipay_code_pay_url'], $paramsArray);
@@ -145,9 +153,10 @@ class AliPay
      * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
      * @param $hbfq_num 花呗分期期数，枚举值【3、6、12】分别表示 【3期、6期、12期】
      * @param $hbfq_percent 花呗分期商户承担手续费比例，枚举值【0、100】分别表示 【商户不承担手续费、商户承担全部手续费】
+     * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付-》支付密钥 查看密钥
      */
-    public function nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $app_id, $attach, $notify_url, $config_no, $auto, $auto_node, $hbfq_num, $hbfq_percent, $key)
+    public function nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $app_id, $attach, $notify_url, $config_no, $auto, $auto_node, $hbfq_num, $hbfq_percent,$biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -207,6 +216,13 @@ class AliPay
             if (!empty($hbfqBiz) && count($hbfqBiz) > 0) {
                 $paramsArray['hb_fq'] = json_encode($hbfqBiz);
             }
+            if (!empty($biz_params)) {
+                if (is_array($biz_params)) {
+                    throw new Exception("biz_params不是合法的数组");
+                }
+                $biz_paramsJson = json_encode($biz_params);
+                $paramsArray['biz_params'] = $biz_paramsJson;
+            }
 
             $paramsArray['sign'] = $sign;
 
@@ -243,9 +259,10 @@ class AliPay
      * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
      * @param $hbfq_num 花呗分期期数，枚举值【3、6、12】分别表示 【3期、6期、12期】
      * @param $hbfq_percent 花呗分期商户承担手续费比例，枚举值【0、100】分别表示 【商户不承担手续费、商户承担全部手续费】
+     * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付-》支付密钥 查看密钥
      */
-    public function wapPay($out_trade_no, $total_fee, $mch_id, $body, $app_id, $attach, $notify_url, $config_no, $auto, $auto_node, $hbfq_num, $hbfq_percent, $key)
+    public function wapPay($out_trade_no, $total_fee, $mch_id, $body, $app_id, $attach, $notify_url, $config_no, $auto, $auto_node, $hbfq_num, $hbfq_percent,$biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -302,6 +319,13 @@ class AliPay
             if (!empty($hbfqBiz) && count($hbfqBiz) > 0) {
                 $paramsArray['hb_fq'] = json_encode($hbfqBiz);
             }
+            if (!empty($biz_params)) {
+                if (is_array($biz_params)) {
+                    throw new Exception("biz_params不是合法的数组");
+                }
+                $biz_paramsJson = json_encode($biz_params);
+                $paramsArray['biz_params'] = $biz_paramsJson;
+            }
 
             $paramsArray['sign'] = $sign;
 
@@ -340,9 +364,10 @@ class AliPay
      * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
      * @param $hbfq_num 花呗分期期数，枚举值【3、6、12】分别表示 【3期、6期、12期】
      * @param $hbfq_percent 花呗分期商户承担手续费比例，枚举值【0、100】分别表示 【商户不承担手续费、商户承担全部手续费】
+     * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付-》支付密钥 查看密钥
      */
-    public function jsPay($out_trade_no, $total_fee, $mch_id, $buyer_id, $body, $app_id, $attach, $notify_url, $config_no, $auto, $auto_node, $hbfq_num, $hbfq_percent, $key)
+    public function jsPay($out_trade_no, $total_fee, $mch_id, $buyer_id, $body, $app_id, $attach, $notify_url, $config_no, $auto, $auto_node, $hbfq_num, $hbfq_percent,$biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -402,6 +427,13 @@ class AliPay
             if (!empty($hbfqBiz) && count($hbfqBiz) > 0) {
                 $paramsArray['hb_fq'] = json_encode($hbfqBiz);
             }
+            if (!empty($biz_params)) {
+                if (is_array($biz_params)) {
+                    throw new Exception("biz_params不是合法的数组");
+                }
+                $biz_paramsJson = json_encode($biz_params);
+                $paramsArray['biz_params'] = $biz_paramsJson;
+            }
 
             $paramsArray['sign'] = $sign;
 
@@ -440,9 +472,10 @@ class AliPay
      * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
      * @param $hbfq_num 花呗分期期数，枚举值【3、6、12】分别表示 【3期、6期、12期】
      * @param $hbfq_percent 花呗分期商户承担手续费比例，枚举值【0、100】分别表示 【商户不承担手续费、商户承担全部手续费】
+     * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付-》支付密钥 查看密钥
      */
-    public function h5Pay($out_trade_no, $total_fee, $mch_id, $body, $app_id, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node, $hbfq_num, $hbfq_percent, $key)
+    public function h5Pay($out_trade_no, $total_fee, $mch_id, $body, $app_id, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node, $hbfq_num, $hbfq_percent,$biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -500,6 +533,13 @@ class AliPay
             }
             if (!empty($hbfqBiz) && count($hbfqBiz) > 0) {
                 $paramsArray['hb_fq'] = json_encode($hbfqBiz);
+            }
+            if (!empty($biz_params)) {
+                if (is_array($biz_params)) {
+                    throw new Exception("biz_params不是合法的数组");
+                }
+                $biz_paramsJson = json_encode($biz_params);
+                $paramsArray['biz_params'] = $biz_paramsJson;
             }
 
             $paramsArray['sign'] = $sign;
@@ -542,9 +582,10 @@ class AliPay
      * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
      * @param $hbfq_num 花呗分期期数，枚举值【3、6、12】分别表示 【3期、6期、12期】
      * @param $hbfq_percent 花呗分期商户承担手续费比例，枚举值【0、100】分别表示 【商户不承担手续费、商户承担全部手续费】
+     * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付-》支付密钥 查看密钥
      */
-    public function appPay($out_trade_no, $total_fee, $mch_id, $body, $app_id, $attach, $notify_url, $config_no, $auto, $auto_node, $hbfq_num, $hbfq_percent, $key)
+    public function appPay($out_trade_no, $total_fee, $mch_id, $body, $app_id, $attach, $notify_url, $config_no, $auto, $auto_node, $hbfq_num, $hbfq_percent,$biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -601,6 +642,14 @@ class AliPay
                 $paramsArray['hb_fq'] = json_encode($hbfqBiz);
             }
 
+            if (!empty($biz_params)) {
+                if (is_array($biz_params)) {
+                    throw new Exception("biz_params不是合法的数组");
+                }
+                $biz_paramsJson = json_encode($biz_params);
+                $paramsArray['biz_params'] = $biz_paramsJson;
+            }
+
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpsPost($this->apiConfig['alipay_app_pay_url'], $paramsArray);
@@ -638,9 +687,10 @@ class AliPay
      * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
      * @param $hbfq_num 花呗分期期数，枚举值【3、6、12】分别表示 【3期、6期、12期】
      * @param $hbfq_percent 花呗分期商户承担手续费比例，枚举值【0、100】分别表示 【商户不承担手续费、商户承担全部手续费】
+     * @param $biz_params 支付附加业务参数数组，具体参考API文档
      * @param $key 商户密钥 登录YunGouOS.com-》支付宝-》我的支付-》支付密钥 查看密钥
      */
-    public function webPay($out_trade_no, $total_fee, $mch_id, $body, $app_id, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node, $hbfq_num, $hbfq_percent, $key)
+    public function webPay($out_trade_no, $total_fee, $mch_id, $body, $app_id, $attach, $notify_url, $return_url, $config_no, $auto, $auto_node, $hbfq_num, $hbfq_percent,$biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -698,6 +748,14 @@ class AliPay
             }
             if (!empty($hbfqBiz) && count($hbfqBiz) > 0) {
                 $paramsArray['hb_fq'] = json_encode($hbfqBiz);
+            }
+
+            if (!empty($biz_params)) {
+                if (is_array($biz_params)) {
+                    throw new Exception("biz_params不是合法的数组");
+                }
+                $biz_paramsJson = json_encode($biz_params);
+                $paramsArray['biz_params'] = $biz_paramsJson;
             }
 
             $paramsArray['sign'] = $sign;
