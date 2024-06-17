@@ -22,60 +22,122 @@ import cn.hutool.core.util.StrUtil;
 @RequestMapping("/api/callback")
 public class CallBackController {
 
-	@Resource
-	private OrderService orderService;
+    @Resource
+    private OrderService orderService;
 
-	@RequestMapping("/notify")
-	public String notify(@RequestParam Map<String, String> data, HttpServletRequest request, HttpServletResponse response) {
-		try {
+    @RequestMapping("/notify")
+    public String notify(@RequestParam Map<String, String> data, HttpServletRequest request, HttpServletResponse response) {
+        try {
 
-			System.out.println("接受到支付结果回调");
-			System.out.println(data.toString());
+            System.out.println("接受到支付结果回调");
+            System.out.println(data.toString());
 
-			String payChannel = data.get("payChannel");
-			
-			String attach = data.get("attach");
-			
-			if(StrUtil.isBlank(payChannel)){
-				return "payChannel is not null";
-			}
-			
-			String key=null;
-			if("wxpay".equals(payChannel)){
-				key=WxPayConfig.key;
-			}
-			if("alipay".equals(payChannel)){
-				key=AliPayConfig.key;
-			}
-			
-			boolean sign = PaySignUtil.checkNotifySign(request, key);
-			
-			System.out.println("签名验证："+sign);
-			
-			if (!sign) {
-				return "sign fail";
-			}
+            String payChannel = data.get("payChannel");
 
-			String outTradeNo = data.get("outTradeNo");
-			String payNo = data.get("payNo");
-			String time = data.get("time");
-			String code = data.get("code");
+            String attach = data.get("attach");
 
-			if (Integer.valueOf(code).intValue() != 1) {
-				return "pay fail";
-			}
+            if (StrUtil.isBlank(payChannel)) {
+                return "payChannel is not null";
+            }
 
-			boolean success = orderService.paySuccess(outTradeNo, payNo, time);
-			if (!success) {
-				return "fail";
-			}
-			PrintWriter out = response.getWriter();
-			out.print("SUCCESS");
-			return null;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+            String key = null;
+            if ("wxpay".equals(payChannel)) {
+                key = WxPayConfig.key;
+            }
+            if ("alipay".equals(payChannel)) {
+                key = AliPayConfig.key;
+            }
 
-		return null;
-	}
+            boolean sign = PaySignUtil.checkNotifySign(request, key);
+
+            System.out.println("签名验证：" + sign);
+
+            if (!sign) {
+                return "sign fail";
+            }
+
+            String outTradeNo = data.get("outTradeNo");
+            String payNo = data.get("payNo");
+            String time = data.get("time");
+            String code = data.get("code");
+
+            if (Integer.valueOf(code).intValue() != 1) {
+                return "pay fail";
+            }
+
+            boolean success = orderService.paySuccess(outTradeNo, payNo, time);
+            if (!success) {
+                return "fail";
+            }
+            PrintWriter out = response.getWriter();
+            out.print("SUCCESS");
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    /**
+     * JDK17 以上的可以这样写
+	 *
+	 * JDK17以上response改成了jakarta
+     *
+     * @param data
+     * @return
+     */
+    @RequestMapping("/notify")
+    public String notify(@RequestParam Map<String, String> data, jakarta.servlet.http.HttpServletResponse response) {
+        try {
+
+            System.out.println("接受到支付结果回调");
+            System.out.println(data.toString());
+
+            String payChannel = data.get("payChannel");
+
+            String attach = data.get("attach");
+
+            if (StrUtil.isBlank(payChannel)) {
+                return "payChannel is not null";
+            }
+
+            String key = null;
+            if ("wxpay".equals(payChannel)) {
+                key = WxPayConfig.key;
+            }
+            if ("alipay".equals(payChannel)) {
+                key = AliPayConfig.key;
+            }
+
+            boolean sign = PaySignUtil.checkNotifySign(data, key);
+
+            System.out.println("签名验证：" + sign);
+
+            if (!sign) {
+                return "sign fail";
+            }
+
+            String outTradeNo = data.get("outTradeNo");
+            String payNo = data.get("payNo");
+            String time = data.get("time");
+            String code = data.get("code");
+
+            if (Integer.valueOf(code).intValue() != 1) {
+                return "pay fail";
+            }
+
+            boolean success = orderService.paySuccess(outTradeNo, payNo, time);
+            if (!success) {
+                return "fail";
+            }
+            PrintWriter out = response.getWriter();
+            out.print("SUCCESS");
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
