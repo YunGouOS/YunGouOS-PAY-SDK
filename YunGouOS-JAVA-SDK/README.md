@@ -6,7 +6,7 @@
 <dependency>
 <groupId>com.yungouos.pay</groupId>
 <artifactId>yungouos-pay-sdk</artifactId>
-<version>2.0.30</version>
+<version>2.0.34</version>
 </dependency>
 
 ```
@@ -333,7 +333,7 @@ AliPayReverseOrderBiz aliPayReverseOrderBiz = AliPay.reverseOrder("Y194506551713
 ```java
  WxPay.getRefundResult(退款单号（发起退款接口返回）,支付宝商户号, 商户密钥);
 ```
-# 签名工具
+# 签名工具（JDK8以下）
 ```java
 //参数签名
 PaySignUtil.createSign([类型Map]签名参数,商户密钥)；
@@ -357,4 +357,30 @@ PaySignUtil.checkShareMoneyNotifySign(回调的request对象,商户密钥)；
 ```java
 //批量转账回调签名验证
 PaySignUtil.checkBatchPayNotifySign(回调的request对象,商户密钥)；
+```
+
+# 签名工具（JDK17以上）
+```java
+//参数签名
+PaySignUtil.createSign([类型Map]签名参数,商户密钥)；
+```
+```java
+//支付回调签名验证
+PaySignUtil.checkNotifySign(回调的[类型Map]参数对象,商户密钥)；
+```
+```java
+//退款回调签名验证
+PaySignUtil.checkRefundNotifySign(回调的[类型Map]参数对象,商户密钥)；
+```
+```java
+//转账代付回调签名验证
+PaySignUtil.checkRePayNotifySign(回调的[类型Map]参数对象,商户密钥)；
+```
+```java
+//分账回调签名验证
+PaySignUtil.checkShareMoneyNotifySign(回调的[类型Map]参数对象,商户密钥)；
+```
+```java
+//批量转账回调签名验证
+PaySignUtil.checkBatchPayNotifySign(回调的[类型Map]参数对象,商户密钥)；
 ```
