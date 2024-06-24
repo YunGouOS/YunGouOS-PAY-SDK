@@ -87,8 +87,8 @@ public class CallBackController {
      * @param data
      * @return
      */
-    @RequestMapping("/notify")
-    public String notify(@RequestParam Map<String, String> data, jakarta.servlet.http.HttpServletResponse response) {
+    @RequestMapping("/notify/jakarta")
+    public String notifyJakrata(@RequestParam Map<String, String> data, jakarta.servlet.http.HttpServletResponse response) {
         try {
 
             System.out.println("接受到支付结果回调");

@@ -16,4 +16,11 @@ public class IndexController {
 	public String wap() {
 		return "wap";
 	}
+
+
+	@RequestMapping("/login")
+	public String login() {
+		return "login";
+	}
+
 }

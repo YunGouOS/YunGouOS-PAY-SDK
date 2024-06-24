@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+</head>
+<body>
+<div>
+    <button onclick="toLogin()">登录（跳转方式）</button>
+</div>
+
+<div style="margin-top:30px">
+    <button onclick="toLoginCode()">登录（内嵌方式）</button>
+</div>
+
+<div id="login_container">
+
+</div>
+
+<div id="userinfo">
+
+</div>
+
+</body>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+<script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+<script type="text/javascript">
+
+    let params = getUrlParams(location.href);
+    let code = params.code;
+    if (code != null && code != undefined) {
+        $.ajax({
+            //请求方式
+            type: "POST",
+            //请求地址
+            url: "/api/login/getOauthInfo",
+            //数据，json字符串
+            data: "code=" + code,
+            //请求成功
+            success: function (result) {
+                console.log(result);
+                if (result.code != 1) {
+                    alert(result.msg);
+                    return;
+                }
+                let data = result.data;
+                console.log("微信登录成功", data);
+                $("#userinfo").html('<div>' +
+                    '<div style="color:green">登录成功</div>' +
+                    '<div>用户OPENID：' + data.openId + '</div>' +
+                    '<div>用户头像：<img src="' + data.wxUserInfo.headimgurl + '" width="100px" height="100px"/></div>' +
+                    '<div>用户昵称：' + data.wxUserInfo.nickname + '</div>' +
+                    '</div>')
+            },
+            //请求失败，包含具体的错误信息
+            error: function (e) {
+                console.log(e.status);
+                console.log(e.responseText);
+            }
+        });
+    }
+
+
+    function getUrlParams(url) {
+        const paramsRegex = /[?&]+([^=&]+)=([^&]*)/gi;
+        const params = {};
+        let match;
+        while (match = paramsRegex.exec(url)) {
+            params[match[1]] = match[2];
+        }
+        return params;
+    }
+
+
+    //方式1，直接跳转
+    function toLogin() {
+        $.ajax({
+            //请求方式
+            type: "POST",
+            //请求地址
+            url: "/api/login/getLoginParams",
+            //请求成功
+            success: function (result) {
+                console.log(result);
+                if (result.code != 1) {
+                    alert(result.msg);
+                    return;
+                }
+                let url = result.data;
+                window.location.href = url;
+            },
+            //请求失败，包含具体的错误信息
+            error: function (e) {
+                console.log(e.status);
+                console.log(e.responseText);
+            }
+        });
+    }
+
+    //方式2，内嵌
+    function toLoginCode() {
+        $.ajax({
+            //请求方式
+            type: "POST",
+            //请求地址
+            url: "/api/login/getLoginCode",
+            //请求成功
+            success: function (result) {
+                console.log(result);
+                if (result.code != 1) {
+                    alert(result.msg);
+                    return;
+                }
+                let data = result.data;
+                var obj = new WxLogin({
+                    self_redirect: true,
+                    id: "login_container",
+                    appid: data.appId,
+                    scope: data.scope,
+                    redirect_uri: data.redirect_uri,
+                    state: data.state,
+                    style: "",
+                    href: ""
+                });
+            },
+            //请求失败，包含具体的错误信息
+            error: function (e) {
+                console.log(e.status);
+                console.log(e.responseText);
+            }
+        });
+    }
+</script>
+</html>
