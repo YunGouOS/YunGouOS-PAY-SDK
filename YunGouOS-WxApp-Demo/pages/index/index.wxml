@@ -1,0 +1,8 @@
+    <view>
+      <view style="width:100%;margin-top:100px">
+        <button type="primary" style="width:80%" bindtap="toWxPay">小程序支付（原生）</button>
+      </view>
+      <view style="width:100%;margin-top:100px">
+        <button type="primary" style="width:80%">小程序支付（跳转）</button>
+      </view>
+    </view>
