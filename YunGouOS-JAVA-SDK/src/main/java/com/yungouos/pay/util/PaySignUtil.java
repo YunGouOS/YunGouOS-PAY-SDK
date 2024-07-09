@@ -22,7 +22,7 @@ public class PaySignUtil {
      * 支付参数签名
      *
      * @param params     需要参与签名的参数
-     * @param partnerKey 商户密钥
+     * @param partnerKey  商户号对应的支付密钥
      * @return {String} 参数签名
      */
     public static String createSign(Map<String, Object> params, String partnerKey) {
@@ -76,6 +76,7 @@ public class PaySignUtil {
      * 验证支付回调签名是否正确
      *
      * @param request 回调的request对象
+     * @param partnerKey  商户号对应的支付密钥
      * @return 签名是否正确
      */
     public static boolean checkNotifySign(HttpServletRequest request, String partnerKey) throws Exception {
@@ -116,6 +117,7 @@ public class PaySignUtil {
      * 验证支付回调签名是否正确
      *
      * @param data 回调参数对象
+     * @param partnerKey  商户号对应的支付密钥
      * @return 签名是否正确
      */
     public static boolean checkNotifySign(Map<String, String> data, String partnerKey) throws Exception {
@@ -156,6 +158,7 @@ public class PaySignUtil {
      * 验证退款回调签名是否正确
      *
      * @param request 回调的request对象
+     * @param partnerKey  商户号对应的支付密钥
      * @return 签名是否正确
      */
     public static boolean checkRefundNotifySign(HttpServletRequest request, String partnerKey) throws Exception {
@@ -209,6 +212,7 @@ public class PaySignUtil {
      * 验证退款回调签名是否正确
      *
      * @param data 回调参数对象
+     * @param partnerKey  商户号对应的支付密钥
      * @return 签名是否正确
      */
     public static boolean checkRefundNotifySign(Map<String, String> data, String partnerKey) throws Exception {
@@ -262,6 +266,7 @@ public class PaySignUtil {
      * 验证转账代付回调签名是否正确
      *
      * @param request 回调的request对象
+     * @param partnerKey  商户号对应的支付密钥
      * @return 签名是否正确
      */
     public static boolean checkRePayNotifySign(HttpServletRequest request, String partnerKey) throws Exception {
@@ -305,6 +310,7 @@ public class PaySignUtil {
      * 验证转账代付回调签名是否正确
      *
      * @param data 回调参数对象
+     * @param partnerKey  商户号对应的支付密钥
      * @return 签名是否正确
      */
     public static boolean checkRePayNotifySign(Map<String, String> data, String partnerKey) throws Exception {
@@ -350,6 +356,7 @@ public class PaySignUtil {
      * 验证分账回调签名是否正确
      *
      * @param request 回调的request对象
+     * @param partnerKey  商户号对应的支付密钥
      * @return 签名是否正确
      */
     public static boolean checkShareMoneyNotifySign(HttpServletRequest request, String partnerKey) throws Exception {
@@ -399,6 +406,7 @@ public class PaySignUtil {
      * 验证分账回调签名是否正确
      *
      * @param data 回调参数对象
+     * @param partnerKey  商户号对应的支付密钥
      * @return 签名是否正确
      */
     public static boolean checkShareMoneyNotifySign(Map<String, String> data, String partnerKey) throws Exception {
@@ -448,6 +456,7 @@ public class PaySignUtil {
      * 验证批量转账回调签名是否正确
      *
      * @param request 回调的request对象
+     * @param partnerKey  商户号对应的支付密钥
      * @return 签名是否正确
      */
     public static boolean checkBatchPayNotifySign(HttpServletRequest request, String partnerKey) throws Exception {
@@ -512,6 +521,7 @@ public class PaySignUtil {
      * 验证批量转账回调签名是否正确
      *
      * @param data 回调参数对象
+     * @param partnerKey  商户号对应的支付密钥
      * @return 签名是否正确
      */
     public static boolean checkBatchPayNotifySign(Map<String, String> data, String partnerKey) throws Exception {
@@ -576,6 +586,7 @@ public class PaySignUtil {
      * 验证分账回退回调签名是否正确
      *
      * @param request 回调的request对象
+     * @param partnerKey  商户号对应的支付密钥
      * @return 签名是否正确
      */
     public static boolean checkShareReturnNotifySign(HttpServletRequest request, String partnerKey) throws Exception {
@@ -625,6 +636,7 @@ public class PaySignUtil {
      * 验证分账回退回调签名是否正确
      *
      * @param data 回调参数对象
+     * @param partnerKey  商户号对应的支付密钥
      * @return 签名是否正确
      */
     public static boolean checkShareReturnNotifySign(Map<String, String> data, String partnerKey) throws Exception {

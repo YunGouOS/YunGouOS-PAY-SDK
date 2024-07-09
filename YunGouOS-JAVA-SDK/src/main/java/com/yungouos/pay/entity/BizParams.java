@@ -1,5 +1,7 @@
 package com.yungouos.pay.entity;
 
+import com.yungouos.pay.entity.coupon.GoodsBody;
+
 import java.io.Serializable;
 
 /**
@@ -30,6 +32,16 @@ public class BizParams implements Serializable {
      * 订单失效时间
      */
     private String end_time;
+
+    /**
+     * 商品标记，代金券或立减优惠功能的参数。
+     */
+    private String goods_tag;
+
+    /**
+     * 单品优惠详情
+     */
+    private GoodsBody goods_body;
 
 
     public String getDevice_info() {
@@ -62,5 +74,21 @@ public class BizParams implements Serializable {
 
     public void setEnd_time(String end_time) {
         this.end_time = end_time;
+    }
+
+    public String getGoods_tag() {
+        return goods_tag;
+    }
+
+    public void setGoods_tag(String goods_tag) {
+        this.goods_tag = goods_tag;
+    }
+
+    public GoodsBody getGoods_body() {
+        return goods_body;
+    }
+
+    public void setGoods_body(GoodsBody goods_body) {
+        this.goods_body = goods_body;
     }
 }

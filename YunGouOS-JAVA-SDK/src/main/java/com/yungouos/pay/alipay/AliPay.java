@@ -34,6 +34,7 @@ public class AliPay {
      * @param auto         自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param auto_node    执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
      * @param hbFqBiz      花呗分期业务对象
+     * @param bizParams    附加业务参数对象，具体参考API文档biz_params参数说明
      * @param key          支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
      * @return 支付结果对象 参考：https://open.pay.yungouos.com/#/api/api/pay/alipay/codePay
      */
@@ -142,6 +143,7 @@ public class AliPay {
      * @param auto         自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param auto_node    执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
      * @param hbFqBiz      花呗分期业务对象
+     * @param bizParams    附加业务参数对象，具体参考API文档biz_params参数说明
      * @param key          支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
      * @return 支付二维码连接
      */
@@ -246,6 +248,7 @@ public class AliPay {
      * @param auto         自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param auto_node    执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
      * @param hbFqBiz      花呗分期业务对象
+     * @param bizParams    附加业务参数对象，具体参考API文档biz_params参数说明
      * @param key          支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
      * @return wap支付连接，重定向到该地址自动打开支付APP付款
      */
@@ -345,6 +348,7 @@ public class AliPay {
      * @param auto         自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param auto_node    执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
      * @param hbFqBiz      花呗分期业务对象
+     * @param bizParams    附加业务参数对象，具体参考API文档biz_params参数说明
      * @param key          支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
      * @return 支付宝JSSDK所需的对象数据 参考：https://open.pay.yungouos.com/#/api/api/pay/alipay/jsPay
      */
@@ -454,6 +458,7 @@ public class AliPay {
      * @param auto         自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param auto_node    执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
      * @param hbFqBiz      花呗分期业务对象
+     * @param bizParams    附加业务参数对象，具体参考API文档biz_params参数说明
      * @param key          支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
      * @return 拉起H5页面的form表单
      */
@@ -562,6 +567,7 @@ public class AliPay {
      * @param auto         自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param auto_node    执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
      * @param hbFqBiz      花呗分期业务对象
+     * @param bizParams    附加业务参数对象，具体参考API文档biz_params参数说明
      * @param key          支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
      * @return APP支付所需的参数
      */
@@ -666,6 +672,7 @@ public class AliPay {
      * @param auto         自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param auto_node    执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
      * @param hbFqBiz      花呗分期业务对象
+     * @param bizParams    附加业务参数对象，具体参考API文档biz_params参数说明
      * @param key          支付密钥 登录YunGouOS.com-》支付宝-》商户管理-》支付密钥 查看密钥
      * @return 电脑网站支付对象，文档地址：https://open.pay.yungouos.com/#/api/api/pay/alipay/webPay
      */
