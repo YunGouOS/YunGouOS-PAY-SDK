@@ -43,6 +43,11 @@ public class BizParams implements Serializable {
      */
     private GoodsBody goods_body;
 
+    /**
+     * 门店ID
+     */
+    private String store_id;
+
 
     public String getDevice_info() {
         return device_info;
@@ -90,5 +95,13 @@ public class BizParams implements Serializable {
 
     public void setGoods_body(GoodsBody goods_body) {
         this.goods_body = goods_body;
+    }
+
+    public String getStore_id() {
+        return store_id;
+    }
+
+    public void setStore_id(String store_id) {
+        this.store_id = store_id;
     }
 }
