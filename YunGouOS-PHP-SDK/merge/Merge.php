@@ -44,9 +44,10 @@ class Order
      * @param $config_no 分账配置单号。支持多个分账，使用,号分割
      * @param $auto 分账模式。【0：不分账 1：自动分账 2：手动分账】 默认 0开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param $auto_node 执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+     * @param biz_params    附加业务参数【数组】
      * @param $key 支付密钥 登录YunGouOS.com-》聚合支付-》商户管理-》 支付密钥 查看密钥
      */
-    public function nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url,$return_url,$config_no, $auto, $auto_node, $key)
+    public function nativePay($out_trade_no, $total_fee, $mch_id, $body, $type, $attach, $notify_url,$return_url,$config_no, $auto, $auto_node, $biz_params, $key)
     {
         $result = null;
         $paramsArray = array();
@@ -95,6 +96,15 @@ class Order
             if(!empty($auto_node)){
                 $paramsArray['auto_node'] = $auto_node;
             }
+
+            if (!empty($biz_params)) {
+                if (is_array($biz_params)) {
+                    throw new Exception("biz_params不是合法的数组");
+                }
+                $biz_paramsJson = json_encode($biz_params);
+                $paramsArray['biz_params'] = $biz_paramsJson;
+            }
+
             $paramsArray['sign'] = $sign;
 
             $resp = $this->httpUtil->httpsPost($this->apiConfig['merge_native_pay_url'], $paramsArray);
