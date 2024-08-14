@@ -19,7 +19,7 @@ public class MergePayTest {
             String notify_url = null;
             String return_url = null;
             BizParams bizParams = null;
-            String url = MergePay.nativePay(out_trade_no, total_fee, mch_id, body, "2", attach, notify_url, return_url, null, null, null, key);
+            String url = MergePay.nativePay(out_trade_no, total_fee, mch_id, body, "2", attach, notify_url, return_url, null, null, null,null, key);
             System.out.println(url);
             CodePayBiz codePayBiz = MergePay.codePay(out_trade_no, total_fee, mch_id, body, app_id, auth_code, receipt, attach, notify_url, bizParams, key);
             System.out.println(codePayBiz.toString());

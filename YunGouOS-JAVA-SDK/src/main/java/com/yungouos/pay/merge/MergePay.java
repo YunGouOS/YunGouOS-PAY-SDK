@@ -34,11 +34,12 @@ public class MergePay {
      * @param config_no    分账配置单号。支持多个分账，使用,号分割
      * @param auto         自动分账（0：关闭 1：开启。不填默认0）开启后系统将依据分账节点自动进行分账任务，反之则需商户自行调用【请求分账】执行
      * @param auto_node    执行分账动作的节点，枚举值【pay、callback】分别表示 【付款成功后分账、回调成功后分账】
+     * @param bizParams    附加业务参数
      * @param key          支付密钥 登录YunGouOS.com-》聚合支付-》商户管理-》 支付密钥 查看密钥
      * @return 支付二维码连接
      */
     public static String nativePay(String out_trade_no, String total_fee, String mch_id, String body, String type, String attach, String notify_url, String return_url, String config_no, String auto,
-                                   String auto_node, String key) throws PayException {
+                                   String auto_node, BizParams bizParams, String key) throws PayException {
         Map<String, Object> params = new HashMap<String, Object>();
         String resultUrl = null;
         try {
@@ -74,6 +75,14 @@ public class MergePay {
             params.put("auto", auto);
             params.put("auto_node", auto_node);
             params.put("sign", sign);
+
+            if (bizParams != null) {
+                JSONObject bizParamsJson = (JSONObject) JSON.toJSON(bizParams);
+                if (bizParamsJson != null) {
+                    params.put("biz_params", bizParamsJson.toJSONString());
+                }
+            }
+
             String result = HttpRequest.post(MergePayApiConfig.nativePayUrl).form(params).execute().body();
             if (StrUtil.isBlank(result)) {
                 throw new PayException("API接口返回为空，请联系客服");
